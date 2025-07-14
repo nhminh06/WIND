@@ -1,0 +1,81 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+.container{
+    width: 700px;
+    height: 550px;
+    border-radius: 8px;
+    background: linear-gradient(45deg, #D5F5D1,#A9DAFD, #645EE2);
+    display: flex;
+    flex-direction: column;
+}
+.nhap{
+flex: 1;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.nhap > input{
+    width: 300px;
+    height: 40px;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+}
+
+input:focus {
+  outline: none;
+  box-shadow: inset 0 0 8px #61d053, inset 0 0 2px #58a1d4, inset 0 0 6px #4b44cb;
+}
+button{
+    margin-left: 10px;
+    height: 40px;
+    width: 60px;
+     background: linear-gradient(45deg, #D5F5D1,#A9DAFD, #645EE2);
+    border: none;
+    border-radius: 8px;
+    color: #5e55d1;
+}
+button:focus{
+    transform: scale(0.96);
+}
+
+
+.dapan{
+flex: 1;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.pheptinh{
+flex: 1;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.pheptinh > p{
+    font-size: 60px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #5e55d1 ;
+}
+.diem{
+   flex: 1;
+display: flex;
+justify-content: center;
+align-items: center; 
+  font-size: 30px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #5e55d1 ;
+}
+.dapan > p{
+    font-size: 50px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #5e55d1 ;   
+}

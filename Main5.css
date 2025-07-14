@@ -1,0 +1,1092 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+body {
+  overflow-x: hidden;
+  font-family: 'Montserrat', sans-serif;
+  
+}
+
+.error{
+    color: red;
+}
+
+
+/* sáng tối */
+.sangtoi{
+    position: relative;
+    overflow: hidden;
+}
+.sun,.moon{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+.sun{
+    opacity: 1;
+    color: rgb(255, 255, 0);
+}
+.moon{
+    opacity: 0;
+    color: #000000;
+}
+body.dark_mode{
+      background: #1c1c1c;
+  color: #ffffff;
+}
+body.dark_mode {
+   background: url('https://images.unsplash.com/photo-1639003311454-75266518947e?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+  background-size: cover;
+}
+
+body.dark_mode .menusearch {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+body.dark_mode input::placeholder {
+  color: #ddd;
+}
+
+body.dark_mode .tour_item,
+body.dark_mode .about_item
+ {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark_mode a {
+  color: #ffffff;
+}
+
+
+/* hết */
+
+/* Đăng ký */
+.register_font{
+    width: 430px;
+    height: 555px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 12px;
+    background-color: #ffffff20; 
+    backdrop-filter: blur(8px); 
+}
+.register_font > h1{
+    text-align: center;
+    padding-top: 40px;
+    font-size: 30px;
+    color: #262646d4;
+    font-family: 'Monsieur La Doulaise', cursive;
+    margin-bottom: 30px;
+}
+.register_font > p{
+
+    margin: 8px 8px 8px 45px;
+    font-family: 'Monsieur La Doulaise', cursive;
+}
+.register_font > .nhaplieu{
+   width: 100%;
+   height: 50px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: #262646d4;
+}
+.register_font > .nhaplieu > input{
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+   width: 340px;
+   height: 45px;
+   border: none;
+   border-radius: 15px;
+   outline: none;
+   padding: 10px;
+   background-color:#ffffff73 ;
+}
+.register_font >.nhaplieu> button{
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 340px;
+    height: 50px;
+    border-radius: 15px;
+    border: none;
+    background-color: #262646d4;
+    color: #ffffff;
+    font-size: 20px;
+    cursor: pointer;
+    margin-top: 30px;
+    font-family: 'Monsieur La Doulaise', cursive;
+}
+.register_font >.nhaplieu> button:active{
+    transform: scale(0.9);
+    transition: all 0.3s ease;
+}
+/* hết đăng ký  */
+
+/* login */
+
+.login_font{
+    width: 430px;
+    height: 490px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 12px;
+    background-color: #ffffff20; 
+    backdrop-filter: blur(8px); 
+}
+.login_font > h1{
+    text-align: center;
+    padding-top: 40px;
+    font-size: 30px;
+    color: #262646d4;
+    font-family: 'Monsieur La Doulaise', cursive;
+    margin-bottom: 30px;
+}
+.login_font > p{
+
+    margin: 8px 8px 8px 45px;
+    font-family: 'Monsieur La Doulaise', cursive;
+}
+.login_font > .nhaplieu{
+   width: 100%;
+   height: 50px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: #262646d4;
+}
+.login_font > .nhaplieu > input{
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+   width: 340px;
+   height: 45px;
+   border: none;
+   border-radius: 15px;
+   outline: none;
+   padding: 10px;
+   background-color:#ffffff73 ;
+}
+.login_font >.nhaplieu> button{
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 340px;
+    height: 50px;
+    border-radius: 15px;
+    border: none;
+    background-color: #262646d4;
+    color: #ffffff;
+    font-size: 20px;
+    cursor: pointer;
+    margin-top: 30px;
+    font-family: 'Monsieur La Doulaise', cursive;
+}
+.login_font >.nhaplieu> button:active{
+    transform: scale(0.9);
+    transition: all 0.3s ease;
+}
+.khac{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.khac > a{
+    text-decoration: none;
+    color: #262646d4;
+    font-size: 14px;
+    font-family: 'Monsieur La Doulaise', cursive;
+}
+.methol{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.methol > button{
+    width: 45px;
+    height: 45px;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    
+}
+.methol > button > svg{
+    width: 45px;
+    height: 45px;
+    
+}
+ .methol> button:active{
+    transform: scale(0.85);
+    transition: all 0.3s ease;
+}
+
+
+
+
+
+
+
+
+
+/* hết login */
+#video-background{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1; 
+}
+
+header{
+    height: 100vh;
+    position: relative; 
+}
+
+.bannervd video{
+   height: 100%;
+    width: 100%;
+    position: absolute;
+    /* top: 0;
+    left: 0; */
+    object-fit: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+header > p{
+    position: relative;
+    z-index: 1;
+    color: white;
+    font-size: 14rem;
+    text-align: center;
+    padding-top: 15%;
+    font-family: 'Sarina', cursive;
+
+}
+header > h5{
+    position: relative;
+    z-index: 1;
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+    padding-top: 20px;
+    font-family: 'Monsieur La Doulaise', cursive;
+}
+
+.menusearch{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background-color: #ffffff20; 
+    backdrop-filter: blur(5px); 
+    display: flex;
+    z-index: 1000;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+.menusearch.scrolled {
+    background-color: rgb(51 141 164 / 52%);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    backdrop-filter: blur(10px);
+}
+
+.logo{
+     flex: 2;
+     margin-left: 40px;
+}
+.logo img{
+    width: 100px;
+    height: 100px;
+    margin-left: 20px;
+   
+
+
+}
+.menusearch > ul{
+display: flex;
+align-items: center;
+list-style: none;
+font-size: 22px;
+flex: 5;
+z-index: 2;
+justify-content: center;
+}
+.menusearch > ul > li{
+    margin: 0 20px;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+}
+.menusearch > ul >li >a{
+    text-decoration: none;
+    color: #fffffff5;
+    font-weight: 1000;
+  
+}
+.menusearch > ul > li:hover{
+    color: #000000;
+    transform: scale(1.2);
+}
+.search{
+    flex: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2 ;
+}
+.search input{
+    width: 60%;
+    height: 40px;
+    border-radius: 25px;
+    border: none;
+    padding-left: 20px;
+    font-size: 18px;
+    outline: none;
+    background-color: #ffffff73;
+   
+}
+.search input::placeholder{
+    color: #ffffff;
+}
+.search button{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: #ffffff73;
+    margin-left: 10px;
+    cursor: pointer;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.search > button >svg{
+    width: 30px;
+    height: 30px;
+    
+}
+.search button:active{
+    transform: scale(0.9);
+}
+.container > h2{
+    text-align: center;
+    font-size: 35px;
+    margin-top: 150px;
+    color: #ffffff;
+    font-family: 'Monsieur La Doulaise', cursive;
+}
+.tuor_list{
+    display: flex;
+     padding: 20px 35px 10px 35px;
+    position: relative;
+    align-items: center;
+
+}
+.tour_slide {
+    overflow: hidden;
+    width: calc(540px * 4 + 50px); 
+    margin: auto;
+}
+
+
+.inner {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: calc(510px * 9 + 15px * 18 );
+}
+
+.tuor_list button svg{
+    color: #ffffff;
+}
+.tuor_list button svg:active{
+    transform: scale(0.5);
+    transition: all 0.5s ease;
+}
+.bttr {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    background-color: rgba(255,255,255,0.6);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+/* Nút phải */
+.btp {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    background-color: rgba(255,255,255,0.6);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+/* tour */
+.tour_item{
+    width: 510px;
+    height: 345px;
+    background-color: #ffffff20; 
+    border-radius: 20px;
+    backdrop-filter: blur(5px); 
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px
+    
+}
+.tour_item:hover{
+    transform: translateY(-7px);
+}
+.tour_item img{
+   width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    position: relative;
+    
+}
+
+.thongtin{
+position: absolute;
+bottom: 20%;
+padding: 10px;
+color: white;
+ 
+}
+.thongtin > h2,p{
+    margin-bottom: 8px;
+}
+.thongtin > h2:hover{
+    transition: all 1s ease;
+    transform: scale(1.03);
+}
+.chitiet{
+    position: absolute;
+    width: 115px;
+    height: 45px;
+    background-color: #ffffff;
+    color: black;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.chitiet:hover{
+    background-color: #000000;
+    color: #ffffff;
+    transform: scale(1.03);
+    transition: all 0.4s ease;
+}
+.chitiet:active{
+    transform: scale(0.9);
+    transition: all 0.3s ease;
+}
+
+
+/* demo */
+.demo{margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    justify-content: center;
+
+}
+.demo_item{
+    display: flex;
+    width: 95%;
+    margin-bottom: 150px;
+    justify-content: center;
+      margin: 0 auto 150px auto;
+}
+.demo_tt {
+    flex: 5;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.demo_tt > h2 {
+    font-size: 30px;
+    color: #ffffff;
+    font-family: 'Sarina', cursive;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.demo_tt > p {
+    font-size: 20px;
+    color: #fff;
+     font-family: 'Monsieur La Doulaise', cursive;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    text-align: left;
+    
+}
+.demo_tt > button{
+    margin-top: 20px;
+    width: 220px;
+    height: 55px;
+    border: none;
+    border-radius: 25px;
+    font-size: 21px;
+    font-weight: bold;
+    transition: all 0.5s ease;
+    
+}
+.demo_tt > button:active{
+    transform: scale(0.9);
+}
+.demo_tt > button:hover{
+    color: #fff;
+    background-color: #000000;
+}
+
+.demo_img{
+    flex: 5;
+    gap: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.demoimg{
+    height: 700px;
+    width: 45%;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.7s ease;
+}
+.demoimg img{
+    height: 100%;
+     border-radius: 8px;
+    object-fit: cover;
+    display: block;
+    width: 100%;
+    transition: all 0.7s ease;
+}
+.demoimg img:hover{
+  transform: scale(1.05);
+     
+}
+.demoimg:hover{
+ transform: translateY(-15px);
+}
+
+
+/* hết */
+
+
+
+
+
+
+
+/* giới thiệu */
+.about{
+    margin-top: 100px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.main_about{
+    display: flex;
+    gap: 50px;
+}
+.about_item{
+    display: flex;
+    flex-direction: column;
+    width: 210px;
+    height: 550px;
+    border-radius: 8px;
+     background-color: #ffffff20; 
+    backdrop-filter: blur(8px); 
+    padding: 12px;
+}
+.about_icon{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.about_icon > svg{
+    width: 120px;
+    color: #fff;
+    text-align: center;
+    margin-top: 20px;
+}
+.about_item > h3{
+    text-align: center;
+    color: #fff;
+    margin-bottom: 10px;
+     font-family: 'Monsieur La Doulaise', cursive;
+}
+.about_item > p{
+    text-align: justify;
+    color: #fff;
+    font-weight: bold;
+     font-family: 'Monsieur La Doulaise', cursive;
+}
+.about_item > ul{
+    text-align: justify;
+    list-style: none;
+}
+.about_item > ul >li{
+    color: #fff;
+    padding-left: 15px;
+    margin-bottom: 6px;
+    position: relative;
+    font-weight: bold;
+     font-family: 'Monsieur La Doulaise', cursive;
+    
+}
+.about_item > ul >li::before{
+    position: absolute;
+    content: "✔";
+    color: #fff;
+    left: 0;
+}
+.about_item:hover{
+    transform: translateY(-20px);
+    transition: all 0.8s ease;
+
+}
+/* hết */
+
+/* about chi tiết */
+.about_container,.about_main{
+    width: 100%;
+}
+.about_top{
+width: 100%;
+height: 350px;
+ background-color: #ffffff20; 
+    backdrop-filter: blur(8px); 
+    position: relative;
+
+}
+.about_top > P{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 1;
+    color: #fff;
+    font-family: 'Sarina', cursive;
+    font-size: 6rem;
+    margin-bottom: 15px;
+       transition: all 1.2s ease;
+    
+}
+.about_top > h3{
+     position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 1;
+    color: #fff;
+      font-family: 'Monsieur La Doulaise', cursive;
+    font-size: 2rem;
+    transition: all 1.2s ease;
+
+}
+.about_top > img{
+     position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 2;
+    height: 370px;
+    opacity: 0;
+    transition: all 1.2s ease;
+}
+
+.about_top:hover > img {
+    opacity: 1;
+}
+.about_top:hover > p,
+.about_top:hover > h3{
+    opacity: 0;
+}
+.about_main{
+    margin-top: 50px;
+}
+.about_main_item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 160px 120px 160px;
+}
+
+.about_main_img{
+    width: 500px;
+    height: 500px;
+    flex: 5;
+    margin-left: 20px;
+}
+.about_main_img > .h1img{
+    overflow: hidden;
+     height: 50%;
+     width: 100%;
+     display: flex;
+      gap: 10px;
+      margin-top: 10px;
+}
+.about_main_img > .h1img > .h1img_1{
+ flex: 5;
+ overflow: hidden;
+
+}
+.about_main_img > .h1img> .h1img_1 > img{
+    height: 100%;
+    width: 100%;
+    border-radius: 15px;
+        
+   
+}
+.about_main_img > .h2img > .h2img_1{
+ overflow: hidden;
+ border-radius: 8px;
+ width: 100%;
+height: 100%;
+}
+.about_main_img > .h2img{
+ overflow: hidden;
+     height: 50%;
+     width: 100%;
+    margin-top: 10px;
+}
+.about_main_img > .h2img > .h2img_1 >img{
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+}
+.h1img_1 > img:hover,.h2img_1 > img:hover{
+    transform: scale(1.05);
+    transition: all 0.8s ease;
+}
+.about_main_tt{
+    flex: 5;
+    margin-left: 20px;
+    color: #fff;
+}
+.about_main_tt > h2{
+     font-size: 29px;
+    color: #ffffff;
+    font-family: 'Sarina', cursive;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+.about_main_tt > p{
+      font-size: 18px;
+    color: #fff;
+     font-family: 'Monsieur La Doulaise', cursive;
+    line-height: 1.6;
+    margin-bottom: 8px;
+    text-align: justify;
+}
+
+.footer {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(6px);
+    color: #ffffff;
+    padding: 50px 80px 20px 80px;
+    font-family: 'Monsieur La Doulaise', cursive;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin-top: 100px;
+}
+
+.footer_content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.footer_logo {
+    flex: 3;
+    padding-right: 40px;
+}
+
+.footer_logo img {
+    width: 120px;
+    margin-bottom: 15px;
+}
+
+.footer_logo p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.footer_services,
+.footer_contact {
+    flex: 2;
+    min-width: 200px;
+    margin-top: 15px;
+}
+
+.footer_services h3,
+.footer_contact h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-family: 'Sarina', cursive;
+    color: #ffffff;
+}
+
+.footer_services ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.footer_services ul li {
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.footer_services ul li::before {
+    content: "✔";
+    position: absolute;
+    left: 0;
+    color: #ffffff;
+}
+
+.footer_contact p {
+    margin-bottom: 10px;
+    font-size: 17px;
+    line-height: 1.4;
+    font-weight: bold;
+}
+
+.footer_bottom {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 15px;
+    color: #ffffff;
+}
+.footer_social {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+}
+
+.footer_social a img {
+    width: 32px;
+    height: 32px;
+    transition: transform 0.3s ease;
+    filter: brightness(0) invert(1);
+}
+
+.footer_social a img:hover {
+    transform: scale(1.2);
+}
+
+
+/* hết */
+
+/* team */
+.guide_team {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  padding: 40px 60px;
+
+
+}
+.team_item{
+    width: 363px;
+    height: 230px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(6px);
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.6s ease;
+    
+
+}
+.team_item:hover{
+    transform: scale(1.05);
+}
+.team_item > img{
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    position: absolute;
+} 
+.che{
+    position: absolute;
+    position: relative;
+    height: 100%;
+    width: 290px;
+    left: 0;
+    background-color: #82b4c7;
+    z-index: 1;
+    border-bottom-left-radius: 12px;
+    border-top-left-radius: 12px;
+     border: 3px solid #436fd3;
+     transition: all 1.5s ease;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+    
+}
+.che > img{
+    width: 100%;
+    height: 100%;
+    border-bottom-left-radius: 12px;
+    border-top-left-radius: 12px;
+    position: absolute;
+}
+
+.thongtin_tv{
+    opacity: 0;
+    position: absolute;
+    text-align: justify;
+    width: 230px;
+    height: 100%;
+    padding: 10px;
+    right: 0;
+    color: #fff;
+    transition: all 1.5s ease;
+    
+}
+.thongtin_tv >h3{
+    font-family: 'Monsieur La Doulaise', cursive;
+}
+.thongtin_tv > button{
+    width: 115px;
+    height: 30px;
+    border: none;
+    border-radius:10px ;
+    font-weight: bold;
+    transition: all 0.8s ease;
+    bottom: 10px;
+ 
+
+}
+.thongtin_tv > button:hover{
+    transform: scale(1.02);
+}
+.thongtin_tv > button:active{
+    transform: scale(0.9);
+}
+
+.avata{
+    position: absolute;
+    border: 3px solid #436fd3;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    top: 50%;
+    right: -50px;
+  transform: translateY(-50%);
+  z-index: 2;
+  overflow: hidden;
+  transition: all 0.8s ease;
+
+
+}
+.avata > img:hover{
+transform: scale(1.05);
+   
+}
+.avata > img{
+    width: 100%;
+    height: 100%;
+    border-radius:50% ;
+      transition: all 0.8s ease;
+    
+}
+.name{
+    width: 100%;
+    padding: 10px;
+    padding-right: 55px;
+    transition: all 1.2s ease;
+    z-index: 1;
+}
+.name > h3{
+    text-align: center;
+    opacity: 1;
+    color: #fff;
+    font-family: 'Monsieur La Doulaise', cursive;
+
+}
+
+/* hết */
+/* hiệu ứng */
+.box {
+  opacity: 0;
+  transition: all 1.2s ease-in-out;
+}
+.fade-up {
+     transform: translateY(50px);
+}
+.fade-dow {
+     transform: translateY(-50px);
+}
+
+.fade-left {
+  transform: translateX(-50px); /* từ trái qua */
+}
+
+.fade-right {
+  transform: translateX(50px); /* từ phải qua */
+}
+.fade-big-left{
+    transform: translateX(-500px);
+}
+.fade-big-right{
+    transform: translateX(500px);
+
+}
+.fade-up1{
+    
+    transform: translateY(90px);
+}
+.fade-up2{
+    
+    transform: translateY(180px);
+}
+.fade-up3{
+    
+    transform: translateY(270px);
+}
+
+.visible {
+    
+  opacity: 1;
+  transform: translate(0, 0);
+}
+/* hết */

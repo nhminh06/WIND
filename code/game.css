@@ -1,0 +1,101 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+.container{
+    width: 70%;
+    height: 650px;
+    border: 1px solid black;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+
+}
+.maincontroller{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.maincontroller button{
+    width: 50px;
+    height: 50px;
+    border: none;
+    transition: all 0.3s ease;
+    border-radius: 15px;
+}
+.Main{
+    margin: 20px;
+    width: 70px;
+    height: 70px;
+    background-color: #be4242;
+    border: 1px solid black;
+    border-radius: 15px;
+    transition: 0.5s ease;
+    position: relative;
+    
+}
+.controller{
+    margin-top: 20px;
+    width: 280px;
+    height: 280px;
+    gap: 20px;
+    position: relative;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+button:active{
+    transform: scale(0.9);
+}
+.trai{
+    left: 40px;
+    top: 60px;
+    z-index: 1;
+    position: absolute;
+}
+.phai{
+    right: 0px;
+    top: 60px;
+ position: absolute;
+     z-index: 1;
+}
+.xuong{
+    top: 50%;
+    left: 50%;
+ position: absolute;
+     z-index: 1;
+}
+.len{
+    top: 0px;
+    left: 50%;
+ position: absolute;
+     z-index: 1;
+}
+.dan{
+    width: 15px;
+    height: 15px;
+    background-color: #882020;
+    border-radius: 50%;
+}
+.ban{
+    position: absolute;
+    top: 60px;
+    left: 59%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

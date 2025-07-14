@@ -1,0 +1,43 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+.container {
+    width: 400px;
+    height: 450px;
+    border: 1px solid;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+   align-items: center;
+}
+input{
+    height: 35px;
+    width: 300px;
+    border-radius: 8px;
+    margin-top: 5px;
+    padding: 10px;
+    
+}
+button{
+      height: 35px;
+    width: 300px;
+    border-radius: 8px;
+    margin-top: 10px;
+    padding: 5px;
+}
+.tieude{
+    width: 100%;
+    padding-left: 45px;
+    margin-top: 5px;
+}
+.loi{
+    color: red;
+}
