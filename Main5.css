@@ -1055,8 +1055,166 @@ transform: scale(1.05);
     font-family: 'Monsieur La Doulaise', cursive;
 
 }
+/* TOUR */
+.tour_container{
+   
+    display: flex;
+    margin: 150px 170px 0 170px;
+    height: auto;
+    
+}
+.tour_container1{
+    flex: 1;
+    height: 1200px;
+    padding: 20px;
+    background-color: #5c7ba3;
 
+}
+.tour_container1 > h3{
+    color: #fff;
+}
+.tour_container1 > ul{
+    list-style: none;
+    margin: 10px;
+    font-size: 18px;
+    color: #fff;
+}
+.tour_container1 > ul >li{
+    margin-bottom: 10px;
+    
+}
+.tour_container1 > ul >li:hover{
+    font-weight: bold;
+    color: #43d399;
+}
+.tour_container2{
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+.tour_container2 > h1{
+    color: #fff;
+    text-align: center;
+     font-family: 'Monsieur La Doulaise', cursive;
+    margin-top: 10px;
+    
+}
+.tour_box{
+width: 950px;
+height: 240px;
+background-color: #5c7ba3;
+display: flex;
 
+}
+.tour_box:hover{
+    transform: translateX(5px);
+    transition:all 0.8s ease ;
+    box-shadow: 0 8px 25px rgba(46, 191, 186, 0.8);
+
+}
+.tour_box_img{
+    width: 315px;
+    flex: 3;
+    height: 100%;
+    overflow: hidden;
+}
+.tour_box_img > img{
+    height: 100%;
+}
+.tour_box_tt{
+    flex: 6;
+    display: flex;
+    flex-direction: column;
+}
+.name_tour{
+    width: 450px;
+    font-size: 22px;
+    padding: 10px;
+    color: #fff;
+      font-family: 'Monsieur La Doulaise', cursive;
+    font-weight: bold;
+
+}
+.tour_time{
+    padding: 10px;
+    display: flex;
+    color: #fff;
+    justify-content: flex-end;
+    align-items: center;
+    
+}
+.tour_time > svg{
+width: 25px;
+}
+.tour_time > p{
+font-size: 17px;
+margin-top: 10px;
+}
+.nameandtime{
+    display: flex;
+    width: 100%;
+}
+.cmtandgia{
+display: flex;
+margin-top: 20px;
+padding: 10px;
+width: 100%;
+}
+.dg{
+    color: #fff;
+    background-color: #43d399;
+    padding: 8px;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-right: 8px;
+}
+.dg2{
+    color: #43d399;
+    font-weight: bold;
+}
+.cmt{
+display: flex;
+justify-content: center;
+align-items: center ;
+}
+.cmt > p{
+    color: #fff;
+    font-weight: bold;
+    margin-top:6px;
+
+}
+.cmt > svg{
+    color: #fff;
+    width: 25px;
+    margin-right: 5px;
+}
+.gia{
+text-align: right;
+margin-left: auto;
+ color: #e7cb44;
+    font-weight: bold;
+    font-size: 22px;
+}
+.tour_button{
+    margin-left: auto;
+   text-align: right;
+   width: 170px;
+   border: none;
+   border-radius: 4px;
+   text-align: center;
+   height: 45px;
+   background-color: #e7cb44;
+   color: #fff;
+   font-weight: bold;
+   font-size: 18px;
+}
+.tour_button:active{
+    transform: scale(0.9);
+    transition: all 0.8s ease;
+}
+/* hết */
 /* cmt */
 .reviews-grid {
   /* padding: 60px 20px; */
