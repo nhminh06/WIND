@@ -1044,6 +1044,82 @@ transform: scale(1.05);
 
 }
 
+
+/* cmt */
+.reviews-grid {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.review-title {
+  font-size: 35px;
+  font-family: 'Monsieur La Doulaise', cursive;
+  color:#fff;
+  margin-bottom: 40px;
+}
+
+.review-grid-container {
+
+display: flex;
+  gap: 40px;
+justify-content: center;
+align-items: center;
+  margin: auto;
+}
+
+.review-box {
+    
+    width: 363px;
+    height: 210px;
+   background-color: #ffffff20; 
+    backdrop-filter: blur(8px); 
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+  text-align: left;
+}
+
+.review-box:hover {
+  transform: translateY(-5px);
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.review-header img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.review-header h3 {
+  margin: 0;
+  font-size: 1.1em;
+  color: #fff;
+}
+
+.review-header p {
+  margin: 0;
+  font-size: 0.9em;
+  color:#fff;
+   font-family: 'Monsieur La Doulaise', cursive;
+}
+
+.review-text {
+  font-size: 1em;
+  font-style: italic;
+  color: #fff;
+   font-family: 'Monsieur La Doulaise', cursive;
+}
+
+/* hết */
+
 /* hết */
 /* hiệu ứng */
 .box {
