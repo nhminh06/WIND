@@ -207,7 +207,7 @@ che.forEach((cherieng,anten)=>{
     let c = true;
   cherieng.addEventListener(`click`,()=>{
       if(c){
-        cherieng.style.transform = 'translateX(-200px)';
+        cherieng.style.transform = 'translateX(-210px)';
         nameitem[anten].style.opacity = '0';
         thongtin[anten].style.opacity = '1';
 
@@ -242,6 +242,72 @@ dlbt.addEventListener(`click`,()=>{
 })
 
 
+document.querySelectorAll('.team_slide').forEach((slideWrapper1) => {
+    const inner = slideWrapper1.querySelector('.inner2');
+    const prevBtn = slideWrapper1.parentElement.querySelector('.bttr');
+    const nextBtn = slideWrapper1.parentElement.querySelector('.btp');
 
+    const tourItems = inner.querySelectorAll('.team_item').length;
 
+    const toursPerSlide = 1;
+    const tourItemWidth = 354;   
+    const spaceBetween = 20*2;  
+    const slideWidth = tourItemWidth * toursPerSlide + spaceBetween;
 
+    const maxIndex = (tourItems/2);
+    let currentIndex = 0;
+
+    function updateSlider() {
+        inner.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (currentIndex < maxIndex) {
+            currentIndex++;
+            
+            updateSlider();
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateSlider();
+        }
+    });
+});
+
+document.querySelectorAll('.review_slide').forEach((slideWrapper2) => {
+    const inner = slideWrapper2.querySelector('.inner3');
+    const prevBtn = slideWrapper2.parentElement.querySelector('.bttr');
+    const nextBtn = slideWrapper2.parentElement.querySelector('.btp');
+
+    const tourItems = inner.querySelectorAll('.review-box').length;
+
+    const toursPerSlide = 1;
+    const tourItemWidth = 354;   
+    const spaceBetween = 20*2;  
+    const slideWidth = tourItemWidth * toursPerSlide + spaceBetween;
+
+    const maxIndex = (tourItems/2);
+    let currentIndex = 0;
+
+    function updateSlider() {
+        inner.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (currentIndex < maxIndex) {
+            currentIndex++;
+            
+            updateSlider();
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateSlider();
+        }
+    });
+});

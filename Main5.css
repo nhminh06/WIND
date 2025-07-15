@@ -914,17 +914,29 @@ height: 100%;
 /* hết */
 
 /* team */
+.team_slide{
+    overflow: hidden;
+    width:100%
+    
+}
+.inner2{
+   display: flex;
+   transition: all 0.5s ease;
+     width: max-content;
+}
 .guide_team {
   display: flex;
   justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
   padding: 40px 60px;
 
 
 }
+.guide_team svg{
+    color: #fff;
+}
 .team_item{
-    width: 363px;
+    margin: 20px;
+    width: 354px;
     height: 230px;
     border-radius: 12px;
     background-color: rgba(255, 255, 255, 0.1);
@@ -1047,11 +1059,13 @@ transform: scale(1.05);
 
 /* cmt */
 .reviews-grid {
-  padding: 60px 20px;
+  /* padding: 60px 20px; */
   text-align: center;
+  width: 100%;
 }
 
 .review-title {
+    margin-top: 150px;
   font-size: 35px;
   font-family: 'Monsieur La Doulaise', cursive;
   color:#fff;
@@ -1059,17 +1073,23 @@ transform: scale(1.05);
 }
 
 .review-grid-container {
-
 display: flex;
-  gap: 40px;
 justify-content: center;
 align-items: center;
-  margin: auto;
+  position: relative;
+  padding: 40px 60px;
 }
+.review-grid-container svg{
+    color: #fff;
+    z-index: 3;
+   
+}
+
+ 
 
 .review-box {
     
-    width: 363px;
+    width: 354px;
     height: 210px;
    background-color: #ffffff20; 
     backdrop-filter: blur(8px); 
@@ -1077,7 +1097,8 @@ align-items: center;
   border-radius: 15px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.1);
   transition: transform 0.3s;
-  text-align: left;
+
+  margin: 20px;
 }
 
 .review-box:hover {
@@ -1096,6 +1117,10 @@ align-items: center;
   height: 60px;
   border-radius: 50%;
   object-fit: cover;
+}
+.review-header img:hover{
+    transform: scale(1.1);
+    transition: all 0.8s ease;
 }
 
 .review-header h3 {
@@ -1116,6 +1141,16 @@ align-items: center;
   font-style: italic;
   color: #fff;
    font-family: 'Monsieur La Doulaise', cursive;
+}
+.inner3{
+   display: flex;
+   transition: all 0.5s ease;
+     width: max-content;
+}
+.review_slide{
+    overflow: hidden;
+    width:100%
+    
 }
 
 /* hết */
