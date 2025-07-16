@@ -472,7 +472,7 @@ padding: 10px;
 color: white;
  
 }
-.thongtin > h2,p{
+.thongtin > h2,.thongtin>p{
     margin-bottom: 8px;
 }
 .thongtin > h2:hover{
@@ -1150,7 +1150,7 @@ width: 25px;
 }
 .tour_time > p{
 font-size: 17px;
-margin-top: 10px;
+margin-left: 5px;
 }
 .nameandtime{
     display: flex;
@@ -1182,7 +1182,7 @@ align-items: center ;
 .cmt > p{
     color: #fff;
     font-weight: bold;
-    margin-top:6px;
+
 
 }
 .cmt > svg{
@@ -1215,6 +1215,128 @@ margin-left: auto;
     transition: all 0.8s ease;
 }
 /* hết */
+
+/* Liên hệ */
+.contact_container{
+   margin:120px auto;
+    width: 1300px;
+    height: 1000px;
+    
+
+   
+}
+.contact_container > h2{
+    text-align: center;
+    color: #fff;
+     font-family: 'Monsieur La Doulaise', cursive;
+    font-size: 30px;
+    }
+.font_map{
+    display: flex;
+    height: 100%;
+    margin-top: 10px;
+
+}
+.contact_font{
+    flex: 1;;
+    height: 700px   ;
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+    padding: 20px;
+}
+.contact_main{
+    width: 480px;
+    height: 600px;
+       background-color: #ffffff20;
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    padding: 20px;
+}
+.contact_main >ul{
+    list-style: none;
+    color: #fff;
+    margin: 10px 0px 0px 10px ;
+}
+.contact_main > ul >li{
+    margin-bottom: 10px;
+    font-size:17px ;
+    display: flex;
+    align-items: center;
+
+}
+.contact_main > ul > li > svg{
+    width: 30px;
+    
+}
+.contact_main > ul > li > p{
+    margin-left: 5px;
+    font-weight: bold;
+    
+}
+.contact_main > h2{
+    color: #fff;
+     font-family: 'Monsieur La Doulaise', cursive;
+
+}
+.contact_main > input{
+    border: none;
+    border-bottom: 1px solid #fff;
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    font-size: 15px;
+    background-color: #ffffff00;
+    margin-bottom: 15px;
+    color: #fff;
+    outline: none;
+    
+}
+.contact_main > input:focus{
+    border-bottom: 2px solid;
+}
+.contact_main > textarea{
+    width: 100%;
+    resize: none;
+    height: 180px;
+    padding: 10px;
+    font-size: 15px;
+    background-color: #ffffff00;
+    outline: none;
+    border: 1px solid #FFF;
+    color: #FFF;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.contact_main > button{
+    width: 100%;
+    height: 45px;
+    border-radius: 12px;
+    background-color:#2d5463;
+    font-size: 18px;
+    color: #fff;
+    border: none;
+    outline: none;
+    transition: all 0.7s ease;
+    font-weight: bold;
+}
+.contact_main >button:active{
+    transform: scale(0.9);
+}
+.contact_main > textarea::placeholder{
+    color: #fff;
+}
+.contact_main > input::placeholder{
+    color: #fff;
+}
+.map{
+   margin-top: 20px;
+    flex: 1;
+   
+}
+
+/* hết */
+
 /* cmt */
 .reviews-grid {
   /* padding: 60px 20px; */
