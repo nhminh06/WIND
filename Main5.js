@@ -311,3 +311,16 @@ document.querySelectorAll('.review_slide').forEach((slideWrapper2) => {
         }
     });
 });
+
+function chitiettour(){
+    window.location.href = "http://127.0.0.1:5500/detailed_tour.html"
+}
+
+const bd_img = document.querySelectorAll('.slide_detailed > img')
+
+bd_img.forEach(imgs=>{
+    imgs.addEventListener(`click`,()=>{
+       bd_img.forEach(i=>i.classList.remove('highlighted'));
+         imgs.classList.add('highlighted')
+    })
+})
