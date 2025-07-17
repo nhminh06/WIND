@@ -33,10 +33,10 @@ body {
     opacity: 0;
     color: #000000;
 }
-body.dark_mode{
+/* body.dark_mode{
       background: #1c1c1c;
   color: #ffffff;
-}
+} */
 body.dark_mode {
    background: url('https://images.unsplash.com/photo-1639003311454-75266518947e?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
   background-size: cover;
@@ -1067,7 +1067,8 @@ transform: scale(1.05);
     flex: 1;
     height: 1200px;
     padding: 20px;
-    background-color: #5c7ba3;
+       background-color: #ffffff20; 
+    backdrop-filter: blur(8px); 
 
 }
 .tour_container1 > h3{
@@ -1104,7 +1105,8 @@ transform: scale(1.05);
 .tour_box{
 width: 950px;
 height: 240px;
-background-color: #5c7ba3;
+    background-color: #ffffff20; 
+    backdrop-filter: blur(8px); 
 display: flex;
 
 }
@@ -1347,7 +1349,8 @@ margin-left: auto;
     margin: 110px auto;
 }
 .detailed_br{
-    background-color: #628dda;
+        background-color: #ffffff20; 
+    backdrop-filter: blur(8px); 
 }
 .detailed_tour_container > h1{
     color: #fff;
@@ -1392,7 +1395,8 @@ margin-left: auto;
     /* background-color: #32d177; */
 }
 .detailed_dichvu{
-    background-color: #628dda;
+        background-color: #ffffff20; 
+    backdrop-filter: blur(8px); 
     margin-top: 10px;
     padding: 10px;
     color: #fff;
@@ -1402,7 +1406,8 @@ margin-left: auto;
      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 .detailed_dichvu_s2{
-    background-color: #628dda;
+        background-color: #ffffff20; 
+    backdrop-filter: blur(8px); 
     margin-top: 10px;
     padding: 10px;
     color: #fff;
@@ -1525,7 +1530,8 @@ margin-left: auto;
     border-radius: 5px;
     width: 95%;
     height: 110px;
-    background-color: #628dda;
+     background-color: #ffffff20; 
+    backdrop-filter: blur(8px); 
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.6);
 
     margin-bottom: 10px;
@@ -1577,8 +1583,8 @@ span> svg{
 
 
 .tour-price-box {
-    z-index: 1;
-    position: fixed;
+  position: sticky;
+  top: 100px; 
     margin-left: 20px;
   max-width: 350px;
   padding: 20px;
@@ -1587,6 +1593,7 @@ span> svg{
   font-family: sans-serif;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
+
 
 .tour-price-box h2 {
   color: #fff;
@@ -1605,9 +1612,7 @@ span> svg{
   flex-wrap: wrap;
   margin-bottom: 15px;
 }
-.isvg > svg{
-   
-}
+
 .note{
     display: flex;
     align-items: center;
@@ -1716,7 +1721,17 @@ span> svg{
 .total,.original,.note{
     color: #fff;
 }
-
+.proposal{
+    width: 100%;
+    display: flex;
+  
+}
+.detailed_tour_container > h2{
+    margin-top: 100px;
+    color: #fff;
+     font-family: 'Monsieur La Doulaise', cursive;
+    
+}
 
 /* hết */
 

@@ -324,3 +324,4 @@ bd_img.forEach(imgs=>{
          imgs.classList.add('highlighted')
     })
 })
+
