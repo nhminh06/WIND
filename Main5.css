@@ -9,6 +9,19 @@ body {
   font-family: 'Montserrat', sans-serif;
   
 }
+.users_avata{
+    width: 60px;
+    height: 60px;
+    border-radius:50% ;
+    background-color: #82b4c7;
+    overflow: hidden;
+    margin-left: 15px;
+
+}
+.users_avata > img{
+    width: 100%;
+    height: 100%;
+}
 
 .error{
     color: red;
@@ -1372,12 +1385,22 @@ margin-left: auto;
     /* background-color: #2d5463; */
     overflow: hidden;
 }
-.detailed_img >  .detailed_br > img{
-    width: 100%;
+.detailed_img >  .detailed_br .review_detailed_img > .inner4 > img{
+    width: 800px;
 }
+
 .main_slide_detailed{
     width: 100%;
     overflow: hidden;
+    position: relative;
+}
+.img_bd{
+    position: absolute;
+    z-index: 2;
+    width: 150px;
+    height: 110px;
+    border: 2px solid #fff;
+    transition: all 0.5s ease;
 }
 .slide_detailed{
     margin-top: 5px;
@@ -1558,6 +1581,16 @@ margin-left: auto;
     font-weight: bold;
 
 }
+.review_detailed_img{
+    overflow: hidden;
+    width:100%
+    
+}
+.inner4{
+   display: flex;
+   transition: all 0.5s ease;
+     width: max-content;
+}
 .top_dichvu{
     display: flex;
     align-items: center;
@@ -1645,7 +1678,7 @@ span> svg{
 }
 
 .quantity-row .label {
-  flex: 1.5;
+  flex: 0.7;
   font-size: 14px;
 }
 
@@ -1735,8 +1768,187 @@ span> svg{
 
 /* hết */
 
+/* người dùng */
+
+.users_container{
+ display: flex;
+}
 
 
+
+.sidebar {
+  width: 270px;
+  background: white;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+}
+
+.profile {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #ccc;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 60px;
+  margin: 0 auto 10px;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.provider {
+  color: gray;
+  font-size: 13px;
+}
+
+.vip-button {
+  background: #d9b58b;
+  color: white;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.menu li {
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.menu li:hover,
+.menu .active {
+  background: #e6f0ff;
+  color: #0070f3;
+}
+
+.logout {
+  margin-top: 20px;
+  color: red;
+}
+
+/* Main content */
+.content {
+  flex: 1;
+  padding: 30px;
+  background: #fff;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.tabs {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.tabs span {
+  padding-bottom: 5px;
+  cursor: pointer;
+}
+
+.tabs .active-tab {
+  border-bottom: 2px solid #0070f3;
+  color: #0070f3;
+}
+
+.form-section {
+  margin-bottom: 40px;
+}
+
+.form-section label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.form-section input,
+.form-section select {
+  padding: 8px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.birthdate {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.actions .gray {
+  background: #ddd;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: not-allowed;
+}
+
+.email-section,
+.phone-section {
+  margin-bottom: 40px;
+}
+
+.email-section h2,
+.phone-section h2 {
+  margin-bottom: 5px;
+}
+
+.email-item {
+  background: #f1f1f1;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.notify-tag {
+  background: #dff0d8;
+  color: green;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.add-btn {
+    margin-top: 10px;
+  background: white;
+  border: 1px solid #0070f3;
+  color: #0070f3;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+/* hết */
 
 /* cmt */
 .reviews-grid {

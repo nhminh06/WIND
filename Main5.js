@@ -312,16 +312,118 @@ document.querySelectorAll('.review_slide').forEach((slideWrapper2) => {
     });
 });
 
+document.querySelectorAll('.review_detailed_img').forEach((detailed_img)=>{
+    const khung = detailed_img.querySelector('.inner4');
+    const trai = khung.parentElement.querySelector('.bttr');
+    const phai = khung.parentElement.querySelector('.btp');
+
+    const soimg = khung.querySelectorAll('.inner4 > img').length;
+
+    const detailed_w = 800;
+    const soluongluoc = 1;
+    const dichuyen = detailed_w*soluongluoc;
+
+    let vt =0;
+
+    function move(){
+        khung.style.transform = `translateX(-${vt*dichuyen}px`
+    }
+
+    const khung1 = document.querySelector('.img_bd')
+    const bd_khoangcanh = 150 + 12; 
+    const khung2  = document.querySelector('.slide_detailed')
+    const imgcon = khung2.querySelectorAll('img');
+
+        imgcon.forEach((bam,vtanh)=>{
+            bam.addEventListener(`click`,()=>{
+                vt = vtanh;
+                move();
+                bd_move();
+
+            })
+        })
+
+    function bd_move(){
+        if (vt>=0) {
+            let bd_dichuyen = bd_khoangcanh*vt;
+            khung1.style.transform = `translate(${bd_dichuyen}px)`
+            
+        }
+    }
+    trai.addEventListener(`click`,()=>{
+        if (vt>0) {
+            vt--;
+            move();
+            bd_move();
+        }
+    })
+    phai.addEventListener(`click`,()=>{
+        if (vt<soimg-1) {
+            vt++;
+            move();
+            bd_move();
+        }
+    })
+
+})
+
 function chitiettour(){
     window.location.href = "http://127.0.0.1:5500/detailed_tour.html"
 }
 
-const bd_img = document.querySelectorAll('.slide_detailed > img')
+// const bd_img = document.querySelectorAll('.slide_detailed > img')
 
-bd_img.forEach(imgs=>{
-    imgs.addEventListener(`click`,()=>{
-       bd_img.forEach(i=>i.classList.remove('highlighted'));
-         imgs.classList.add('highlighted')
+// bd_img.forEach(imgs=>{
+//     imgs.addEventListener(`click`,()=>{
+//        bd_img.forEach(i=>i.classList.remove('highlighted'));
+//          imgs.classList.add('highlighted')
+//     })
+// })\\
+
+
+
+let tong =0;
+document.querySelectorAll('.quantity-row').forEach((them)=>{
+    const cong = them.querySelector('.cong')
+    const tru = them.querySelector('.tru')
+    const hiensoluong = them.querySelector('.counter > span')
+    const hiengia = them.querySelector('.price')
+    let soluong = 0;
+    let gia1 = parseInt(them.dataset.gia);
+    
+    cong.addEventListener(`click`,()=>{
+        soluong++;
+       tong = soluong*gia1;
+        hiensoluong.textContent = soluong;
+        hiengia.textContent = tong+" VND";
+        tonggia();
     })
-})
+    tru.addEventListener(`click`,()=>{
+        if (soluong>0) {
+            soluong--;
+            tong = gia1*soluong
+            hiensoluong.textContent=  soluong;
+            hiengia.textContent = tong+" VND";
+            if (soluong=="0") {
+                hiengia.textContent = ""
+            }
+            tonggia();
+        }
+    })
 
+})
+function tonggia(){
+    let tongso = 0;
+    document.querySelectorAll('.price').forEach((i)=>{
+      const giatext = i.textContent.replace(/[^\d]/g, '')
+      if (giatext) {
+        tongso+=parseInt(giatext)
+      }
+      const hiengia = document.querySelector('.highlight')
+      const giagoc = document.querySelector('.strike')
+        if (hiengia || giagoc) {
+        hiengia.textContent = tongso.toLocaleString() + " VND";
+        giagoc.textContent = tongso.toLocaleString() + " VND";
+    }
+    })
+}
