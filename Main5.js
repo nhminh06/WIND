@@ -198,28 +198,54 @@ const observer = new IntersectionObserver(entries => {
 
 
 elements.forEach(el => observer.observe(el));
+// const teamitem = document.querySelectorAll('.team_item')
+// const che = document.querySelector('.che')
+// const nameitem = document.querySelectorAll('.name')
+// const thongtin = document.querySelectorAll('.thongtin_tv')
 
-const che = document.querySelectorAll('.che')
-const nameitem = document.querySelectorAll('.name')
-const thongtin = document.querySelectorAll('.thongtin_tv')
 
-che.forEach((cherieng,anten)=>{
-    let c = true;
-  cherieng.addEventListener(`click`,()=>{
-      if(c){
-        cherieng.style.transform = 'translateX(-210px)';
-        nameitem[anten].style.opacity = '0';
-        thongtin[anten].style.opacity = '1';
+// teamitem.forEach((iteamrieng,anten)=>{
+//     let c = true;
+//   cherieng.addEventListener(`click`,()=>{
+//       if(c){
+        
+//         iteamrieng.che.style.opacity = '0';
+//         nameitem[anten].style.opacity = '0';
+//         thongtin[anten].style.opacity = '1';
 
         
-    }else{
-       cherieng.style.transform = 'translateX(0)'; 
-        nameitem[anten].style.opacity = '1';
-         thongtin[anten].style.opacity = '0';
-    }
-    c= !c;
-  })
+//     }else{
+//        cherieng.style.transform = 'translateX(0)'; 
+//         nameitem[anten].style.opacity = '1';
+//          thongtin[anten].style.opacity = '0';
+//     }
+//     c= !c;
+//   })
     
+// })
+document.querySelectorAll('.team_item').forEach((teamitem,an)=>{
+    const che = teamitem.querySelector('.che')
+    const avata = teamitem.querySelector('.avata')
+    const nameitem = teamitem.querySelector('.name')
+    const thongtin = teamitem.querySelector('.thongtin_tv')
+     let c =true;
+    che.addEventListener(`click`,()=>{
+       
+     if (c) {
+           che.style.opacity = '0';
+        nameitem.style.opacity ='0'
+         thongtin.style.opacity= '1'
+        avata.style.transform = 'translate(-50%,-175px)'
+     }else{
+           che.style.opacity = '1';
+        nameitem.style.opacity ='1'
+        avata.style.transform = 'translate(-50%,-50%)'
+        thongtin.style.opacity= '0'
+        thongtin.style.transition= 'all 0.5s ease';
+     }
+     c = !c
+    })
+
 })
 
 
