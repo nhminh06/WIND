@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo SPA đơn giản</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+    }
+
+    nav {
+      background: #333;
+      padding: 10px;
+    }
+
+    nav a {
+      margin: 0 10px;
+      padding: 8px 12px;
+      text-decoration: none;
+      cursor: pointer;
+      color: white;
+      border-radius: 5px;
+      transition: all 0.3s;
+    }
+
+    nav a:hover {
+      background: #555;
+    }
+
+    nav a.active {
+      background: #007bff;
+    }
+
+    #content {
+      margin: 20px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      min-height: 200px;
+      border-radius: 5px;
+      background: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a onclick="loadPage('home.html', this)" class="active">Trang chủ</a>
+    <a onclick="loadPage('about.html', this)">Giới thiệu</a>
+    <a onclick="loadPage('contact.html', this)">Liên hệ</a>
+  </nav>
+
+  <div id="content">
+    👉 Chào mừng bạn đến website!
+  </div>
+
+  <script>
+    function loadPage(file, el) {
+      // Bỏ active cũ
+      document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+      // Gắn active mới
+      el.classList.add("active");
+
+      // Load nội dung
+      fetch(file)
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById("content").innerHTML = data;
+        })
+        .catch(err => {
+          document.getElementById("content").innerHTML = "❌ Không tải được nội dung.";
+        });
+    }
+
+    // Tải trang mặc định (home) khi mở web
+    window.onload = () => {
+      fetch("home.html")
+        .then(res => res.text())
+        .then(data => document.getElementById("content").innerHTML = data);
+    }
+  </script>
+
+</body>
+</html>

@@ -1,3 +1,51 @@
+
+function loadpage(file , el){
+    document.querySelectorAll('.menu li').forEach(item => {
+        item.classList.remove('active');
+    });
+    el.classList.add('active');
+
+    const content = document.getElementById('content');
+    content.innerHTML = '';
+
+    fetch(file)
+        .then(response => response.text())
+        .then(data => {
+            content.innerHTML = data;
+            loadSettingFeatures();
+        })
+        .catch(error => {
+            console.error('Error loading page:', error);
+        });
+}
+
+
+function loadSettingFeatures() {
+  const tabs = document.querySelectorAll('.tabs11 span');
+  const infoSections = document.querySelectorAll('.form-section, .email-section, .phone-section');
+  const securitySection = document.querySelector('.security-section');
+
+  if (tabs.length > 0) {
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active-tab'));
+        tab.classList.add('active-tab');
+
+        if (index === 0) {
+          // Hiện thông tin tài khoản
+          infoSections.forEach(sec => sec.style.display = "block");
+          if (securitySection) securitySection.style.display = "none";
+        } else {
+          // Hiện mật khẩu & bảo mật
+          infoSections.forEach(sec => sec.style.display = "none");
+          if (securitySection) securitySection.style.display = "block";
+        }
+      });
+    });
+  }
+}
+
+
 function xacnhan(){
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
@@ -303,6 +351,13 @@ document.querySelectorAll('.team_slide').forEach((slideWrapper1) => {
     });
 });
 
+
+
+
+
+
+
+
 document.querySelectorAll('.review_slide').forEach((slideWrapper2) => {
     const inner = slideWrapper2.querySelector('.inner3');
     const prevBtn = slideWrapper2.parentElement.querySelector('.bttr');
@@ -453,3 +508,9 @@ function tonggia(){
     }
     })
 }
+
+
+
+
+
+

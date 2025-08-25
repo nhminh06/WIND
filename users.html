@@ -20,74 +20,24 @@
       </div>
       <button class="vip-button"><i class="bi bi-box2-heart"></i> Bạn là ưu tiên hạng đầu của chúng tôi</button>
       <ul class="menu">
-        <li><i class="bi bi-bell-fill"></i> Thẻ của tôi</li>
+        <li onclick="loadpage('Cards.html', this)"><i class="bi bi-bell-fill"></i> Thẻ của tôi</li>
         <li><i class="bi bi-calendar3"></i> Đặt chỗ của tôi</li>
         <li><i class="bi bi-cart-dash"></i> Danh sách mua hàng</li>
         <li><i class="bi bi-envelope-paper-fill"></i> Hoàn tiền</li>
         <li><i class="bi bi-bell-fill"></i> Cảnh báo giá vé máy bay</li>
         <li><i class="bi bi-envelope-paper-fill"></i> Chi tiết hành khách đã lưu</li>
         <li><i class="bi bi-bell-fill"></i> Cài đặt thông báo</li>
-        <li class="active"><i class="bi bi-gear"></i> Tài khoản của tôi</li>
+        <li onclick="loadpage('settinguser.html' , this)" class="active"><i class="bi bi-gear"></i> Tài khoản của tôi</li>
         <li class="logout"><i class="bi bi-door-closed-fill"></i> Đăng xuất</li>
       </ul>
     </aside>
 
- 
-    <main class="content">
-      <h1>Cài đặt</h1>
-      <div class="tabs">
-        <span class="active-tab">Thông tin tài khoản</span>
-        <span>Mật khẩu & Bảo mật</span>
-      </div>
 
-      <div class="form-section">
-        <h2>Dữ liệu cá nhân</h2>
-        <label>Họ và tên đầy đủ</label>
-        <input type="text" value="Minh Nhật" />
+    <main id="content" class="content">
 
-        <label>Giới tính</label>
-        <select>
-          <option selected>Nam giới</option>
-          <option>Nữ giới</option>
-        </select>
-
-        <label>Ngày sinh</label>
-        <div class="birthdate">
-          <input type="number" value="2" />
-          <select>
-            <option selected>Tháng hai</option>
-            <option>Tháng ba</option>
-            <option>Tháng tư</option>
-          </select>
-          <input type="number" value="2000" />
-        </div>
-
-        <label>Thành phố cư trú</label>
-        <input type="text" placeholder="Thành phố cư trú" disabled />
-
-        <div class="actions">
-          <button disabled class="gray">Có thể sau này</button>
-          <button disabled class="gray">Cứu</button>
-        </div>
-      </div>
-
-      <div class="email-section">
-        <h2>E-mail</h2>
-        <p>Bạn có thể sử dụng tối đa 3 email</p>
-        <div class="email-item">
-          <span>1.mnhat0034@gmail.com</span>
-          <span class="notify-tag">Người nhận thông báo</span>
-        </div>
-        <button class="add-btn">+ Thêm Email</button>
-      </div>
-
-      <div class="phone-section">
-        <h2>Số điện thoại di động</h2>
-        <p>Bạn có thể sử dụng tối đa 3 số điện thoại di động</p>
-        <button class="add-btn">+ Thêm số điện thoại di động</button>
-      </div>
     </main>
   </div>
   <script src="./Main5.js"></script>
+    <script src="./Main5_1.js"></script>
 </body>
 </html>

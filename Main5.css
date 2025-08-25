@@ -1853,8 +1853,25 @@ span> svg{
   margin-top: 20px;
   color: red;
 }
+/* thẻ của tôi */
+
+.card-item {
+  background: #f1f1f1;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-type {
+  font-weight: bold;
+}
 
 /* Main content */
+
+
+
 .content {
   flex: 1;
   padding: 30px;
@@ -1866,21 +1883,22 @@ h1 {
   margin-bottom: 20px;
 }
 
-.tabs {
+.tabs11 {
   display: flex;
   gap: 20px;
   margin-bottom: 30px;
   font-weight: bold;
 }
 
-.tabs span {
+.tabs11 span {
   padding-bottom: 5px;
   cursor: pointer;
 }
 
-.tabs .active-tab {
+.tabs11 .active-tab {
   border-bottom: 2px solid #0070f3;
   color: #0070f3;
+  transition: all 0.3s ease;
 }
 
 .form-section {
@@ -1892,6 +1910,7 @@ h1 {
   margin-top: 15px;
   margin-bottom: 5px;
 }
+
 
 .form-section input,
 .form-section select {
@@ -1958,6 +1977,47 @@ h1 {
   cursor: pointer;
 }
 
+.security-section {
+  margin-top: 40px;
+}
+
+.security-section label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.security-section input {
+  padding: 8px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.security-section .actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.security-section .save {
+  background: #0070f3;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.security-section .gray {
+  background: #ccc;
+  color: #333;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
 /* hết */
 
@@ -2105,3 +2165,5 @@ align-items: center;
   transform: translate(0, 0);
 }
 /* hết */
+
+
