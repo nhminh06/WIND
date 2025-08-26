@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vé máy bay</title>
+    <link rel="stylesheet" href="Main5.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body>
+    <div class="price-alert-container">
+  <h2><i class="bi bi-airplane"></i> Cảnh báo giá vé máy bay</h2>
+  <form class="price-alert-form">
+    <div class="form-group">
+      <label for="departure">Điểm đi:</label>
+      <input type="text" id="departure" placeholder="Ví dụ: Hà Nội">
+    </div>
+    <div class="form-group">
+      <label for="arrival">Điểm đến:</label>
+      <input type="text" id="arrival" placeholder="Ví dụ: Đà Nẵng">
+    </div>
+    <div class="form-group">
+      <label for="target-price">Giá mong muốn (VNĐ):</label>
+      <input type="number" id="target-price" placeholder="Ví dụ: 1,500,000">
+    </div>
+    <div class="form-group">
+      <label for="contact">Nhận thông báo qua:</label>
+      <select id="contact">
+        <option>Email</option>
+        <option>Số điện thoại</option>
+      </select>
+    </div>
+    <button type="submit" class="btn-alert">Tạo cảnh báo</button>
+  </form>
+
+  <h3>Danh sách cảnh báo của bạn</h3>
+  <table class="alert-list">
+    <thead>
+      <tr>
+        <th>Điểm đi</th>
+        <th>Điểm đến</th>
+        <th>Giá mong muốn</th>
+        <th>Hình thức nhận</th>
+        <th>Trạng thái</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Hà Nội</td>
+        <td>Đà Nẵng</td>
+        <td>1,500,000 VNĐ</td>
+        <td>Email</td>
+        <td>Đang theo dõi</td>
+      </tr>
+      <tr>
+        <td>TP.HCM</td>
+        <td>Singapore</td>
+        <td>2,800,000 VNĐ</td>
+        <td>Số điện thoại</td>
+        <td>Đang theo dõi</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+    <script src="./Main5.js"></script>
+    
+</body>
+</html>
