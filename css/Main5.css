@@ -1273,7 +1273,7 @@ margin-left: auto;
 }
 .contact_main{
     width: 480px;
-    height: 600px;
+    height: 625px;
        background-color: #ffffff20;
     backdrop-filter: blur(8px);
     border-radius: 12px;
@@ -2216,7 +2216,7 @@ h1 {
 h2 {
   font-size: 32px;
   margin-bottom: 40px;
-  color: #34495e;
+
 }
 /* hoàn tiền */
 .refund-section {

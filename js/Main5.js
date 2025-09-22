@@ -449,7 +449,7 @@ document.querySelectorAll('.review_detailed_img').forEach((detailed_img)=>{
 })
 
 function chitiettour(){
-    window.location.href = "http://127.0.0.1:5500/detailed_tour.html"
+    window.location.href = "http://127.0.0.1:5500/html/detailed_tour.html"
 }
 
 // const bd_img = document.querySelectorAll('.slide_detailed > img')
