@@ -176,10 +176,7 @@ function dangnhap(){
 
         
     }
-    if (lg) {
-        alert("Đăng nhập thành công");
-        window.location.href = "http://127.0.0.1:5500/WebIndex.html"
-    }
+    return lg;
 
 
 }
