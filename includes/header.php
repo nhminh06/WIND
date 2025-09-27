@@ -25,7 +25,7 @@
 </svg>
 
       </button>
-        <div onclick="window.location.href = '../views/users.html'" class="users_avata">
+        <div onclick="window.location.href = '../views/users.php'" class="users_avata">
         <img src="https://i.pinimg.com/736x/ad/76/e5/ad76e544f4d3d2eca8dec9644867be85.jpg" alt="">
       </div>
             </div>

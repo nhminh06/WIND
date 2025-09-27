@@ -10,6 +10,12 @@
 
 </head>
 <body>
+  <?php session_start(); ?>
+  <?php 
+   if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'){
+    echo "<style>.admin-bt{opacity: 1; display: block;}</style>";
+   }
+  ?>
   <div class="users_container">
   
     <aside class="sidebar">
@@ -29,6 +35,7 @@
         <li onclick="loadpage('notification-settings.html', this)"><i class="bi bi-bell-fill"></i> Cài đặt thông báo</li>
         <li onclick="loadpage('settinguser.html' , this)" class="active"><i class="bi bi-gear"></i> Tài khoản của tôi</li>
         <li class="logout"><i class="bi bi-door-closed-fill"></i> Đăng xuất</li>
+        <li><button onclick="window.location.href = '../../html/Admin/IndexController.php'" class="admin-bt">Mở giao diện quản lý</button></li>
       </ul>
     </aside>
 
@@ -38,6 +45,11 @@
     </main>
   </div>
   <script src="../../js/Main5.js"></script>
-    
+     <script>
+
+  window.onload = function () {
+    loadpage('settinguser.html', document.querySelector('li.active'));
+  };
+</script>
 </body>
 </html>

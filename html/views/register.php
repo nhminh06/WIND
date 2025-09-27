@@ -11,19 +11,20 @@
         <video autoplay muted loop playsinline disablePictureInPicture>
             <source src="../../Video/resgir.mp4">
         </video>
-        <div class="register_font">
+       <form action="../../php/RegisterController.php" method="POST" onsubmit="return xacnhan();">
+         <div class="register_font">
             <h1>Đăng ký</h1>
             <p id="textten">Tên đăng nhập:</p>
             <div class="nhaplieu">
-                <input type="text" id="username" placeholder="Nhập tên đăng nhập">
+                <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập">
             </div>
             <p id="textemail">Nhập email:</p>
             <div class="nhaplieu">
-                <input type="email" id="email" placeholder="Nhập email">
+                <input type="email" id="email" name="email" placeholder="Nhập email">
             </div>
             <p id="textpw">Mật khẩu:</p>
             <div class="nhaplieu">
-                <input type="password" id="password" placeholder="Nhập mật khẩu">
+                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu">
             </div>
             <p id="textpw2">Xác nhận mật khẩu:</p>
             <div class="nhaplieu">
@@ -33,7 +34,8 @@
                 <button onclick="xacnhan()" id="registerButton">Đăng ký</button>
             </div>
           
-             
+        </div>
+       </form>
     <script src="../../js/Main5.js"></script>
 </body>
 </html>

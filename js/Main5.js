@@ -130,10 +130,7 @@ function xacnhan(){
 
         
     }
-    if (dk) {
-        alert("Đăng ký thành công");
-        window.location.href = "http://127.0.0.1:5500/WebIndex.html"
-}
+   return dk;
 }
 
 function dangnhap(){
