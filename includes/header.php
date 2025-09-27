@@ -1,14 +1,14 @@
    <div
          class="menusearch">
             <div class="logo">
-                <img src="../img/logo.png" alt="">
+                <img src="../../img/logo.png" alt="">
             </div>
             <ul>
-                <li><a href="../html/WebIndex.php">Trang chủ</a></li>
-                <li><a href="../html/about.php">Giới thiệu</a></li>
-                <li><a href="../html/tour.php">Tour</a></li>
-                <li><a href="../html/contact.php">Liên hệ</a></li>
-                <li><a href="../html/login.php">Đăng nhập</a></li>
+                <li><a href="../views/WebIndex.php">Trang chủ</a></li>
+                <li><a href="../views/about.php">Giới thiệu</a></li>
+                <li><a href="../views/tour.php">Tour</a></li>
+                <li><a href="../views/contact.php">Liên hệ</a></li>
+                <li><a href="../views/login.php">Đăng nhập</a></li>
             </ul>
             <div class="search">
                 <input type="text" placeholder="Tìm kiếm...">
@@ -25,7 +25,7 @@
 </svg>
 
       </button>
-        <div onclick="window.location.href = '../html/users.html'" class="users_avata">
+        <div onclick="window.location.href = '../views/users.html'" class="users_avata">
         <img src="https://i.pinimg.com/736x/ad/76/e5/ad76e544f4d3d2eca8dec9644867be85.jpg" alt="">
       </div>
             </div>

@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giới thiệu</title>
-    <link rel="stylesheet" href="../css/Main5.css">
+    <link rel="stylesheet" href="../../css/Main5.css">
     <link href="https://fonts.googleapis.com/css2?family=Sarina&display=swap" rel="stylesheet">
     <style>
-        body{background: url('../img/aboutbr.png') no-repeat center center fixed;
+        body{background: url('../../img/aboutbr.png') no-repeat center center fixed;
   background-size: cover;}
     </style>
 </head>
@@ -15,7 +15,7 @@
    
         
       
-       <?php include '../includes/header.php';?>
+       <?php include '../../includes/header.php';?>
         
         
         
@@ -24,20 +24,20 @@
        <div class="about_top">
         <p>WIND</p>
         <h3>Khám phá thế giới theo cách của bạn</h3>
-        <img src="../img/logo.png" alt="">
+        <img src="../../img/logo.png" alt="">
        </div> 
     </div>
     <div class="about_main">
         <div class="about_main_item">
             <div class="about_main_img">
                 <div class="h1img">
-                   <div class="h1img_1 box fade-left"> <img src="../img/about1_1.png" alt="">
+                   <div class="h1img_1 box fade-left"> <img src="../../img/about1_1.png" alt="">
                    </div>
-                   <div class="h1img_1 box fade-right"> <img src="../img/about1_2.png" alt=""></div>
+                   <div class="h1img_1 box fade-right"> <img src="../../img/about1_2.png" alt=""></div>
                 </div>
                 <div class="h2img">
                     <div class="h2img_1 box fade-up">
-                        <img src="../img/about1_3.png" alt="">
+                        <img src="../../img/about1_3.png" alt="">
                     </div>
                 </div>
             </div>
@@ -87,13 +87,13 @@
             </div>
              <div class="about_main_img">
                 <div class="h1img">
-                   <div class="h1img_1 box fade-up"> <img src="../img/about2_1.png" alt="">
+                   <div class="h1img_1 box fade-up"> <img src="../../img/about2_1.png" alt="">
                    </div>
-                   <div class="h1img_1 box fade-dow"> <img src="../img/about2_2.png" alt=""></div>
+                   <div class="h1img_1 box fade-dow"> <img src="../../img/about2_2.png" alt=""></div>
                 </div>
                 <div class="h2img">
                     <div class="h2img_1 box fade-big-right">
-                        <img src="../img/about2_3.png" alt="">
+                        <img src="../../img/about2_3.png" alt="">
                     </div>
                 </div>
             </div>
@@ -101,13 +101,13 @@
         <div class="about_main_item">
             <div class="about_main_img">
                 <div class="h1img box fade-left">
-                   <div class="h1img_1"> <img src="../img/about3_1.png" alt="">
+                   <div class="h1img_1"> <img src="../../img/about3_1.png" alt="">
                    </div>
-                   <div class="h1img_1"> <img src="../img/about3_2.png" alt=""></div>
+                   <div class="h1img_1"> <img src="../../img/about3_2.png" alt=""></div>
                 </div>
                 <div class="h2img">
                     <div class="h2img_1 box fade-right">
-                        <img src="../img/about3_3.png" alt="">
+                        <img src="../../img/about3_3.png" alt="">
                     </div>
                 </div>
             </div>
@@ -162,13 +162,13 @@
             </div>
              <div class="about_main_img">
                 <div class="h1img">
-                   <div class="h1img_1 box fade-dow"> <img src="../img/about4_1.png" alt="">
+                   <div class="h1img_1 box fade-dow"> <img src="../../img/about4_1.png" alt="">
                    </div>
-                   <div class="h1img_1 box fade-right"> <img src="../img/about4_2.png" alt=""></div>
+                   <div class="h1img_1 box fade-right"> <img src="../../img/about4_2.png" alt=""></div>
                 </div>
                 <div class="h2img">
                     <div class="h2img_1 box fade-left">
-                        <img src="../img/about4_3.png" alt="">
+                        <img src="../../img/about4_3.png" alt="">
                     </div>
                 </div>
             </div>
@@ -176,13 +176,13 @@
         <div class="about_main_item">
             <div class="about_main_img">
                 <div class="h1img">
-                   <div class="h1img_1 box fade-right"> <img src="../img/about5_1.png" alt="">
+                   <div class="h1img_1 box fade-right"> <img src="../../img/about5_1.png" alt="">
                    </div>
-                   <div class="h1img_1 box fade-left"> <img src="../img/about5_2.png" alt=""></div>
+                   <div class="h1img_1 box fade-left"> <img src="../../img/about5_2.png" alt=""></div>
                 </div>
                 <div class="h2img">
                     <div class="h2img_1 box fade-dow">
-                        <img src="../img/about5_3.png" alt="">
+                        <img src="../../img/about5_3.png" alt="">
                     </div>
                 </div>
             </div>
@@ -209,8 +209,8 @@
             </div>
         </div>
     </div>
-   <?php include '../includes/footer.php';?>
+   <?php include '../../includes/footer.php';?>
 
-    <script src="../js/Main5.js"></script>
+    <script src="../../js/Main5.js"></script>
 </body>
 </html>

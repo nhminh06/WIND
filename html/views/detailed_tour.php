@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi tiết</title>
-    <link rel="stylesheet" href="../css/Main5.css">
+    <link rel="stylesheet" href="../../css/Main5.css">
     <style>
          body{background: url('https://images.unsplash.com/photo-1739219959019-dd317f76c7e8?q=80&w=1716&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
   background-size: cover;}
     </style>
 </head>
 <body>
-   <?php include '../includes/header.php';?>
+   <?php include '../../includes/header.php';?>
 
 
         <div class="detailed_tour_container">
@@ -30,11 +30,11 @@
 
         </button>
                                 <div class="inner4">
-                                  <img src="../img/phongcanh1.png" alt="">
-                                  <img src="../img/phongcanh2.png" alt="">
-                                  <img src="../img/phongcanh3.png" alt="">
-                                  <img src="../img/phongcanh4.png" alt="">
-                                  <img src="../img/phongcanh5.png" alt="">
+                                  <img src="../../img/phongcanh1.png" alt="">
+                                  <img src="../../img/phongcanh2.png" alt="">
+                                  <img src="../../img/phongcanh3.png" alt="">
+                                  <img src="../../img/phongcanh4.png" alt="">
+                                  <img src="../../img/phongcanh5.png" alt="">
                                 </div>
                                       <button class="btp">
             <svg style="color: aliceblue;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -45,11 +45,11 @@
                               </div>
                           <div class="main_slide_detailed">
                               <div class="slide_detailed">
-                            <img src="../img/phongcanh1.png" alt="">
-                            <img src="../img/phongcanh2.png" alt="">
-                            <img src="../img/phongcanh3.png" alt="">
-                            <img src="../img/phongcanh4.png" alt="">
-                            <img src="../img/phongcanh5.png" alt="">
+                            <img src="../../img/phongcanh1.png" alt="">
+                            <img src="../../img/phongcanh2.png" alt="">
+                            <img src="../../img/phongcanh3.png" alt="">
+                            <img src="../../img/phongcanh4.png" alt="">
+                            <img src="../../img/phongcanh5.png" alt="">
                       
                               <div class="img_bd"></div>
                             </div>
@@ -106,7 +106,7 @@
                             <h2>Chương trình tour</h2>
                             <div class="detailed_item_list">
                               <div class="detailed_item">
-                                <div class="detailed_item_img"><img src="../img/phongcanh1.png" alt="">
+                                <div class="detailed_item_img"><img src="../../img/phongcanh1.png" alt="">
                                
                                 </div>
                                 <div class="detailed_item_tt">
@@ -115,7 +115,7 @@
                                 </div>
                               </div> 
                               <div class="detailed_item">
-                                <div class="detailed_item_img"><img src="../img/phongcanh1.png" alt="">
+                                <div class="detailed_item_img"><img src="../../img/phongcanh1.png" alt="">
                                
                                 </div>
                                 <div class="detailed_item_tt">
@@ -124,7 +124,7 @@
                                 </div>
                               </div> 
                               <div class="detailed_item">
-                                <div class="detailed_item_img"><img src="../img/phongcanh1.png" alt="">
+                                <div class="detailed_item_img"><img src="../../img/phongcanh1.png" alt="">
                                
                                 </div>
                                 <div class="detailed_item_tt">
@@ -133,7 +133,7 @@
                                 </div>
                               </div> 
                               <div class="detailed_item">
-                                <div class="detailed_item_img"><img src="../img/phongcanh1.png" alt="">
+                                <div class="detailed_item_img"><img src="../../img/phongcanh1.png" alt="">
                                
                                 </div>
                                 <div class="detailed_item_tt">
@@ -305,7 +305,7 @@
 <h2>Các tour gợi ý</h2>
                       <div class="proposal box fade-up">
                            <div class="tour_item">
-        <img src="../img/phongcanh2.png " alt="">
+        <img src="../../img/phongcanh2.png " alt="">
          <div class="thongtin">
             <h2>HÀ NỘI – HỒ HOÀN KIẾM – 36 PHỐ PHƯỜNG</h2>
         <p>1 Ngày | 2.200.000 VNĐ</p>
@@ -314,7 +314,7 @@
     
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh3.png " alt="">
+        <img src="../../img/phongcanh3.png " alt="">
          <div class="thongtin">
             <h2>SAPA – BẢN CÁT CÁT, NÚI HÀM RỒNG</h2>
         <p>2 Ngày | 2.800.000 VNĐ</p>
@@ -323,7 +323,7 @@
     
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh4.png " alt="">
+        <img src="../../img/phongcanh4.png " alt="">
          <div class="thongtin">
             <h2>ĐÀ NẴNG – Bà Nà Hills, Cầu Vàng, Biển Mỹ Khê</h2>
         <p>2 Ngày | 2.800.000 VNĐ</p>
@@ -339,7 +339,7 @@
 
 
 
-        <?php include '../includes/footer.php';?>
-    <script src="../js/Main5.js"></script>
+        <?php include '../../includes/footer.php';?>
+    <script src="../../js/Main5.js"></script>
 </body>
 </html>

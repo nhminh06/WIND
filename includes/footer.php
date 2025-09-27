@@ -1,16 +1,16 @@
 <footer class="footer">
   <div class="footer_content">
    <div class="footer_logo">
-    <img src="../img/logo.png" alt="WIND Travel">
+    <img src="../../img/logo.png" alt="WIND Travel">
     <p>
         WIND Travel – Nơi cảm xúc lên đường.  
         Mỗi chuyến đi là một hành trình sống động, nơi bạn khám phá bản thân qua từng vùng đất Việt Nam.
     </p>
 
     <div class="footer_social">
-        <a href="#"><img src="../img/facebook.png" alt="Facebook"></a>
-        <a href="#"><img src="../img/instagram.png" alt="Instagram"></a>
-        <a href="#"><img src="../img/youtube.png" alt="YouTube"></a>
+        <a href="#"><img src="../../img/facebook.png" alt="Facebook"></a>
+        <a href="#"><img src="../../img/instagram.png" alt="Instagram"></a>
+        <a href="#"><img src="../../img/youtube.png" alt="YouTube"></a>
     </div>
 </div>
 

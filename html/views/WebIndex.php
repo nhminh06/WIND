@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Du Lịch</title>
-    <link rel="stylesheet" href="../css/Main5.css">
+    <link rel="stylesheet" href="../../css/Main5.css">
    <link href="https://fonts.googleapis.com/css2?family=Sarina&display=swap" rel="stylesheet">
 
 <style>
@@ -21,11 +21,11 @@
         
         <div class="bannervd">
    <video autoplay muted loop playsinline disablePictureInPicture>
-    <source src="../Video/Bannervideo.mp4">
+    <source src="../../Video/Bannervideo.mp4">
    </video>
 
         </div>
-        <?php include '../includes/header.php';?>
+        <?php include '../../includes/header.php';?>
         <p>WIND</p>
 
    
@@ -144,17 +144,17 @@
                    <p>Nơi đây được UNESCO công nhận là Di sản thiên nhiên thế giới nhờ vẻ đẹp độc đáo, giá trị địa chất và hệ sinh thái đa dạng.</p>   
                    <p>Du khách đến Vịnh Hạ Long sẽ được trải nghiệm hành trình khám phá hang động, chèo kayak và ngắm hoàng hôn tuyệt đẹp trên du thuyền giữa biển trời bao la.</p>   
                    <p>Với sự kết hợp giữa thiên nhiên hùng vĩ và dịch vụ du lịch hiện đại, Vịnh Hạ Long luôn là điểm đến lý tưởng cho mọi du khách trong và ngoài nước.</p>
-                   <button onclick="chitiettour()">Xem chi tiết</button>
+                   <button onclick="window.location.href = '../../html/views/detailed_tour.php'">Xem chi tiết</button>
                 </div>
                 <div class="demo_img box fade-up">
-                   <div class="demoimg"><img src="../img/vinhhalong1.png" alt=""></div>
-                   <div class="demoimg"><img src="../img/vinhhalong2.png" alt=""></div>
+                   <div class="demoimg"><img src="../../img/vinhhalong1.png" alt=""></div>
+                   <div class="demoimg"><img src="../../img/vinhhalong2.png" alt=""></div>
                 </div>
             </div>
             <div class="demo_item box fade-up">
                  <div class="demo_img">
-                   <div class="demoimg"><img src="../img/nhatrang1.png" alt=""></div>
-                   <div class="demoimg"><img src="../img/nhatrang2.png" alt=""></div>
+                   <div class="demoimg"><img src="../../img/nhatrang1.png" alt=""></div>
+                   <div class="demoimg"><img src="../../img/nhatrang2.png" alt=""></div>
                 </div>
                 <div class="demo_tt box fade-right">
 
@@ -178,14 +178,14 @@
                         <button>Xem chi tiết</button>
                 </div>
                 <div class="demo_img box fade-up">
-                   <div class="demoimg"><img src="../img/hcm1.png" alt=""></div>
-                   <div class="demoimg"><img src="../img/hcm2.png" alt=""></div>
+                   <div class="demoimg"><img src="../../img/hcm1.png" alt=""></div>
+                   <div class="demoimg"><img src="../../img/hcm2.png" alt=""></div>
                 </div>
             </div>
             <div class="demo_item">
                  <div class="demo_img box fade-up">
-                   <div class="demoimg"><img src="../img/sapa1.png" alt=""></div>
-                   <div class="demoimg"><img src="../img/sapa2.png" alt=""></div>
+                   <div class="demoimg"><img src="../../img/sapa1.png" alt=""></div>
+                   <div class="demoimg"><img src="../../img/sapa2.png" alt=""></div>
                 </div>
                 <div class="demo_tt box fade-right">
                                 <h2> Sa Pa – Vùng đất sương mờ và bản sắc Tây Bắc </h2>  
@@ -210,7 +210,7 @@
       <div class="tour_slide">
         <div class="inner">
              <div class="tour_item">
-        <img src="../img/phongcanh1.png " alt="">
+        <img src="../../img/phongcanh1.png " alt="">
         <div class="thongtin">
              <h2>Hạ Long – Vịnh, Hang Sửng Sốt, Đảo Titop</h2>
         <p>1 Ngày | 1.200.000 VNĐ</p>
@@ -218,7 +218,7 @@
         </div>
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh2.png " alt="">
+        <img src="../../img/phongcanh2.png " alt="">
          <div class="thongtin">
             <h2>HÀ NỘI – HỒ HOÀN KIẾM – 36 PHỐ PHƯỜNG</h2>
         <p>1 Ngày | 2.200.000 VNĐ</p>
@@ -227,7 +227,7 @@
     
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh3.png " alt="">
+        <img src="../../img/phongcanh3.png " alt="">
          <div class="thongtin">
             <h2>SAPA – BẢN CÁT CÁT, NÚI HÀM RỒNG</h2>
         <p>2 Ngày | 2.800.000 VNĐ</p>
@@ -236,7 +236,7 @@
     
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh4.png " alt="">
+        <img src="../../img/phongcanh4.png " alt="">
          <div class="thongtin">
             <h2>ĐÀ NẴNG – Bà Nà Hills, Cầu Vàng, Biển Mỹ Khê</h2>
         <p>2 Ngày | 2.800.000 VNĐ</p>
@@ -245,7 +245,7 @@
     
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh5.png " alt="">
+        <img src="../../img/phongcanh5.png " alt="">
          <div class="thongtin">
             <h2>ĐÀ LẠT – Thung Lũng Tình Yêu, Đồi Chè Cầu Đất, Que Garden</h2>
         <p>(3 Ngày / 2 Đêm) | 2.800.000 VNĐ</p>
@@ -254,7 +254,7 @@
     
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh6.png " alt="">
+        <img src="../../img/phongcanh6.png " alt="">
          <div class="thongtin">
             <h2>NHA TRANG – Đảo Yến, VinWonders, Tháp Bà Ponagar</h2>
         <p>(3 Ngày / 2 Đêm) | 2.900.000 VNĐ</p>
@@ -263,7 +263,7 @@
     
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh7.png " alt="">
+        <img src="../../img/phongcanh7.png " alt="">
          <div class="thongtin">
             <h2>QUY NHƠN – Kỳ Co, Eo Gió, Hòn Khô</h2>
         <p>(3 Ngày / 2 Đêm) | 2.950.000 VNĐ</p>
@@ -272,7 +272,7 @@
     
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh8.png " alt="">
+        <img src="../../img/phongcanh8.png " alt="">
          <div class="thongtin">
             <h2>TP. HỒ CHÍ MINH – Dinh Độc Lập, Nhà Thờ Đức Bà, Bến Nhà Rồng</h2>
         <p>(1 Ngày) | 1.200.000 VNĐ</p>
@@ -281,7 +281,7 @@
     
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh9.png " alt="">
+        <img src="../../img/phongcanh9.png " alt="">
          <div class="thongtin">
             <h2>HUẾ – Đại Nội, Chùa Thiên Mụ, Lăng Khải Định</h2>
         <p>(2 Ngày / 1 Đêm) | 2.400.000 VNĐ</p>
@@ -309,7 +309,7 @@
       <div class="tour_slide">
         <div class="inner">
              <div class="tour_item">
-        <img src="../img/phongcanh1.png " alt="">
+        <img src="../../img/phongcanh1.png " alt="">
         <div class="thongtin">
              <h2>Hạ Long – Vịnh, Hang Sửng Sốt, Đảo Titop</h2>
         <p>1 Ngày | 1.200.000 VNĐ</p>
@@ -317,7 +317,7 @@
         </div>
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh2.png " alt="">
+        <img src="../../img/phongcanh2.png " alt="">
          <div class="thongtin">
             <h2>HÀ NỘI – HỒ HOÀN KIẾM – 36 PHỐ PHƯỜNG</h2>
         <p>1 Ngày | 2.200.000 VNĐ</p>
@@ -326,7 +326,7 @@
     
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh3.png " alt="">
+        <img src="../../img/phongcanh3.png " alt="">
          <div class="thongtin">
             <h2>SAPA – BẢN CÁT CÁT, NÚI HÀM RỒNG</h2>
         <p>2 Ngày | 2.800.000 VNĐ</p>
@@ -335,7 +335,7 @@
     
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh4.png " alt="">
+        <img src="../../img/phongcanh4.png " alt="">
          <div class="thongtin">
             <h2>ĐÀ NẴNG – Bà Nà Hills, Cầu Vàng, Biển Mỹ Khê</h2>
         <p>2 Ngày | 2.800.000 VNĐ</p>
@@ -344,7 +344,7 @@
     
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh5.png " alt="">
+        <img src="../../img/phongcanh5.png " alt="">
          <div class="thongtin">
             <h2>ĐÀ LẠT – Thung Lũng Tình Yêu, Đồi Chè Cầu Đất, Que Garden</h2>
         <p>(3 Ngày / 2 Đêm) | 2.800.000 VNĐ</p>
@@ -353,7 +353,7 @@
     
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh6.png " alt="">
+        <img src="../../img/phongcanh6.png " alt="">
          <div class="thongtin">
             <h2>NHA TRANG – Đảo Yến, VinWonders, Tháp Bà Ponagar</h2>
         <p>(3 Ngày / 2 Đêm) | 2.900.000 VNĐ</p>
@@ -362,7 +362,7 @@
     
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh7.png " alt="">
+        <img src="../../img/phongcanh7.png " alt="">
          <div class="thongtin">
             <h2>QUY NHƠN – Kỳ Co, Eo Gió, Hòn Khô</h2>
         <p>(3 Ngày / 2 Đêm) | 2.950.000 VNĐ</p>
@@ -371,7 +371,7 @@
     
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh8.png " alt="">
+        <img src="../../img/phongcanh8.png " alt="">
          <div class="thongtin">
             <h2>TP. HỒ CHÍ MINH – Dinh Độc Lập, Nhà Thờ Đức Bà, Bến Nhà Rồng</h2>
         <p>(1 Ngày) | 1.200.000 VNĐ</p>
@@ -380,7 +380,7 @@
     
        </div>
        <div class="tour_item">
-        <img src="../img/phongcanh9.png " alt="">
+        <img src="../../img/phongcanh9.png " alt="">
          <div class="thongtin">
             <h2>HUẾ – Đại Nội, Chùa Thiên Mụ, Lăng Khải Định</h2>
         <p>(2 Ngày / 1 Đêm) | 2.400.000 VNĐ</p>
@@ -410,7 +410,7 @@
       <div class="team_slide">
         <div class="inner2">
           <div class="team_item" id="team_item">
-                <div class="avata"><img src="../img/avt1.jpg" alt=""></div>
+                <div class="avata"><img src="../../img/avt1.jpg" alt=""></div>
         <div class="che" id="che">
           
          
@@ -448,7 +448,7 @@
   </div>
       </div>
       <div class="team_item" id="team_item">
-          <div class="avata"><img src="../img/avt2.jpg" alt=""></div>
+          <div class="avata"><img src="../../img/avt2.jpg" alt=""></div>
          <div class="che" id="che">
           
           <span class="name">
@@ -484,7 +484,7 @@
   </div>
       </div>
       <div class="team_item" id="team_item">
-                  <div class="avata"><img src="../img/avt3.png" alt=""></div>
+                  <div class="avata"><img src="../../img/avt3.png" alt=""></div>
          <div class="che" id="che">
           
           <span class="name">
@@ -520,13 +520,13 @@
   </div>
       </div>
       <div class="team_item" id="team_item">
-           <div class="avata"><img src="../img/avt4.png" alt=""></div>
+           <div class="avata"><img src="../../img/avt4.png" alt=""></div>
          <div class="che" id="che">
           
           <span class="name">
             <h3>Lê Hồng Nhung</h3>
           </span>
-          <div class="avata"><img src="../img/avt4.png" alt=""></div>
+          <div class="avata"><img src="../../img/avt4.png" alt=""></div>
         </div>
         <!--  -->
          <div class="thongtin_tv">
@@ -680,7 +680,7 @@
 
     </div>
 
- <?php include '../includes/footer.php';?>
-    <script src="../js/Main5.js"></script>
+ <?php include '../../includes/footer.php';?>
+    <script src="../../js/Main5.js"></script>
 </body>
 </html>

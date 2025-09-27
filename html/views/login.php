@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập</title>
-    <link rel="stylesheet" href="../css/Main5.css">
+    <link rel="stylesheet" href="../../css/Main5.css">
 </head>
 <body>
    <div class="bannervd">
      <video autoplay muted loop playsinline disablePictureInPicture>
-        <source src="../Video/loginvd.mp4">
+        <source src="../../Video/loginvd.mp4">
     </video>
     <div class="login_font">
         <h1>Đăng nhập</h1>
@@ -47,6 +47,6 @@
         </div>
     </div>
    </div>
- <script src="../js/Main5.js"></script>   
+ <script src="../../js/Main5.js"></script>   
 </body>
 </html>

@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tour</title>
-    <link rel="stylesheet" href="../css/Main5.css">
+    <link rel="stylesheet" href="../../css/Main5.css">
     <style>
         body{background: url('https://images.unsplash.com/photo-1750779941284-09ee2d6a619c?q=80&w=1742&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
   background-size: cover;}
     </style>
 </head>
 <body>
-   <?php include '../includes/header.php';?>
+   <?php include '../../includes/header.php';?>
 
        <div class="tour_container">
         <div class="tour_container1 box fade-left">
@@ -73,7 +73,7 @@
             <h1>Tour Ưu Đãi Tốt Nhất Hôm Nay</h1>
             <div class="tour_box box fade-right">
                 <div class="tour_box_img">
-                    <img src="../img/phongcanh1.png" alt="">
+                    <img src="../../img/phongcanh1.png" alt="">
                 </div>
                 <div class="tour_box_tt">
                    <div class="nameandtime">
@@ -99,14 +99,14 @@
 </svg> <p>1 ngày</p>
 
                         </div>
-                        <button onclick="window.location.href = '../html/detailed_tour.php'" class="tour_button">Xem Chi Tiết</button>
+                        <button onclick="window.location.href = '../../html/views/detailed_tour.php'" class="tour_button">Xem Chi Tiết</button>
                      </div>
                      
                 </div>
             </div>
           <div class="tour_box box fade-right">
     <div class="tour_box_img">
-        <img src="../img/phongcanh2.png" alt="">
+        <img src="../../img/phongcanh2.png" alt="">
     </div>
     <div class="tour_box_tt">
         <div class="nameandtime">
@@ -138,7 +138,7 @@
 
             <div class="tour_box box fade-right">
                 <div class="tour_box_img">
-                    <img src="../img/phongcanh3.png" alt="">
+                    <img src="../../img/phongcanh3.png" alt="">
                 </div>
                 <div class="tour_box_tt">
                    <div class="nameandtime">
@@ -171,7 +171,7 @@
             </div>
             <div class="tour_box box fade-right">
                 <div class="tour_box_img">
-                    <img src="../img/phongcanh4.png" alt="">
+                    <img src="../../img/phongcanh4.png" alt="">
                 </div>
                 <div class="tour_box_tt">
                    <div class="nameandtime">
@@ -204,7 +204,7 @@
             </div>
             <div class="tour_box box fade-right">
                 <div class="tour_box_img">
-                    <img src="../img/phongcanh5.png" alt="">
+                    <img src="../../img/phongcanh5.png" alt="">
                 </div>
                 <div class="tour_box_tt">
                    <div class="nameandtime">
@@ -237,7 +237,7 @@
             </div>
             <div class="tour_box box fade-right">
                 <div class="tour_box_img">
-                    <img src="../img/phongcanh6.png" alt="">
+                    <img src="../../img/phongcanh6.png" alt="">
                 </div>
                 <div class="tour_box_tt">
                    <div class="nameandtime">
@@ -270,7 +270,7 @@
             </div>
             <div class="tour_box box fade-right">
                 <div class="tour_box_img">
-                    <img src="../img/phongcanh7.png" alt="">
+                    <img src="../../img/phongcanh7.png" alt="">
                 </div>
                 <div class="tour_box_tt">
                    <div class="nameandtime">
@@ -303,7 +303,7 @@
             </div>
             <div class="tour_box box fade-right">
                 <div class="tour_box_img">
-                    <img src="../img/phongcanh8.png" alt="">
+                    <img src="../../img/phongcanh8.png" alt="">
                 </div>
                 <div class="tour_box_tt">
                    <div class="nameandtime">
@@ -336,7 +336,7 @@
             </div>
             <div class="tour_box box fade-right">
                 <div class="tour_box_img">
-                    <img src="../img/phongcanh9.png" alt="">
+                    <img src="../../img/phongcanh9.png" alt="">
                 </div>
                 <div class="tour_box_tt">
                    <div class="nameandtime">
@@ -377,7 +377,7 @@
 
 
 
-     <?php include '../includes/footer.php'; ?>
-    <script src="../js/Main5.js"></script>
+     <?php include '../../includes/footer.php'; ?>
+    <script src="../../js/Main5.js"></script>
 </body>
 </html>

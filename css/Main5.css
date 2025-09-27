@@ -2350,9 +2350,9 @@ h2 {
 
 /* hết */
 /* history */
-.transaction-history {
-  /* max-width: 1000px; */
-}
+/* .transaction-history {
+  max-width: 1000px;
+} */
 
 .transaction-history h2 {
   font-size: 26px;
