@@ -1794,7 +1794,18 @@ span> svg{
  display: flex;
 }
 
-
+.left-btn {
+  float: left;         
+  margin-left: 0;       
+  text-align: left;    
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: none;
+  background-color: #cccccc;
+ align-items: center;
+    text-align: center;
+}
 
 .sidebar {
   width: 270px;
@@ -1824,8 +1835,9 @@ span> svg{
 }
 
 .provider {
-  color: gray;
-  font-size: 13px;
+  color: #000;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .vip-button {
