@@ -29,8 +29,9 @@
       <div class="profile">
         <button onclick="window.location.href = '../../html/Views/Webindex.php'" class="left-btn"><i class="bi bi-arrow-left-circle"></i></button>
         <div class="avatar">MN</div>
-        
-        <div class="provider">Nhật Minh</div>
+
+        <div class="provider"><?php echo $_SESSION['username']; ?></div>
+
         
       </div>
       <button class="vip-button"><i class="bi bi-box2-heart"></i> Bạn là ưu tiên hạng đầu của chúng tôi</button>

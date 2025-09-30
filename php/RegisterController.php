@@ -7,10 +7,10 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     $PASSWORD = $_POST['password'];
     $role = 'user';
 
-    $sql = "INSERT INTO users (name, email, password, role) VALUES ('$USERNAME', '$EMAIL', '$PASSWORD', '$role')";
+    $sql = "INSERT INTO user (name, email, password, role) VALUES ('$USERNAME', '$EMAIL', '$PASSWORD', '$role')";
     if ($conn->query($sql) === TRUE) {
         $_SESSION['username'] = $USERNAME;
-        echo "<script>window.location.href = '../html/views/WebIndex.php';</script>";
+        header("Location: ../Weblndex.php");
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
