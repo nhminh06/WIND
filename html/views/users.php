@@ -20,9 +20,19 @@
   
     <aside class="sidebar">
       <div class="profile">
-        <div class="avatar">MN</div>
-        <!-- <div class="name">Minh Nhật</div> -->
-        <div class="provider">Google</div>
+        <div class="avatar">
+          <?php
+          
+          ?>
+        </div>
+        <div class="provider">
+          <?php
+          if (isset($_SESSION['username'])) {
+            echo "<p>Xin chào, " . htmlspecialchars($_SESSION['username']) . "</p>";
+          } else {
+            echo "<p>Khách</p>";
+          }?>
+        </div>
       </div>
       <button class="vip-button"><i class="bi bi-box2-heart"></i> Bạn là ưu tiên hạng đầu của chúng tôi</button>
       <ul class="menu">

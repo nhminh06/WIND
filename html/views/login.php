@@ -50,8 +50,8 @@
         </div>
     </div>
     </form>
+
      <?php
-   
         if (isset($_SESSION['error'])) {
             echo "<script>
              textten.textContent = 'Tên đăng nhập hoặc mật khẩu sai';
@@ -62,6 +62,7 @@
             unset($_SESSION['error']);
         }
         ?>
+        
    </div>
  <script src="../../js/Main5.js"></script>   
 </body>
