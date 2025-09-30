@@ -1,6 +1,6 @@
    <div
          class="menusearch">
-            <div class="logo">
+            <div onclick="window.location.href = '../views/WebIndex.php'" class="logo">
                 <img src="../../img/logo.png" alt="">
             </div>
             <ul>
