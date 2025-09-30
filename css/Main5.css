@@ -330,6 +330,9 @@ header > h5{
 
 
 }
+.hd_lg{
+  display: block;
+}
 .menusearch > ul{
 display: flex;
 align-items: center;

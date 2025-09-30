@@ -1,3 +1,11 @@
+   <?php session_start() ?>
+   <?php
+     if(!empty($_SESSION['username'])){
+    
+    echo "<style>.hd_lg{display: none;}</style>";
+  }else{
+    echo "<style>.hd_lg{display: block;}</style>";}
+   ?>
    <div
          class="menusearch">
             <div onclick="window.location.href = '../views/WebIndex.php'" class="logo">
@@ -8,7 +16,7 @@
                 <li><a href="../views/about.php">Giới thiệu</a></li>
                 <li><a href="../views/tour.php">Tour</a></li>
                 <li><a href="../views/contact.php">Liên hệ</a></li>
-                <li><a href="../views/login.php">Đăng nhập</a></li>
+                <li class="hd_lg"><a href="../views/login.php">Đăng nhập</a></li>
             </ul>
             <div class="search">
                 <input type="text" placeholder="Tìm kiếm...">
