@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng ký</title>
-    <link rel="stylesheet" href="../../css/Main5.css">
+    <link rel="stylesheet" href="../../../css/Main5.css">
 </head>
 <body>
     <div class="bannervd">
         <video autoplay muted loop playsinline disablePictureInPicture>
-            <source src="../../Video/resgir.mp4">
+            <source src="../../../Video/resgir.mp4">
         </video>
-       <form action="../../php/RegisterController.php" method="POST" onsubmit="return xacnhan();">
+       <form action="../../../php/RegisterController.php" method="POST" onsubmit="return xacnhan();">
          <div class="register_font">
             <h1>Đăng ký</h1>
             <p id="textten">Tên đăng nhập:</p>
@@ -36,6 +36,6 @@
     
         </div>
        </form>
-    <script src="../../js/Main5.js"></script>
+    <script src="../../../js/Main5.js"></script>
 </body>
 </html>

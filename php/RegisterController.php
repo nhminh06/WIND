@@ -10,7 +10,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     $sql = "INSERT INTO user (name, email, password, role) VALUES ('$USERNAME', '$EMAIL', '$PASSWORD', '$role')";
     if ($conn->query($sql) === TRUE) {
         $_SESSION['username'] = $USERNAME;
-        header("Location: ../html/views/WebIndex.php");
+        header("Location: ../html/views/index/Webindex.php");
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
