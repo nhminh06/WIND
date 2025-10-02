@@ -21,10 +21,10 @@ if($user['role'] === 'admin'){
 
 
         $_SESSION['username'] = $username;
-        echo "<script>window.location.href = '../html/views/WebIndex.php';</script>";
+        echo "<script>window.location.href = '../html/views/index/WebIndex.php';</script>";
     } else {
         $_SESSION['error'] = "Tên đăng nhập hoặc mật khẩu không đúng.";
-         header("Location: ../html/views/login.php");
+         header("Location: ../html/views/index/login.php");
          exit();
     }
     

@@ -8,15 +8,15 @@
    ?>
    <div
          class="menusearch">
-            <div onclick="window.location.href = '../views/WebIndex.php'" class="logo">
-                <img src="../../img/logo.png" alt="">
+            <div onclick="window.location.href = '../../views/index/WebIndex.php'" class="logo">
+                <img src="../../../img/logo.png" alt="">
             </div>
             <ul>
-                <li><a href="../views/WebIndex.php">Trang chủ</a></li>
-                <li><a href="../views/about.php">Giới thiệu</a></li>
-                <li><a href="../views/tour.php">Tour</a></li>
-                <li><a href="../views/contact.php">Liên hệ</a></li>
-                <li class="hd_lg"><a href="../views/login.php">Đăng nhập</a></li>
+                <li><a href="../../views/index/WebIndex.php">Trang chủ</a></li>
+                <li><a href="../../views/index/about.php">Giới thiệu</a></li>
+                <li><a href="../../views/index/tour.php">Tour</a></li>
+                <li><a href="../../views/index/contact.php">Liên hệ</a></li>
+                <li class="hd_lg"><a href="../../views/index/login.php">Đăng nhập</a></li>
             </ul>
             <div class="search">
                 <input type="text" placeholder="Tìm kiếm...">
@@ -33,7 +33,7 @@
 </svg>
 
       </button>
-        <div onclick="window.location.href = '../views/users.php'" class="users_avata">
+        <div onclick="window.location.href = '../user/users.php'" class="users_avata">
         <img src="https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg" alt="">
       </div>
             </div>
