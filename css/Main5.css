@@ -19,12 +19,13 @@ body {
   display: none;
 }
 .users_avata{
-    width: 60px;
-    height: 60px;
+    width: 55px;
+    height: 55px;
     border-radius:50% ;
     background-color: #82b4c7;
     overflow: hidden;
     margin-left: 15px;
+    margin-right: 5px;
 
 }
 .users_avata > img{
@@ -330,12 +331,15 @@ header > h5{
 
 
 }
+.hd_lg{
+  display: block;
+}
 .menusearch > ul{
 display: flex;
 align-items: center;
 list-style: none;
 font-size: 22px;
-flex: 5;
+flex: 5.5;
 z-index: 2;
 justify-content: center;
 }
@@ -355,7 +359,7 @@ justify-content: center;
     transform: scale(1.2);
 }
 .search{
-    flex: 3;
+    flex: 2.5;
     display: flex;
     justify-content: center;
     align-items: center;
