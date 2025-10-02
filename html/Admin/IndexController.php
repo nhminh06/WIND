@@ -67,21 +67,22 @@
     </tbody>
   </table>
 </section>
-<div id="modalSua" class="modal-sua">
+<form action="../../php/IndexBannerCTL/UDBanner.php" method="POST" enctype="multipart/form-data">
+  <div id="modalSua" class="modal-sua">
   <div class="form-sua">
     <h2>Sửa địa điểm</h2>
 
     <label for="ten">Tên địa điểm</label>
-    <input type="text" id="ten">
+    <input name="ten" type="text" id="ten">
 
     <label for="mota">Mô tả</label>
-    <textarea id="mota"></textarea>
+    <textarea name="mota" id="mota"></textarea>
 
     <label for="anh1">Ảnh 1 (URL)</label>
-    <input type="text" id="anh1">
+    <input type="text" name="anh1" id="anh1">
 
     <label for="anh2">Ảnh 2 (URL)</label>
-    <input type="text" id="anh2">
+    <input type="text" name="anh2" id="anh2">
 
     <!-- Preview ảnh -->
     <div class="preview-images">
@@ -90,26 +91,28 @@
     </div>
 
     <div class="actions">
-      <button class="luu">Lưu</button>
+      <button type="submit" class="luu">Lưu</button>
       <button class="huy" onclick="anFormSua()">Hủy</button>
     </div>
   </div>
 </div>
-<div id="modalthem" class="modal-them">
+</form>
+<form action="../../php/IndexBannerCTL/IDaddBanner.php" method="POST" enctype="multipart/form-data">
+  <div id="modalthem" class="modal-them">
   <div class="form-sua">
     <h2>Thêm địa điểm</h2>
 
     <label for="ten">Tên địa điểm</label>
-    <input type="text" id="ten">
+    <input type="text" id="ten" name="ten" required>
 
     <label for="mota">Mô tả</label>
-    <textarea id="mota"></textarea>
+    <textarea id="mota" name="mota" required></textarea>
 
     <label for="anh1">Ảnh 1 (URL)</label>
-    <input type="text" id="anh1">
+    <input type="text" id="anh1" name="anh1" required>
 
     <label for="anh2">Ảnh 2 (URL)</label>
-    <input type="text" id="anh2">
+    <input type="text" id="anh2" name="anh2" required>
 
     <!-- Preview ảnh -->
     <div class="preview-images">
@@ -118,11 +121,12 @@
     </div>
 
     <div class="actions">
-      <button class="luu">Lưu</button>
+      <button type="submit" class="luu">Lưu</button>
       <button class="huy" onclick="anFormthem()">Hủy</button>
     </div>
   </div>
 </div>
+</form>
 
 
 

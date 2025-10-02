@@ -34,7 +34,7 @@
 
       </button>
         <div onclick="window.location.href = '../views/users.php'" class="users_avata">
-        <img src="https://i.pinimg.com/736x/ad/76/e5/ad76e544f4d3d2eca8dec9644867be85.jpg" alt="">
+        <img src="https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg" alt="">
       </div>
             </div>
           
