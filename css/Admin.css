@@ -50,18 +50,8 @@ td > textarea {
   color: #fff;
   border: none;
   resize: none;}
-/* Overlay tối khi mở form */
-.modal-sua {
-  display: none; /* ẩn mặc định */
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.7);
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-.modal-them {
+
+.modal-sua, .modal-them {
   display: none; /* ẩn mặc định */
   position: fixed;
   top: 0; left: 0;
@@ -72,8 +62,9 @@ td > textarea {
   z-index: 1000;
 }
 
-/* Nội dung form nằm giữa */
-.modal-sua .form-sua {
+/* Khung form chung */
+.modal-sua .form-sua,
+.modal-them .form-sua {
   background: #1e1e2f;
   padding: 20px;
   border-radius: 10px;
@@ -82,6 +73,7 @@ td > textarea {
   color: #fff;
   box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
+
 
 /* Label và input */
 .form-sua label {
