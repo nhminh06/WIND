@@ -16,7 +16,7 @@
 
 </head>
 <body>
-   
+
     <header>
         
         <div class="bannervd">
@@ -136,67 +136,55 @@
                 </div>
             </div>
          <h2>Địa điểm nổi bật</h2>
+
         <div class="demo">
-            <div class="demo_item">
-                <div class="demo_tt box fade-left">
-                   <h2> Vịnh Hạ Long – Kỳ quan thiên nhiên thế giới</h2>  
-                   <p>Vịnh Hạ Long là một kỳ quan thiên nhiên nổi tiếng của Việt Nam, nằm ở tỉnh Quảng Ninh với hàng nghìn đảo đá vôi kỳ vĩ nổi bật giữa làn nước xanh ngọc.</p>   
-                   <p>Nơi đây được UNESCO công nhận là Di sản thiên nhiên thế giới nhờ vẻ đẹp độc đáo, giá trị địa chất và hệ sinh thái đa dạng.</p>   
-                   <p>Du khách đến Vịnh Hạ Long sẽ được trải nghiệm hành trình khám phá hang động, chèo kayak và ngắm hoàng hôn tuyệt đẹp trên du thuyền giữa biển trời bao la.</p>   
-                   <p>Với sự kết hợp giữa thiên nhiên hùng vĩ và dịch vụ du lịch hiện đại, Vịnh Hạ Long luôn là điểm đến lý tưởng cho mọi du khách trong và ngoài nước.</p>
-                   <button onclick="window.location.href = 'detailed_tour.php'">Xem chi tiết</button>
-                </div>
-                <div class="demo_img box fade-up">
-                   <div class="demoimg"><img src="../../../img/vinhhalong1.png" alt=""></div>
-                   <div class="demoimg"><img src="../../../img/vinhhalong2.png" alt=""></div>
-                </div>
-            </div>
-            <div class="demo_item box fade-up">
-                 <div class="demo_img">
-                   <div class="demoimg"><img src="../../../img/nhatrang1.png" alt=""></div>
-                   <div class="demoimg"><img src="../../../img/nhatrang2.png" alt=""></div>
-                </div>
-                <div class="demo_tt box fade-right">
+        <?php 
+include '../../../db/db.php';
 
-                                <h2> Nha Trang – Viên ngọc biển Đông Việt Nam </h2>  
-                <p>Nha Trang là một trong những thành phố biển nổi tiếng của Việt Nam, nằm ở tỉnh Khánh Hòa với những bãi cát trắng mịn và làn nước biển trong xanh tuyệt đẹp.</p>   
-                <p>Nơi đây được mệnh danh là “viên ngọc của biển Đông” nhờ vào cảnh quan thiên nhiên quyến rũ, khí hậu ôn hòa và hệ sinh thái biển phong phú.</p>   
-                <p>Du khách đến Nha Trang sẽ được tận hưởng các hoạt động thú vị như lặn ngắm san hô, tham quan các hòn đảo xinh đẹp, tắm bùn khoáng và thưởng thức hải sản tươi ngon.</p>   
-                <p>Với sự hòa quyện giữa vẻ đẹp thiên nhiên và dịch vụ du lịch chuyên nghiệp, Nha Trang luôn là điểm đến lý tưởng cho những ai yêu biển và khám phá.</p>
+$sql1 = "SELECT * FROM banner WHERE trang_thai = 1";
+$result1 = mysqli_query($conn, $sql1);
+if (!$result1) { echo 'MySQL error: '.mysqli_error($conn); }
+$i = 1;
+while ($row1 = mysqli_fetch_assoc($result1)) { 
+  $i++;
+  if($i%2!=0){
+?>
+  <div class="demo_item box fade-up">
+    <div class="demo_img">
+      <div class="demoimg"><img src="<?php echo "../../../uploads/" .$row1['hinh_anh']; ?>" alt=""></div>
+      <div class="demoimg"><img src="<?php echo "../../../uploads/" .$row1['hinh_anh2']; ?>" alt=""></div>
+    </div>
 
-                   <button>Xem chi tiết</button>
-                </div>
-               
-            </div>
-            <div class="demo_item">
-                <div class="demo_tt box fade-left">
-                                        <h2> TP. Hồ Chí Minh – Thành phố năng động bậc nhất Việt Nam </h2>  
-                        <p>TP. Hồ Chí Minh là trung tâm kinh tế, văn hóa và giải trí lớn nhất cả nước, nổi bật với nhịp sống sôi động, các công trình kiến trúc mang đậm dấu ấn lịch sử và hiện đại.</p>   
-                        <p>Thành phố này là nơi giao thoa giữa nét cổ kính của Sài Gòn xưa và sự phát triển mạnh mẽ của một đô thị hiện đại, thu hút hàng triệu lượt khách du lịch mỗi năm.</p>   
-                        <p>Du khách đến TP. Hồ Chí Minh có thể tham quan Dinh Độc Lập, Nhà thờ Đức Bà, chợ Bến Thành, thưởng thức ẩm thực đường phố đặc sắc và trải nghiệm cuộc sống về đêm đầy màu sắc.</p>   
-                        <p>Với tinh thần cởi mở, hiếu khách và đa dạng văn hóa, TP. Hồ Chí Minh luôn là điểm đến hấp dẫn cho du khách trong và ngoài nước muốn khám phá vẻ đẹp của một thành phố không ngủ.</p>
-                        <button>Xem chi tiết</button>
-                </div>
-                <div class="demo_img box fade-up">
-                   <div class="demoimg"><img src="../../../img/hcm1.png" alt=""></div>
-                   <div class="demoimg"><img src="../../../img/hcm2.png" alt=""></div>
-                </div>
-            </div>
-            <div class="demo_item">
-                 <div class="demo_img box fade-up">
-                   <div class="demoimg"><img src="../../../img/sapa1.png" alt=""></div>
-                   <div class="demoimg"><img src="../../../img/sapa2.png" alt=""></div>
-                </div>
-                <div class="demo_tt box fade-right">
-                                <h2> Sa Pa – Vùng đất sương mờ và bản sắc Tây Bắc </h2>  
-                <p>Sa Pa là một thị trấn vùng cao thuộc tỉnh Lào Cai, nổi tiếng với cảnh quan núi non hùng vĩ, ruộng bậc thang tuyệt đẹp và khí hậu mát mẻ quanh năm.</p>   
-                <p>Nơi đây còn là nơi sinh sống của nhiều dân tộc thiểu số với bản sắc văn hóa độc đáo, tạo nên một không gian du lịch vừa hoang sơ vừa đậm đà truyền thống.</p>   
-                <p>Du khách đến Sa Pa có thể chinh phục đỉnh Fansipan, khám phá bản Cát Cát, tắm lá thuốc Dao đỏ và tận hưởng bầu không khí trong lành giữa biển mây lững lờ.</p>   
-                <p>Với vẻ đẹp tự nhiên quyến rũ và những trải nghiệm văn hóa đặc sắc, Sa Pa luôn là điểm đến lý tưởng cho những ai yêu thích khám phá và tìm kiếm sự bình yên giữa núi rừng Tây Bắc.</p>
-                <button>Xem chi tiết</button>
-                </div>
-               
-            </div>
+    <div class="demo_tt box fade-right">
+      <h2><?php echo $row1['tieu_de']; ?></h2>
+      <p><?php echo nl2br($row1['noi_dung']); ?></p>
+
+      <?php if (!empty($row1['link'])) {  ?>
+        <a href="<?php echo $row1['link']; ?>"><button>Xem chi tiết</button></a>
+      <?php } else { ?>
+        <button>Xem chi tiết</button>
+      <?php }  ?>
+    </div>
+  </div>
+<?php }else{
+  ?>
+    <div class="demo_item box fade-up">
+        <div class="demo_tt box fade-left">
+            <h2><?php echo $row1['tieu_de']; ?></h2>
+            <p><?php echo nl2br($row1['noi_dung']); ?></p>
+            <button>Xem chi tiết</button>
+        </div>
+        <div class="demo_img">
+            <div class="demoimg"><img src="<?php echo "../../../uploads/" .$row1['hinh_anh']; ?>" alt=""></div>
+            <div class="demoimg"><img src="<?php echo "../../../uploads/" .$row1['hinh_anh2']; ?>" alt=""></div>
+        </div>
+    </div>
+<?php 
+    }
+}
+
+?>
+
         </div>
         
      <h2 >Các tour nổi bật</h2>
