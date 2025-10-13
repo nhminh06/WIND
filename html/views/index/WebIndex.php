@@ -188,7 +188,7 @@ while ($row1 = mysqli_fetch_assoc($result1)) {
         </div>
         
      <h2 >Các tour nổi bật</h2>
-     <div class="tuor_list box fade-big-left">
+   <div class="tuor_list box fade-big-left">
         <button class="bttr">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
@@ -197,86 +197,22 @@ while ($row1 = mysqli_fetch_assoc($result1)) {
         </button>
       <div class="tour_slide">
         <div class="inner">
-             <div class="tour_item">
-        <img src="../../../img/phongcanh1.png " alt="">
+           <?php
+    include '../../../db/db.php';
+    $sql2 = "SELECT * FROM tour WHERE trang_thai = 1 AND loai_banner = 1";
+    $result2 = mysqli_query($conn, $sql2);
+    while ($row2 = mysqli_fetch_assoc($result2)) { ?>
+          <div class="tour_item">
+        <img src="<?php echo "../../../uploads/" . $row2['hinh_anh']; ?>" alt="">
         <div class="thongtin">
-             <h2>Hạ Long – Vịnh, Hang Sửng Sốt, Đảo Titop</h2>
-        <p>1 Ngày | 1.200.000 VNĐ</p>
+             <h2><?php echo $row2['ten_tour']; ?></h2>
+        <p><?php echo $row2['so_ngay']; ?> | <?php echo number_format($row2['gia'], 0, ',', '.'); ?> VNĐ</p>
             <button class="chitiet">Xem chi tiết</button>
         </div>
        </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh2.png " alt="">
-         <div class="thongtin">
-            <h2>HÀ NỘI – HỒ HOÀN KIẾM – 36 PHỐ PHƯỜNG</h2>
-        <p>1 Ngày | 2.200.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh3.png " alt="">
-         <div class="thongtin">
-            <h2>SAPA – BẢN CÁT CÁT, NÚI HÀM RỒNG</h2>
-        <p>2 Ngày | 2.800.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh4.png " alt="">
-         <div class="thongtin">
-            <h2>ĐÀ NẴNG – Bà Nà Hills, Cầu Vàng, Biển Mỹ Khê</h2>
-        <p>2 Ngày | 2.800.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh5.png " alt="">
-         <div class="thongtin">
-            <h2>ĐÀ LẠT – Thung Lũng Tình Yêu, Đồi Chè Cầu Đất, Que Garden</h2>
-        <p>(3 Ngày / 2 Đêm) | 2.800.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh6.png " alt="">
-         <div class="thongtin">
-            <h2>NHA TRANG – Đảo Yến, VinWonders, Tháp Bà Ponagar</h2>
-        <p>(3 Ngày / 2 Đêm) | 2.900.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh7.png " alt="">
-         <div class="thongtin">
-            <h2>QUY NHƠN – Kỳ Co, Eo Gió, Hòn Khô</h2>
-        <p>(3 Ngày / 2 Đêm) | 2.950.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh8.png " alt="">
-         <div class="thongtin">
-            <h2>TP. HỒ CHÍ MINH – Dinh Độc Lập, Nhà Thờ Đức Bà, Bến Nhà Rồng</h2>
-        <p>(1 Ngày) | 1.200.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh9.png " alt="">
-         <div class="thongtin">
-            <h2>HUẾ – Đại Nội, Chùa Thiên Mụ, Lăng Khải Định</h2>
-        <p>(2 Ngày / 1 Đêm) | 2.400.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
+
+
+    <?php } ?>
         </div>
       </div>
         <button class="btp">
@@ -296,86 +232,22 @@ while ($row1 = mysqli_fetch_assoc($result1)) {
         </button>
       <div class="tour_slide">
         <div class="inner">
-             <div class="tour_item">
-        <img src="../../../img/phongcanh1.png " alt="">
+              <?php
+    include '../../../db/db.php';
+    $sql2 = "SELECT * FROM tour WHERE trang_thai = 1 AND loai_banner = 2";
+    $result2 = mysqli_query($conn, $sql2);
+    while ($row2 = mysqli_fetch_assoc($result2)) { ?>
+          <div class="tour_item">
+        <img src="<?php echo "../../../uploads/" . $row2['hinh_anh']; ?>" alt="">
         <div class="thongtin">
-             <h2>Hạ Long – Vịnh, Hang Sửng Sốt, Đảo Titop</h2>
-        <p>1 Ngày | 1.200.000 VNĐ</p>
+             <h2><?php echo $row2['ten_tour']; ?></h2>
+        <p><?php echo $row2['so_ngay']; ?> | <?php echo number_format($row2['gia'], 0, ',', '.'); ?> VNĐ</p>
             <button class="chitiet">Xem chi tiết</button>
         </div>
        </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh2.png " alt="">
-         <div class="thongtin">
-            <h2>HÀ NỘI – HỒ HOÀN KIẾM – 36 PHỐ PHƯỜNG</h2>
-        <p>1 Ngày | 2.200.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh3.png " alt="">
-         <div class="thongtin">
-            <h2>SAPA – BẢN CÁT CÁT, NÚI HÀM RỒNG</h2>
-        <p>2 Ngày | 2.800.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh4.png " alt="">
-         <div class="thongtin">
-            <h2>ĐÀ NẴNG – Bà Nà Hills, Cầu Vàng, Biển Mỹ Khê</h2>
-        <p>2 Ngày | 2.800.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh5.png " alt="">
-         <div class="thongtin">
-            <h2>ĐÀ LẠT – Thung Lũng Tình Yêu, Đồi Chè Cầu Đất, Que Garden</h2>
-        <p>(3 Ngày / 2 Đêm) | 2.800.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh6.png " alt="">
-         <div class="thongtin">
-            <h2>NHA TRANG – Đảo Yến, VinWonders, Tháp Bà Ponagar</h2>
-        <p>(3 Ngày / 2 Đêm) | 2.900.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh7.png " alt="">
-         <div class="thongtin">
-            <h2>QUY NHƠN – Kỳ Co, Eo Gió, Hòn Khô</h2>
-        <p>(3 Ngày / 2 Đêm) | 2.950.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh8.png " alt="">
-         <div class="thongtin">
-            <h2>TP. HỒ CHÍ MINH – Dinh Độc Lập, Nhà Thờ Đức Bà, Bến Nhà Rồng</h2>
-        <p>(1 Ngày) | 1.200.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh9.png " alt="">
-         <div class="thongtin">
-            <h2>HUẾ – Đại Nội, Chùa Thiên Mụ, Lăng Khải Định</h2>
-        <p>(2 Ngày / 1 Đêm) | 2.400.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
+
+
+    <?php } ?>
         </div>
       </div>
         <button class="btp">

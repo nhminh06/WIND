@@ -9,6 +9,50 @@ body {
   background: #1e1e2f; /* nền tối */
   color: #ecf0f1;      /* chữ sáng */
 }
+/* TOUR */
+#tourTable {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+thead.table-primary {
+  background-color: #4f46e5 !important;
+  color: white;
+}
+
+#tourTable th, #tourTable td {
+  vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #2a2e3d; /* phù hợp nền tối */
+}
+
+.btn-warning, .btn-danger {
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.btn-warning {
+  background-color: #f59e0b;
+  border: none;
+}
+
+.btn-warning:hover {
+  background-color: #eab308;
+}
+
+.btn-danger {
+  background-color: #dc2626;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #b91c1c;
+}
+
+/* HẾT */
 .content button.add {
   background: #198754;
   color: #fff;
@@ -18,6 +62,7 @@ body {
   cursor: pointer;
   margin-bottom: 10px;
 }
+
 .content table {
   width: 100%;
   border-collapse: collapse;
@@ -38,6 +83,14 @@ td.mota {
   white-space: pre-line; /* giữ xuống dòng trong textarea */
   overflow-y: auto;
   
+}
+ .sidebar,
+.sidebar ul,
+.sidebar li,
+.sidebar a ,
+.logo
+{
+  line-height: normal !important; /* hoặc 1.2 nếu bạn muốn gọn hơn */
 }
 .img2ad{
   display: flex;
