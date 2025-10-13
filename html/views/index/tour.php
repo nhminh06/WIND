@@ -263,7 +263,6 @@
 </svg> <p>3 ngày</p>
 
                         </div>
-                        <button class="tour_button">Xem Chi Tiết</button>
                      </div>
                      
                 </div>
