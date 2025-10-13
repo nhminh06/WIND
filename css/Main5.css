@@ -1462,6 +1462,7 @@ margin-left: auto;
     border: 1px solid;
     border-radius: 5px;
      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);  
+     height: auto;
 }
 
 .detailed_dichvu > h2{
@@ -1556,13 +1557,13 @@ margin-left: auto;
 .detailed_dichvu > ul > li::before{
     content: "✓";
     margin-right:5px ;
-    color: #0a204d;
+    color: #fff;
 
 }
 .detailed_dichvu_s2 > ul > li::before{
     content: "-";
     margin-right:5px ;
-    color: #0a204d;
+    color: #FFF;
 
 }
 .detailed_item_list{
@@ -1599,6 +1600,7 @@ margin-left: auto;
     padding: 15px;
     display: flex;
     flex-direction: column;
+    flex: 7;
 
 }
 .detailed_item_tt >p:first-child{

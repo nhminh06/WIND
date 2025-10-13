@@ -99,7 +99,8 @@ while ($row = mysqli_fetch_assoc($result)) {
           <td>
             <button class="edit" onclick="openEditForm(this)">Sửa</button>
             <?php if ($r['id']): ?>
-              <button class="delete" onclick="window.location.href='../../php/IndexBannerCTL/DLTBanner.php?id=<?= $r['id'] ?>'">Xóa</button>
+              <button class="delete" onclick="confirmXoa(<?= $r['id'] ?>)">Xóa</button>
+
             <?php else: ?>
               <button class="delete" disabled>Xóa</button>
             <?php endif; ?>
@@ -165,6 +166,11 @@ function openEditForm(btn) {
   document.getElementById("modalSua").style.display = "flex";
 }
 
+function confirmXoa(id) {
+  if (confirm("⚠️ Bạn có chắc chắn muốn xóa địa điểm này không?")) {
+    window.location.href = '../../php/IndexBannerCTL/DLTBanner.php?id=' + id;
+  }
+}
 
 function closeEditForm() {
   document.getElementById("modalSua").style.display = "none";

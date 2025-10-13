@@ -15,7 +15,12 @@
 
 
         <div class="detailed_tour_container">
-          <h1>Hạ Long – Khám phá Vịnh Hạ Long, Hang Sửng Sốt & Đảo Titop (1 ngày)</h1>
+          <h1><?php
+          include '../../../db/db.php';
+          $tentour = "SELECT * FROM tour WHERE id= 1";
+          $rltentour = mysqli_query($conn, $tentour);
+          $laytentour = mysqli_fetch_assoc($rltentour);
+          echo $laytentour['ten_tour']; ?></h1>
           <div class="cmt">
                            <p> <span class="dg">9.2</span><span class="dg2">Tuyệt Vời </span>| 23 Đánh Giá</p>
                         </div>
@@ -30,26 +35,30 @@
 
         </button>
                                 <div class="inner4">
-                                  <img src="../../../img/phongcanh1.png" alt="">
-                                  <img src="../../../img/phongcanh2.png" alt="">
-                                  <img src="../../../img/phongcanh3.png" alt="">
-                                  <img src="../../../img/phongcanh4.png" alt="">
-                                  <img src="../../../img/phongcanh5.png" alt="">
+                                  <?php
+                                  include '../../../db/db.php';
+                                  $hinhanh = "SELECT * FROM tour_anh WHERE tour_id= 1";
+                                  $rlhinhanh = mysqli_query($conn, $hinhanh);
+                                  while($layhinhanh = mysqli_fetch_assoc($rlhinhanh)){?>
+                                  <img src="<?php echo  "../../../uploads/" .$layhinhanh['hinh_anh'] ?>" alt="">
+                                  <?php }?>
                                 </div>
                                       <button class="btp">
             <svg style="color: aliceblue;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-</svg>
+</svg>''
 
         </button>
                               </div>
                           <div class="main_slide_detailed">
                               <div class="slide_detailed">
-                            <img src="../../../img/phongcanh1.png" alt="">
-                            <img src="../../../img/phongcanh2.png" alt="">
-                            <img src="../../../img/phongcanh3.png" alt="">
-                            <img src="../../../img/phongcanh4.png" alt="">
-                            <img src="../../../img/phongcanh5.png" alt="">
+                               <?php
+                                  include '../../../db/db.php';
+                                  $hinhanh = "SELECT * FROM tour_anh WHERE tour_id= 1";
+                                  $rlhinhanh = mysqli_query($conn, $hinhanh);
+                                  while($layhinhanh = mysqli_fetch_assoc($rlhinhanh)){?>
+                                  <img src="<?php echo  "../../../uploads/" .$layhinhanh['hinh_anh'] ?>" alt="">
+                                  <?php }?>
                       
                               <div class="img_bd"></div>
                             </div>
@@ -61,7 +70,13 @@
                             <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
   <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-</svg>    <p>Khởi hành từ: </p> <strong>Hồ Chí Minh</strong></span>
+</svg>     <?php
+                            include '../../../db/db.php';
+                            $sql_tct = "SELECT * FROM tour_chi_tiet WHERE tour_id = 1";
+                            $result_tct = mysqli_query($conn, $sql_tct);
+                            $tct = mysqli_fetch_assoc($result_tct);
+                            echo "<p>Khởi hành từ: </p> <strong>" . $tct['diem_khoi_hanh'] . "</strong></span>"
+                            ?>
                           
                           </div>
                           <div class="phuongtien">
@@ -75,72 +90,68 @@
                             </span>
                           </div>
                           <div class="matour">
-                            <span>Mã Tuor: <strong>NH2207</strong></span>
+                            <?php
+                            include '../../../db/db.php';
+                            $sql_tct = "SELECT * FROM tour_chi_tiet WHERE tour_id = 1";
+                            $result_tct = mysqli_query($conn, $sql_tct);
+                            $tct = mysqli_fetch_assoc($result_tct);
+                            echo "<span>Mã Tuor: <strong>" . $tct['ma_tour'] . "</strong></span>"
+                            ?>
                           </div>
                          </div>
                           <hr>
                           <h2>Tour Trọn Gói bao gồm</h2>
-                       <ul>
-                        <li>Vé máy bay</li>
-                        <li>Khách sạn 3-4*</li>
-                        <li>Bữa ăn</li>
-                        <li>Xe tham quan</li>
-                        <li>Vé tham quan</li>
-                        <li>Hướng dẫn viên</li>
-                        <li>Bảo hiểm du lịch</li>
+                   <ul>
+                      <?php
+                      include '../../../db/db.php';
+                      $sql_dv = "SELECT * FROM dich_vu WHERE tour_id = 1";
+                      $result_dv = mysqli_query($conn, $sql_dv);
+
+                      if (mysqli_num_rows($result_dv) > 0) {
+                          while ($dv = mysqli_fetch_assoc($result_dv)) {
+                              echo "<li> " .$dv['ten_dich_vu'] . "</li>";
+                          }
+                      } else {
+                          echo "<li>Chưa có dịch vụ nào được thêm cho tour này.</li>";
+                      }
+                      ?>
                       </ul>
 
                         </div>
                         <div class="detailed_dichvu_s2">
                           <h2>Trải nghiệm thú vị trong tour</h2>
                           <ul >
-                            <li>Khám phá Vịnh Hạ Long tuyệt đẹp</li>
-                            <li>Tham quan Hang Sửng Sốt – một trong những hang động lớn nhất</li>
-                            <li>Tắm biển & leo núi tại Đảo Titop</li>
-                            <li>Trải nghiệm đi thuyền trên vịnh</li>
-                            <li>Chiêm ngưỡng cảnh quan thiên nhiên kỳ vĩ</li>
-                            <li>Ghi hình lưu niệm tại các điểm nổi tiếng</li>
+                           <?php
+                           include '../../../db/db.php';
+                           $sql_tn = "SELECT * FROM trai_nghiem WHERE tour_id= 1";
+                           $result_tn = mysqli_query($conn, $sql_tn);
+                           while($row_tn = mysqli_fetch_assoc($result_tn)){?>
+                            <li><?php echo $row_tn['noi_dung']; ?></li>
+                           <?php }
+                           ?>
                           </ul>
                         </div>  
                         <div class="detailed_dichvu_s2">
                             <h2>Chương trình tour</h2>
                             <div class="detailed_item_list">
-                              <div class="detailed_item">
-                                <div class="detailed_item_img"><img src="../../../img/phongcanh1.png" alt="">
+                            
+                            
+                         <?php
+                         include '../../../db/db.php';
+                          $sql_lt = "SELECT * FROM lich_trinh WHERE tour_id= 1";
+                          $result_lt = mysqli_query($conn, $sql_lt);
+                          while($row_lt = mysqli_fetch_assoc($result_lt)){?>
+                            <div class="detailed_item">
+                                <div class="detailed_item_img"><img src="<?php echo "../../../uploads/" . $row_lt['hinh_anh']; ?>" alt="">
                                
                                 </div>
                                 <div class="detailed_item_tt">
-                                   <p>Ngày 1</p>
-                                <p>..............................................</p>
+                                   <p><?php echo "Ngày: " . $row_lt['ngay']; ?></p>
+                                <p><?php echo  $row_lt['noi_dung']; ?></p>
                                 </div>
                               </div> 
-                              <div class="detailed_item">
-                                <div class="detailed_item_img"><img src="../../../img/phongcanh1.png" alt="">
-                               
-                                </div>
-                                <div class="detailed_item_tt">
-                                   <p>Ngày 2</p>
-                                <p>..............................................</p>
-                                </div>
-                              </div> 
-                              <div class="detailed_item">
-                                <div class="detailed_item_img"><img src="../../../img/phongcanh1.png" alt="">
-                               
-                                </div>
-                                <div class="detailed_item_tt">
-                                   <p>Ngày 3</p>
-                                <p>..............................................</p>
-                                </div>
-                              </div> 
-                              <div class="detailed_item">
-                                <div class="detailed_item_img"><img src="../../../img/phongcanh1.png" alt="">
-                               
-                                </div>
-                                <div class="detailed_item_tt">
-                                   <p>Ngày 4</p>
-                                <p>..............................................</p>
-                                </div>
-                              </div> 
+                          <?php } ?>
+                         
                             
                               
                             </div>
@@ -148,88 +159,54 @@
                         </div>
                        <div class="detailed_dichvu_s2">
                               <h2>Lưu ý chi tiết</h2>
+                              <h3>Di chuyển</h3>
+                                        <ul>
+                                          <li>Vé máy bay khứ hồi thường bao gồm 7kg hành lý xách tay và 10kg hành lý ký gửi. Vui lòng kiểm tra kỹ thông tin vé trước khi khởi hành.</li>
+                                          <li>Phương tiện di chuyển trong tour sẽ được bố trí theo chương trình, bao gồm xe đưa đón và tàu du lịch nếu có.</li>
+                                          <li>Chi phí cầu đường, bến bãi và bảo hiểm vận chuyển đã được tính trong giá tour.</li>
+                                        </ul>
 
-                              <h3>Vận chuyển</h3>
-                              <ul>
-                                <li>Vé máy bay khứ hồi Hồ Chí Minh – Hà Nội (gồm 7kg hành lý xách tay và 10kg ký gửi)</li>
-                                <li>Xe đưa đón tham quan theo chương trình: Hà Nội – Hạ Long – Hà Nội</li>
-                                <li>Phí cầu đường, bến bãi và bảo hiểm vận chuyển</li>
-                              </ul>
+                                        <h3>Lưu trú</h3>
+                                        <ul>
+                                          <li>Tour trong ngày không bao gồm lưu trú qua đêm. Nếu có nhu cầu nghỉ lại, vui lòng liên hệ để được tư vấn thêm.</li>
+                                          <li>Điểm nghỉ ngơi có thể là tàu du lịch chất lượng hoặc nhà hàng nổi, tùy theo lịch trình cụ thể.</li>
+                                        </ul>
 
-                              <h3>Lưu trú</h3>
-                              <ul>
-                                <li>Không lưu trú qua đêm – tour trong ngày</li>
-                                <li>Nghỉ ngơi trên tàu du lịch chất lượng hoặc nhà hàng nổi (theo chương trình)</li>
-                              </ul>
-
-                              <h3>Khác</h3>
-                              <ul>
-                                <li>Bữa trưa hải sản trên tàu hoặc nhà hàng địa phương</li>
-                                <li>Vé vào cổng các điểm tham quan: Vịnh Hạ Long, Hang Sửng Sốt, Đảo Titop</li>
-                                <li>Hướng dẫn viên chuyên nghiệp theo đoàn từ Hà Nội</li>
-                                <li>Quà tặng: nón du lịch, bao hộ chiếu</li>
-                                <li>Bảo hiểm du lịch (mức đền bù tối đa 10.000 USD/trường hợp)</li>
-                              </ul>
+                                        <h3>Khác</h3>
+                                        <ul>
+                                          <li>Bữa ăn chính thường là hải sản, phục vụ trên tàu hoặc tại nhà hàng địa phương. Vui lòng thông báo trước nếu có yêu cầu đặc biệt về chế độ ăn.</li>
+                                          <li>Vé tham quan các điểm du lịch nổi bật đã bao gồm trong giá tour (ví dụ: Vịnh Hạ Long, Hang Sửng Sốt, Đảo Titop).</li>
+                                          <li>Hướng dẫn viên chuyên nghiệp sẽ đồng hành cùng đoàn để hỗ trợ và cung cấp thông tin trong suốt hành trình.</li>
+                                          <li>Quà tặng du lịch như nón và bao hộ chiếu sẽ được phát cho khách tham gia tour.</li>
+                                          <li>Bảo hiểm du lịch được áp dụng cho toàn bộ hành trình, với mức đền bù tối đa 10.000 USD/trường hợp.</li>
+                                        </ul>
                             </div>
                               <div class="detailed_dichvu_s2">
                                 <h3>Đánh giá của khác hàng</h3>
                                 <div class="cmt_main">
+                                  
+                                 <?php
+                                 include '../../../db/db.php';
+                                 $danhgia ="SELECT * FROM danh_gia WHERE tour_id= 1";
+                                  $resultdanhgia = mysqli_query($conn, $danhgia);
+                                  while($rowdanhgia = mysqli_fetch_assoc($resultdanhgia)){?>
+                                  
                                   <div class="cmt_item">
                                     <div class="cmt_item_avata">
-                                      <img src="https://i.pinimg.com/736x/2b/71/3a/2b713a752e266a4c2044146b66dfd035.jpg" alt="">
+                                      <img src="<?php echo $rowdanhgia['hinh_anh']; ?>" alt="">
                                       <div class="cmt_item_name">
-                                        <p>Nguyễn Văn Hải</p>
+                                        <p><?php echo $rowdanhgia['ten_khach_hang']; ?></p>
                                       </div>
                                     </div>
                                     <div class="cmt_item_main">
-                                       <p> <span class="dg">9.2</span><span class="dg2">Tuyệt Vời </span></p>
+                                       <p> <span class="dg"><?php echo $rowdanhgia['diem']; ?></span><span class="dg2">Tuyệt Vời </span></p>
                                     </div>
                                     <div class="cmt_item_text">
-                                     <p>Hướng dẫn viên vui tính, lịch trình rõ ràng. Rất đáng tiền!</p>
+                                     <p><?php echo $rowdanhgia['nhan_xet']; ?></p>
                                     </div>
                                   </div>
-                                  <div class="cmt_item">
-                                    <div class="cmt_item_avata">
-                                      <img src="https://i.pinimg.com/736x/a8/3d/90/a83d90a0555550c5b456bcbce183795d.jpg" alt="">
-                                      <div class="cmt_item_name">
-                                        <p>Nguyễn Thị Thanh Thảo</p>
-                                      </div>
-                                    </div>
-                                    <div class="cmt_item_main">
-                                       <p> <span class="dg">9.2</span><span class="dg2">Tuyệt Vời </span></p>
-                                    </div>
-                                    <div class="cmt_item_text">
-                                     <p>Hướng dẫn viên vui tính, lịch trình rõ ràng. Rất đáng tiền!</p>
-                                    </div>
-                                  </div>
-                                  <div class="cmt_item">
-                                    <div class="cmt_item_avata">
-                                      <img src="https://i.pinimg.com/736x/f4/23/67/f423672c264140b80fae712f5ef9b81e.jpg" alt="">
-                                      <div class="cmt_item_name">
-                                        <p>Trần Dạ</p>
-                                      </div>
-                                    </div>
-                                    <div class="cmt_item_main">
-                                       <p> <span class="dg">9.2</span><span class="dg2">Tuyệt Vời </span></p>
-                                    </div>
-                                    <div class="cmt_item_text">
-                                     <p>Hướng dẫn viên vui tính, lịch trình rõ ràng. Rất đáng tiền!</p>
-                                    </div>
-                                  </div>
-                                  <div class="cmt_item">
-                                    <div class="cmt_item_avata">
-                                      <img src="https://i.pinimg.com/736x/46/f7/dc/46f7dcdb0430590c9c990269e4bddbff.jpg" alt="">
-                                      <div class="cmt_item_name">
-                                        <p>Vũ Kiến Đạt</p>
-                                      </div>
-                                    </div>
-                                    <div class="cmt_item_main">
-                                       <p> <span class="dg">9.2</span><span class="dg2">Tuyệt Vời </span></p>
-                                    </div>
-                                    <div class="cmt_item_text">
-                                     <p>Hướng dẫn viên vui tính, lịch trình rõ ràng. Rất đáng tiền!</p>
-                                    </div>
-                                  </div>
+                                  <?php }?>
+                                 
                                 </div>
                               </div>
                           </div>
@@ -304,33 +281,27 @@
                         </div>
 <h2>Các tour gợi ý</h2>
                       <div class="proposal box fade-up">
-                           <div class="tour_item">
-        <img src="../../../img/phongcanh2.png " alt="">
-         <div class="thongtin">
-            <h2>HÀ NỘI – HỒ HOÀN KIẾM – 36 PHỐ PHƯỜNG</h2>
-        <p>1 Ngày | 2.200.000 VNĐ</p>
+                          
+                         <?php
+    include '../../../db/db.php';
+    $sql2 = "SELECT * FROM tour WHERE trang_thai = 1 AND loai_banner = 1";
+    $result2 = mysqli_query($conn, $sql2);
+    $h = 0;
+    while ($row2 = mysqli_fetch_assoc($result2)) {
+      $h++; if ($h > 3 ) break;
+      ?>
+  
+          <div class="tour_item">
+        <img src="<?php echo "../../../uploads/" . $row2['hinh_anh']; ?>" alt="">
+        <div class="thongtin">
+             <h2><?php echo $row2['ten_tour']; ?></h2>
+        <p><?php echo $row2['so_ngay']; ?> | <?php echo number_format($row2['gia'], 0, ',', '.'); ?> VNĐ</p>
             <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
+        </div>
        </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh3.png " alt="">
-         <div class="thongtin">
-            <h2>SAPA – BẢN CÁT CÁT, NÚI HÀM RỒNG</h2>
-        <p>2 Ngày | 2.800.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
-       <div class="tour_item">
-        <img src="../../../img/phongcanh4.png " alt="">
-         <div class="thongtin">
-            <h2>ĐÀ NẴNG – Bà Nà Hills, Cầu Vàng, Biển Mỹ Khê</h2>
-        <p>2 Ngày | 2.800.000 VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
-         </div>
-    
-       </div>
+
+
+    <?php } ?>           
                       </div>
 
 
