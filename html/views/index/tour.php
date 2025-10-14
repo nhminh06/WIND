@@ -105,7 +105,8 @@
 </svg> <p><?php echo $row_httour['so_ngay']; ?></p>
 
                         </div>
-                        <button onclick="window.location.href = 'detailed_tour.php'" class="tour_button">Xem Chi Tiết</button>
+                       <button onclick="window.location.href='detailed_tour.php?id=<?php echo $row_httour['id']; ?>'" class="tour_button">Xem Chi Tiết</button>
+
                      </div>
                      
                 </div>

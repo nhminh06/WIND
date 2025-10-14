@@ -199,7 +199,7 @@ while ($row1 = mysqli_fetch_assoc($result1)) {
         <div class="inner">
            <?php
     include '../../../db/db.php';
-    $sql2 = "SELECT * FROM tour WHERE trang_thai = 1 AND loai_banner = 1";
+    $sql2 = "SELECT * FROM tour WHERE trang_thai = 1 AND loai_banner = 1 LIMIT 9";
     $result2 = mysqli_query($conn, $sql2);
     while ($row2 = mysqli_fetch_assoc($result2)) { ?>
           <div class="tour_item">
@@ -234,7 +234,7 @@ while ($row1 = mysqli_fetch_assoc($result1)) {
         <div class="inner">
               <?php
     include '../../../db/db.php';
-    $sql2 = "SELECT * FROM tour WHERE trang_thai = 1 AND loai_banner = 2";
+    $sql2 = "SELECT * FROM tour WHERE trang_thai = 1 AND loai_banner = 2 LIMIT 9";
     $result2 = mysqli_query($conn, $sql2);
     while ($row2 = mysqli_fetch_assoc($result2)) { ?>
           <div class="tour_item">
