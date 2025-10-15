@@ -216,7 +216,7 @@
           </tr>
           <?php
           include '../../db/db.php';
-          $sql_hienthitour = "SELECT * FROM tour WHERE trang_thai = 1";
+          $sql_hienthitour = "SELECT * FROM tour";
           $result_hienthi = mysqli_query($conn, $sql_hienthitour);
           while ($row_ht = mysqli_fetch_assoc($result_hienthi)) {
           ?> 
@@ -227,8 +227,16 @@
             <th><?php echo $row_ht['so_ngay']; ?></th>
             <th><?php echo $row_ht['gia']; ?></th>
             <th class="text-center">
-              <button class="btn btn-warning">Sửa</button>
-              <button class="btn btn-danger">Xóa</button>
+              <button onclick="window.location.href='../../php/tourCTL/UDtour.php?id=<?php echo $row_ht['id']; ?>'" class="btn btn-warning"><i class="bi bi-pen-fill"></i></button>
+           <button onclick="confirmDelete(<?php echo $row_ht['id']; ?>, '<?php echo addslashes($row_ht['ten_tour']); ?>')" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></button>
+           <button  onclick="window.location.href='../../php/tourCTL/Hiddentour.php?id=<?php echo $row_ht['id']; ?>'" class="btn btn-info"><?php 
+if ($row_ht['trang_thai'] == 1) {
+    echo '<i class="bi bi-eye-fill"></i>'; 
+} else {
+    echo '<i class="bi bi-eye-slash-fill"></i>'; 
+}
+?>
+</button>
             </th>
           </tr>
           <?php } ?>
@@ -250,7 +258,13 @@
       }
     });
   </script>
-
+<script>
+function confirmDelete(tourId, tourName) {
+    if (confirm('Bạn có chắc muốn xóa tour "' + tourName + '" không?')) {
+        window.location.href = '../../php/tourCTL/DLTtour.php?id=' + tourId;
+    }
+}
+</script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   
 </body>

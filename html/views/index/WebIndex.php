@@ -206,8 +206,8 @@ while ($row1 = mysqli_fetch_assoc($result1)) {
         <img src="<?php echo "../../../uploads/" . $row2['hinh_anh']; ?>" alt="">
         <div class="thongtin">
              <h2><?php echo $row2['ten_tour']; ?></h2>
-        <p><?php echo $row2['so_ngay']; ?> | <?php echo number_format($row2['gia'], 0, ',', '.'); ?> VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
+        <p><?php echo $row2['so_ngay'] . " Ngày"; ?> | <?php echo number_format($row2['gia'], 0, ',', '.'); ?> VNĐ</p>
+            <button onclick="window.location.href='detailed_tour.php?id=<?php echo $row2['id']; ?>'" class="chitiet">Xem chi tiết</button>
         </div>
        </div>
 
@@ -241,8 +241,8 @@ while ($row1 = mysqli_fetch_assoc($result1)) {
         <img src="<?php echo "../../../uploads/" . $row2['hinh_anh']; ?>" alt="">
         <div class="thongtin">
              <h2><?php echo $row2['ten_tour']; ?></h2>
-        <p><?php echo $row2['so_ngay']; ?> | <?php echo number_format($row2['gia'], 0, ',', '.'); ?> VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
+        <p><?php echo $row2['so_ngay'] . " Ngày"; ?> | <?php echo number_format($row2['gia'], 0, ',', '.'); ?> VNĐ</p>
+            <button onclick="window.location.href='detailed_tour.php?id=<?php echo $row2['id']; ?>'" class="chitiet">Xem chi tiết</button>
         </div>
        </div>
 

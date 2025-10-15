@@ -83,6 +83,6 @@ foreach ($traiNghiemArr as $tn) {
         }
     }
 
-   header("Location: ../../html/Admin/TourController.php");
+   header("Location: ../../html/views/index/detailed_tour.php?id=$tour_id");
 }
 ?>

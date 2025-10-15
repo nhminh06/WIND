@@ -300,7 +300,15 @@ i{
    color: #90caf9; 
   
 }
-
+i{
+  color: #fff;
+}
+.btn i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
 /* Quản lý trang chủ */
 
 
