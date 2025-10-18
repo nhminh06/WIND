@@ -97,9 +97,9 @@ while ($row = mysqli_fetch_assoc($result)) {
             </div>
           </td>
           <td>
-            <button class="edit" onclick="openEditForm(this)">Sửa</button>
+            <button class="edit" onclick="openEditForm(this)"><i class="bi bi-pen-fill"></i></button>
             <?php if ($r['id']): ?>
-              <button class="delete" onclick="confirmXoa(<?= $r['id'] ?>)">Xóa</button>
+              <button class="delete" onclick="confirmXoa(<?= $r['id'] ?>)"><i class="bi bi-trash3-fill"></i></button>
 
             <?php else: ?>
               <button class="delete" disabled>Xóa</button>

@@ -13,11 +13,13 @@
 <body>
    <?php include '../../../includes/header.php';?>
 
-
+          <?php 
+          $matour = $_GET['id'];
+          ?>
         <div class="detailed_tour_container">
           <h1><?php
           include '../../../db/db.php';
-          $tentour = "SELECT * FROM tour WHERE id= 1";
+          $tentour = "SELECT * FROM tour WHERE id= $matour";
           $rltentour = mysqli_query($conn, $tentour);
           $laytentour = mysqli_fetch_assoc($rltentour);
           echo $laytentour['ten_tour']; ?></h1>
@@ -37,7 +39,7 @@
                                 <div class="inner4">
                                   <?php
                                   include '../../../db/db.php';
-                                  $hinhanh = "SELECT * FROM tour_anh WHERE tour_id= 1";
+                                  $hinhanh = "SELECT * FROM tour_anh WHERE tour_id= $matour";
                                   $rlhinhanh = mysqli_query($conn, $hinhanh);
                                   while($layhinhanh = mysqli_fetch_assoc($rlhinhanh)){?>
                                   <img src="<?php echo  "../../../uploads/" .$layhinhanh['hinh_anh'] ?>" alt="">
@@ -54,7 +56,7 @@
                               <div class="slide_detailed">
                                <?php
                                   include '../../../db/db.php';
-                                  $hinhanh = "SELECT * FROM tour_anh WHERE tour_id= 1";
+                                  $hinhanh = "SELECT * FROM tour_anh WHERE tour_id= $matour";
                                   $rlhinhanh = mysqli_query($conn, $hinhanh);
                                   while($layhinhanh = mysqli_fetch_assoc($rlhinhanh)){?>
                                   <img src="<?php echo  "../../../uploads/" .$layhinhanh['hinh_anh'] ?>" alt="">
@@ -72,7 +74,7 @@
   <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
 </svg>     <?php
                             include '../../../db/db.php';
-                            $sql_tct = "SELECT * FROM tour_chi_tiet WHERE tour_id = 1";
+                            $sql_tct = "SELECT * FROM tour_chi_tiet WHERE tour_id = $matour";
                             $result_tct = mysqli_query($conn, $sql_tct);
                             $tct = mysqli_fetch_assoc($result_tct);
                             echo "<p>Khởi hành từ: </p> <strong>" . $tct['diem_khoi_hanh'] . "</strong></span>"
@@ -92,44 +94,39 @@
                           <div class="matour">
                             <?php
                             include '../../../db/db.php';
-                            $sql_tct = "SELECT * FROM tour_chi_tiet WHERE tour_id = 1";
+                            $sql_tct = "SELECT * FROM tour_chi_tiet WHERE tour_id = $matour";
                             $result_tct = mysqli_query($conn, $sql_tct);
                             $tct = mysqli_fetch_assoc($result_tct);
-                            echo "<span>Mã Tuor: <strong>" . $tct['ma_tour'] . "</strong></span>"
+                            echo "<span>Mã Tour: <strong>" . $tct['ma_tour'] . "</strong></span>"
                             ?>
                           </div>
                          </div>
                           <hr>
                           <h2>Tour Trọn Gói bao gồm</h2>
                    <ul>
-                      <?php
-                      include '../../../db/db.php';
-                      $sql_dv = "SELECT * FROM dich_vu WHERE tour_id = 1";
-                      $result_dv = mysqli_query($conn, $sql_dv);
-
-                      if (mysqli_num_rows($result_dv) > 0) {
-                          while ($dv = mysqli_fetch_assoc($result_dv)) {
-                              echo "<li> " .$dv['ten_dich_vu'] . "</li>";
-                          }
-                      } else {
-                          echo "<li>Chưa có dịch vụ nào được thêm cho tour này.</li>";
-                      }
-                      ?>
-                      </ul>
+<?php
+    $sql_dv = "SELECT ten_dich_vu FROM dich_vu WHERE tour_id = '$matour'";
+    $result_dv = mysqli_query($conn, $sql_dv);
+    while ($dv = mysqli_fetch_assoc($result_dv)) {
+        echo "<li>" . htmlspecialchars($dv['ten_dich_vu']) . "</li>";
+    }
+?>
+</ul>
 
                         </div>
                         <div class="detailed_dichvu_s2">
-                          <h2>Trải nghiệm thú vị trong tour</h2>
-                          <ul >
-                           <?php
-                           include '../../../db/db.php';
-                           $sql_tn = "SELECT * FROM trai_nghiem WHERE tour_id= 1";
-                           $result_tn = mysqli_query($conn, $sql_tn);
-                           while($row_tn = mysqli_fetch_assoc($result_tn)){?>
-                            <li><?php echo $row_tn['noi_dung']; ?></li>
-                           <?php }
-                           ?>
-                          </ul>
+                          
+                        <h2>Trải nghiệm thú vị trong tour</h2>
+<ul>
+<?php
+    $sql_tn = "SELECT noi_dung FROM trai_nghiem WHERE tour_id = '$matour'";
+    $result_tn = mysqli_query($conn, $sql_tn);
+    while ($tn = mysqli_fetch_assoc($result_tn)) {
+        echo "<li>" . htmlspecialchars($tn['noi_dung']) . "</li>";
+    }
+?>
+</ul>
+
                         </div>  
                         <div class="detailed_dichvu_s2">
                             <h2>Chương trình tour</h2>
@@ -138,7 +135,7 @@
                             
                          <?php
                          include '../../../db/db.php';
-                          $sql_lt = "SELECT * FROM lich_trinh WHERE tour_id= 1";
+                          $sql_lt = "SELECT * FROM lich_trinh WHERE tour_id= $matour";
                           $result_lt = mysqli_query($conn, $sql_lt);
                           while($row_lt = mysqli_fetch_assoc($result_lt)){?>
                             <div class="detailed_item">
@@ -227,7 +224,15 @@
     <button>Tất cả</button>
   </div>
 
-  <div class="quantity-row" data-gia="2000000">
+<?php
+include '../../../db/db.php';
+$sql_gia = "SELECT * FROM lich_khoi_hanh WHERE tour_id = $matour";
+$result_gia = mysqli_query($conn, $sql_gia);
+if (mysqli_num_rows($result_gia) > 0) {
+   $row_gia = mysqli_fetch_assoc($result_gia);
+?> 
+
+  <div class="quantity-row" data-gia="<?php echo $row_gia['gia_nguoi_lon']; ?>">
     <div class="label">
       <strong>Người lớn</strong><br><small>&gt; 9 tuổi</small>
     </div>
@@ -239,7 +244,7 @@
     </div>
   </div>
 
-  <div class="quantity-row" data-gia="1000000">
+  <div class="quantity-row" data-gia="<?php echo $row_gia['gia_tre_em']; ?>">
     <div class="label">
       <strong>Trẻ em</strong><br><small>2 - 9 tuổi</small>
     </div>
@@ -251,7 +256,7 @@
     </div>
   </div>
 
-  <div class="quantity-row" data-gia="600000">
+  <div class="quantity-row" data-gia="<?php echo $row_gia['gia_tre_nho']; ?>">
     <div class="label">
       <strong>Trẻ nhỏ</strong><br><small>&lt; 2 tuổi</small>
     </div>
@@ -262,6 +267,8 @@
       <button class="cong">+</button>
     </div>
   </div>
+
+<?php } ?>
 
   <div class="note">
      <div class="isvg"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-lg" viewBox="0 0 16 16">

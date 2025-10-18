@@ -199,15 +199,15 @@ while ($row1 = mysqli_fetch_assoc($result1)) {
         <div class="inner">
            <?php
     include '../../../db/db.php';
-    $sql2 = "SELECT * FROM tour WHERE trang_thai = 1 AND loai_banner = 1";
+    $sql2 = "SELECT * FROM tour WHERE trang_thai = 1 AND loai_banner = 1 LIMIT 9";
     $result2 = mysqli_query($conn, $sql2);
     while ($row2 = mysqli_fetch_assoc($result2)) { ?>
           <div class="tour_item">
         <img src="<?php echo "../../../uploads/" . $row2['hinh_anh']; ?>" alt="">
         <div class="thongtin">
              <h2><?php echo $row2['ten_tour']; ?></h2>
-        <p><?php echo $row2['so_ngay']; ?> | <?php echo number_format($row2['gia'], 0, ',', '.'); ?> VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
+        <p><?php echo $row2['so_ngay'] . " Ngày"; ?> | <?php echo number_format($row2['gia'], 0, ',', '.'); ?> VNĐ</p>
+            <button onclick="window.location.href='detailed_tour.php?id=<?php echo $row2['id']; ?>'" class="chitiet">Xem chi tiết</button>
         </div>
        </div>
 
@@ -234,15 +234,15 @@ while ($row1 = mysqli_fetch_assoc($result1)) {
         <div class="inner">
               <?php
     include '../../../db/db.php';
-    $sql2 = "SELECT * FROM tour WHERE trang_thai = 1 AND loai_banner = 2";
+    $sql2 = "SELECT * FROM tour WHERE trang_thai = 1 AND loai_banner = 2 LIMIT 9";
     $result2 = mysqli_query($conn, $sql2);
     while ($row2 = mysqli_fetch_assoc($result2)) { ?>
           <div class="tour_item">
         <img src="<?php echo "../../../uploads/" . $row2['hinh_anh']; ?>" alt="">
         <div class="thongtin">
              <h2><?php echo $row2['ten_tour']; ?></h2>
-        <p><?php echo $row2['so_ngay']; ?> | <?php echo number_format($row2['gia'], 0, ',', '.'); ?> VNĐ</p>
-            <button class="chitiet">Xem chi tiết</button>
+        <p><?php echo $row2['so_ngay'] . " Ngày"; ?> | <?php echo number_format($row2['gia'], 0, ',', '.'); ?> VNĐ</p>
+            <button onclick="window.location.href='detailed_tour.php?id=<?php echo $row2['id']; ?>'" class="chitiet">Xem chi tiết</button>
         </div>
        </div>
 
