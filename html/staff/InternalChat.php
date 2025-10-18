@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thông Báo Nội Bộ</title>
-  <link rel="stylesheet" href="../../../WIND/css/Staff.css">
+  <link rel="stylesheet" href="../../css/Staff.css">
 
 
   <style>

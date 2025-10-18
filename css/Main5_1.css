@@ -16,5 +16,662 @@
     height: 100%;
     object-fit: cover;
 }
+.ex_container{
+    margin-top: 50px;
+    color: #fff;
+ 
+}
+.ex_container > h2{
+    text-align: center;
+    margin-bottom: 40px;
+    font-family: 'Monsieur La Doulaise', cursive;
+}
+.ex_content{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    gap: 20px;
+}
+.ex_item{
+    display: flex;
+    margin-bottom: 220px;
+}
+.ex_item > .ex_all_img{
+    display: flex;
+    gap: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+.ex_item > .ex_all_img > .ex_img{
+    width: 250px;
+    height: 590px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.ex_all_img > .ex_img img{
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+    text-align: center;
+}
+.ex_all_img > .ex_img:hover{
+    transform: scale(1.03);
+    transition: all 0.8s ease;
+    cursor: pointer;
+}
+.ex_tt{
+     position: relative;  
+    margin: 0px 30px 30px 50px;
+    flex: 1;
+    
+    
+}
+.ex_tt > h2{
+        font-family: Sarina, cursive;
+}
+.ex_tt > p{
+     font-family: 'Monsieur La Doulaise', cursive;
+     line-height: 1.6;
+     font-size: 20px;
+     text-align: left;
+}
+.xemthem{
+      position: absolute;  
+    width: 240px;
+    height: 60px;
+    border: none;
+    outline: none;
+    border-radius: 25px;
+     background-color: #fff;
+    color: black;
+    font-size: 20px;
+     bottom: 2%;              
+  transform: translateX(-5%);
+    font-weight: bold;
+    margin: 10px;
+
+}
+.xemthem:hover{
+   background-color: black;
+   color: white;
+    transition: all 0.9s ease;
+  
+   
+}
+.ex_container2 > h2{
+    text-align: center;
+    margin-bottom: 40px;
+    font-family: 'Monsieur La Doulaise', cursive;
+}
+.ex_all_img1{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 0 20px ;
+    flex: 1;
+}
+.ex_all_img2{
+    overflow: hidden;
+    border-radius: 15px;
+    height: 300px;
+    width: 100%;
+}
+.ex_all_img2 > img{
+    width: 100%;
+    transition: all 1s ease;
+}
+.ex_all_img2 > img:hover{
+    transform: scale(1.05);
+}
 /* 
 hết */
+/* chi tiết khám phá */
+.detailed_explore_container{
+    display: flex;
+    gap: 5px;
+      margin: 100px 300px 0 300px;
+}
+.detailed_explore_container_tt{
+    color: #fff;
+  
+    flex: 7;
+}
+.detailed_explore_container_tt > h2{
+    color: #ffffff;
+    font-family: 'Monsieur La Doulaise', cursive;
+   
+}
+.detailed_explore_container_qt > h3{
+    color: #ffffff;
+    font-family: 'Monsieur La Doulaise', cursive;
+    text-align: center;
+   
+}
+.detailed_explore_container_tt> .detailed_explore_card > h3{
+    font-size: 22px;
+    font-family: 'Monsieur La Doulaise', cursive;
+}
+.detailed_explore_card > p{
+    font-family: 'Monsieur La Doulaise', cursive;
+    font-size: 17px;
+    margin: 10px;
+}
+.detailed_explore_img{
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    border: none;
+    border-radius: 15px;
+    margin: 10px;
+}
+.detailed_explore_img > img{
+    width: 100%;
+    height: 100%;
+}
+.xemchuyendi{
+    width: 240px;
+    height: 60px;
+    border: none;
+    outline: none;
+    border-radius: 25px;
+     background-color: #fff;
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px;
+
+}
+.xemchuyendi:hover{
+   background-color: black;
+   color: white;
+    transition: all 0.9s ease;
+  
+   
+}
+.detailed_explore_container_qt{
+    display: flex;
+    flex-direction: column;
+    flex: 3;
+    margin-top: 130px;
+}
+.detailed_explore_container_qt_card{
+    height: 190px;
+    width: 90%;
+    border-radius: 15px;
+    margin-bottom: 10px;
+ position: relative;
+    overflow: hidden;
+    margin-left: 10px;
+}
+.detailed_explore_container_qt_card > img{
+    width: 100%;
+       
+}
+.detailed_explore_container_qt_card  > p{
+    position: absolute;
+    color: #fff;
+    font-size: 19px;
+    font-weight: bold;
+    top: 50%;
+    right: 23.5%;
+    z-index: 2;
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+
+
+/* Màn hình 1024px - 1200px (Laptop nhỏ / Tablet ngang) */
+@media (max-width: 1200px) {
+  .detailed_explore_container {
+    margin: 80px 150px 0 150px;
+  }
+
+  .ex_item > .ex_all_img > .ex_img {
+    width: 220px;
+    height: 520px;
+  }
+
+  .ex_tt {
+    margin: 0px 20px 30px 30px;
+  }
+
+  .ex_tt > p {
+    font-size: 19px;
+  }
+}
+
+/* Màn hình 768px - 1024px (Tablet dọc) */
+@media (max-width: 1024px) {
+  .ex_container > h2,
+  .ex_container2 > h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+  }
+
+  .ex_item {
+    flex-direction: column;
+    margin-bottom: 150px;
+    align-items: center;
+  }
+
+  .ex_item > .ex_all_img {
+    margin: 0 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .ex_item > .ex_all_img > .ex_img {
+    width: 200px;
+    height: 450px;
+  }
+
+  .ex_tt {
+    margin: 30px 20px;
+    text-align: center;
+  }
+
+  .ex_tt > h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+  }
+
+  .ex_tt > p {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .xemthem {
+    position: relative;
+    transform: none;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .detailed_explore_container {
+    margin: 60px 80px 0 80px;
+    flex-direction: column;
+  }
+
+  .detailed_explore_container_qt {
+    margin-top: 40px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .detailed_explore_container_qt_card {
+    width: 45%;
+    margin: 0;
+  }
+
+  .xemchuyendi {
+    width: 220px;
+    height: 55px;
+    font-size: 19px;
+  }
+}
+
+/* Màn hình 576px - 768px (Mobile ngang / Tablet nhỏ) */
+@media (max-width: 768px) {
+  .note_img {
+    width: 100%;
+    height: 350px;
+  }
+
+  .ex_container > h2,
+  .ex_container2 > h2 {
+    font-size: 28px;
+    margin-bottom: 25px;
+  }
+
+  .ex_item {
+    margin-bottom: 100px;
+  }
+
+  .ex_item > .ex_all_img {
+    margin: 0 10px;
+    gap: 15px;
+  }
+
+  .ex_item > .ex_all_img > .ex_img {
+    width: 160px;
+    height: 350px;
+  }
+
+  .ex_tt {
+    margin: 20px 15px;
+  }
+
+  .ex_tt > h2 {
+    font-size: 24px;
+  }
+
+  .ex_tt > p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .xemthem,
+  .xemchuyendi {
+    width: 200px;
+    height: 50px;
+    font-size: 17px;
+  }
+
+  .detailed_explore_container {
+    margin: 50px 40px 0 40px;
+  }
+
+  .detailed_explore_container_tt > h2 {
+    font-size: 26px;
+  }
+
+  .detailed_explore_container_tt > .detailed_explore_card > h3 {
+    font-size: 20px;
+  }
+
+  .detailed_explore_card > p {
+    font-size: 16px;
+  }
+
+  .detailed_explore_container_qt > h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+
+  .detailed_explore_container_qt_card {
+    width: 48%;
+    height: 160px;
+  }
+
+  .detailed_explore_container_qt_card > p {
+    font-size: 17px;
+    right: 15%;
+  }
+
+  .ex_all_img1 {
+    margin: 0 10px;
+    gap: 15px;
+  }
+
+  .ex_all_img2 {
+    height: 250px;
+  }
+}
+
+/* Màn hình 430px - 576px (Mobile tiêu chuẩn) */
+@media (max-width: 576px) {
+  .note_img {
+    width: 100%;
+    height: 300px;
+  }
+
+
+  .ex_container > h2,
+  .ex_container2 > h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .ex_item {
+    margin-bottom: 70px;
+  }
+
+  .ex_item > .ex_all_img {
+    margin: 0 5px;
+    gap: 10px;
+  }
+
+  .ex_item > .ex_all_img > .ex_img {
+    width: 140px;
+    height: 280px;
+  }
+
+  .ex_tt {
+    margin: 15px 10px;
+  }
+
+  .ex_tt > h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .ex_tt > p {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .xemthem,
+  .xemchuyendi {
+    width: 180px;
+    height: 45px;
+    font-size: 16px;
+    margin: 5px;
+  }
+
+  .detailed_explore_container {
+    margin: 40px 20px 0 20px;
+  }
+
+  .detailed_explore_container_tt > h2 {
+    font-size: 22px;
+  }
+
+  .detailed_explore_container_tt > .detailed_explore_card > h3 {
+    font-size: 18px;
+  }
+
+  .detailed_explore_card > p {
+    font-size: 15px;
+    margin: 8px;
+  }
+
+  .detailed_explore_img {
+    margin: 8px;
+  }
+
+  .detailed_explore_container_qt {
+    margin-top: 30px;
+  }
+
+  .detailed_explore_container_qt > h3 {
+    font-size: 20px;
+  }
+
+  .detailed_explore_container_qt_card {
+    width: 100%;
+    height: 140px;
+    margin-bottom: 10px;
+  }
+
+  .detailed_explore_container_qt_card > p {
+    font-size: 16px;
+    right: 30%;
+  }
+
+  .ex_all_img1 {
+    margin: 0 5px;
+    gap: 10px;
+  }
+
+  .ex_all_img2 {
+    height: 200px;
+  }
+}
+
+/* Màn hình <= 430px (Mobile nhỏ) */
+@media (max-width: 430px) {
+  body {
+    font-size: 14px;
+  }
+
+  .note_img {
+    width: 100%;
+    height: 250px;
+  }
+
+  .ex_container > h2,
+  .ex_container2 > h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+
+  .ex_item {
+    margin-bottom: 50px;
+  }
+
+  .ex_item > .ex_all_img {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .ex_item > .ex_all_img > .ex_img {
+    width: 90%;
+    max-width: 280px;
+    height: 320px;
+  }
+
+  .ex_tt {
+    margin: 15px 10px;
+  }
+
+  .ex_tt > h2 {
+    font-size: 18px;
+  }
+
+  .ex_tt > p {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .xemthem,
+  .xemchuyendi {
+    width: 160px;
+    height: 42px;
+    font-size: 15px;
+  }
+
+  .detailed_explore_container {
+    margin: 30px 15px 0 15px;
+  }
+
+  .detailed_explore_container_tt > h2 {
+    font-size: 20px;
+  }
+
+  .detailed_explore_container_tt > .detailed_explore_card > h3 {
+    font-size: 17px;
+  }
+
+  .detailed_explore_card > p {
+    font-size: 14px;
+    margin: 5px;
+  }
+
+  .detailed_explore_img {
+    margin: 5px;
+    border-radius: 10px;
+  }
+
+  .detailed_explore_container_qt > h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .detailed_explore_container_qt_card {
+    width: 100%;
+    height: 130px;
+    margin-left: 0;
+  }
+
+  .detailed_explore_container_qt_card > p {
+    font-size: 15px;
+    right: 25%;
+  }
+
+  .ex_all_img1 {
+    margin: 0;
+    gap: 10px;
+  }
+
+  .ex_all_img2 {
+    height: 180px;
+    border-radius: 10px;
+  }
+}
+
+/* Màn hình <= 375px (Mobile rất nhỏ - iPhone SE, etc.) */
+@media (max-width: 375px) {
+  .ex_container > h2,
+  .ex_container2 > h2 {
+    font-size: 20px;
+  }
+
+  .ex_item > .ex_all_img > .ex_img {
+    width: 95%;
+    height: 300px;
+  }
+
+  .ex_tt > h2 {
+    font-size: 17px;
+  }
+
+  .ex_tt > p {
+    font-size: 13px;
+  }
+
+  .xemthem,
+  .xemchuyendi {
+    width: 150px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .detailed_explore_container {
+    margin: 25px 10px 0 10px;
+  }
+
+  .detailed_explore_container_qt_card {
+    height: 120px;
+  }
+
+  .detailed_explore_container_qt_card > p {
+    font-size: 14px;
+    right: 20%;
+  }
+
+  .ex_all_img2 {
+    height: 160px;
+  }
+}
+/* Fix cho viewport cực nhỏ < 352px */
+@media (max-width: 360px) {
+  .ex_container,
+  .ex_container2 {
+    margin: 20px 5px !important;
+  }
+
+  .ex_item > .ex_all_img {
+    margin: 0 !important;
+    padding: 0 5px;
+  }
+
+  .ex_item > .ex_all_img > .ex_img {
+    width: 100% !important;
+    max-width: 300px;
+    height: 280px;
+  }
+
+  .ex_tt {
+    margin: 10px 5px !important;
+    padding: 10px;
+  }
+}
+/* hết */

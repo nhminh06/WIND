@@ -23,13 +23,13 @@
    <video autoplay muted loop playsinline disablePictureInPicture>
     <source src="../../../Video/Bannervideo.mp4">
    </video>
-
-        </div>
-        <?php include '../../../includes/header.php';?>
-        <p>WIND</p>
+<p>WIND</p>
 
    
-        <h5>Khám phá thế giới theo cách của bạn</h5>
+        <h5>Khám phá Miền Trung vẻ đẹp trong từng phong tục</h5>
+        </div>
+        <?php include '../../../includes/header.php';?>
+        
         
         
         
@@ -162,7 +162,7 @@ while ($row1 = mysqli_fetch_assoc($result1)) {
       <?php if (!empty($row1['link'])) {  ?>
         <a href="<?php echo $row1['link']; ?>"><button>Xem chi tiết</button></a>
       <?php } else { ?>
-        <button>Xem chi tiết</button>
+        <button onclick="window.location.href='detailed_tour.php?id=<?php echo $row1['tour_id']; ?>'">Xem chi tiết</button>
       <?php }  ?>
     </div>
   </div>
@@ -172,7 +172,7 @@ while ($row1 = mysqli_fetch_assoc($result1)) {
         <div class="demo_tt box fade-left">
             <h2><?php echo $row1['tieu_de']; ?></h2>
             <p><?php echo nl2br($row1['noi_dung']); ?></p>
-            <button>Xem chi tiết</button>
+            <button onclick="window.location.href='detailed_tour.php?id=<?php echo $row1['tour_id']; ?>'">Xem chi tiết</button>
         </div>
         <div class="demo_img">
             <div class="demoimg"><img src="<?php echo "../../../uploads/" .$row1['hinh_anh']; ?>" alt=""></div>

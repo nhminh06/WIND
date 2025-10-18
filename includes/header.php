@@ -6,14 +6,25 @@
   }else{
     echo "<style>.hd_lg{display: block;}</style>";}
    ?>
-   <div
+  <div class="main_search">
+     <div
          class="menusearch">
+          <button class="menu-toggle" id="menuToggle">
+    <span></span>
+    <span></span>
+    <span></span>
+</button> 
+
             <div onclick="window.location.href = '../../views/index/WebIndex.php'" class="logo">
                 <img src="../../../img/logo.png" alt="">
+                <!-- Nút Hamburger Menu -->
+
             </div>
+          
             <ul>
                 <li><a href="../../views/index/WebIndex.php">Trang chủ</a></li>
                 <li><a href="../../views/index/about.php">Giới thiệu</a></li>
+                <li><a href="../../views/index/Explore.php">Khám phá</a></li>
                 <li><a href="../../views/index/tour.php">Tour</a></li>
                 <li><a href="../../views/index/contact.php">Liên hệ</a></li>
                 <li class="hd_lg"><a href="../../views/index/login.php">Đăng nhập</a></li>
@@ -39,3 +50,19 @@
             </div>
           
         </div>
+        <div class="rbc_menu" id="rbc_menu">
+      <ul>
+                <li><a href="../../views/index/WebIndex.php">Trang chủ</a></li>
+                <li><a href="../../views/index/about.php">Giới thiệu</a></li>
+                <li><a href="../../views/index/Explore.php">Khám phá</a></li>
+                <li><a href="../../views/index/tour.php">Tour</a></li>
+                <li><a href="../../views/index/contact.php">Liên hệ</a></li>
+                <li class="hd_lg"><a href="../../views/index/login.php">Đăng nhập</a></li>
+            </ul>
+            <div class="rpc_search">
+              <input type="text">
+              <button>Tìm kiếm</button>
+              <div class="rcp_avt"><img src="https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg" alt=""></div>
+            </div>
+</div>
+  </div>

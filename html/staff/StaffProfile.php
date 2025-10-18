@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../../WIND/css/Staff.css">
+    <link rel="stylesheet" href="../../css/Staff.css">
     <title>Hồ sơ nhân viên du lịch</title>
     <style>
         * {

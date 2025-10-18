@@ -239,7 +239,41 @@ const observer = new IntersectionObserver(entries => {
 });
 
 
+const elements1 = document.querySelectorAll('.ex_card');
+
+const observer1 = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer1.unobserve(entry.target); // 👈 Ngừng quan sát để hiệu ứng chỉ chạy 1 lần
+    }
+  });
+}, {
+  threshold: 0.10
+});
+
+elements1.forEach(el => observer1.observe(el));
+
+
 elements.forEach(el => observer.observe(el));
+
+
+
+
+
+
+
+
+const menuTT = document.getElementById('menuToggle');
+const menu = document.querySelector('.rbc_menu');
+
+menuTT.addEventListener('click', () => {
+    if (menu.style.display === 'flex') {
+        menu.style.display = 'none';
+    } else {
+        menu.style.display = 'flex';
+    }
+});
 // const teamitem = document.querySelectorAll('.team_item')
 // const che = document.querySelector('.che')
 // const nameitem = document.querySelectorAll('.name')
