@@ -1,18 +1,13 @@
-<div class="menu">
-            <div class="face">
-                <div style="display: flex; flex-direction: column; align-items: center;">
-                    
-                    <a href="MainStaff.php"><img src="https://image.pngaaa.com/729/5069729-middle.png" alt="Staff Avatar" style="width: 60px; height: 60px; border-radius: 50%; margin-bottom: 5px;"></a>
-                    <p>STAFF</p>
-                </div>
-            </div>
-            <ul>
-                <li><a href="StaffProfile.php">Hồ sơ nhân viên</a></li>
-                <li><a href="ShiftAssignment.php">Ca làm việc</a></li>
-                <li><a href="TourManagement.php">Lịch tour</a></li>
-                <li><a href="InternalChat.php">Thông báo nội bộ</a></li>
-            </ul>
-            <div class="exit-button">
-                <button onclick="window.location.href='../../php/logout.php'">EXIT</button> <!-- Thay bằng trang login-->
-            </div>
-        </div>
+<div class="sidebar">
+        <div class="logo-staff" style="display: flex; align-items: center;">
+       <a href=""><img style="width:70px;" src="../../img/logo.png" alt=""></a>
+    </div>
+        <img src="https://via.placeholder.com/80" alt="Staff" class="staff-avatar">
+        <h3>STAFF</h3>
+        <a href="StaffProfile.php" class="menu-item">Hồ sơ nhân viên</a>
+        <a href="ShiftAssignment.php" class="menu-item">Ca làm việc</a>
+        <a href="TourSchedule.php" class="menu-item">Lịch tour</a>
+        <a href="InternalChat.php" class="menu-item">Thông báo nội bộ</a>
+        <a href="LeaveRequest.php" class="menu-item">Xin nghỉ / Báo ốm</a>
+        <button class="exit-btn" onclick="window.location.href='../../php/logout.php'">EXIT</button> 
+    </div>

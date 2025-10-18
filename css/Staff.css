@@ -1,126 +1,421 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.main-container {
-    display: flex;
-    height: 100vh;
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1e1e2f;
+            display: flex;
+            min-height: 100vh;
+        }
+        /*menu */
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
 
-.menu {
-    width: 250px;
-    background-color: #2c3e50;
-    color: white;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-}
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-.face {
-    text-align: center;
-    margin-bottom: 30px;
-}
+        .logo h2 {
+            font-size: 28px;
+            color: white;
+        }
 
-.face img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: 2px solid white;
-}
+        .staff-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: block;
+            border: 3px solid white;
+        }
 
-.menu ul {
-    list-style: none;
-    padding: 0;
-}
+        .sidebar h3 {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 30px;
+            color: #ecf0f1;
+        }
 
-.menu li {
-    margin: 15px 0;
-}
+        .menu-item {
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
 
-.menu a {
-    color: white;
-    text-decoration: none;
-    display: block;
-    padding: 10px;
-    border-radius: 5px;
-    transition: background 0.3s;
-    border-bottom: 1px solid #34495e;
-    border-top: 1px solid #34495e;
-}
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
 
-.menu a:hover {
-    background-color: #34495e;
-}
+        .menu-item.active {
+            background: #3498db;
+        }
 
-.exit-button {
-    margin-top: 50px;
-    text-align: center;
-}
+        .exit-btn {
+            margin-top: 100px;
+            padding: 12px 20px;
+            background: #e74c3c;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
 
-.exit-button button {
-    background-color: #1b0429;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 70%;
-}
+        .exit-btn:hover {
+            background: #c0392b;
+        }
+        /* staffProfile */
+        /* Main content */
+        .main-content {
+            margin-left: 250px;
+            flex: 1;
+            background: linear-gradient(180deg, #040715ff 0%, #401c64ff 30%, #115069ff 60%, #0a2834ff 100%);
+            min-height: 100vh;
+            position: relative;
+        }
 
-.content {
-    color: rgb(20, 4, 4);
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    text-align: center;
-    background-image: url('https://iit.com.vn/files/images/Article/5-dieu-can-biet-khi-thiet-ke-website-du-lich.jpg');
-    background-size: cover;
-}
-.content h1 {
-    margin-top: 150px;
-    
-}
+        /* Header section */
+        .header-section {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            position: relative;
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
+        .edit-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border: 2px solid white;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
+        .edit-badge:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
 
-th {
-    background-color: #f2f2f2;
-}
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            margin: 0 auto 20px;
+            display: block;
+            object-fit: cover;
+        }
 
-form {
-    max-width: 500px;
-    margin: 20px 0;
-}
+        .header-section h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
 
-input, select, textarea {
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
+        .header-section h2 {
+            font-size: 20px;
+            font-weight: 400;
+            opacity: 0.95;
+        }
 
-button {
-    background-color: #4534db;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 200px;
-}
-button:hover {
-    background-color: #2980b9;
-}
+        /* Edit button floating */
+        .edit-btn-float {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            padding: 12px 30px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        .edit-btn-float:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Content sections */
+        .content-wrapper {
+            padding: 40px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h3 {
+            color: #667eea;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .section p {
+            line-height: 1.8;
+            color: #555;
+            font-size: 16px;
+            text-align: justify;
+        }
+
+        /* Skills grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .skill-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #667eea;
+            color: #555;
+            font-size: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Experience cards */
+        .experience-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 5px solid #764ba2;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .experience-card h4 {
+            color: #764ba2;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .experience-card p {
+            color: #666;
+            margin: 0;
+        }
+
+        /* Decorative elements */
+        .plane-icon {
+            position: absolute;
+            width: 150px;
+            opacity: 0.3;
+        }
+
+        .plane-1 {
+            left: 10%;
+            bottom: 30%;
+            transform: rotate(-15deg);
+        }
+
+        .birds {
+            position: absolute;
+            right: 15%;
+            top: 40%;
+            font-size: 24px;
+            opacity: 0.4;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h2 {
+            color: #667eea;
+            font-size: 28px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 30px;
+            color: #999;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #667eea;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .photo-upload {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .photo-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #667eea;
+            margin-bottom: 15px;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background: #667eea;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-btn:hover {
+            background: #764ba2;
+        }
+
+        #photoInput {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+            
+            .main-content {
+                margin-left: 200px;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* 
