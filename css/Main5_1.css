@@ -135,7 +135,7 @@ hết */
 }
 .detailed_explore_container_tt{
     color: #fff;
-  
+    margin-top: 20px;
     flex: 7;
 }
 .detailed_explore_container_tt > h2{
@@ -370,6 +370,7 @@ hết */
 
   .detailed_explore_container_tt > h2 {
     font-size: 26px;
+    margin-top: 33px;
   }
 
   .detailed_explore_container_tt > .detailed_explore_card > h3 {
@@ -564,6 +565,7 @@ hết */
 
   .detailed_explore_container_tt > h2 {
     font-size: 20px;
+    margin-top: 33px;
   }
 
   .detailed_explore_container_tt > .detailed_explore_card > h3 {
