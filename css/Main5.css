@@ -56,6 +56,19 @@ body {
     opacity: 0;
     color: #000000;
 }
+.sangtoi2 > button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: #00000020;
+    margin-left: 10px;
+    cursor: pointer;
+    color: #ffffff;
+    display: flex
+;
+    justify-content: center;
+    align-items: center;}
 /* body.dark_mode{
       background: #1c1c1c;
   color: #ffffff;
