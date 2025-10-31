@@ -5,6 +5,11 @@ include '../../db/db.php';
 // Lấy danh sách tour
 $sql_tour = "SELECT id, ten_tour FROM tour WHERE trang_thai = 1 ORDER BY ten_tour";
 $result_tour = $conn->query($sql_tour);
+$sql_khampha = "SELECT k.khampha_id, k.tieu_de, kl.ten_loai 
+                FROM khampha k
+                JOIN khampha_loai kl ON k.loai_id = kl.loai_id
+                ORDER BY kl.loai_id, k.tieu_de";
+$result_khampha = $conn->query($sql_khampha);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,205 +19,6 @@ $result_tour = $conn->query($sql_tour);
     <title>Thêm bài viết mới - Admin</title>
     <link rel="stylesheet" href="../../css/Admin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <style>
-        .content {
-            padding: 20px;
-        }
-        .form-container {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
-        }
-        .form-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-        .form-header h2 {
-            color: #2c3e50;
-            margin: 0;
-            font-size: 24px;
-        }
-        .btn-back {
-            background: #6c757d;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-        }
-        .btn-back:hover {
-            background: #5a6268;
-        }
-        .form-group {
-            margin-bottom: 25px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 500;
-            font-size: 14px;
-        }
-        .form-group label.required:after {
-            content: " *";
-            color: #e53935;
-        }
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.2s;
-            box-sizing: border-box;
-            color: black;
-        }
-        .form-control:focus {
-            outline: none;
-            border-color: #4CAF50;
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-        }
-        textarea.form-control {
-            resize: vertical;
-            min-height: 100px;
-            font-family: inherit;
-        }
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        .section-divider {
-            margin: 40px 0;
-            border: none;
-            border-top: 2px solid #f0f0f0;
-        }
-        .section-title {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            font-size: 20px;
-        }
-        .btn-add-muc {
-            background: #2196F3;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        .btn-add-muc:hover {
-            background: #1976D2;
-        }
-        .muc-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 4px solid #2196F3;
-        }
-        .muc-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .muc-header h4 {
-            margin: 0;
-            color: #2c3e50;
-            font-size: 16px;
-        }
-        .btn-remove-muc {
-            background: #e53935;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .btn-remove-muc:hover {
-            background: #c62828;
-        }
-        .form-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: flex-end;
-            padding-top: 20px;
-            border-top: 2px solid #f0f0f0;
-            margin-top: 30px;
-        }
-        .btn-submit {
-            background: #4CAF50;
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn-submit:hover {
-            background: #45a049;
-        }
-        .btn-cancel {
-            background: #f44336;
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn-cancel:hover {
-            background: #da190b;
-        }
-        .help-text {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-            font-style: italic;
-        }
-        .alert {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-    </style>
 </head>
 <body>
  <aside class="sidebar">
@@ -298,13 +104,6 @@ $result_tour = $conn->query($sql_tour);
             <select name="khampha_id" class="form-control" required>
               <option value="">-- Chọn mục khám phá --</option>
               <?php 
-              // Lấy danh sách khám phá
-              $sql_khampha = "SELECT k.khampha_id, k.tieu_de, kl.ten_loai 
-                              FROM khampha k
-                              JOIN khampha_loai kl ON k.loai_id = kl.loai_id
-                              ORDER BY kl.loai_id, k.tieu_de";
-              $result_khampha = $conn->query($sql_khampha);
-              
               if($result_khampha && $result_khampha->num_rows > 0) {
                   $current_loai = '';
                   while($kp = $result_khampha->fetch_assoc()) {
@@ -319,7 +118,6 @@ $result_tour = $conn->query($sql_tour);
               }
               ?>
             </select>
-            <span class="help-text">Chọn mục khám phá đã có để liên kết với bài viết này</span>
           </div>
 
           <hr class="section-divider">
@@ -327,8 +125,6 @@ $result_tour = $conn->query($sql_tour);
           <!-- Nội dung chi tiết -->
           <h3 class="section-title"><i class="bi bi-list-ol"></i> Nội dung chi tiết</h3>
           
-         
-
           <div id="mucContainer">
             <!-- Mục 1 mặc định -->
             <div class="muc-section" data-muc="1">
@@ -340,8 +136,9 @@ $result_tour = $conn->query($sql_tour);
               </div>
               
               <div class="form-group">
-                <label class="required">Tiêu đề mục</label>
-                <input type="text" name="tieu_de_muc[]" class="form-control" placeholder="Ví dụ: Lịch sử hình thành" required>
+                <label>Tiêu đề mục</label>
+                <input type="text" name="tieu_de_muc[]" class="form-control" placeholder="Nhập tiêu đề hoặc để trống">
+                <span class="help-text">Để trống nếu không muốn hiển thị tiêu đề cho mục này</span>
               </div>
 
               <div class="form-group">
@@ -356,10 +153,12 @@ $result_tour = $conn->query($sql_tour);
               </div>
             </div>
           </div>
-               <button type="button" class="btn-add-muc" onclick="addMuc()">
+          
+          <button type="button" class="btn-add-muc" onclick="addMuc()">
             <i class="bi bi-plus-circle"></i>
             Thêm mục mới
           </button>
+          
           <!-- Action Buttons -->
           <div class="form-actions">
             <button type="button" class="btn-cancel" onclick="confirmCancel()">
@@ -391,8 +190,9 @@ $result_tour = $conn->query($sql_tour);
           </div>
           
           <div class="form-group">
-            <label class="required">Tiêu đề mục</label>
-            <input type="text" name="tieu_de_muc[]" class="form-control" placeholder="Ví dụ: Tiêu đề mục ${mucCount}" required>
+            <label>Tiêu đề mục</label>
+            <input type="text" name="tieu_de_muc[]" class="form-control" placeholder="Nhập tiêu đề hoặc để trống">
+            <span class="help-text">Để trống nếu không muốn hiển thị tiêu đề cho mục này</span>
           </div>
 
           <div class="form-group">
@@ -402,7 +202,7 @@ $result_tour = $conn->query($sql_tour);
 
           <div class="form-group">
             <label>Hình ảnh mục</label>
-            <input  type="file" name="hinh_anh_muc[]" class="form-control" accept="image/*">
+            <input type="file" name="hinh_anh_muc[]" class="form-control" accept="image/*">
             <span class="help-text">Định dạng: JPG, PNG, GIF, WEBP. Kích thước tối đa: 5MB</span>
           </div>
         </div>
@@ -445,24 +245,36 @@ $result_tour = $conn->query($sql_tour);
 
     // Validate form trước khi submit
     document.getElementById('addArticleForm').addEventListener('submit', function(e) {
-      const requiredFields = this.querySelectorAll('[required]');
+      const allFields = this.querySelectorAll('input, select, textarea');
       let isValid = true;
-      
-      requiredFields.forEach(field => {
-        if (!field.value.trim()) {
+      const blankChar = ' '; // Khoảng trống đơn giản
+
+      allFields.forEach(field => {
+        const name = field.getAttribute('name');
+        const isRequired = field.hasAttribute('required');
+
+        // Xử lý riêng cho tiêu đề mục - tự động gán khoảng trống nếu để trống
+        if (name && name.includes('tieu_de_muc')) {
+          if (!field.value.trim()) {
+            field.value = blankChar; // Gán khoảng trống
+          }
+          field.style.borderColor = '#ddd';
+        } 
+        // Xử lý các trường required khác
+        else if (isRequired && !field.value.trim()) {
           isValid = false;
           field.style.borderColor = '#e53935';
-        } else {
+        } else if (field.value.trim()) {
           field.style.borderColor = '#ddd';
         }
       });
-      
+
       if (!isValid) {
         e.preventDefault();
         alert('Vui lòng điền đầy đủ các trường bắt buộc!');
         return false;
       }
-      
+
       return confirm('Bạn có chắc muốn lưu bài viết này?');
     });
   </script>

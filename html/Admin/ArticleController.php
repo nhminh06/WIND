@@ -87,215 +87,10 @@ $stats = $result_stats->fetch_assoc();
     <link rel="stylesheet" href="../../css/Admin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
-        .content-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-        .content-header h2 {
-            color: #ffffffff;
-            font-size: 24px;
-            margin: 0;
-        }
-        .btn-add {
-            background: #4CAF50;  
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        .btn-add:hover {
-            background: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-        }
-        .search-filter {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .search-box {
-            flex: 1;
-            min-width: 250px;
-            position: relative;
-        }
-        .search-box input {
-            width: 100%;
-            padding: 10px 40px 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-        .search-box button {
-            position: absolute;
-            right: 5px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #2196F3;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        .filter-select {
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        .table-container {
-            background: white;
-            border-radius: 12px;
-            padding: 0;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
-            overflow: hidden;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 16px;
-            text-align: left;
-        }
-        th {
-            background: #2c3e50;
-            font-weight: 600;
-            color: white;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        td {
-            font-size: 14px;
-            color: #ffffffff;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        tr:last-child td {
-            border-bottom: none;
-        }
         tbody tr:hover {
             background: #414242ff;
         }
-        .badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-            display: inline-block;
-        }
-        .badge-langnghề {
-            background: #d1ecf1;
-            color: #0c5460;
-        }
-        .badge-ẩmthực {
-            background: #fff3cd;
-            color: #856404;
-        }
-        .badge-vănhóa {
-            background: #f8d7da;
-            color: #721c24;
-        }
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-        }
-        .btn-icon {
-            width: 32px;
-            height: 32px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            text-decoration: none;
-        }
-        .btn-view {
-            background: #a5a5a5;
-            color: #0288d1;
-        }
-        .btn-view:hover {
-            background: #0288d1;
-            color: white;
-        }
-        .btn-edit {
-            background: #a5a5a5;
-            color: #f9a825;
-        }
-        .btn-edit:hover {
-            background: #f9a825;
-            color: white;
-        }
-        .btn-delete {
-            background: #a5a5a5;
-            color: #e53935;
-        }
-        .btn-delete:hover {
-            background: #e53935;
-            color: white;
-        }
-        .stats-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        }
-        .stat-card h3 {
-            font-size: 28px;
-            margin: 0 0 8px 0;
-            color: #2c3e50;
-        }
-        .stat-card p {
-            margin: 0;
-            color: #666;
-            font-size: 14px;
-        }
-        .alert {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .no-data {
-            text-align: center;
-            padding: 40px;
-            color: #999;
-        }
-        .no-data i {
-            font-size: 48px;
-            margin-bottom: 15px;
-        }
+   
     </style>
 </head>
 <body>
@@ -406,17 +201,19 @@ $stats = $result_stats->fetch_assoc();
               <td>
                 <?php
                 $badge_class = '';
-                $loai_name = strtolower(str_replace(' ', '', $row['ten_loai']));
+                $loai_name = strtolower(str_replace(' ', '', $row['loai_id']));
                 switch($loai_name) {
-                    case 'langnghề':
+                    case '1':
                         $badge_class = 'badge-langnghề';
                         break;
-                    case 'ẩmthực':
+                    case '2':
                         $badge_class = 'badge-ẩmthực';
                         break;
-                    case 'vănhóa':
+                    case '3':
                         $badge_class = 'badge-vănhóa';
                         break;
+                 
+                   
                 }
                 ?>
                 <span class="badge <?php echo $badge_class; ?>"><?php echo $row['ten_loai']; ?></span>

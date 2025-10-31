@@ -2,12 +2,6 @@
 session_start();
 include '../../db/db.php';
 
-// Kiểm tra quyền admin (nếu cần)
-// if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
-//     header("Location: ../../index.php");
-//     exit();
-// }
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     // Lấy dữ liệu từ form
@@ -23,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Validate dữ liệu
     if (empty($tieu_de) || $khampha_id == 0 || empty($tieu_de_muc) || empty($noi_dung_muc)) {
         $_SESSION['error'] = "Vui lòng điền đầy đủ thông tin bắt buộc!";
-        header("Location: add_article.php");
+        header("Location: ../../html/Admin/AddArticleController.php");
         exit();
     }
     
@@ -31,6 +25,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn->begin_transaction();
     
     try {
+        // Kiểm tra xem đã có bài viết cho khampha_id này chưa
+        $sql_check_existing = "SELECT id FROM bai_viet WHERE khampha_id = ?";
+        $stmt_check = $conn->prepare($sql_check_existing);
+        $stmt_check->bind_param("i", $khampha_id);
+        $stmt_check->execute();
+        $result_check = $stmt_check->get_result();
+
+        if ($result_check->num_rows > 0) {
+            // Nếu đã có bài viết, xóa bài viết cũ và các mục của nó
+            $existing_article = $result_check->fetch_assoc();
+            $existing_id = $existing_article['id'];
+            
+            // Xóa các mục cũ
+            $sql_delete_muc = "DELETE FROM bai_viet_muc WHERE bai_viet_id = ?";
+            $stmt_delete_muc = $conn->prepare($sql_delete_muc);
+            $stmt_delete_muc->bind_param("i", $existing_id);
+            if (!$stmt_delete_muc->execute()) {
+                throw new Exception("Lỗi khi xóa mục cũ: " . $stmt_delete_muc->error);
+            }
+            $stmt_delete_muc->close();
+            
+            // Xóa bài viết cũ
+            $sql_delete_article = "DELETE FROM bai_viet WHERE id = ?";
+            $stmt_delete_article = $conn->prepare($sql_delete_article);
+            $stmt_delete_article->bind_param("i", $existing_id);
+            if (!$stmt_delete_article->execute()) {
+                throw new Exception("Lỗi khi xóa bài viết cũ: " . $stmt_delete_article->error);
+            }
+            $stmt_delete_article->close();
+        }
+        $stmt_check->close();
+        
         // 1. Thêm vào bảng bai_viet
         $sql_baiviet = "INSERT INTO bai_viet (khampha_id, tieu_de) VALUES (?, ?)";
         $stmt_baiviet = $conn->prepare($sql_baiviet);
@@ -109,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $conn->rollback();
         
         $_SESSION['error'] = "Có lỗi xảy ra: " . $e->getMessage();
-        header("Location: ../../html/Admin/ArticleController.php");
+        header("Location: ../../html/Admin/AddArticleController.php");
         exit();
     }
     
@@ -120,4 +146,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 $conn->close();
-?>  
+?>

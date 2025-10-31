@@ -81,11 +81,11 @@ $result_lienquan = $stmt_lq->get_result();
         </div>
         
         <div class="detailed_explore_container_qt ex_card fade-right">
-            <h3>Có thể bạn quan tâm</h3>
+            <h3>Có thể bạn quan tâm</h3><br>
             <?php if($result_lienquan->num_rows > 0): ?>
                 <?php while($lienquan = $result_lienquan->fetch_assoc()): ?>
-                <div class="detailed_explore_container_qt_card">
-                    <img src="<?php echo htmlspecialchars($lienquan['duong_dan_anh'] ?? '../../../img/default.png'); ?>" alt="<?php echo htmlspecialchars($lienquan['tieu_de']); ?>">
+                <div onclick="window.location.href='detailed_explore.php?id=<?php echo $lienquan['khampha_id']; ?>'" class="detailed_explore_container_qt_card">
+                    <img src="<?php echo htmlspecialchars("../" . $lienquan['duong_dan_anh'] ?? '../../../img/default.png'); ?>" alt="<?php echo htmlspecialchars($lienquan['tieu_de']); ?>">
                     <p><?php echo htmlspecialchars($lienquan['tieu_de']); ?></p>
                 </div>
                 <?php endwhile; ?>

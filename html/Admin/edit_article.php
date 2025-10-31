@@ -10,8 +10,8 @@ if ($bai_viet_id == 0) {
     exit();
 }
 
-// Lấy thông tin bài viết
-$sql_baiviet = "SELECT bv.*, kp.tieu_de as khampha_tieude, kp.loai_id 
+// Lấy thông tin bài viết - SỬA: lấy thêm loai_id từ khampha
+$sql_baiviet = "SELECT bv.*, kp.tieu_de as khampha_tieude, kp.loai_id, kp.tour_id 
                 FROM bai_viet bv
                 LEFT JOIN khampha kp ON bv.khampha_id = kp.khampha_id
                 WHERE bv.id = ?";
@@ -27,7 +27,7 @@ if (!$baiviet) {
     exit();
 }
 
-
+// Lấy các mục của bài viết
 $sql_muc = "SELECT * FROM bai_viet_muc WHERE bai_viet_id = ? ORDER BY id";
 $stmt_muc = $conn->prepare($sql_muc);
 $stmt_muc->bind_param("i", $bai_viet_id);
@@ -43,7 +43,7 @@ $sql_tour = "SELECT id, ten_tour FROM tour WHERE trang_thai = 1 ORDER BY ten_tou
 $result_tour = $conn->query($sql_tour);
 
 // Lấy danh sách khám phá
-$sql_khampha = "SELECT k.khampha_id, k.tieu_de, kl.ten_loai 
+$sql_khampha = "SELECT k.khampha_id, k.tieu_de, kl.ten_loai, k.loai_id, k.tour_id
                 FROM khampha k
                 JOIN khampha_loai kl ON k.loai_id = kl.loai_id
                 ORDER BY kl.loai_id, k.tieu_de";
@@ -58,221 +58,7 @@ $result_khampha = $conn->query($sql_khampha);
     <link rel="stylesheet" href="../../css/Admin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
-        .content {
-            padding: 20px;
-        }
-        .form-container {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
-        }
-        .form-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-        .form-header h2 {
-            color: #2c3e50;
-            margin: 0;
-            font-size: 24px;
-        }
-        .btn-back {
-            background: #6c757d;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-        }
-        .btn-back:hover {
-            background: #5a6268;
-        }
-        .form-group {
-            margin-bottom: 25px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 500;
-            font-size: 14px;
-        }
-        .form-group label.required:after {
-            content: " *";
-            color: #e53935;
-        }
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.2s;
-            box-sizing: border-box;
-        }
-        .form-control:focus {
-            outline: none;
-            border-color: #4CAF50;
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-        }
-        textarea.form-control {
-            resize: vertical;
-            min-height: 100px;
-            font-family: inherit;
-        }
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        .section-divider {
-            margin: 40px 0;
-            border: none;
-            border-top: 2px solid #f0f0f0;
-        }
-        .section-title {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            font-size: 20px;
-        }
-        .btn-add-muc {
-            background: #2196F3;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        .btn-add-muc:hover {
-            background: #1976D2;
-        }
-        .muc-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 4px solid #2196F3;
-        }
-        .muc-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .muc-header h4 {
-            margin: 0;
-            color: #2c3e50;
-            font-size: 16px;
-        }
-        .btn-remove-muc {
-            background: #e53935;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .btn-remove-muc:hover {
-            background: #c62828;
-        }
-        .form-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: flex-end;
-            padding-top: 20px;
-            border-top: 2px solid #f0f0f0;
-            margin-top: 30px;
-        }
-        .btn-submit {
-            background: #4CAF50;
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn-submit:hover {
-            background: #45a049;
-        }
-        .btn-cancel {
-            background: #f44336;
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn-cancel:hover {
-            background: #da190b;
-        }
-        .help-text {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-            font-style: italic;
-        }
-        .current-image {
-            margin-top: 10px;
-            max-width: 200px;
-        }
-        .current-image img {
-            width: 100%;
-            border-radius: 8px;
-            border: 2px solid #ddd;
-        }
-        .image-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-            padding: 10px;
-            background: #e3f2fd;
-            border-radius: 6px;
-            font-size: 13px;
-        }
-        .alert {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
+        /* CSS giữ nguyên */
     </style>
 </head>
 <body>
@@ -332,7 +118,8 @@ $result_khampha = $conn->query($sql_khampha);
                 <?php 
                 if($result_tour && $result_tour->num_rows > 0) {
                     while($tour = $result_tour->fetch_assoc()) {
-                        echo '<option value="'.$tour['id'].'">'.$tour['ten_tour'].'</option>';
+                        $selected = (isset($baiviet['tour_id']) && $tour['id'] == $baiviet['tour_id']) ? 'selected' : '';
+                        echo '<option value="'.$tour['id'].'" '.$selected.'>'.$tour['ten_tour'].'</option>';
                     }
                 }
                 ?>
@@ -343,9 +130,9 @@ $result_khampha = $conn->query($sql_khampha);
               <label class="required">Loại bài viết</label>
               <select name="loai_id" class="form-control" required>
                 <option value="">-- Chọn loại --</option>
-                <option value="1" <?php echo ($baiviet['loai_id'] == 1) ? 'selected' : ''; ?>>Làng nghề</option>
-                <option value="2" <?php echo ($baiviet['loai_id'] == 2) ? 'selected' : ''; ?>>Ẩm thực</option>
-                <option value="3" <?php echo ($baiviet['loai_id'] == 3) ? 'selected' : ''; ?>>Văn hóa</option>
+                <option value="1" <?php echo (isset($baiviet['loai_id']) && $baiviet['loai_id'] == 1) ? 'selected' : ''; ?>>Làng nghề</option>
+                <option value="2" <?php echo (isset($baiviet['loai_id']) && $baiviet['loai_id'] == 2) ? 'selected' : ''; ?>>Ẩm thực</option>
+                <option value="3" <?php echo (isset($baiviet['loai_id']) && $baiviet['loai_id'] == 3) ? 'selected' : ''; ?>>Văn hóa</option>
               </select>
             </div>
           </div>
@@ -369,12 +156,13 @@ $result_khampha = $conn->query($sql_khampha);
                           $current_loai = $kp['ten_loai'];
                       }
                       $selected = ($kp['khampha_id'] == $baiviet['khampha_id']) ? 'selected' : '';
-                      echo '<option value="'.$kp['khampha_id'].'" '.$selected.'>'.$kp['tieu_de'].'</option>';
+                      echo '<option value="'.$kp['khampha_id'].'" '.$selected.' data-loai-id="'.$kp['loai_id'].'" data-tour-id="'.$kp['tour_id'].'">'.$kp['tieu_de'].'</option>';
                   }
                   if($current_loai != '') echo '</optgroup>';
               }
               ?>
             </select>
+            <span class="help-text">Khi chọn mục khám phá, loại bài viết và tour liên quan sẽ tự động cập nhật</span>
           </div>
 
           <hr class="section-divider">
@@ -382,16 +170,14 @@ $result_khampha = $conn->query($sql_khampha);
           <!-- Nội dung chi tiết -->
           <h3 class="section-title"><i class="bi bi-list-ol"></i> Nội dung chi tiết</h3>
           
-          
-
           <div id="mucContainer">
             <?php 
             $muc_count = 0;
             foreach($mucs as $index => $muc): 
                 $muc_count++;
             ?>
-            <div class="muc-section" data-muc="<?php echo $muc_count; ?>" data-muc-id="<?php echo $muc['muc_id']; ?>">
-              <input type="hidden" name="muc_id[]" value="<?php echo $muc['muc_id']; ?>">
+            <div class="muc-section" data-muc="<?php echo $muc_count; ?>" data-muc-id="<?php echo $muc['id']; ?>">
+              <input type="hidden" name="muc_id[]" value="<?php echo $muc['id']; ?>">
               
               <div class="muc-header">
                 <h4><i class="bi bi-card-text"></i> Mục <?php echo $muc_count; ?></h4>
@@ -430,10 +216,12 @@ $result_khampha = $conn->query($sql_khampha);
             </div>
             <?php endforeach; ?>
           </div>
-                    <button type="button" class="btn-add-muc" onclick="addMuc()">
+          
+          <button type="button" class="btn-add-muc" onclick="addMuc()">
             <i class="bi bi-plus-circle"></i>
             Thêm mục mới
           </button>
+          
           <!-- Action Buttons -->
           <div class="form-actions">
             <button type="button" class="btn-cancel" onclick="confirmCancel()">
@@ -520,10 +308,60 @@ $result_khampha = $conn->query($sql_khampha);
       }
     }
 
-    // Validate form trước khi submit
-    document.getElementById('editArticleForm').addEventListener('submit', function(e) {
-      return confirm('Bạn có chắc muốn cập nhật bài viết này?');
+    // Tự động cập nhật loại bài viết và tour khi chọn mục khám phá
+    document.querySelector('select[name="khampha_id"]').addEventListener('change', function() {
+      const selectedOption = this.options[this.selectedIndex];
+      if (selectedOption.value) {
+        const loaiId = selectedOption.getAttribute('data-loai-id');
+        const tourId = selectedOption.getAttribute('data-tour-id');
+        
+        // Cập nhật loại bài viết
+        if (loaiId) {
+          document.querySelector('select[name="loai_id"]').value = loaiId;
+        }
+        
+        // Cập nhật tour liên quan
+        if (tourId) {
+          document.querySelector('select[name="tour_id"]').value = tourId;
+        } else {
+          document.querySelector('select[name="tour_id"]').value = '';
+        }
+      }
     });
+
+    // Validate form trước khi submit
+  // Validate form trước khi submit
+document.getElementById('editArticleForm').addEventListener('submit', function(e) {
+  const requiredFields = this.querySelectorAll('[required]');
+  let isValid = true;
+  const blankChar = 'ㅤㅤㅤㅤㅤㅤㅤㅤㅤ'; // ký tự thay thế nếu trống
+
+  requiredFields.forEach(field => {
+    const name = field.getAttribute('name'); // lấy tên thực của input
+
+    // Nếu ô bị trống, tự động gán chuỗi đặc biệt cho "Tiêu đề mục"
+    if (!field.value.trim()) {
+      if (name && name.startsWith('tieu_de_muc')) {
+        field.value = blankChar; // gán chuỗi trắng đặc biệt
+        field.style.borderColor = '#ddd';
+      } else {
+        isValid = false;
+        field.style.borderColor = '#e53935';
+      }
+    } else {
+      field.style.borderColor = '#ddd';
+    }
+  });
+
+  if (!isValid) {
+    e.preventDefault();
+    alert('Vui lòng điền đầy đủ các trường bắt buộc!');
+    return false;
+  }
+
+  return confirm('Bạn có chắc muốn cập nhật bài viết này?');
+});
+
   </script>
 </body>
 </html>
