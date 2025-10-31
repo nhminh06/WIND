@@ -13,6 +13,7 @@ $sql = "SELECT
     k.tieu_de,
     k.mo_ta_ngan,
     k.loai_id,
+    k.trang_thai,
     CASE 
         WHEN k.loai_id = 1 THEN 'Làng nghề'
         WHEN k.loai_id = 2 THEN 'Ẩm thực'
@@ -265,16 +266,32 @@ $stats = $result_stats->fetch_assoc();
                 <?php if ($row['co_bai_viet'] == 1): ?>
                   <span class="badge badge-langnghề" style="background: #d4edda; color: #155724;">
                     <i class="bi bi-check-circle"></i> Có bài viết
-                  </span>
+                    
+                  </span> <br>
+                <span class="badgev2">  <?php
+                    if($row['trang_thai'] == 1){
+                        echo "<i class=\"bi bi-eye\"></i>" . "Đang hiển thị";
+                    } else {
+                        echo "<i class=\"bi bi-eye-slash\"></i>" . "Đang ẩn";
+                    }
+                    ?></span>
                 <?php else: ?>
                   <span class="badge badge-vănhóa" style="background: #fff3cd; color: #856404;">
                     <i class="bi bi-exclamation-circle"></i> Chưa có
-                  </span>
+                   
+                  </span> <br>
+                <span class="badgev2">  <?php
+                    if($row['trang_thai'] == 1){
+                        echo "<i class=\"bi bi-eye\"></i>" . "Đang hiển thị";
+                    } else {
+                        echo "<i class=\"bi bi-eye-slash\"></i>" . "Đang ẩn";
+                    }
+                    ?></span>
                 <?php endif; ?>
               </td>
               <td>
                 <div class="action-buttons">
-                  <a href="view_khampha.php?id=<?php echo $row['khampha_id']; ?>" 
+                  <a href="hide_Explore.php?id=<?php echo $row['khampha_id']; ?>" 
                      class="btn-icon btn-view" 
                      title="Xem chi tiết">
                     <i class="bi bi-eye"></i>

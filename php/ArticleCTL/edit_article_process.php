@@ -33,14 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Validate các mục nội dung
     $has_valid_muc = false;
     foreach ($tieu_de_muc as $index => $tieu_de_muc_item) {
-        if (!empty(trim($tieu_de_muc_item)) && !empty(trim($noi_dung_muc[$index]))) {
+        if (!empty(trim($noi_dung_muc[$index]))) {
             $has_valid_muc = true;
             break;
         }
     }
     
     if (!$has_valid_muc) {
-        $_SESSION['error'] = "Phải có ít nhất một mục nội dung với tiêu đề và nội dung đầy đủ!";
+        $_SESSION['error'] = "Phải có ít nhất một mục nội dung với nội dung đầy đủ!";
         header("Location: ../../html/Admin/edit_article.php?id=" . $bai_viet_id);
         exit();
     }
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn->begin_transaction();
     
     try {
-        // 1. Kiểm tra bài viết có tồn tại không và lấy khampha_id hiện tại
+        // 1. Kiểm tra bài viết có tồn tại không
         $sql_check = "SELECT id, khampha_id FROM bai_viet WHERE id = ?";
         $stmt_check = $conn->prepare($sql_check);
         $stmt_check->bind_param("i", $bai_viet_id);
@@ -61,15 +61,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         
         $current_article = $result_check->fetch_assoc();
-        $current_khampha_id = $current_article['khampha_id'];
         $stmt_check->close();
         
         // 2. Cập nhật thông tin trong bảng khampha
         $sql_update_khampha = "UPDATE khampha SET loai_id = ?, tour_id = ? WHERE khampha_id = ?";
         $stmt_update_khampha = $conn->prepare($sql_update_khampha);
         
-        // Nếu tour_id là rỗng, set thành NULL
-        $tour_id_value = ($tour_id == 0 || $tour_id === '') ? null : $tour_id;
+        // Nếu tour_id là rỗng hoặc 0, set thành NULL
+        $tour_id_value = ($tour_id == 0 || $tour_id === '' || empty($tour_id)) ? null : $tour_id;
         $stmt_update_khampha->bind_param("iii", $loai_id, $tour_id_value, $khampha_id);
         
         if (!$stmt_update_khampha->execute()) {
@@ -145,11 +144,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $current_muc_id = intval($muc_id[$i]);
             $muc_tieu_de = trim($tieu_de_muc[$i]);
             $muc_noi_dung = trim($noi_dung_muc[$i]);
-            $hinh_anh_path = $old_hinh_anh[$i]; // Giữ ảnh cũ mặc định
             
-            // Bỏ qua mục trống
-            if (empty($muc_tieu_de) || empty($muc_noi_dung)) {
+            // Lấy ảnh cũ (nếu có)
+            $hinh_anh_path = isset($old_hinh_anh[$i]) ? $old_hinh_anh[$i] : '';
+            
+            // Bỏ qua mục trống (không có nội dung)
+            if (empty($muc_noi_dung)) {
                 continue;
+            }
+            
+            // Nếu tiêu đề trống, gán khoảng trắng
+            if (empty($muc_tieu_de)) {
+                $muc_tieu_de = ' ';
             }
             
             // Xử lý upload ảnh mới (nếu có)
@@ -170,8 +176,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             
                             if (move_uploaded_file($file_tmp, $file_destination)) {
                                 // Xóa ảnh cũ nếu có
-                                if (!empty($old_hinh_anh[$i]) && file_exists("../../" . $old_hinh_anh[$i])) {
-                                    @unlink("../../" . $old_hinh_anh[$i]);
+                                if (!empty($hinh_anh_path) && file_exists("../../" . $hinh_anh_path)) {
+                                    @unlink("../../" . $hinh_anh_path);
                                 }
                                 $hinh_anh_path = "uploads/baiviet/" . $new_file_name;
                             }
@@ -181,8 +187,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     } else {
                         throw new Exception("Kích thước file quá lớn. Tối đa 5MB.");
                     }
-                } else {
-                    throw new Exception("Lỗi upload file: " . $file_error);
                 }
             }
             

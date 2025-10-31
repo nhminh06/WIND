@@ -418,6 +418,17 @@ i{
             font-size: 12px;
             font-weight: 500;
             display: inline-block;
+            margin-bottom: 7px;
+        }
+        .badgev2 {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 3px;
+            background-color: #91a8ca;
+            color: #f0f0f0;
         }
         .badge-langnghề{
             background: #d1ecf1;

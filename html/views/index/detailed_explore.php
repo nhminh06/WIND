@@ -2,18 +2,21 @@
 include '../../../db/db.php';
 
 // Lấy khampha_id từ URL (ví dụ: chitiet.php?id=1)
-$khampha_id = isset($_GET['id']) ? intval($_GET['id']) : 4;
+$khampha_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 // Truy vấn lấy thông tin bài viết
 $sql = "SELECT bv.*, k.tieu_de as khampha_tieu_de 
         FROM bai_viet bv
         JOIN khampha k ON bv.khampha_id = k.khampha_id
-        WHERE bv.khampha_id = ?";
+        WHERE bv.khampha_id = ? AND bv.trang_thai = 1";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $khampha_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $bai_viet = $result->fetch_assoc();
+if($bai_viet['trang_thai'] != 1){
+    header("Location: ../../../html/views/index/empty.php");
+}
 
 // Kiểm tra xem có bài viết không
 if (!$bai_viet) {

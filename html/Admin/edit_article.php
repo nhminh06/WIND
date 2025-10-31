@@ -187,8 +187,9 @@ $result_khampha = $conn->query($sql_khampha);
               </div>
               
               <div class="form-group">
-                <label class="required">Tiêu đề mục</label>
-                <input type="text" name="tieu_de_muc[]" class="form-control" value="<?php echo htmlspecialchars($muc['tieu_de_muc']); ?>" required>
+                <label>Tiêu đề mục</label>
+                <input type="text" name="tieu_de_muc[]" class="form-control" value="<?php echo htmlspecialchars($muc['tieu_de_muc']); ?>" placeholder="Nhập tiêu đề hoặc để trống">
+                <span class="help-text">Để trống nếu không muốn hiển thị tiêu đề cho mục này</span>
               </div>
 
               <div class="form-group">
@@ -255,8 +256,9 @@ $result_khampha = $conn->query($sql_khampha);
           </div>
           
           <div class="form-group">
-            <label class="required">Tiêu đề mục</label>
-            <input type="text" name="tieu_de_muc[]" class="form-control" placeholder="Nhập tiêu đề mục ${mucCount}" required>
+            <label>Tiêu đề mục</label>
+            <input type="text" name="tieu_de_muc[]" class="form-control" placeholder="Nhập tiêu đề hoặc để trống">
+            <span class="help-text">Để trống nếu không muốn hiển thị tiêu đề cho mục này</span>
           </div>
 
           <div class="form-group">
@@ -330,38 +332,39 @@ $result_khampha = $conn->query($sql_khampha);
     });
 
     // Validate form trước khi submit
-  // Validate form trước khi submit
-document.getElementById('editArticleForm').addEventListener('submit', function(e) {
-  const requiredFields = this.querySelectorAll('[required]');
-  let isValid = true;
-  const blankChar = 'ㅤㅤㅤㅤㅤㅤㅤㅤㅤ'; // ký tự thay thế nếu trống
+    document.getElementById('editArticleForm').addEventListener('submit', function(e) {
+      const allFields = this.querySelectorAll('input, select, textarea');
+      let isValid = true;
+      const blankChar = ' '; // Khoảng trống đơn giản
 
-  requiredFields.forEach(field => {
-    const name = field.getAttribute('name'); // lấy tên thực của input
+      allFields.forEach(field => {
+        const name = field.getAttribute('name');
+        const isRequired = field.hasAttribute('required');
 
-    // Nếu ô bị trống, tự động gán chuỗi đặc biệt cho "Tiêu đề mục"
-    if (!field.value.trim()) {
-      if (name && name.startsWith('tieu_de_muc')) {
-        field.value = blankChar; // gán chuỗi trắng đặc biệt
-        field.style.borderColor = '#ddd';
-      } else {
-        isValid = false;
-        field.style.borderColor = '#e53935';
+        // Xử lý riêng cho tiêu đề mục - tự động gán khoảng trống nếu để trống
+        if (name && name.includes('tieu_de_muc')) {
+          if (!field.value.trim()) {
+            field.value = blankChar; // Gán khoảng trống
+          }
+          field.style.borderColor = '#ddd';
+        } 
+        // Xử lý các trường required khác
+        else if (isRequired && !field.value.trim()) {
+          isValid = false;
+          field.style.borderColor = '#e53935';
+        } else if (field.value.trim()) {
+          field.style.borderColor = '#ddd';
+        }
+      });
+
+      if (!isValid) {
+        e.preventDefault();
+        alert('Vui lòng điền đầy đủ các trường bắt buộc!');
+        return false;
       }
-    } else {
-      field.style.borderColor = '#ddd';
-    }
-  });
 
-  if (!isValid) {
-    e.preventDefault();
-    alert('Vui lòng điền đầy đủ các trường bắt buộc!');
-    return false;
-  }
-
-  return confirm('Bạn có chắc muốn cập nhật bài viết này?');
-});
-
+      return confirm('Bạn có chắc muốn cập nhật bài viết này?');
+    });
   </script>
 </body>
 </html>
