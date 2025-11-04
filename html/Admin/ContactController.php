@@ -23,7 +23,7 @@
        <?php 
        echo "<p>Xin chào  " . $_SESSION['username'] . "</p>";
        ?>
-        <button onclick="window.location.href='../views/users.php'" class="logout">Đăng xuất</button>
+        <button onclick="window.location.href='../views/index/webindex.php'" class="logout">Trở lại</button>
       </div>
     </header>
 

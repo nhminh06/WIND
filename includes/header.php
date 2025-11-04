@@ -51,9 +51,21 @@ if (session_status() === PHP_SESSION_NONE) {
 </svg>
 
       </button>
-        <div onclick="window.location.href = '../user/users.php'" class="users_avata">
-        <img src="https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg" alt="">
-      </div>
+       <?php 
+       if($_SESSION['role']=='staff'){
+        echo " <div onclick=\"window.location.href = '../../staff/StaffProfile.php'\" class=\"users_avata\">
+        <img src=\"https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg\" alt=\"\">
+      </div>";
+       }else if($_SESSION['role']=='admin'){
+        echo " <div onclick=\"window.location.href = '../../Admin/indexController.php'\" class=\"users_avata\">
+        <img src=\"https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg\" alt=\"\">
+       </div>";
+       }else{
+        echo " <div onclick=\"window.location.href = '../user/users.php'\" class=\"users_avata\">
+        <img src=\"https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg\" alt=\"\">
+      </div>";
+       }
+       ?>
             </div>
           
         </div>

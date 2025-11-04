@@ -201,7 +201,7 @@ $tours = $conn->query("SELECT id, ten_tour FROM tour WHERE trang_thai = 1");
       <h1>Thêm Khám phá mới</h1>
       <div class="admin-info">
         <?php echo "<p>Xin chào " . (isset($_SESSION['username']) ? $_SESSION['username'] : 'Admin') . "</p>"; ?>
-        <button onclick="window.location.href='../views/user/users.php'" class="logout">Đăng xuất</button>
+        <button onclick="window.location.href='../views/index/webindex.php'" class="logout">Trở lại</button>
       </div>
     </header>
 

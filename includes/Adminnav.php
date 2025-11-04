@@ -6,4 +6,5 @@
       <li><a href="../Admin/ContactController.php"><i class="bi bi-envelope"></i>Quản lý thông tin</a></li>
       <li><a href="../Admin/UserController.php"><i class="bi bi-person-workspace"></i>Quản lý người dùng</a></li>
       <li><a href="../Admin/StatisticalController.php"><i class="bi bi-bar-chart"></i>Thống kê</a></li>
+      <li><a href="../../php/logout.php"><i class="bi bi-box-arrow-left"></i>Đăng xuất</a></li>
     </ul>
