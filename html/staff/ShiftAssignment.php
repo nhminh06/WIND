@@ -75,7 +75,7 @@
           <td>21:30</td>
           <td>Tour tốt, khách hài lòng</td>
         </tr>
-      </tbody>
+      </tbody> 
     </table>
   </div>
 </body>

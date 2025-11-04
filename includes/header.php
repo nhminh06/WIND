@@ -29,8 +29,18 @@
                 <li><a href="../../views/index/contact.php">Liên hệ</a></li>
                 <li class="hd_lg"><a href="../../views/index/login.php">Đăng nhập</a></li>
             </ul>
-            <div class="search">
-                <input type="text" placeholder="Tìm kiếm...">
+             <?php
+    $conn = mysqli_connect("localhost", "root", "", "wind");
+    $_key = isset($_GET['key']) ? $_GET['key'] : ''; 
+    $_sql = "SELECT * FROM tour";
+    if (!empty($_key)) {
+      $_sql = "SELECT * From tour where name_tour LIKE '%" . mysqli_real_escape_string($conn, $_key)."%'";
+     // $_sql = "SELECT * FROM tour WHERE name_tour LIKE '%" . mysqli_real_escape_string($conn, $_key) . "%'";
+    }
+    ?>
+    <form class="search_form" action="" method="GET">
+  <div class="search">
+                <input type="text" name="key" placeholder="Tìm kiếm..." value="<?php echo htmlspecialchars($_key); ?>" id="search-input">
                 <button type="submit"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
 </svg>
@@ -48,6 +58,7 @@
         <img src="https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg" alt="">
       </div>
             </div>
+    </from>
           
         </div>
         <div class="rbc_menu" id="rbc_menu">
