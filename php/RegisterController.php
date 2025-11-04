@@ -7,7 +7,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     $PASSWORD = $_POST['password'];
     $role = 'user';
 
-    $sql = "INSERT INTO user (name, email, password, role) VALUES ('$USERNAME', '$EMAIL', '$PASSWORD', '$role')";
+    $sql = "INSERT INTO user (ho_ten, email, password, role) VALUES ('$USERNAME', '$EMAIL', '$PASSWORD', '$role')";
     if ($conn->query($sql) === TRUE) {
         $_SESSION['username'] = $USERNAME;
         header("Location: ../html/views/index/Webindex.php");

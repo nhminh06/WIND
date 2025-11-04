@@ -14,8 +14,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       $user = $result->fetch_assoc();
 if($user['role'] === 'admin'){
     $_SESSION['role'] = 'admin';
-}else{
+}else if($user['role'] === 'user'){
     $_SESSION['role'] = 'user';
+}else{
+    $_SESSION['role'] = 'staff';
 }
 
 

@@ -1,4 +1,5 @@
 <?php
+Session_start();
 include '../../../db/db.php';
 
 // Lấy khampha_id từ URL (ví dụ: chitiet.php?id=1)
@@ -51,6 +52,7 @@ $result_lienquan = $stmt_lq->get_result();
     <title><?php echo htmlspecialchars($bai_viet['tieu_de']); ?></title>
     <link rel="stylesheet" href="../../../css/Main5.css">
     <link rel="stylesheet" href="../../../css/Main5_1.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
         body{
             background: url('https://images.pexels.com/photos/8892/pexels-photo.jpg?_gl=1*h8o504*_ga*MTY1MzgzNDc3Ni4xNzUyMTU3Nzk0*_ga_8JE65Q40S6*czE3NjA2NzE4MDQkbzUkZzEkdDE3NjA2NzIwNTkkajYwJGwwJGgw') no-repeat center center fixed;
@@ -97,6 +99,74 @@ $result_lienquan = $stmt_lq->get_result();
             <?php endif; ?>
         </div>
     </div>
+  
+<div class="comment_section">
+    <div class="comment_wrapper">
+        <!-- HEADER -->
+        <h3 class="comment_header"><i class="bi bi-chat-fill"></i> Bình luận (24)</h3>
+
+        <!-- FORM VIẾT COMMENT -->
+        <form class="comment_form" action="../../../php/ArticleCTL/comment.php" method="post">
+            <textarea name="comment" placeholder="Viết bình luận của bạn..."></textarea>
+            <input type="hidden" name="khampha_id" value="<?php echo $khampha_id; ?>">
+           <?php
+           if(isset($_SESSION['username'])) {
+               $username = $_SESSION['username'];
+               $layuser = "SELECT id FROM user WHERE ho_ten = '$username'";
+               $kq_layuser = mysqli_query($conn, $layuser);
+               $user = mysqli_fetch_assoc($kq_layuser);
+               $user_id = $user['id'];}
+              else {
+                  $user_id = 0;
+              }
+             
+           ?>
+            <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+            <button type="submit">Gửi bình luận</button>
+        </form>
+
+        <!-- DANH SÁCH COMMENT -->
+        <div class="comment_list">
+            <!-- Comment 1 -->
+           <?php
+           $laycm = "SELECT 
+    bl.id AS binh_luan_id,
+    bl.khampha_id,
+    bl.noi_dung,
+    bl.so_luot_thich,
+    bl.ngay_tao,
+    u.id AS user_id,
+    u.ho_ten AS ten_user,
+    u.avatar
+FROM binh_luan bl
+LEFT JOIN user u ON bl.user_id = u.id
+WHERE bl.khampha_id = $khampha_id
+ORDER BY bl.ngay_tao DESC;
+";
+           $laykqcm = mysqli_query($conn, $laycm);
+
+           while($cm = mysqli_fetch_assoc($laykqcm)) {
+
+           ?>
+            <div class="comment_item">
+                <div class="comment_user">
+                    <span class="user_name"><?php echo $cm['ten_user'] ?></span>
+                    <span class="comment_date"><?php echo $cm['ngay_tao'] ?></span>
+                </div>
+                <div class="comment_content">
+                    <?php echo $cm['noi_dung'] ?>
+                </div>
+                <div class="comment_actions">
+                    <button class="action_btn"><i class="bi bi-heart-fill"></i> Thích (<?php echo $cm['so_luot_thich'] ?>)</button>
+                    <button class="action_btn"><i class="bi bi-flag-fill"></i> Báo cáo</button>
+                </div>
+            </div>
+           <?php } ?>
+
+          
+        </div>
+    </div>
+</div>
     <?php include '../../../includes/footer.php'?>
 </body>
 <script src="../../../js/Main5.js"></script>
