@@ -68,6 +68,7 @@ if (session_status() === PHP_SESSION_NONE) {
        ?>
             </div>
           
+            
         </div>
         <div class="rbc_menu" id="rbc_menu">
       <ul>
