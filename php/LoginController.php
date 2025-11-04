@@ -6,7 +6,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     $role = 'admin';
 
-    $sql = "SELECT * FROM user WHERE name = '$username' AND password = '$password'";
+    $sql = "SELECT * FROM user WHERE ho_ten = '$username' AND password = '$password'";
     $result = $conn->query($sql);
    
     if ($result->num_rows > 0) {

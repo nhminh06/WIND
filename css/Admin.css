@@ -728,3 +728,141 @@ i{
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+          /* 🎨 Chỉ đổi màu vùng form */
+    .tour-form {
+      background: linear-gradient(135deg, #f9fafc, #eef3ff);
+      border: 2px solid #d8e3ff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+   
+ th img{
+  width: 200px;
+ }
+    .tour-form .form-label {
+      font-weight: 600;
+      color: #1e3a8a;
+    }
+
+    .tour-form input,
+    .tour-form select,
+    .tour-form textarea {
+      border: 1px solid #b0c4ff;
+      box-shadow: none;
+    }
+
+    .tour-form input:focus,
+    .tour-form select:focus,
+    .tour-form textarea:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
+    }
+
+    .tour-form button {
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .sidebar .menu {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+
+ header > h1,p{
+  color: white;
+ }
+
+    .form-text {
+      color: #6b7280;
+      font-size: 0.9em;
+    }
+.thumbnail-img {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .thumbnail-img:hover {
+            transform: scale(1.3);
+        }
+        
+        .no-image {
+            width: 80px;
+            height: 60px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .price-text {
+            font-weight: bold;
+            color: #28a745;
+        }
+        
+        .badge-active {
+            background: #d4edda;
+            color: #155724;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .badge-hidden {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+.overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.dialog-box {
+  background:#15325f;
+  padding: 20px;
+  border-radius: 10px;
+  width: 380px;
+  height: 280px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+.select-css{
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  background: #2d313f;
+  color: #fff;
+  margin-top: 10px;
+  font-weight: bold;
+}
+.option-css{
+  font-weight: bold;
+}
+.role-btn{
+  color: white;
+  padding: 8px 13px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 10px;
+}
