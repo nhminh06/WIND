@@ -11,8 +11,10 @@
     </style>
 </head>
 <body>
-   <?php include '../../../includes/header.php';?>
-
+   <?php include '../../../includes/header.php';
+   // Lấy từ khóa tìm kiếm
+    $_key = isset($_GET['key']) ? trim($_GET['key']) : '';
+?>
        <div class="tour_container">
         <div class="tour_container1 box fade-left">
             <h3>Tour HOT Nước Ngoài</h3>
@@ -74,6 +76,9 @@
         <?php
         include '../../../db/db.php';
         $sql_httour =  "SELECT * FROM TOUR WHERE trang_thai =1";
+        if (!empty($_key)) {
+        $sql_httour .= " AND ten_tour LIKE '" . mysqli_real_escape_string($conn, $_key) . "%'";
+        }
         $sql_httour = mysqli_query($conn, $sql_httour);
         while($row_httour = mysqli_fetch_array($sql_httour)){
         ?>
@@ -83,7 +88,7 @@
                 </div>
                 <div class="tour_box_tt">
                    <div class="nameandtime">
-                     <div class="name_tour"><?php echo $row_httour['ten_tour']; ?></div>
+                     <div class="name_tour"><?php echo htmlspecialchars($row_httour['ten_tour']); ?></div>
                      <div class="tour_time">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
@@ -117,6 +122,7 @@
            
 
         </div>
+        
        </div>
 
 

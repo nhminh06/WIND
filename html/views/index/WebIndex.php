@@ -135,7 +135,7 @@
                    
                 </div>
             </div>
-         <h2>Địa điểm nổi bật</h2>
+         <h2>Nội dung nổi bật</h2>
 
         <div class="demo">
         <?php 

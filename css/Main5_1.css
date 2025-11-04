@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-/* note */
+/* ==================== NOTE SECTION ==================== */
 .note_img{
     width: 500px;
     height: 500px;
@@ -16,10 +16,11 @@
     height: 100%;
     object-fit: cover;
 }
+
+/* ==================== EXPLORE CONTAINER ==================== */
 .ex_container{
     margin-top: 50px;
     color: #fff;
- 
 }
 .ex_container > h2{
     text-align: center;
@@ -35,7 +36,7 @@
 }
 .ex_item{
     display: flex;
-    margin-bottom: 220px;
+    margin-bottom: 150px;
 }
 .ex_item > .ex_all_img{
     display: flex;
@@ -62,44 +63,42 @@
     cursor: pointer;
 }
 .ex_tt{
-     position: relative;  
+    position: relative;  
     margin: 0px 30px 30px 50px;
     flex: 1;
-    
-    
 }
 .ex_tt > h2{
-        font-family: Sarina, cursive;
+    font-family: Sarina, cursive;
 }
 .ex_tt > p{
-     font-family: 'Monsieur La Doulaise', cursive;
-     line-height: 1.6;
-     font-size: 20px;
-     text-align: left;
+    font-family: 'Monsieur La Doulaise', cursive;
+    line-height: 1.6;
+    font-size: 20px;
+    text-align: left;
 }
 .xemthem{
-      position: absolute;  
+    position: absolute;  
     width: 240px;
     height: 60px;
     border: none;
     outline: none;
     border-radius: 25px;
-     background-color: #fff;
+    background-color: #fff;
     color: black;
     font-size: 20px;
-     bottom: 2%;              
-  transform: translateX(-5%);
+    bottom: -6%;              
+    transform: translateX(-5%);
     font-weight: bold;
     margin: 10px;
-
+    cursor: pointer;
 }
 .xemthem:hover{
-   background-color: black;
-   color: white;
+    background-color: black;
+    color: white;
     transition: all 0.9s ease;
-  
-   
 }
+
+/* ==================== EXPLORE CONTAINER 2 ==================== */
 .ex_container2 > h2{
     text-align: center;
     margin-bottom: 40px;
@@ -109,7 +108,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    margin: 0 20px ;
+    margin: 0 20px;
     flex: 1;
 }
 .ex_all_img2{
@@ -125,555 +124,683 @@
 .ex_all_img2 > img:hover{
     transform: scale(1.05);
 }
-/* 
-hết */
-/* chi tiết khám phá */
+
+/* ==================== CHI TIẾT KHÁM PHÁ (DETAILED EXPLORE) ==================== */
 .detailed_explore_container{
     display: flex;
-    gap: 5px;
-      margin: 100px 300px 0 300px;
+    gap: 30px;
+    margin: 100px auto 50px auto;
+    max-width: 1400px;
+    padding: 0 50px;
 }
+
 .detailed_explore_container_tt{
     color: #fff;
     margin-top: 20px;
-    flex: 7;
+    flex: 1;
+    min-width: 0; /* Quan trọng: cho phép flex shrink đúng cách */
 }
+
 .detailed_explore_container_tt > h2{
     color: #ffffff;
     font-family: 'Monsieur La Doulaise', cursive;
-   
+    margin-bottom: 30px;
+    font-size: 36px;
 }
-.detailed_explore_container_qt > h3{
-    color: #ffffff;
+
+.detailed_explore_card {
+    margin-bottom: 40px;
+    padding: 0;
+}
+
+.detailed_explore_container_tt > .detailed_explore_card > h3{
+    font-size: 24px;
     font-family: 'Monsieur La Doulaise', cursive;
-    text-align: center;
-   
+    margin-bottom: 15px;
+    color: #fff;
 }
-.detailed_explore_container_tt> .detailed_explore_card > h3{
-    font-size: 22px;
-    font-family: 'Monsieur La Doulaise', cursive;
-}
+
 .detailed_explore_card > p{
     font-family: 'Monsieur La Doulaise', cursive;
-    font-size: 17px;
-    margin: 10px;
+    font-size: 18px;
+    margin: 15px 0;
+    line-height: 1.8;
+    color: #f0f0f0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
+
 .detailed_explore_img{
     width: 100%;
+    max-width: 100%;
     height: auto;
     overflow: hidden;
     border: none;
     border-radius: 15px;
-    margin: 10px;
+    margin: 20px 0;
 }
+
 .detailed_explore_img > img{
     width: 100%;
-    height: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+    display: block;
 }
+
 .xemchuyendi{
     width: 240px;
     height: 60px;
     border: none;
     outline: none;
     border-radius: 25px;
-     background-color: #fff;
+    background-color: #fff;
     color: black;
     font-size: 20px;
     font-weight: bold;
-    margin: 10px;
+    margin: 30px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
-}
 .xemchuyendi:hover{
-   background-color: black;
-   color: white;
-    transition: all 0.9s ease;
-  
-   
+    background-color: black;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
+
+/* ==================== SIDEBAR - CÓ THỂ BẠN QUAN TÂM ==================== */
 .detailed_explore_container_qt{
     display: flex;
     flex-direction: column;
-    flex: 3;
+    width: 350px;
+    flex-shrink: 0;
     margin-top: 130px;
 }
+
+.detailed_explore_container_qt > h3{
+    color: #ffffff;
+    font-family: 'Monsieur La Doulaise', cursive;
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 25px;
+}
+
 .detailed_explore_container_qt_card{
     height: 190px;
-    width: 90%;
+    width: 100%;
     border-radius: 15px;
-    margin-bottom: 10px;
- position: relative;
+    margin-bottom: 15px;
+    position: relative;
     overflow: hidden;
-    margin-left: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
+
+.detailed_explore_container_qt_card:hover{
+    transform: scale(1.03);
+}
+
 .detailed_explore_container_qt_card > img{
     width: 100%;
-       
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
 }
-.detailed_explore_container_qt_card  > p{
+
+.detailed_explore_container_qt_card:hover > img{
+    transform: scale(1.1);
+}
+
+.detailed_explore_container_qt_card > p{
     position: absolute;
     color: #fff;
     font-size: 19px;
     font-weight: bold;
     top: 50%;
-    right: 23.5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 2;
+    text-align: center;
+    width: 90%;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+    font-family: 'Monsieur La Doulaise', cursive;
+}
+
+/* Overlay tối cho card */
+.detailed_explore_container_qt_card::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));
+    z-index: 1;
 }
 
 /* ==================== RESPONSIVE DESIGN ==================== */
 
-/* ==================== RESPONSIVE DESIGN ==================== */
+/* Màn hình 1024px - 1400px (Laptop nhỏ) */
+@media (max-width: 1400px) {
+    .detailed_explore_container {
+        max-width: 1200px;
+        padding: 0 40px;
+        gap: 25px;
+    }
 
+    .detailed_explore_container_qt {
+        width: 320px;
+    }
 
-/* Màn hình 1024px - 1200px (Laptop nhỏ / Tablet ngang) */
-@media (max-width: 1200px) {
-  .detailed_explore_container {
-    margin: 80px 150px 0 150px;
-  }
+    .ex_item > .ex_all_img > .ex_img {
+        width: 220px;
+        height: 520px;
+    }
 
-  .ex_item > .ex_all_img > .ex_img {
-    width: 220px;
-    height: 520px;
-  }
+    .ex_tt {
+        margin: 0px 20px 30px 30px;
+    }
 
-  .ex_tt {
-    margin: 0px 20px 30px 30px;
-  }
-
-  .ex_tt > p {
-    font-size: 19px;
-  }
+    .ex_tt > p {
+        font-size: 19px;
+    }
 }
 
 /* Màn hình 768px - 1024px (Tablet dọc) */
 @media (max-width: 1024px) {
-  .ex_container > h2,
-  .ex_container2 > h2 {
-    font-size: 32px;
-    margin-bottom: 30px;
-  }
+    .ex_container > h2,
+    .ex_container2 > h2 {
+        font-size: 32px;
+        margin-bottom: 30px;
+    }
 
-  .ex_item {
-    flex-direction: column;
-    margin-bottom: 150px;
-    align-items: center;
-  }
+    .ex_item {
+        flex-direction: column;
+        margin-bottom: 150px;
+        align-items: center;
+    }
 
-  .ex_item > .ex_all_img {
-    margin: 0 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
+    .ex_item > .ex_all_img {
+        margin: 0 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 
-  .ex_item > .ex_all_img > .ex_img {
-    width: 200px;
-    height: 450px;
-  }
+    .ex_item > .ex_all_img > .ex_img {
+        width: 200px;
+        height: 450px;
+    }
 
-  .ex_tt {
-    margin: 30px 20px;
-    text-align: center;
-  }
+    .ex_tt {
+        margin: 30px 20px;
+        text-align: center;
+    }
 
-  .ex_tt > h2 {
-    font-size: 28px;
-    margin-bottom: 15px;
-  }
+    .ex_tt > h2 {
+        font-size: 28px;
+        margin-bottom: 15px;
+    }
 
-  .ex_tt > p {
-    font-size: 18px;
-    text-align: center;
-  }
+    .ex_tt > p {
+        font-size: 18px;
+        text-align: center;
+    }
 
-  .xemthem {
-    position: relative;
-    transform: none;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+    .xemthem {
+        position: relative;
+        transform: none;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 
-  .detailed_explore_container {
-    margin: 60px 80px 0 80px;
-    flex-direction: column;
-  }
+    /* Detailed Explore - Tablet */
+    .detailed_explore_container {
+        flex-direction: column;
+        padding: 0 40px;
+        margin: 60px auto 50px auto;
+    }
 
-  .detailed_explore_container_qt {
-    margin-top: 40px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-  }
+    .detailed_explore_container_tt > h2 {
+        font-size: 32px;
+        margin-top: 0;
+    }
 
-  .detailed_explore_container_qt_card {
-    width: 45%;
-    margin: 0;
-  }
+    .detailed_explore_container_qt {
+        margin-top: 40px;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+    }
 
-  .xemchuyendi {
-    width: 220px;
-    height: 55px;
-    font-size: 19px;
-  }
+    .detailed_explore_container_qt_card {
+        width: 88%;
+        height: 180px   ;
+        margin: 0;
+    }
+
+    .xemchuyendi {
+        width: 220px;
+        height: 55px;
+        font-size: 19px;
+    }
 }
 
 /* Màn hình 576px - 768px (Mobile ngang / Tablet nhỏ) */
 @media (max-width: 768px) {
-  .note_img {
-    width: 100%;
-    height: 350px;
-  }
+    .note_img {
+        width: 100%;
+        height: 350px;
+    }
 
-  .ex_container > h2,
-  .ex_container2 > h2 {
-    font-size: 28px;
-    margin-bottom: 25px;
-  }
+    .ex_container > h2,
+    .ex_container2 > h2 {
+        font-size: 28px;
+        margin-bottom: 25px;
+    }
 
-  .ex_item {
-    margin-bottom: 100px;
-  }
+    .ex_item {
+        margin-bottom: 100px;
+    }
 
-  .ex_item > .ex_all_img {
-    margin: 0 10px;
-    gap: 15px;
-  }
+    .ex_item > .ex_all_img {
+        margin: 0 10px;
+        gap: 15px;
+    }
 
-  .ex_item > .ex_all_img > .ex_img {
-    width: 160px;
-    height: 350px;
-  }
+    .ex_item > .ex_all_img > .ex_img {
+        width: 160px;
+        height: 350px;
+    }
 
-  .ex_tt {
-    margin: 20px 15px;
-  }
+    .ex_tt {
+        margin: 20px 15px;
+    }
 
-  .ex_tt > h2 {
-    font-size: 24px;
-  }
+    .ex_tt > h2 {
+        font-size: 24px;
+    }
 
-  .ex_tt > p {
-    font-size: 16px;
-    line-height: 1.5;
-  }
+    .ex_tt > p {
+        font-size: 16px;
+        line-height: 1.5;
+    }
 
-  .xemthem,
-  .xemchuyendi {
-    width: 200px;
-    height: 50px;
-    font-size: 17px;
-  }
+    .xemthem,
+    .xemchuyendi {
+        width: 200px;
+        height: 50px;
+        font-size: 17px;
+    }
 
-  .detailed_explore_container {
-    margin: 50px 40px 0 40px;
-  }
+    /* Detailed Explore - Mobile ngang */
+    .detailed_explore_container {
+        padding: 0 30px;
+        margin: 50px auto 40px auto;
+    }
 
-  .detailed_explore_container_tt > h2 {
-    font-size: 26px;
-    margin-top: 33px;
-  }
+    .detailed_explore_container_tt > h2 {
+        font-size: 28px;
+        margin-bottom: 25px;
+    }
 
-  .detailed_explore_container_tt > .detailed_explore_card > h3 {
-    font-size: 20px;
-  }
+    .detailed_explore_container_tt > .detailed_explore_card > h3 {
+        font-size: 22px;
+    }
 
-  .detailed_explore_card > p {
-    font-size: 16px;
-  }
+    .detailed_explore_card > p {
+        font-size: 17px;
+    }
 
-  .detailed_explore_container_qt > h3 {
-    font-size: 24px;
-    margin-bottom: 15px;
-  }
+    .detailed_explore_container_qt > h3 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
 
-  .detailed_explore_container_qt_card {
-    width: 48%;
-    height: 160px;
-  }
+    .detailed_explore_container_qt_card {
+        width: 88%;
+        height: 160px;
+    }
 
-  .detailed_explore_container_qt_card > p {
-    font-size: 17px;
-    right: 15%;
-  }
+    .detailed_explore_container_qt_card > p {
+        font-size: 17px;
+    }
 
-  .ex_all_img1 {
-    margin: 0 10px;
-    gap: 15px;
-  }
+    .ex_all_img1 {
+        margin: 0 10px;
+        gap: 15px;
+    }
 
-  .ex_all_img2 {
-    height: 250px;
-  }
+    .ex_all_img2 {
+        height: 250px;
+    }
 }
 
 /* Màn hình 430px - 576px (Mobile tiêu chuẩn) */
 @media (max-width: 576px) {
-  .note_img {
-    width: 100%;
-    height: 300px;
-  }
+    .note_img {
+        width: 100%;
+        height: 300px;
+    }
 
+    .ex_container > h2,
+    .ex_container2 > h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
 
-  .ex_container > h2,
-  .ex_container2 > h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
+    .ex_item {
+        margin-bottom: 70px;
+    }
 
-  .ex_item {
-    margin-bottom: 70px;
-  }
+    .ex_item > .ex_all_img {
+        margin: 0 5px;
+        gap: 10px;
+    }
 
-  .ex_item > .ex_all_img {
-    margin: 0 5px;
-    gap: 10px;
-  }
+    .ex_item > .ex_all_img > .ex_img {
+        width: 140px;
+        height: 280px;
+    }
 
-  .ex_item > .ex_all_img > .ex_img {
-    width: 140px;
-    height: 280px;
-  }
+    .ex_tt {
+        margin: 15px 10px;
+    }
 
-  .ex_tt {
-    margin: 15px 10px;
-  }
+    .ex_tt > h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
 
-  .ex_tt > h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
+    .ex_tt > p {
+        font-size: 15px;
+        line-height: 1.4;
+    }
 
-  .ex_tt > p {
-    font-size: 15px;
-    line-height: 1.4;
-  }
+    .xemthem,
+    .xemchuyendi {
+        width: 180px;
+        height: 45px;
+        font-size: 16px;
+        margin: 5px;
+    }
 
-  .xemthem,
-  .xemchuyendi {
-    width: 180px;
-    height: 45px;
-    font-size: 16px;
-    margin: 5px;
-  }
+    /* Detailed Explore - Mobile */
+    .detailed_explore_container {
+        padding: 0 20px;
+        margin: 40px auto 30px auto;
+    }
 
-  .detailed_explore_container {
-    margin: 40px 20px 0 20px;
-  }
+    .detailed_explore_container_tt > h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
 
-  .detailed_explore_container_tt > h2 {
-    font-size: 22px;
-  }
+    .detailed_explore_container_tt > .detailed_explore_card > h3 {
+        font-size: 20px;
+    }
 
-  .detailed_explore_container_tt > .detailed_explore_card > h3 {
-    font-size: 18px;
-  }
+    .detailed_explore_card {
+        padding: 0;
+    }
 
-  .detailed_explore_card > p {
-    font-size: 15px;
-    margin: 8px;
-  }
+    .detailed_explore_card > p {
+        font-size: 16px;
+        margin: 10px 0;
+    }
 
-  .detailed_explore_img {
-    margin: 8px;
-  }
+    .detailed_explore_img {
+        margin: 15px 0;
+    }
 
-  .detailed_explore_container_qt {
-    margin-top: 30px;
-  }
+    .detailed_explore_container_qt {
+        margin-top: 30px;
+    }
 
-  .detailed_explore_container_qt > h3 {
-    font-size: 20px;
-  }
+    .detailed_explore_container_qt > h3 {
+        font-size: 22px;
+    }
 
-  .detailed_explore_container_qt_card {
-    width: 100%;
-    height: 140px;
-    margin-bottom: 10px;
-  }
+    .detailed_explore_container_qt_card {
+        width: 100%;
+        height: 140px;
+        margin-bottom: 10px;
+    }
 
-  .detailed_explore_container_qt_card > p {
-    font-size: 16px;
-    right: 30%;
-  }
+    .detailed_explore_container_qt_card > p {
+        font-size: 16px;
+    }
 
-  .ex_all_img1 {
-    margin: 0 5px;
-    gap: 10px;
-  }
+    .ex_all_img1 {
+        margin: 0 5px;
+        gap: 10px;
+    }
 
-  .ex_all_img2 {
-    height: 200px;
-  }
+    .ex_all_img2 {
+        height: 200px;
+    }
 }
 
 /* Màn hình <= 430px (Mobile nhỏ) */
 @media (max-width: 430px) {
-  body {
-    font-size: 14px;
-  }
+    body {
+        font-size: 14px;
+    }
 
-  .note_img {
-    width: 100%;
-    height: 250px;
-  }
+    .note_img {
+        width: 100%;
+        height: 250px;
+    }
 
-  .ex_container > h2,
-  .ex_container2 > h2 {
-    font-size: 22px;
-    margin-bottom: 15px;
-  }
+    .ex_container > h2,
+    .ex_container2 > h2 {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
 
-  .ex_item {
-    margin-bottom: 50px;
-  }
+    .ex_item {
+        margin-bottom: 50px;
+    }
 
-  .ex_item > .ex_all_img {
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-  }
+    .ex_item > .ex_all_img {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
 
-  .ex_item > .ex_all_img > .ex_img {
-    width: 90%;
-    max-width: 280px;
-    height: 320px;
-  }
+    .ex_item > .ex_all_img > .ex_img {
+        width: 90%;
+        max-width: 280px;
+        height: 320px;
+    }
 
-  .ex_tt {
-    margin: 15px 10px;
-  }
+    .ex_tt {
+        margin: 15px 10px;
+    }
 
-  .ex_tt > h2 {
-    font-size: 18px;
-  }
+    .ex_tt > h2 {
+        font-size: 18px;
+    }
 
-  .ex_tt > p {
-    font-size: 14px;
-    line-height: 1.4;
-  }
+    .ex_tt > p {
+        font-size: 14px;
+        line-height: 1.4;
+    }
 
-  .xemthem,
-  .xemchuyendi {
-    width: 160px;
-    height: 42px;
-    font-size: 15px;
-  }
+    .xemthem,
+    .xemchuyendi {
+        width: 160px;
+        height: 42px;
+        font-size: 15px;
+    }
 
-  .detailed_explore_container {
-    margin: 30px 15px 0 15px;
-  }
+    /* Detailed Explore - Mobile nhỏ */
+    .detailed_explore_container {
+        padding: 0 15px;
+        margin: 30px auto 20px auto;
+    }
 
-  .detailed_explore_container_tt > h2 {
-    font-size: 20px;
-    margin-top: 33px;
-  }
+    .detailed_explore_container_tt > h2 {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
 
-  .detailed_explore_container_tt > .detailed_explore_card > h3 {
-    font-size: 17px;
-  }
+    .detailed_explore_container_tt > .detailed_explore_card > h3 {
+        font-size: 18px;
+    }
 
-  .detailed_explore_card > p {
-    font-size: 14px;
-    margin: 5px;
-  }
+    .detailed_explore_card {
+        padding: 0;
+        margin-bottom: 25px;
+    }
 
-  .detailed_explore_img {
-    margin: 5px;
-    border-radius: 10px;
-  }
+    .detailed_explore_card > p {
+        font-size: 15px;
+        margin: 8px 0;
+    }
 
-  .detailed_explore_container_qt > h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
+    .detailed_explore_img {
+        margin: 12px 0;
+        border-radius: 10px;
+    }
 
-  .detailed_explore_container_qt_card {
-    width: 100%;
-    height: 130px;
-    margin-left: 0;
-  }
+    .detailed_explore_container_qt > h3 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
 
-  .detailed_explore_container_qt_card > p {
-    font-size: 15px;
-    right: 25%;
-  }
+    .detailed_explore_container_qt_card {
+        width: 100%;
+        height: 130px;
+    }
 
-  .ex_all_img1 {
-    margin: 0;
-    gap: 10px;
-  }
+    .detailed_explore_container_qt_card > p {
+        font-size: 15px;
+    }
 
-  .ex_all_img2 {
-    height: 180px;
-    border-radius: 10px;
-  }
+    .ex_all_img1 {
+        margin: 0;
+        gap: 10px;
+    }
+
+    .ex_all_img2 {
+        height: 180px;
+        border-radius: 10px;
+    }
 }
 
 /* Màn hình <= 375px (Mobile rất nhỏ - iPhone SE, etc.) */
 @media (max-width: 375px) {
-  .ex_container > h2,
-  .ex_container2 > h2 {
-    font-size: 20px;
-  }
+    .ex_container > h2,
+    .ex_container2 > h2 {
+        font-size: 20px;
+    }
 
-  .ex_item > .ex_all_img > .ex_img {
-    width: 95%;
-    height: 300px;
-  }
+    .ex_item > .ex_all_img > .ex_img {
+        width: 95%;
+        height: 300px;
+    }
 
-  .ex_tt > h2 {
-    font-size: 17px;
-  }
+    .ex_tt > h2 {
+        font-size: 17px;
+    }
 
-  .ex_tt > p {
-    font-size: 13px;
-  }
+    .ex_tt > p {
+        font-size: 13px;
+    }
 
-  .xemthem,
-  .xemchuyendi {
-    width: 150px;
-    height: 40px;
-    font-size: 14px;
-  }
+    .xemthem,
+    .xemchuyendi {
+        width: 150px;
+        height: 40px;
+        font-size: 14px;
+    }
 
-  .detailed_explore_container {
-    margin: 25px 10px 0 10px;
-  }
+    .detailed_explore_container {
+        padding: 0 10px;
+        margin: 25px auto 15px auto;
+    }
 
-  .detailed_explore_container_qt_card {
-    height: 120px;
-  }
+    .detailed_explore_container_tt > h2 {
+        font-size: 20px;
+    }
 
-  .detailed_explore_container_qt_card > p {
-    font-size: 14px;
-    right: 20%;
-  }
+    .detailed_explore_container_qt_card {
+        height: 120px;
+    }
 
-  .ex_all_img2 {
-    height: 160px;
-  }
+    .detailed_explore_container_qt_card > p {
+        font-size: 14px;
+    }
+
+    .ex_all_img2 {
+        height: 160px;
+    }
 }
-/* Fix cho viewport cực nhỏ < 352px */
+
+/* Fix cho viewport cực nhỏ < 360px */
 @media (max-width: 360px) {
-  .ex_container,
-  .ex_container2 {
-    margin: 20px 5px !important;
-  }
+    .ex_container,
+    .ex_container2 {
+        margin: 20px 5px !important;
+    }
 
-  .ex_item > .ex_all_img {
-    margin: 0 !important;
-    padding: 0 5px;
-  }
+    .ex_item > .ex_all_img {
+        margin: 0 !important;
+        padding: 0 5px;
+    }
 
-  .ex_item > .ex_all_img > .ex_img {
-    width: 100% !important;
-    max-width: 300px;
-    height: 280px;
-  }
+    .ex_item > .ex_all_img > .ex_img {
+        width: 100% !important;
+        max-width: 300px;
+        height: 280px;
+    }
 
-  .ex_tt {
-    margin: 10px 5px !important;
-    padding: 10px;
-  }
+    .ex_tt {
+        margin: 10px 5px !important;
+        padding: 10px;
+    }
+
+    .detailed_explore_container {
+        padding: 0 8px !important;
+        margin: 20px auto 10px auto !important;
+    }
 }
-/* hết */
+.change-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 170px;
+}
+button.change-btn{
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 24px;
+    width: 100px;
+    height: 60px;
+    font-size: 34px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0 90px 0 90px;
+}
+.page-info{
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    padding: 5px 10px;
+    font-size: 17px;
+    padding: 10px;
+    color: black;
+    font-weight: bold;
+}
+button.change-btn:hover{
+    background-color: rgb(0, 0, 0);
+    color: white;
+}
+button.change-btn:active{
+    transform: scale(0.95);
+}
