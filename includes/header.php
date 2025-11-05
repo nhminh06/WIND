@@ -52,7 +52,13 @@ if (session_status() === PHP_SESSION_NONE) {
 
       </button>
        <?php 
-       if($_SESSION['role']=='staff'){
+       if(!isset($_SESSION['role'])) {
+       echo " <div onclick=\"window.location.href = '../index/note.php'\" class=\"users_avata\">
+        <img src=\"https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg\" alt=\"\">
+      </div>";
+       }
+
+       else if($_SESSION['role']=='staff'){
         echo " <div onclick=\"window.location.href = '../../staff/StaffProfile.php'\" class=\"users_avata\">
         <img src=\"https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg\" alt=\"\">
       </div>";
