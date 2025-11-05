@@ -19,8 +19,11 @@ if($user['role'] === 'admin'){
 }else{
     $_SESSION['role'] = 'staff';
 }
-
-
+ if($user['trang_thai'] == 0){
+    $_SESSION['error'] = 1;
+    header("Location: ../html/views/index/contact.php");
+    exit();
+}
 
         $_SESSION['username'] = $username;
         echo "<script>window.location.href = '../html/views/index/WebIndex.php';</script>";

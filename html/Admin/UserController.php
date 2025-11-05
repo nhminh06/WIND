@@ -346,14 +346,14 @@ $stats = $result_stats->fetch_assoc();
 
 
                   <?php if ($row['trang_thai'] == 1): ?>
-                  <a href="lock_user.php?id=<?php echo $row['id']; ?>" 
+                  <a href="../../php/UserCTL/lock_user.php?id=<?php echo $row['id']; ?>" 
                      class="btn-icon btn-view" 
                      title="Khóa tài khoản"
                      onclick="return confirm('Bạn có chắc muốn khóa tài khoản <?php echo htmlspecialchars($row['ho_ten']); ?>?')">
                     <i class="bi bi-lock"></i>
                   </a>
                   <?php else: ?>
-                  <a href="unlock_user.php?id=<?php echo $row['id']; ?>" 
+                  <a href="../../php/UserCTL/unlock_user.php?id=<?php echo $row['id']; ?>" 
                      class="btn-icon btn-view" 
                      title="Mở khóa tài khoản"
                      onclick="return confirm('Bạn có chắc muốn mở khóa tài khoản <?php echo htmlspecialchars($row['ho_ten']); ?>?')">

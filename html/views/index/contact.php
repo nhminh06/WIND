@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,10 +16,17 @@
 
         <div class="contact_container">
             <h2>Liên hệ với chúng tôi</h2>
+
             <div class="font_map">
                 <div class="contact_font box fade-left">
                     <div class="contact_main">
                         <h2>Thông tiên liên hệ</h2>
+                        <?php
+                        if (isset($_SESSION['error']) && $_SESSION['error'] == 1) {
+                            echo '<p style="text-align: center; color: red;">Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên để biết thêm chi tiết.</p>';
+                            unset($_SESSION['error']);
+                        }
+                        ?>
                        <ul>
                         <li><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
