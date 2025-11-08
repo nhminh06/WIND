@@ -72,7 +72,7 @@ $result_khampha = $conn->query($sql_khampha);
             <div class="form-group">
               <label>Tour liên quan</label>
               <select name="tour_id" class="form-control">
-                <option value="">-- Không liên kết tour --</option>
+                <option value="0">-- Không liên kết tour --</option>
                 <?php 
                 if($result_tour && $result_tour->num_rows > 0) {
                     while($tour = $result_tour->fetch_assoc()) {
