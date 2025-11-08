@@ -6,6 +6,10 @@
     <title>Du Lịch</title>
     <link rel="stylesheet" href="../../../css/Main5.css">
    <link href="https://fonts.googleapis.com/css2?family=Sarina&display=swap" rel="stylesheet">
+  <head>
+  <link rel="icon" type="image/png" href="../../../img/logo.png"/>
+
+</head>
 
 <style>
   body{

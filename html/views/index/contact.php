@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liên Hệ</title>
     <link rel="stylesheet" href="../../../css/Main5.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
           body{background: url('https://images.unsplash.com/photo-1750440982726-d723eab666a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
   background-size: cover;}
@@ -15,10 +17,12 @@
 
         <div class="contact_container">
             <h2>Liên hệ với chúng tôi</h2>
+
             <div class="font_map">
                 <div class="contact_font box fade-left">
                     <div class="contact_main">
                         <h2>Thông tiên liên hệ</h2>
+                       
                        <ul>
                         <li><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -45,7 +49,19 @@
                       <button>Gửi liên hệ</button>
                     </div>
                 </div>
-                <div class="map box fade-right"> <iframe 
+                <div class="map box fade-right"> 
+                <div style=" <?php
+                        if (isset($_SESSION['error']) && $_SESSION['error'] == 1) {
+                            echo "display: flex;";
+                            unset($_SESSION['error']);
+                        }else {
+                            echo "display: none;";
+                        }
+                        ?>" class= "banacc">
+                  <i class="bi bi-exclamation-triangle-fill"></i>
+                  <h3>Tài khoản của bạn đã bị khóa liên hệ với quản trị viên để biết thêm chi tiết.</h3>
+                </div>  
+                <iframe 
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.397607469205!2d106.70042357480397!3d10.778673759158203!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f3ed4e4015f%3A0x1d2f6dbf52ec2e78!2zMTIzIMSQLiBUcuG6p24gSMawbmcgxJDDoG8sIFBoxrDhu51uZyA3LCBRdeG6rW4gMSwgSOG7kyBDaMOtbmgsIFZpZXRuYW0!5e0!3m2!1svi!2s!4v1721123456789" 
         width="100%" 
         height="400" 

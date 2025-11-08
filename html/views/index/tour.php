@@ -17,57 +17,53 @@
 ?>
        <div class="tour_container">
         <div class="tour_container1 box fade-left">
-            <h3>Tour HOT Nước Ngoài</h3>
+            <h3></h3>
             <ul>
-               <li>Nhật Bản</li>
-                <li>Hoa Kỳ</li>
-                <li>Pháp</li>
-                <li>Trung Quốc</li>
-                <li>Hàn Quốc</li>
-                <li>Đức</li>
-                <li>Ý</li>
-                <li>Canada</li>
-                <li>Anh</li>
-                <li>Úc</li>
+               <li></li>
+               <li></li>
+               <li></li>
+               <li></li>
+               <li></li>
+               <li></li>
+               <li></li>
+               <li></li>
+               <li></li>
 
             </ul>
-            <h3>Tour HOT Trong Nước</h3>
+            <h3></h3>
             <ul>
-              <li>Quảng Ninh</li>
-                <li>Quảng Nam</li>
-                <li>Đà Nẵng</li>
-                <li>Lâm Đồng</li>
-                <li>Lào Cai</li>
-                <li>Thừa Thiên Huế</li>
-                <li>TP Hồ Chí Minh</li>
-                <li>Hà Nội</li>
-                <li>Khánh Hòa</li>
-                <li>Bình Thuận</li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
 
 
             </ul>
-            <h3>Loại Tuor </h3>
+            <h3> </h3>
             <ul>
-              <li>Tour Trọn Gió</li>
-                <li>Tour Trong Ngày </li>
-                <li>Tour Siêu Du Thuyền</li>
+              <li></li>
+                <li></li>
+                <li></li>
 
               
                
 
 
             </ul>
-                <h3>Tour Theo Chủ Đề</h3><ul>
-                <li>Tour Ưu Đãi Tốt Nhất Hôm Nay</li>
-                <li>Tour Du Lịch Đông Tây Bắc</li>
-                <li>Tour Du Lịch Trải Nghiệm</li>
-                <li>Tour Du Lịch Độc Đáo</li>
-                <li>Tour Du Lịch Nước Ngoài Cao Cấp</li>
-                <li>Tour Du Lịch Nội Địa</li>
-                <li>Tour Du Lịch Miền Trung</li>
-                <li>Tour Du Lịch Siêu Du Thuyền 5 Sao</li>
-                <li>Tour Du Lịch Bằng Xe Lửa</li>
-                <li>Tour Du Lịch Nhật Bản - Hàn Quốc</li>
+                <h3></h3><ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
                 </ul>
 
         </div>

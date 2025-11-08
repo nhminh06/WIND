@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../../../db/db.php';
 
 // Lấy khampha_id từ URL (ví dụ: chitiet.php?id=1)
@@ -14,14 +15,20 @@ $stmt->bind_param("i", $khampha_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $bai_viet = $result->fetch_assoc();
-if($bai_viet['trang_thai'] != 1){
+
+if(!$bai_viet || $bai_viet['trang_thai'] != 1){
     header("Location: ../../../html/views/index/empty.php");
+    exit();
 }
 
-// Kiểm tra xem có bài viết không
-if (!$bai_viet) {
-    die("Không tìm thấy bài viết. Vui lòng kiểm tra lại khampha_id = " . $khampha_id);
+// ==================== PHẦN SỬA CHÍNH ====================
+// LẤY USER_ID TỪ SESSION - KHÔNG QUERY DATABASE
+if(isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+    $user_id = intval($_SESSION['user_id']); 
+} else {
+    $user_id = 0; // Guest user (chưa đăng nhập)
 }
+// ========================================================
 
 // Truy vấn lấy các mục của bài viết
 $sql_muc = "SELECT * FROM bai_viet_muc WHERE bai_viet_id = ? ORDER BY id";
@@ -51,6 +58,7 @@ $result_lienquan = $stmt_lq->get_result();
     <title><?php echo htmlspecialchars($bai_viet['tieu_de']); ?></title>
     <link rel="stylesheet" href="../../../css/Main5.css">
     <link rel="stylesheet" href="../../../css/Main5_1.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
         body{
             background: url('https://images.pexels.com/photos/8892/pexels-photo.jpg?_gl=1*h8o504*_ga*MTY1MzgzNDc3Ni4xNzUyMTU3Nzk0*_ga_8JE65Q40S6*czE3NjA2NzE4MDQkbzUkZzEkdDE3NjA2NzIwNTkkajYwJGwwJGgw') no-repeat center center fixed;
@@ -88,7 +96,7 @@ $result_lienquan = $stmt_lq->get_result();
             <?php if($result_lienquan->num_rows > 0): ?>
                 <?php while($lienquan = $result_lienquan->fetch_assoc()): ?>
                 <div onclick="window.location.href='detailed_explore.php?id=<?php echo $lienquan['khampha_id']; ?>'" class="detailed_explore_container_qt_card">
-                    <img src="<?php echo htmlspecialchars("../" . $lienquan['duong_dan_anh'] ?? '../../../img/default.png'); ?>" alt="<?php echo htmlspecialchars($lienquan['tieu_de']); ?>">
+                    <img src="<?php echo htmlspecialchars("../" . ($lienquan['duong_dan_anh'] ?? '../../../img/default.png')); ?>" alt="<?php echo htmlspecialchars($lienquan['tieu_de']); ?>">
                     <p><?php echo htmlspecialchars($lienquan['tieu_de']); ?></p>
                 </div>
                 <?php endwhile; ?>
@@ -97,6 +105,109 @@ $result_lienquan = $stmt_lq->get_result();
             <?php endif; ?>
         </div>
     </div>
+  
+<div class="comment_section">
+    <div class="comment_wrapper">
+        <!-- HEADER -->
+        <?php
+        $sql_dembl = "SELECT COUNT(*) AS tong_binh_luan FROM binh_luan WHERE khampha_id = ?";
+        $stmt_dembl = $conn->prepare($sql_dembl);
+        $stmt_dembl->bind_param("i", $khampha_id);
+        $stmt_dembl->execute();
+        $result_dembl = $stmt_dembl->get_result();
+        $so_binh_luan = $result_dembl->fetch_assoc()['tong_binh_luan'];
+        $stmt_dembl->close();
+        ?>
+        <h3 class="comment_header"><i class="bi bi-chat-fill"></i> Bình luận (<?php echo $so_binh_luan; ?>)</h3>
+
+        <!-- FORM VIẾT COMMENT -->
+        <form class="comment_form" action="../../../php/ArticleCTL/comment.php" method="post">
+            <textarea name="comment" placeholder="Viết bình luận của bạn..." required></textarea>
+            <input type="hidden" name="khampha_id" value="<?php echo $khampha_id; ?>">
+            <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+            
+            <?php if($user_id == 0): ?>
+                <p style="color: red; font-size: 14px;">⚠️ Bạn cần <a href="../../../html/views/index/login.php" style="color: #007bff;">đăng nhập</a> để bình luận.</p>
+            <?php endif; ?>
+            
+            <button type="submit" <?php echo ($user_id == 0) ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''; ?>>Gửi bình luận</button>
+        </form>
+
+        <div class="comment_list">
+           <?php
+           // SỬ DỤNG PREPARED STATEMENT CHO BÌNH LUẬN
+           $sql_laycm = "SELECT 
+                bl.id AS binh_luan_id,
+                bl.khampha_id,
+                bl.noi_dung,
+                bl.so_luot_thich,
+                bl.ngay_tao,
+                bl.user_id,
+                u.ho_ten AS ten_user,
+                u.avatar,
+                lb.thich AS thich
+            FROM binh_luan bl
+            LEFT JOIN user u ON bl.user_id = u.id
+            LEFT JOIN like_binhluan lb 
+                ON bl.id = lb.binh_luan_id AND lb.user_id = ?
+            WHERE bl.khampha_id = ?
+            ORDER BY bl.ngay_tao DESC";
+            
+           $stmt_laycm = $conn->prepare($sql_laycm);
+           $stmt_laycm->bind_param("ii", $user_id, $khampha_id);
+           $stmt_laycm->execute();
+           $result_laycm = $stmt_laycm->get_result();
+
+           if($result_laycm->num_rows > 0):
+               while($cm = $result_laycm->fetch_assoc()): 
+           ?>
+            <div class="comment_item">
+                <div class="comment_user">
+                    <span class="user_name"><?php echo htmlspecialchars($cm['ten_user']); ?></span>
+                    <span class="comment_date"><?php echo htmlspecialchars($cm['ngay_tao']); ?></span>
+                </div>
+                <div class="comment_content">
+                    <?php echo nl2br(htmlspecialchars($cm['noi_dung'])); ?>
+                </div>
+                <div class="comment_actions">
+                    <!-- NÚT LIKE - CHỈ TRUYỀN id VÀ khampha_id -->
+                    <button onclick="<?php 
+                        if($user_id == 0) {
+                            echo "alert('Vui lòng đăng nhập để thích bình luận!'); return false;";
+                        } else {
+                            echo "window.location.href='../../../php/ArticleCTL/like_comment.php?id=" . $cm['binh_luan_id'] . "&khampha_id=" . $khampha_id . "'";
+                        }
+                    ?>" class="action_btn">
+                        <i class="bi bi-heart-fill" style="color: <?php echo ($cm['thich'] == 1) ? 'red' : 'white'; ?>"></i> 
+                        Thích (<?php echo $cm['so_luot_thich']; ?>)
+                    </button>
+                    
+                    <button class="action_btn" <?php echo ($user_id == 0) ? 'disabled style="opacity:0.5;"' : ''; ?>>
+                        <i class="bi bi-flag-fill"></i> Báo cáo
+                    </button>
+                    
+                    <!-- NÚT XÓA - CHỈ HIỂN THỊ CHO CHỦ COMMENT -->
+                    <?php if($user_id == $cm['user_id']): ?>
+                    <button 
+                        onclick="if(confirm('Bạn có chắc chắn muốn xóa bình luận này không?')){window.location.href='../../../php/ArticleCTL/delete_comment.php?id=<?php echo $cm['binh_luan_id']; ?>&khampha_id=<?php echo $khampha_id; ?>'}"
+                        class="action_btn">
+                        <i class="bi bi-trash3-fill"></i> Xóa
+                    </button>
+                    <?php endif; ?>
+                </div>
+            </div>
+           <?php 
+               endwhile;
+           else:
+           ?>
+               <p style="text-align:center; color:#666; padding:20px;">Chưa có bình luận nào. Hãy là người đầu tiên bình luận!</p>
+           <?php 
+           endif;
+           $stmt_laycm->close();
+           ?>
+        </div>
+    </div>
+</div>
     <?php include '../../../includes/footer.php'?>
 </body>
 <script src="../../../js/Main5.js"></script>

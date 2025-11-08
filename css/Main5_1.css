@@ -445,6 +445,7 @@
     }
 
     .detailed_explore_container_tt > h2 {
+        margin-top: 13px;
         font-size: 28px;
         margin-bottom: 25px;
     }
@@ -537,6 +538,7 @@
     }
 
     .detailed_explore_container_tt > h2 {
+        margin-top: 22px;
         font-size: 24px;
         margin-bottom: 20px;
     }
@@ -646,6 +648,7 @@
     }
 
     .detailed_explore_container_tt > h2 {
+        margin-top: 32px;
         font-size: 22px;
         margin-bottom: 15px;
     }

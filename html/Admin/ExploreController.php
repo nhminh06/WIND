@@ -134,7 +134,7 @@ $stats = $result_stats->fetch_assoc();
       <h1>Quản lý Khám phá</h1>
       <div class="admin-info">
         <?php echo "<p>Xin chào " . (isset($_SESSION['username']) ? $_SESSION['username'] : 'Admin') . "</p>"; ?>
-        <button onclick="window.location.href='../views/user/users.php'" class="logout">Đăng xuất</button>
+        <button onclick="window.location.href='../views/index/webindex.php'" class="logout">Trở lại</button>
       </div>
     </header>
 

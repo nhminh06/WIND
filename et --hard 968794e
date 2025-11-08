@@ -1,0 +1,98 @@
+[33mc0c7618[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m HEAD@{0}: commit: cohoicuoicuavanbinh
+[33m968794e[m HEAD@{1}: rebase (abort): returning to refs/heads/master
+[33mb894547[m[33m ([m[1;31morigin/master[m[33m)[m HEAD@{2}: pull origin master --rebase (start): checkout b894547570d8c01cc18a013790d4c21fed24f622
+[33m968794e[m HEAD@{3}: commit: tttt
+[33m017df8d[m HEAD@{4}: commit: cm
+[33m40fb289[m HEAD@{5}: commit: usetr
+[33m477ada0[m HEAD@{6}: commit: phantrang
+[33m8ec5424[m HEAD@{7}: commit: baiviet2
+[33mfb2235b[m HEAD@{8}: commit: quanlybaiviet
+[33mf801e8f[m HEAD@{9}: commit: kp
+[33m40a125b[m HEAD@{10}: commit: lamquatroiluon
+[33m7d370ca[m HEAD@{11}: pull origin master: Fast-forward
+[33m4198248[m HEAD@{12}: commit: udhi
+[33ma71f88a[m HEAD@{13}: commit: khongtivet
+[33mec8e520[m HEAD@{14}: commit (merge): themaddtour
+[33m706a7c1[m HEAD@{15}: commit: themaddtour
+[33md704c10[m HEAD@{16}: commit: bothicubinhlan3
+[33ma8ee6eb[m HEAD@{17}: commit: beindex
+[33m638de1c[m[33m ([m[1;31morigin/dev-binh[m[33m, [m[1;32mdev-binh[m[33m)[m HEAD@{18}: checkout: moving from dev-binh to master
+[33m638de1c[m[33m ([m[1;31morigin/dev-binh[m[33m, [m[1;32mdev-binh[m[33m)[m HEAD@{19}: checkout: moving from master to dev-binh
+[33m638de1c[m[33m ([m[1;31morigin/dev-binh[m[33m, [m[1;32mdev-binh[m[33m)[m HEAD@{20}: commit: bothilan2
+[33m0fb1c59[m HEAD@{21}: commit: bothichocubinh
+[33m03a5ccc[m HEAD@{22}: commit (merge): jjjj
+[33m1ce301b[m HEAD@{23}: commit: Banner
+[33m3c7b068[m HEAD@{24}: commit: suametvaio2
+[33m632dac1[m HEAD@{25}: commit (merge): suametvaio
+[33m47e714f[m HEAD@{26}: commit: hhh
+[33m78e6041[m HEAD@{27}: commit: cubinhlamdi
+[33m1d949da[m HEAD@{28}: commit (merge): nnn
+[33m44e172a[m HEAD@{29}: commit: mmm
+[33m5b39e4e[m HEAD@{30}: commit: note
+[33me0b3018[m HEAD@{31}: commit: admin
+[33me4db3d9[m HEAD@{32}: commit: db
+[33m214a5a1[m HEAD@{33}: commit: add admin
+[33m6002948[m HEAD@{34}: commit: inclu
+[33md91e270[m HEAD@{35}: commit: cautruc
+[33me510886[m HEAD@{36}: commit: doneuser
+[33m421bd8c[m HEAD@{37}: commit: page
+[33m836e989[m HEAD@{38}: commit: fix_team
+[33m7dea5a5[m HEAD@{39}: commit: done_detailed_tour
+[33m64e8376[m HEAD@{40}: commit: detailed3
+[33m5340331[m HEAD@{41}: commit: detailed2
+[33m46ec1c5[m HEAD@{42}: commit: detailed_tour1
+[33m66c4e8b[m HEAD@{43}: commit: lienhe
+[33mc99fcf3[m HEAD@{44}: commit: chinhtour
+[33mf51da97[m HEAD@{45}: commit: tour
+[33m8f0604c[m HEAD@{46}: commit: them2slide
+[33med93f34[m HEAD@{47}: commit: cmt
+[33m08bbc47[m HEAD@{48}: commit (initial): luu
+[33mc0c7618[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m HEAD@{0}: commit: cohoicuoicuavanbinh
+[33m968794e[m HEAD@{1}: rebase (abort): returning to refs/heads/master
+[33mb894547[m[33m ([m[1;31morigin/master[m[33m)[m HEAD@{2}: pull origin master --rebase (start): checkout b894547570d8c01cc18a013790d4c21fed24f622
+[33m968794e[m HEAD@{3}: commit: tttt
+[33m017df8d[m HEAD@{4}: commit: cm
+[33m40fb289[m HEAD@{5}: commit: usetr
+[33m477ada0[m HEAD@{6}: commit: phantrang
+[33m8ec5424[m HEAD@{7}: commit: baiviet2
+[33mfb2235b[m HEAD@{8}: commit: quanlybaiviet
+[33mf801e8f[m HEAD@{9}: commit: kp
+[33m40a125b[m HEAD@{10}: commit: lamquatroiluon
+[33m7d370ca[m HEAD@{11}: pull origin master: Fast-forward
+[33m4198248[m HEAD@{12}: commit: udhi
+[33ma71f88a[m HEAD@{13}: commit: khongtivet
+[33mec8e520[m HEAD@{14}: commit (merge): themaddtour
+[33m706a7c1[m HEAD@{15}: commit: themaddtour
+[33md704c10[m HEAD@{16}: commit: bothicubinhlan3
+[33ma8ee6eb[m HEAD@{17}: commit: beindex
+[33m638de1c[m[33m ([m[1;31morigin/dev-binh[m[33m, [m[1;32mdev-binh[m[33m)[m HEAD@{18}: checkout: moving from dev-binh to master
+[33m638de1c[m[33m ([m[1;31morigin/dev-binh[m[33m, [m[1;32mdev-binh[m[33m)[m HEAD@{19}: checkout: moving from master to dev-binh
+[33m638de1c[m[33m ([m[1;31morigin/dev-binh[m[33m, [m[1;32mdev-binh[m[33m)[m HEAD@{20}: commit: bothilan2
+[33m0fb1c59[m HEAD@{21}: commit: bothichocubinh
+[33m03a5ccc[m HEAD@{22}: commit (merge): jjjj
+[33m1ce301b[m HEAD@{23}: commit: Banner
+[33m3c7b068[m HEAD@{24}: commit: suametvaio2
+[33m632dac1[m HEAD@{25}: commit (merge): suametvaio
+[33m47e714f[m HEAD@{26}: commit: hhh
+[33m78e6041[m HEAD@{27}: commit: cubinhlamdi
+[33m1d949da[m HEAD@{28}: commit (merge): nnn
+[33m44e172a[m HEAD@{29}: commit: mmm
+[33m5b39e4e[m HEAD@{30}: commit: note
+[33me0b3018[m HEAD@{31}: commit: admin
+[33me4db3d9[m HEAD@{32}: commit: db
+[33m214a5a1[m HEAD@{33}: commit: add admin
+[33m6002948[m HEAD@{34}: commit: inclu
+[33md91e270[m HEAD@{35}: commit: cautruc
+[33me510886[m HEAD@{36}: commit: doneuser
+[33m421bd8c[m HEAD@{37}: commit: page
+[33m836e989[m HEAD@{38}: commit: fix_team
+[33m7dea5a5[m HEAD@{39}: commit: done_detailed_tour
+[33m64e8376[m HEAD@{40}: commit: detailed3
+[33m5340331[m HEAD@{41}: commit: detailed2
+[33m46ec1c5[m HEAD@{42}: commit: detailed_tour1
+[33m66c4e8b[m HEAD@{43}: commit: lienhe
+[33mc99fcf3[m HEAD@{44}: commit: chinhtour
+[33mf51da97[m HEAD@{45}: commit: tour
+[33m8f0604c[m HEAD@{46}: commit: them2slide
+[33med93f34[m HEAD@{47}: commit: cmt
+[33m08bbc47[m HEAD@{48}: commit (initial): luu

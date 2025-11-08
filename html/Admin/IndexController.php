@@ -66,7 +66,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     <h1>Bảng điều khiển</h1>
     <div class="admin-info">
       <?php echo "<p>Xin chào " . $_SESSION['username'] . "</p>"; ?>
-      <button onclick="window.location.href='../views/user/users.php'" class="logout">Đăng xuất</button>
+      <button onclick="window.location.href='../views/index/webindex.php'" class="logout">Trở lại</button>
     </div>
   </header>
 

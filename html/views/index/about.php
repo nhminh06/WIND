@@ -49,7 +49,7 @@
 </p>
 
 <p>
-    Từ những tour miền núi Tây Bắc mây mù huyền ảo đến các chuyến du ngoạn biển đảo trong xanh miền Trung, chúng tôi luôn đặt cảm xúc và trải nghiệm của khách hàng lên hàng đầu.
+    Từ những tour  du ngoạn biển đảo trong xanh miền Trung, chúng tôi luôn đặt cảm xúc và trải nghiệm của khách hàng lên hàng đầu.
 </p>
 
 <p>

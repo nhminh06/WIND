@@ -427,7 +427,6 @@
   <!-- Antenna -->
   <line x1="12" y1="2" x2="12" y2="6"/>
   <circle cx="12" cy="2" r="1.5"/>
-  <!-- Eyes -->
   <circle cx="9" cy="12" r="2"/>
   <circle cx="15" cy="12" r="2"/>
   <!-- Smile -->

@@ -1,5 +1,12 @@
-   <?php session_start() ?>
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
+<div class="header_container">
    <?php
+
      if(!empty($_SESSION['username'])){
     
     echo "<style>.hd_lg{display: none;}</style>";
@@ -47,11 +54,31 @@
 </svg>
 
       </button>
-        <div onclick="window.location.href = '../user/users.php'" class="users_avata">
-        <img src="https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg" alt="">
-      </div>
+       <?php 
+       if(!isset($_SESSION['role'])) {
+       echo " <div onclick=\"window.location.href = '../index/note.php'\" class=\"users_avata\">
+        <img src=\"https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg\" alt=\"\">
+      </div>";
+       }
+
+       else if($_SESSION['role']=='staff'){
+        echo " <div onclick=\"window.location.href = '../../staff/StaffProfile.php'\" class=\"users_avata\">
+        <img src=\"https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg\" alt=\"\">
+      </div>";
+       }else if($_SESSION['role']=='admin'){
+        echo " <div onclick=\"window.location.href = '../../Admin/indexController.php'\" class=\"users_avata\">
+        <img src=\"https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg\" alt=\"\">
+       </div>";
+       }else{
+        echo " <div onclick=\"window.location.href = '../user/users.php'\" class=\"users_avata\">
+        <img src=\"https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg\" alt=\"\">
+      </div>";
+       }
+       ?>
             </div>
           
+            
+
         </div>
         <div class="rbc_menu" id="rbc_menu">
       <ul>
