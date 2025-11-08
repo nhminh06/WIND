@@ -30,22 +30,39 @@
                 <li class="hd_lg"><a href="../../views/index/login.php">Đăng nhập</a></li>
             </ul>
              <?php
-    $conn = mysqli_connect("localhost", "root", "", "wind");
-    $_key = isset($_GET['key']) ? $_GET['key'] : ''; 
+    $servername = 'localhost';
+    $username = 'root';
+    $password = '';
+    $dbname   = 'wind';
+
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+    // set charset if connected
+    if ($conn) {
+      mysqli_set_charset($conn, 'utf8mb4');
+    }
+
+    if (mysqli_connect_errno()) {
+      error_log('MySQL connect error: ' . mysqli_connect_error());
+      die('Database connection failed.'); // keep message generic for security
+    }   $_key = isset($_GET['key']) ? $_GET['key'] : ''; 
     $_sql = "SELECT * FROM tour";
     if (!empty($_key)) {
       $_sql = "SELECT * From tour where ten_tour LIKE '%" . mysqli_real_escape_string($conn, $_key)."%'";
      // $_sql = "SELECT * FROM tour WHERE name_tour LIKE '%" . mysqli_real_escape_string($conn, $_key) . "%'";
     }
     ?>
-    <form class="search_form" action="" method="GET">
-  <div class="search">
+    <div class="search">
+
+    <form class="search_form search" action="" method="GET">
+  
                 <input type="text" name="key" placeholder="Tìm kiếm..." value="<?php echo htmlspecialchars($_key); ?>" id="search-input">
                 <button type="submit"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
 </svg>
 </button>
- <button class="sangtoi" id="sangtoi">
+    </form>
+    <button class="sangtoi" id="sangtoi">
         <svg class="sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
 </svg>
@@ -54,11 +71,9 @@
 </svg>
 
       </button>
-        <div onclick="window.location.href = '../user/users.php'" class="users_avata">
-        <img src="https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg" alt="">
+        <div onclick="window.location.href = '/html/users.html'" class="users_avata">
+        <img src="https://i.pinimg.com/736x/ad/76/e5/ad76e544f4d3d2eca8dec9644867be85.jpg" alt="">
       </div>
-            </div>
-    </from>
           
         </div>
         <div class="rbc_menu" id="rbc_menu">

@@ -1,40 +1,35 @@
+<?php session_start(); ?>
+<?php include '../db/db.php'; ?>
 <?php
-session_start();
-include '../db/db.php';
-
 if($_SERVER["REQUEST_METHOD"] == "POST") {
-
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $role = 'admin';
 
-    // Truyền thống: lấy user theo username
     $sql = "SELECT * FROM user WHERE ho_ten = '$username' AND password = '$password'";
     $result = $conn->query($sql);
-
+   
     if ($result->num_rows > 0) {
 
-        $user = $result->fetch_assoc();
+      $user = $result->fetch_assoc();
+if($user['role'] === 'admin'){
+    $_SESSION['role'] = 'admin';
+}else if($user['role'] === 'user'){
+    $_SESSION['role'] = 'user';
+}else{
+    $_SESSION['role'] = 'staff';
+}
 
-        // Gán role từ DB
-        $_SESSION['role'] = $user['role'];
-        $_SESSION['username'] = $user['ho_ten'];
-        
-        // Điều hướng theo role
-        if ($user['role'] == 'admin') {
-            header("Location: ../html/Admin/ContactController.php");
-            exit();
-        } elseif ($user['role'] == 'staff') {
-            header("Location: ../html/staff/StaffProfile.php");
-            exit();
-        } else {
-            header("Location: ../html/views/index/WebIndex.php");
-            exit();
-        }
 
+
+        $_SESSION['username'] = $username;
+        echo "<script>window.location.href = '../html/views/index/WebIndex.php';</script>";
     } else {
         $_SESSION['error'] = "Tên đăng nhập hoặc mật khẩu không đúng.";
-        header("Location: ../html/views/index/login.php");
-        exit();
+         header("Location: ../html/views/index/login.php");
+         exit();
     }
+    
 }
+
 ?>

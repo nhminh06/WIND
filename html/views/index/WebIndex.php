@@ -35,6 +35,7 @@
         
     </header>
     <div class="container">
+      <?php include ('chatbot.php'); ?>
         <h2>Giới thiệu về WIND travel</h2>
             <div class="about">
                 <div class="main_about">
@@ -539,6 +540,7 @@ while ($row1 = mysqli_fetch_assoc($result1)) {
 </section>
 
     </div>
+    
 
  <?php include '../../../includes/footer.php';?>
     <script src="../../../js/Main5.js"></script>
