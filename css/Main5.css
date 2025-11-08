@@ -2378,7 +2378,7 @@ transform: scale(1.05);
 }
 /* TOUR */
 .tour_container{
-   
+    margin-top: 50px;
     display: flex;
     margin: 150px 170px 0 170px;
     height: auto;
@@ -3083,355 +3083,7 @@ margin-left: auto;
     box-sizing: border-box;
     width: 100%;
 }
-/* ==================== RESPONSIVE TOUR CONTAINER ==================== */
 
-/* Laptop lớn (1200px - 1600px) */
-@media (max-width: 1600px) {
-    .tour_container {
-        margin: 150px 100px 0 100px;
-    }
-    
-    .tour_box {
-        width: 850px;
-    }
-}
-
-/* Laptop nhỏ / Tablet ngang (992px - 1200px) */
-@media (max-width: 1200px) {
-    .tour_container {
-        margin: 120px 60px 0 60px;
-    }
-    
-    .tour_box {
-        width: 100%;
-        max-width: 750px;
-    }
-    
-    .tour_container1 {
-        height: auto;
-        min-height: 800px;
-    }
-}
-
-/* Tablet dọc (768px - 992px) */
-@media (max-width: 992px) {
-    .tour_container {
-        margin: 100px 40px 0 40px;
-        flex-direction: column;
-    }
-    
-    .tour_container1 {
-        width: 100%;
-        height: auto;
-        margin-bottom: 30px;
-    }
-    
-    .tour_container2 {
-        width: 100%;
-    }
-    
-    .tour_box {
-        width: 100%;
-        height: auto;
-        min-height: 240px;
-        flex-direction: column;
-    }
-    
-    .tour_box_img {
-        width: 100%;
-        height: 250px;
-    }
-    
-    .tour_box_img > img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    
-    .tour_box_tt {
-        width: 100%;
-        padding: 15px;
-    }
-    
-    .nameandtime {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .name_tour {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-    
-    .tour_time {
-        justify-content: flex-start;
-    }
-}
-
-/* Mobile ngang / Tablet nhỏ (576px - 768px) */
-@media (max-width: 768px) {
-    .tour_container {
-        margin: 100px 25px 0 25px;
-    }
-    
-    .tour_container2 > h1 {
-        font-size: 24px;
-        margin-top: 0;
-    }
-    
-    .tour_container1 > h3 {
-        font-size: 18px;
-        margin-top: 15px;
-    }
-    
-    .tour_container1 > ul {
-        font-size: 16px;
-    }
-    
-    .tour_box {
-        height: auto;
-    }
-    
-    .tour_box_img {
-        height: 220px;
-    }
-    
-    .name_tour {
-        font-size: 20px;
-    }
-    
-    .cmtandgia {
-        flex-direction: column;
-        gap: 10px;
-        align-items: flex-start;
-    }
-    
-    .gia {
-        text-align: left;
-        margin-left: 0;
-        font-size: 20px;
-    }
-    
-    .tour_button {
-        width: 100%;
-        margin-top: 10px;
-        margin-left: 0;
-    }
-}
-
-/* Mobile tiêu chuẩn (430px - 576px) */
-@media (max-width: 576px) {
-    .tour_container {
-        margin: 90px 20px 0 20px;
-    }
-    
-    .tour_container1 {
-        padding: 15px;
-    }
-    
-    .tour_container2 > h1 {
-        font-size: 22px;
-        padding: 0 10px;
-    }
-    
-    .tour_box {
-        gap: 0;
-    }
-    
-    .tour_box_img {
-        height: 200px;
-    }
-    
-    .tour_box_tt {
-        padding: 12px;
-    }
-    
-    .name_tour {
-        font-size: 18px;
-        padding: 8px;
-    }
-    
-    .tour_time > svg {
-        width: 20px;
-    }
-    
-    .tour_time > p {
-        font-size: 15px;
-    }
-    
-    .cmt > svg {
-        width: 20px;
-    }
-    
-    .cmt > p {
-        font-size: 14px;
-    }
-    
-    .dg {
-        padding: 6px;
-        font-size: 14px;
-    }
-    
-    .dg2 {
-        font-size: 14px;
-    }
-    
-    .gia {
-        font-size: 18px;
-    }
-    
-    .tour_button {
-        height: 42px;
-        font-size: 16px;
-    }
-}
-
-/* Mobile nhỏ (375px - 430px) */
-@media (max-width: 430px) {
-    .tour_container {
-        margin: 85px 15px 0 15px;
-    }
-    
-    .tour_container1 {
-        padding: 12px;
-    }
-    
-    .tour_container1 > h3 {
-        font-size: 17px;
-        margin-top: 12px;
-    }
-    
-    .tour_container1 > ul {
-        font-size: 15px;
-        margin: 8px;
-    }
-    
-    .tour_container1 > ul > li {
-        margin-bottom: 8px;
-    }
-    
-    .tour_container2 > h1 {
-        font-size: 20px;
-        margin-top: 8px;
-    }
-    
-    .tour_box {
-        gap: 0;
-    }
-    
-    .tour_box_img {
-        height: 180px;
-    }
-    
-    .tour_box_tt {
-        padding: 10px;
-    }
-    
-    .name_tour {
-        font-size: 17px;
-        padding: 6px;
-    }
-    
-    .tour_time > p,
-    .cmt > p {
-        font-size: 14px;
-    }
-    
-    .gia {
-        font-size: 17px;
-    }
-    
-    .tour_button {
-        height: 40px;
-        font-size: 15px;
-    }
-}
-
-/* Mobile rất nhỏ (≤ 375px) */
-@media (max-width: 375px) {
-    .tour_container {
-        margin: 80px 12px 0 12px;
-    }
-    
-    .tour_container1 {
-        padding: 10px;
-    }
-    
-    .tour_container1 > h3 {
-        font-size: 16px;
-    }
-    
-    .tour_container1 > ul {
-        font-size: 14px;
-    }
-    
-    .tour_container2 > h1 {
-        font-size: 18px;
-    }
-    
-    .tour_box_img {
-        height: 160px;
-    }
-    
-    .name_tour {
-        font-size: 16px;
-    }
-    
-    .tour_time > svg,
-    .cmt > svg {
-        width: 18px;
-    }
-    
-    .tour_time > p,
-    .cmt > p {
-        font-size: 13px;
-    }
-    
-    .dg {
-        padding: 5px;
-        font-size: 13px;
-    }
-    
-    .dg2 {
-        font-size: 13px;
-    }
-    
-    .gia {
-        font-size: 16px;
-    }
-    
-    .tour_button {
-        height: 38px;
-        font-size: 14px;
-    }
-}
-
-/* Tắt hiệu ứng hover trên mobile */
-@media (max-width: 992px) {
-    .tour_box:hover {
-        transform: none;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    }
-    
-    .tour_container1 > ul > li:hover {
-        font-weight: normal;
-        color: #fff;
-    }
-}
-
-/* Giữ hiệu ứng hover trên desktop */
-@media (min-width: 993px) {
-    .tour_box:hover {
-        transform: translateX(5px);
-        transition: all 0.8s ease;
-        box-shadow: 0 8px 25px rgba(46, 191, 186, 0.8);
-    }
-    
-    .tour_container1 > ul > li:hover {
-        font-weight: bold;
-        color: #43d399;
-    }
-}
 /* hết */
 
 /* chi tiết tour */
@@ -5619,6 +5271,736 @@ body {
     }
 }
 */
+/* Tour Container Layout */
+
+/* Tour Filter Sidebar - tour_container1 */
+.tour_container1 {
+    flex: 0 0 320px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+}
+
+.tour_container1 ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tour_container1 li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Filter Header */
+.tour_container1 .filter-header {
+    background: linear-gradient(135deg, #43d399, #68e0cf);
+
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tour_container1 .filter-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    color: white;
+}
+
+.tour_container1 .filter-header svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2;
+}
+
+.tour_container1 .reset-btn {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+}
+
+.tour_container1 .reset-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+/* Filter Sections */
+.tour_container1 .filter-section {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.tour_container1 .filter-section:last-child {
+    border-bottom: none;
+}
+
+.tour_container1 .filter-section h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fffdfd;
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tour_container1 .filter-section h4 svg {
+    width: 15px;
+    height: 15px;
+    color: #43d399;
+    stroke-width: 2;
+}
+
+/* Loại Tour Buttons */
+.tour_container1 .tour-type-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.tour_container1 .tour-type-btn {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1.5px solid #e0e0e0;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 12px;
+    font-weight: 500;
+    color: #51aea2;
+    text-align: center;
+}
+
+.tour_container1 .tour-type-btn:hover {
+    border-color: #43d399;
+    color: #43d399;
+}
+
+.tour_container1 .tour-type-btn.active {
+    background: linear-gradient(135deg, #43d399, #68e0cf);
+
+    border-color: #43d399;
+    color: white;
+}
+
+/* Checkbox List */
+.tour_container1 .checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tour_container1 .checkbox-item {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.tour_container1 .checkbox-item:hover{
+    background: #f8f9ff;
+
+}
+.tour_container1 .checkbox-item:hover label{
+  color: #43d399; 
+  transition: color 0.2s ease;
+}
+.tour_container1 .checkbox-item:hover .count{
+  background: #43d399; 
+   color: white;
+  transition: color 0.2s ease;
+ 
+}
+
+.tour_container1 .checkbox-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0 8px 0 0;
+    cursor: pointer;
+    accent-color: #43d399;
+}
+
+.tour_container1 .checkbox-item label {
+    font-size: 12px;
+    color: #ffffff;
+    cursor: pointer;
+    flex: 1;
+    margin: 0;
+}
+
+.tour_container1 .checkbox-item .count {
+    font-size: 11px;
+    color: #445796;
+    background: #f5f5f5;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* Price Range */
+.tour_container1 .price-range {
+    padding: 8px 0;
+}
+
+.tour_container1 .price-inputs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.tour_container1 .price-input-group {
+    flex: 1;
+}
+
+.tour_container1 .price-input-group label {
+    font-size: 10px;
+    color: #ffffff;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.tour_container1 .price-input-group input {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.tour_container1 .price-input-group input:focus {
+    border-color: #667eea;
+}
+
+/* Range Slider */
+.tour_container1 .range-slider {
+    position: relative;
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    margin: 16px 0 8px;
+}
+
+.tour_container1 .range-progress {
+    position: absolute;
+    height: 100%;
+    background: linear-gradient(135deg, #43d399, #68e0cf);
+    border-radius: 2px;
+    left: 0%;
+    right: 0%;
+}
+
+/* Duration Filter */
+.tour_container1 .duration-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.tour_container1 .duration-btn {
+    padding: 8px;
+    border: 1.5px solid #e0e0e0;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 11px;
+    color: #445796;
+    text-align: center;
+}
+
+.tour_container1 .duration-btn:hover {
+    border-color: #43d399;
+    color: #43d399;
+}
+
+.tour_container1 .duration-btn.active {
+    background: #43d399;
+    border-color: #43d399;
+    color: white;
+}
+
+/* Rating Filter */
+.tour_container1 .rating-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tour_container1 .rating-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+
+.tour_container1 .rating-item:hover {
+    border-color: #43d399;
+    background: #f8f9ff;
+}
+.tour_container1 .rating-item:hover .sosao{
+   color: #43d399;
+}
+.tour_container1 .rating-item.active {
+    border-color: #43d399;
+    background: #f8f9ff;
+}
+
+.tour_container1 .rating-item input[type="radio"] {
+    margin: 0 8px 0 0;
+    accent-color: #667eea;
+    cursor: pointer;
+}
+
+.tour_container1 .rating-item span:not(.stars) {
+    font-size: 12px;
+    color: #ffffff;
+    flex: 1;
+}
+
+.tour_container1 .stars {
+    color: #ffc107;
+    font-size: 12px;
+    margin-left: auto;
+}
+
+/* Apply Button */
+.tour_container1 .apply-filter-btn {
+    width: calc(100% - 40px);
+    margin: 16px 20px 20px;
+    padding: 10px;
+    background: linear-gradient(135deg, #43d399, #68e0cf);
+
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.tour_container1 .apply-filter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.tour_container1 .apply-filter-btn:active {
+    transform: translateY(0);
+}
+
+/* Tour Container 2 */
+.tour_container2 {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 1200px) {
+    .tour_container1 {
+        flex: 0 0 280px;
+    }
+}
+
+@media (max-width: 992px) {
+    .tour_container {
+        flex-direction: column;
+    }
+    
+    .tour_container1 {
+        flex: none;
+        width: 100%;
+        position: static;
+        margin-bottom: 20px;
+    }
+    
+    .tour_container1 .tour-type-buttons {
+        flex-wrap: nowrap;
+    }
+}
+
+@media (max-width: 768px) {
+    .tour_container {
+        padding: 10px;
+    }
+    
+    .tour_container1 {
+        border-radius: 12px;
+    }
+    
+    .tour_container1 .duration-options {
+        grid-template-columns: 1fr;
+    }
+}
+/* ==================== RESPONSIVE TOUR CONTAINER ==================== */
+
+/* Laptop lớn (1200px - 1600px) */
+@media (max-width: 1600px) {
+    .tour_container {
+        margin: 150px 100px 0 100px;
+    }
+    
+    .tour_box {
+        width: 850px;
+    }
+}
+
+/* Laptop nhỏ / Tablet ngang (992px - 1200px) */
+@media (max-width: 1200px) {
+    .tour_container {
+        margin: 120px 60px 0 60px;
+    }
+    
+    .tour_box {
+        width: 100%;
+        max-width: 750px;
+    }
+    
+    .tour_container1 {
+        height: auto;
+        min-height: 800px;
+    }
+}
+
+/* Tablet dọc (768px - 992px) */
+@media (max-width: 992px) {
+    .tour_container {
+        margin: 100px 40px 0 40px;
+        flex-direction: column;
+    }
+    
+    .tour_container1 {
+        width: 100%;
+        height: auto;
+        margin-bottom: 30px;
+    }
+    
+    .tour_container2 {
+        width: 100%;
+    }
+    
+    .tour_box {
+        width: 100%;
+        height: auto;
+        min-height: 240px;
+        flex-direction: column;
+    }
+    
+    .tour_box_img {
+        width: 100%;
+        height: 250px;
+    }
+    
+    .tour_box_img > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .tour_box_tt {
+        width: 100%;
+        padding: 15px;
+    }
+    
+    .nameandtime {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .name_tour {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .tour_time {
+        justify-content: flex-start;
+    }
+}
+
+/* Mobile ngang / Tablet nhỏ (576px - 768px) */
+@media (max-width: 768px) {
+    .tour_container {
+        margin: 100px 25px 0 25px;
+    }
+    
+    .tour_container2 > h1 {
+        font-size: 24px;
+        margin-top: 0;
+    }
+    
+    .tour_container1 > h3 {
+        font-size: 18px;
+        margin-top: 15px;
+    }
+    
+    .tour_container1 > ul {
+        font-size: 16px;
+    }
+    
+    .tour_box {
+        height: auto;
+    }
+    
+    .tour_box_img {
+        height: 220px;
+    }
+    
+    .name_tour {
+        font-size: 20px;
+    }
+    
+    .cmtandgia {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+    
+    .gia {
+        text-align: left;
+        margin-left: 0;
+        font-size: 20px;
+    }
+    
+    .tour_button {
+        width: 100%;
+        margin-top: 10px;
+        margin-left: 0;
+    }
+}
+
+/* Mobile tiêu chuẩn (430px - 576px) */
+@media (max-width: 576px) {
+    .tour_container {
+        margin: 90px 20px 0 20px;
+    }
+    
+    .tour_container1 {
+        padding: 15px;
+    }
+    
+    .tour_container2 > h1 {
+        font-size: 22px;
+        padding: 0 10px;
+    }
+    
+    .tour_box {
+        gap: 0;
+    }
+    
+    .tour_box_img {
+        height: 200px;
+    }
+    
+    .tour_box_tt {
+        padding: 12px;
+    }
+    
+    .name_tour {
+        font-size: 18px;
+        padding: 8px;
+    }
+    
+    .tour_time > svg {
+        width: 20px;
+    }
+    
+    .tour_time > p {
+        font-size: 15px;
+    }
+    
+    .cmt > svg {
+        width: 20px;
+    }
+    
+    .cmt > p {
+        font-size: 14px;
+    }
+    
+    .dg {
+        padding: 6px;
+        font-size: 14px;
+    }
+    
+    .dg2 {
+        font-size: 14px;
+    }
+    
+    .gia {
+        font-size: 18px;
+    }
+    
+    .tour_button {
+        height: 42px;
+        font-size: 16px;
+    }
+}
+
+/* Mobile nhỏ (375px - 430px) */
+@media (max-width: 430px) {
+    .tour_container {
+        margin: 85px 15px 0 15px;
+    }
+    
+    .tour_container1 {
+        padding: 12px;
+    }
+    
+    .tour_container1 > h3 {
+        font-size: 17px;
+        margin-top: 12px;
+    }
+    
+    .tour_container1 > ul {
+        font-size: 15px;
+        margin: 8px;
+    }
+    
+    .tour_container1 > ul > li {
+        margin-bottom: 8px;
+    }
+    
+    .tour_container2 > h1 {
+        font-size: 20px;
+        margin-top: 8px;
+    }
+    
+    .tour_box {
+        gap: 0;
+    }
+    
+    .tour_box_img {
+        height: 180px;
+    }
+    
+    .tour_box_tt {
+        padding: 10px;
+    }
+    
+    .name_tour {
+        font-size: 17px;
+        padding: 6px;
+    }
+    
+    .tour_time > p,
+    .cmt > p {
+        font-size: 14px;
+    }
+    
+    .gia {
+        font-size: 17px;
+    }
+    
+    .tour_button {
+        height: 40px;
+        font-size: 15px;
+    }
+}
+
+/* Mobile rất nhỏ (≤ 375px) */
+@media (max-width: 375px) {
+    .tour_container {
+        margin: 80px 12px 0 12px;
+    }
+    
+    .tour_container1 {
+        padding: 10px;
+    }
+    
+    .tour_container1 > h3 {
+        font-size: 16px;
+    }
+    
+    .tour_container1 > ul {
+        font-size: 14px;
+    }
+    
+    .tour_container2 > h1 {
+        font-size: 18px;
+    }
+    
+    .tour_box_img {
+        height: 160px;
+    }
+    
+    .name_tour {
+        font-size: 16px;
+    }
+    
+    .tour_time > svg,
+    .cmt > svg {
+        width: 18px;
+    }
+    
+    .tour_time > p,
+    .cmt > p {
+        font-size: 13px;
+    }
+    
+    .dg {
+        padding: 5px;
+        font-size: 13px;
+    }
+    
+    .dg2 {
+        font-size: 13px;
+    }
+    
+    .gia {
+        font-size: 16px;
+    }
+    
+    .tour_button {
+        height: 38px;
+        font-size: 14px;
+    }
+}
+
+/* Tắt hiệu ứng hover trên mobile */
+@media (max-width: 992px) {
+    .tour_box:hover {
+        transform: none;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+    
+    .tour_container1 > ul > li:hover {
+        font-weight: normal;
+        color: #fff;
+    }
+}
+
+/* Giữ hiệu ứng hover trên desktop */
+@media (min-width: 993px) {
+    .tour_box:hover {
+        transform: translateX(5px);
+        transition: all 0.8s ease;
+        box-shadow: 0 8px 25px rgba(46, 191, 186, 0.8);
+    }
+    
+    .tour_container1 > ul > li:hover {
+        font-weight: bold;
+        color: #43d399;
+    }
+}
   
 /* hết */
 

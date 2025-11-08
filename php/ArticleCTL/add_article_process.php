@@ -57,10 +57,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         $stmt_check->close();
         
-        // 1. Thêm vào bảng bai_viet
-        $sql_baiviet = "INSERT INTO bai_viet (khampha_id, tieu_de) VALUES (?, ?)";
+        // 1. Thêm vào bảng bai_viet - CÓ THÊM tour_id
+        $sql_baiviet = "INSERT INTO bai_viet (khampha_id, tieu_de, tour_id) VALUES (?, ?, ?)";
         $stmt_baiviet = $conn->prepare($sql_baiviet);
-        $stmt_baiviet->bind_param("is", $khampha_id, $tieu_de);
+        
+        // Nếu tour_id là null hoặc 0 thì bind null, ngược lại bind giá trị
+        if ($tour_id === null || $tour_id === 0) {
+            $stmt_baiviet->bind_param("isi", $khampha_id, $tieu_de, $tour_id_null);
+            $tour_id_null = null;
+        } else {
+            $stmt_baiviet->bind_param("isi", $khampha_id, $tieu_de, $tour_id);
+        }
         
         if (!$stmt_baiviet->execute()) {
             throw new Exception("Lỗi khi thêm bài viết: " . $stmt_baiviet->error);

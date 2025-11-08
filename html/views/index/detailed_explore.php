@@ -6,7 +6,7 @@ include '../../../db/db.php';
 $khampha_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 // Truy vấn lấy thông tin bài viết
-$sql = "SELECT bv.*, k.tieu_de as khampha_tieu_de 
+$sql = "SELECT bv.*, k.tieu_de as khampha_tieu_de , bv.tour_id
         FROM bai_viet bv
         JOIN khampha k ON bv.khampha_id = k.khampha_id
         WHERE bv.khampha_id = ? AND bv.trang_thai = 1";
@@ -87,8 +87,8 @@ $result_lienquan = $stmt_lq->get_result();
             <?php else: ?>
                 <p>Chưa có nội dung chi tiết.</p>
             <?php endif; ?>
-            
-            <button class="xemchuyendi">Xem chuyến đi</button>
+
+            <button onclick="window.location.href='detailed_tour.php?id=<?php echo $bai_viet['tour_id']; ?>'" class="xemchuyendi">Xem chuyến đi</button>
         </div>
         
         <div class="detailed_explore_container_qt ex_card fade-right">

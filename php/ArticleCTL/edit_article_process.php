@@ -64,22 +64,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt_check->close();
         
         // 2. Cập nhật thông tin trong bảng khampha
-        $sql_update_khampha = "UPDATE khampha SET loai_id = ?, tour_id = ? WHERE khampha_id = ?";
+        $sql_update_khampha = "UPDATE khampha SET loai_id = ? WHERE khampha_id = ?";
         $stmt_update_khampha = $conn->prepare($sql_update_khampha);
-        
-        // Nếu tour_id là rỗng hoặc 0, set thành NULL
-        $tour_id_value = ($tour_id == 0 || $tour_id === '' || empty($tour_id)) ? null : $tour_id;
-        $stmt_update_khampha->bind_param("iii", $loai_id, $tour_id_value, $khampha_id);
+        $stmt_update_khampha->bind_param("ii", $loai_id, $khampha_id);
         
         if (!$stmt_update_khampha->execute()) {
             throw new Exception("Lỗi khi cập nhật thông tin khám phá: " . $stmt_update_khampha->error);
         }
         $stmt_update_khampha->close();
         
-        // 3. Cập nhật thông tin bài viết chính
-        $sql_update_baiviet = "UPDATE bai_viet SET khampha_id = ?, tieu_de = ? WHERE id = ?";
+        // 3. Cập nhật thông tin bài viết chính (bao gồm tour_id)
+        // Xử lý tour_id: nếu là 0 hoặc rỗng thì set NULL
+        $tour_id_value = ($tour_id == 0 || $tour_id === '' || empty($tour_id)) ? null : $tour_id;
+        
+        $sql_update_baiviet = "UPDATE bai_viet SET khampha_id = ?, tieu_de = ?, tour_id = ? WHERE id = ?";
         $stmt_update_baiviet = $conn->prepare($sql_update_baiviet);
-        $stmt_update_baiviet->bind_param("isi", $khampha_id, $tieu_de, $bai_viet_id);
+        $stmt_update_baiviet->bind_param("isii", $khampha_id, $tieu_de, $tour_id_value, $bai_viet_id);
         
         if (!$stmt_update_baiviet->execute()) {
             throw new Exception("Lỗi khi cập nhật bài viết: " . $stmt_update_baiviet->error);
