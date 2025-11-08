@@ -2570,7 +2570,7 @@ margin-left: auto;
 }
 .contact_main{
     width: 480px;
-    height: 625px;
+    height: auto;
        background-color: #ffffff20;
     backdrop-filter: blur(8px);
     border-radius: 12px;
@@ -5589,7 +5589,21 @@ body {
     box-sizing: border-box !important;
     overflow-x: hidden !important;
 }
-
+.banacc{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(227, 45, 45, 0.8);
+    color: #fff;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+.banacc i{
+   font-size: 40px;
+   margin-right: 5px;
+   color: #fff;
+}
 
 /* DEBUG MODE - Uncomment để kiểm tra */
 /*

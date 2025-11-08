@@ -1,38 +1,69 @@
-<?php session_start(); ?>
-<?php include '../db/db.php'; ?>
 <?php
-if($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $role = 'admin';
+session_start();
+include '../db/db.php';
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
+
+    $layten = "SELECT * FROM user WHERE ho_ten = '$username'";
+    $result_layten = $conn->query($layten);
+    $user_data = $result_layten->fetch_assoc();
+    if (!isset($_SESSION['turn'])) {
+        $_SESSION['turn'] = 0;
+    }
+       if($user['password'] !== $password){
+            $_SESSION['turn'] += 1;
+            if($_SESSION['turn'] >= 3){
+                $updateStatusSql = "UPDATE user SET trang_thai = 0 WHERE ho_ten = ?";
+                $stmt = $conn->prepare($updateStatusSql);
+                $stmt->bind_param("s", $username);
+                $stmt->execute();
+                   if ($user_data['trang_thai'] == 0) {
+            $_SESSION['error'] = 1;    
+             unset($_SESSION['role']);   
+             unset($_SESSION['user_id']);
+             unset($_SESSION['username']); 
+             unset($_SESSION['turn']);
+            header("Location: ../html/views/index/contact.php");
+            exit();
+        }
+            }
+          
+
+        }
+
+    // Lấy user theo username và password
     $sql = "SELECT * FROM user WHERE ho_ten = '$username' AND password = '$password'";
     $result = $conn->query($sql);
-   
+
     if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+        session_unset();  
+        session_regenerate_id(true); 
 
-      $user = $result->fetch_assoc();
-if($user['role'] === 'admin'){
-    $_SESSION['role'] = 'admin';
-}else if($user['role'] === 'user'){
-    $_SESSION['role'] = 'user';
-}else{
-    $_SESSION['role'] = 'staff';
-}
- if($user['trang_thai'] == 0){
-    $_SESSION['error'] = 1;
-    header("Location: ../html/views/index/contact.php");
-    exit();
-}
+        $_SESSION['user_id'] = $user['id'];  
+        $_SESSION['username'] = $user['ho_ten'];  
+        $_SESSION['role'] = $user['role'];
 
-        $_SESSION['username'] = $username;
-        echo "<script>window.location.href = '../html/views/index/WebIndex.php';</script>";
+
+         
+
+
+        if ($user['trang_thai'] == 0) {
+            $_SESSION['error'] = 1;    
+             unset($_SESSION['role']);   
+             unset($_SESSION['user_id']);
+             unset($_SESSION['username']); 
+            header("Location: ../html/views/index/contact.php");
+            exit();
+        }
+
+        header("Location: ../html/views/index/WebIndex.php");
     } else {
         $_SESSION['error'] = "Tên đăng nhập hoặc mật khẩu không đúng.";
-         header("Location: ../html/views/index/login.php");
-         exit();
+        header("Location: ../html/views/index/login.php");
+        exit();
     }
-    
 }
-
 ?>
