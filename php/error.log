@@ -1,0 +1,5 @@
+[09-Nov-2025 05:16:02 Europe/Berlin] PHP Warning:  require_once(C:\Users\LENOVO\OneDrive\Documents\JS\php../db/db.php): Failed to open stream: No such file or directory in C:\Users\LENOVO\OneDrive\Documents\JS\php\send_verification_code.php on line 14
+[09-Nov-2025 05:16:02 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\Users\LENOVO\OneDrive\Documents\JS\php../db/db.php' (include_path='C:\xampp\php\PEAR') in C:\Users\LENOVO\OneDrive\Documents\JS\php\send_verification_code.php:14
+Stack trace:
+#0 {main}
+  thrown in C:\Users\LENOVO\OneDrive\Documents\JS\php\send_verification_code.php on line 14

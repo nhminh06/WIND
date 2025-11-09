@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="khac">
-              <a href="">Quên mật khẩu?</a>
+              <a href="forgot_password.php">Quên mật khẩu?</a>
         <a href="register.php">Chưa có tài khoản đến đăng ký</a>
         </div>
     </div>
