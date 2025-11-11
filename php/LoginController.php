@@ -42,20 +42,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         session_unset();  
         session_regenerate_id(true); 
 
-<<<<<<< HEAD
-      $user = $result->fetch_assoc();
-if($user['role'] === 'admin'){
-    $_SESSION['role'] = 'admin';
-}else if($user['role'] === 'user'){
-    $_SESSION['role'] = 'user';
-}else{
-    $_SESSION['role'] = 'staff';
-}
-=======
+
         $_SESSION['user_id'] = $user['id'];  
         $_SESSION['username'] = $user['ho_ten'];  
         $_SESSION['role'] = $user['role'];
->>>>>>> 94ad95eab37ffea29a77060154078d3de322a482
 
 
          
