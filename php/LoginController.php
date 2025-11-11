@@ -42,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         session_unset();  
         session_regenerate_id(true); 
 
+
         $_SESSION['user_id'] = $user['id'];  
         $_SESSION['username'] = $user['ho_ten'];  
         $_SESSION['role'] = $user['role'];

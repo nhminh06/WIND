@@ -1,3 +1,21 @@
+<?php
+session_start();
+include('../../db/db.php');
+
+if (!isset($_SESSION['id'])) {
+    header("Location: ../../login.php");
+    exit();
+}
+
+$staff_id = $_SESSION['id'];
+
+// Lấy lịch sử báo nghỉ
+$sql = "SELECT * FROM leave_requests WHERE staff_id = ? ORDER BY request_date DESC";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $staff_id);
+$stmt->execute();
+$result = $stmt->get_result();
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -29,6 +47,13 @@
       color: #fff;
       text-transform: uppercase;
     }
+    .alert-fixed {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      min-width: 300px;
+    }
   </style>
 </head>
 <body>
@@ -37,9 +62,23 @@
   <div class="main-content">
     <h2 class="main-title">🩺 Báo Nghỉ / Xin Nghỉ Phép</h2>
 
+    <?php if(isset($_SESSION['success'])): ?>
+      <div class="alert alert-success alert-dismissible fade show alert-fixed" role="alert">
+        <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    <?php endif; ?>
+
+    <?php if(isset($_SESSION['error'])): ?>
+      <div class="alert alert-danger alert-dismissible fade show alert-fixed" role="alert">
+        <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    <?php endif; ?>
+
     <div class="card p-4 mb-4">
       <h5 class="mb-3 text-primary">📝 Gửi đơn xin nghỉ</h5>
-      <form action="SendLeave.php" method="POST">
+      <form action="SendLeave.php" method="POST" onsubmit="return validateForm()">
         <div class="row mb-3">
           <div class="col-md-4">
             <label class="form-label">Loại nghỉ:</label>
@@ -53,11 +92,11 @@
           </div>
           <div class="col-md-4">
             <label class="form-label">Từ ngày:</label>
-            <input type="date" name="start_date" class="form-control" required>
+            <input type="date" name="start_date" id="start_date" class="form-control" required>
           </div>
           <div class="col-md-4">
             <label class="form-label">Đến ngày:</label>
-            <input type="date" name="end_date" class="form-control" required>
+            <input type="date" name="end_date" id="end_date" class="form-control" required>
           </div>
         </div>
 
@@ -74,29 +113,84 @@
 
     <div class="card p-4">
       <h5 class="mb-3 text-primary">📋 Lịch sử báo nghỉ</h5>
-      <table class="table table-bordered text-center align-middle">
-        <thead>
-          <tr>
-            <th>Ngày gửi</th>
-            <th>Loại nghỉ</th>
-            <th>Từ ngày</th>
-            <th>Đến ngày</th>
-            <th>Lý do</th>
-            <th>Trạng thái</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>18/10/2025</td>
-            <td>Nghỉ ốm</td>
-            <td>18/10</td>
-            <td>19/10</td>
-            <td>Bị cảm nhẹ</td>
-            <td><span class="badge bg-warning text-dark">Đang chờ</span></td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle">
+          <thead>
+            <tr>
+              <th>Ngày gửi</th>
+              <th>Loại nghỉ</th>
+              <th>Từ ngày</th>
+              <th>Đến ngày</th>
+              <th>Lý do</th>
+              <th>Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php if($result->num_rows > 0): ?>
+              <?php while($row = $result->fetch_assoc()): ?>
+                <tr>
+                  <td><?php echo date('d/m/Y', strtotime($row['request_date'])); ?></td>
+                  <td><?php echo htmlspecialchars($row['leave_type']); ?></td>
+                  <td><?php echo date('d/m/Y', strtotime($row['start_date'])); ?></td>
+                  <td><?php echo date('d/m/Y', strtotime($row['end_date'])); ?></td>
+                  <td><?php echo htmlspecialchars($row['reason']); ?></td>
+                  <td>
+                    <?php 
+                      $status = $row['status'];
+                      $badge_class = 'bg-warning text-dark';
+                      $status_text = 'Đang chờ';
+                      
+                      if($status == 'approved') {
+                        $badge_class = 'bg-success';
+                        $status_text = 'Đã duyệt';
+                      } elseif($status == 'rejected') {
+                        $badge_class = 'bg-danger';
+                        $status_text = 'Từ chối';
+                      }
+                    ?>
+                    <span class="badge <?php echo $badge_class; ?>"><?php echo $status_text; ?></span>
+                  </td>
+                </tr>
+              <?php endwhile; ?>
+            <?php else: ?>
+              <tr>
+                <td colspan="6" class="text-muted">Chưa có đơn xin nghỉ nào</td>
+              </tr>
+            <?php endif; ?>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
+
+  <script>
+    function validateForm() {
+      const startDate = new Date(document.getElementById('start_date').value);
+      const endDate = new Date(document.getElementById('end_date').value);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (startDate < today) {
+        alert('Ngày bắt đầu không được ở quá khứ!');
+        return false;
+      }
+
+      if (endDate < startDate) {
+        alert('Ngày kết thúc phải sau ngày bắt đầu!');
+        return false;
+      }
+
+      return true;
+    }
+
+    // Auto hide alerts
+    setTimeout(function() {
+      const alerts = document.querySelectorAll('.alert-fixed');
+      alerts.forEach(alert => {
+        const bsAlert = new bootstrap.Alert(alert);
+        bsAlert.close();
+      });
+    }, 5000);
+  </script>
 </body>
 </html>

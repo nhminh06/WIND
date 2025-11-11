@@ -1,3 +1,35 @@
+<?php
+session_start();
+include('../../db/db.php');
+
+if (!isset($_SESSION['id'])) {
+    header("Location: ../../login.php");
+    exit();
+}
+
+$staff_id = $_SESSION['id'];
+
+// Lấy thông tin cơ bản
+$sql = "SELECT * FROM user WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $staff_id);
+$stmt->execute();
+$staff = $stmt->get_result()->fetch_assoc();
+
+// Lấy kỹ năng
+$sqlSkill = "SELECT * FROM staff_skill WHERE staff_id = ?";
+$stmt_skill = $conn->prepare($sqlSkill);
+$stmt_skill->bind_param("i", $staff_id);
+$stmt_skill->execute();
+$skills = $stmt_skill->get_result();
+
+// Lấy kinh nghiệm
+$sqlExp = "SELECT * FROM staff_experience WHERE staff_id = ? ORDER BY year_start DESC";
+$stmt_exp = $conn->prepare($sqlExp);
+$stmt_exp->bind_param("i", $staff_id);
+$stmt_exp->execute();
+$exps = $stmt_exp->get_result();
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -19,9 +51,6 @@
             min-height: 100vh;
         }
 
-        /* Sidebar */
-        
-        /* Main content */
         .main-content {
             margin-left: 250px;
             flex: 1;
@@ -30,27 +59,11 @@
             position: relative;
         }
 
-        /* Header section */
         .header-section {
             text-align: center;
             padding: 40px 20px;
             color: white;
             position: relative;
-        }
-
-        .edit-badge {
-            display: inline-block;
-            padding: 8px 20px;
-            background: rgba(255, 255, 255, 0.3);
-            border: 2px solid white;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .edit-badge:hover {
-            background: rgba(255, 255, 255, 0.5);
         }
 
         .profile-photo {
@@ -74,7 +87,6 @@
             opacity: 0.95;
         }
 
-        /* Edit button floating */
         .edit-btn-float {
             position: absolute;
             top: 20px;
@@ -89,6 +101,7 @@
             font-weight: 600;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             transition: all 0.3s;
+            z-index: 9999;
         }
 
         .edit-btn-float:hover {
@@ -96,7 +109,6 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
-        /* Content sections */
         .content-wrapper {
             padding: 40px;
         }
@@ -123,7 +135,6 @@
             text-align: justify;
         }
 
-        /* Skills grid */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -141,7 +152,6 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        /* Experience cards */
         .experience-card {
             background: white;
             padding: 25px;
@@ -162,28 +172,6 @@
             margin: 0;
         }
 
-        /* Decorative elements */
-        .plane-icon {
-            position: absolute;
-            width: 150px;
-            opacity: 0.3;
-        }
-
-        .plane-1 {
-            left: 10%;
-            bottom: 30%;
-            transform: rotate(-15deg);
-        }
-
-        .birds {
-            position: absolute;
-            right: 15%;
-            top: 40%;
-            font-size: 24px;
-            opacity: 0.4;
-        }
-
-        /* Modal styles */
         .modal {
             display: none;
             position: fixed;
@@ -342,11 +330,78 @@
             display: none;
         }
 
+        .skill-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .skill-input-group input {
+            flex: 1;
+        }
+
+        .add-skill-btn {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .skill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .remove-skill-btn {
+            padding: 5px 15px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .exp-input-group {
+            border: 2px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .remove-exp-btn {
+            padding: 5px 15px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-exp-btn {
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
         @media (max-width: 768px) {
-            .sidebar {
-                width: 200px;
-            }
-            
             .main-content {
                 margin-left: 200px;
             }
@@ -358,108 +413,97 @@
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
     <?php include('menu.php'); ?>
 
-    <!-- Main content -->
     <div class="main-content">
         <button class="edit-btn-float" onclick="openEditModal()">🔧 Sửa hồ sơ</button>
         
-        <!-- Header -->
         <div class="header-section">
-            
-            <img src="https://via.placeholder.com/120" alt="Profile" class="profile-photo" id="profilePhoto">
-            <h1 id="staffName">Nguyễn Văn A</h1>
-            <h2 id="staffPosition">Chuyên viên tư vấn du lịch</h2>
+            <img src="<?= htmlspecialchars($staff['photo']) ?>" alt="Profile" class="profile-photo" id="profilePhoto">
+            <h1 id="staffName"><?= htmlspecialchars($staff['full_name']) ?></h1>
+            <h2 id="staffPosition"><?= htmlspecialchars($staff['position']) ?></h2>
         </div>
 
-        <!-- Decorative elements -->
-        <svg class="plane-icon plane-1" viewBox="0 0 100 100" fill="white">
-            <path d="M10,50 L90,30 L80,50 L90,70 Z"/>
-        </svg>
-        <div class="birds">🦅 🦅 🦅</div>
-
-        <!-- Content -->
         <div class="content-wrapper">
-            <!-- Về tôi -->
             <div class="section">
                 <h3>Về tôi</h3>
-                <p id="aboutText">Với hơn 5 năm kinh nghiệm trong lĩnh vực du lịch, tôi đã dẫn dắt nhiều đoàn khách khám phá các địa điểm nổi tiếng như châu Âu, Đông Nam Á và các tour mạo hiểm. Tôi đam mê khám phá văn hóa mới và mang đến trải nghiệm tuyệt vời cho khách hàng.</p>
+                <p id="aboutText"><?= nl2br(htmlspecialchars($staff['about'])) ?></p>
             </div>
 
-            <!-- Kỹ năng -->
             <div class="section">
                 <h3>Kỹ năng</h3>
                 <div class="skills-grid" id="skillsList">
-                    <div class="skill-card">Thành thạo tiếng Anh và tiếng Pháp</div>
-                    <div class="skill-card">Kiến thức tour châu Âu và châu Á</div>
-                    <div class="skill-card">Tổ chức sự kiện và quản lý nhóm</div>
-                    <div class="skill-card">Chứng chỉ hướng dẫn viên IATA</div>
+                    <?php while($row = $skills->fetch_assoc()): ?>
+                        <div class="skill-card"><?= htmlspecialchars($row['skill_name']) ?></div>
+                    <?php endwhile; ?>
                 </div>
             </div>
 
-            <!-- Kinh nghiệm -->
             <div class="section">
                 <h3>Kinh nghiệm làm việc</h3>
                 <div id="experienceList">
-                    <div class="experience-card">
-                        <h4>2020 - Hiện tại: Công ty Du lịch ABC</h4>
-                        <p>Chuyên viên tư vấn và hướng dẫn viên du lịch quốc tế</p>
-                    </div>
-                    <div class="experience-card">
-                        <h4>2018 - 2020: Hướng dẫn viên địa phương</h4>
-                        <p>Đà Nẵng - Đã dẫn dắt hơn 50 tour khám phá châu Âu và tour sinh thái</p>
-                    </div>
+                    <?php while($row = $exps->fetch_assoc()): ?>
+                        <div class="experience-card">
+                            <h4>
+                                <?= $row['year_start'] ?> - 
+                                <?= $row['year_end'] ? $row['year_end'] : "Hiện tại" ?> :
+                                <?= htmlspecialchars($row['title']) ?>
+                            </h4>
+                            <p><?= htmlspecialchars($row['description']) ?></p>
+                        </div>
+                    <?php endwhile; ?>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal sửa hồ sơ -->
+    <!-- Edit Modal -->
     <div class="modal" id="editModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Chỉnh sửa hồ sơ</h2>
+                <h2>✏️ Chỉnh sửa hồ sơ</h2>
                 <button class="close-btn" onclick="closeEditModal()">&times;</button>
             </div>
 
             <form id="editForm" onsubmit="saveProfile(event)">
-                <!-- Ảnh đại diện -->
                 <div class="photo-upload">
-                    <img src="https://via.placeholder.com/120" alt="Preview" class="photo-preview" id="photoPreview">
-                    <br>
-                    <label for="photoInput" class="upload-btn">Thay đổi ảnh</label>
-                    <input type="file" id="photoInput" accept="image/*" onchange="previewPhoto(event)">
-                </div>
-
-                <!-- Thông tin cơ bản -->
-                <div class="form-group">
-                    <label for="nameInput">Họ và tên *</label>
-                    <input type="text" id="nameInput" required>
+                    <img src="<?= htmlspecialchars($staff['photo']) ?>" alt="Preview" class="photo-preview" id="photoPreview">
+                    <label for="photoInput" class="upload-btn">📷 Thay đổi ảnh đại diện</label>
+                    <input type="file" id="photoInput" name="photo" accept="image/*" onchange="previewPhoto(event)">
                 </div>
 
                 <div class="form-group">
-                    <label for="positionInput">Chức vụ *</label>
-                    <input type="text" id="positionInput" required>
+                    <label for="editName">Họ và tên *</label>
+                    <input type="text" id="editName" name="full_name" required value="<?= htmlspecialchars($staff['full_name']) ?>">
                 </div>
 
                 <div class="form-group">
-                    <label for="aboutInput">Về tôi *</label>
-                    <textarea id="aboutInput" required></textarea>
+                    <label for="editPosition">Vị trí công việc *</label>
+                    <input type="text" id="editPosition" name="position" required value="<?= htmlspecialchars($staff['position']) ?>">
                 </div>
 
                 <div class="form-group">
-                    <label for="skillsInput">Kỹ năng (mỗi kỹ năng một dòng) *</label>
-                    <textarea id="skillsInput" required></textarea>
+                    <label for="editAbout">Giới thiệu bản thân *</label>
+                    <textarea id="editAbout" name="about" required><?= htmlspecialchars($staff['about']) ?></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="experienceInput">Kinh nghiệm làm việc *</label>
-                    <textarea id="experienceInput" placeholder="Mỗi kinh nghiệm cách nhau 2 dòng. Ví dụ:&#10;2020 - Hiện tại: Công ty ABC&#10;Mô tả công việc&#10;&#10;2018 - 2020: Công ty XYZ&#10;Mô tả công việc" required></textarea>
+                    <label>Kỹ năng</label>
+                    <div class="skill-input-group">
+                        <input type="text" id="newSkillInput" placeholder="Nhập kỹ năng mới">
+                        <button type="button" class="add-skill-btn" onclick="addSkill()">+ Thêm</button>
+                    </div>
+                    <div id="skillsEditList"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Kinh nghiệm làm việc</label>
+                    <button type="button" class="add-exp-btn" onclick="addExperience()">+ Thêm kinh nghiệm</button>
+                    <div id="experiencesEditList"></div>
                 </div>
 
                 <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Hủy</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">✖ Hủy</button>
                     <button type="submit" class="btn btn-primary">💾 Lưu thay đổi</button>
                 </div>
             </form>
@@ -467,45 +511,19 @@
     </div>
 
     <script>
-        // Dữ liệu profile
-        let profileData = {
-            photo: 'https://via.placeholder.com/120',
-            name: 'Nguyễn Văn A',
-            position: 'Chuyên viên tư vấn du lịch',
-            about: 'Với hơn 5 năm kinh nghiệm trong lĩnh vực du lịch, tôi đã dẫn dắt nhiều đoàn khách khám phá các địa điểm nổi tiếng như châu Âu, Đông Nam Á và các tour mạo hiểm. Tôi đam mê khám phá văn hóa mới và mang đến trải nghiệm tuyệt vời cho khách hàng.',
-            skills: [
-                'Thành thạo tiếng Anh và tiếng Pháp',
-                'Kiến thức tour châu Âu và châu Á',
-                'Tổ chức sự kiện và quản lý nhóm',
-                'Chứng chỉ hướng dẫn viên IATA'
-            ],
-            experience: [
-                {
-                    title: '2020 - Hiện tại: Công ty Du lịch ABC',
-                    description: 'Chuyên viên tư vấn và hướng dẫn viên du lịch quốc tế'
-                },
-                {
-                    title: '2018 - 2020: Hướng dẫn viên địa phương',
-                    description: 'Đà Nẵng - Đã dẫn dắt hơn 50 tour khám phá châu Âu và tour sinh thái'
-                }
-            ]
-        };
+        let currentSkills = <?= json_encode(array_column($skills->fetch_all(MYSQLI_ASSOC), 'skill_name')) ?>;
+        let currentExperiences = <?= json_encode($exps->fetch_all(MYSQLI_ASSOC)) ?>;
 
         function openEditModal() {
-            document.getElementById('photoPreview').src = profileData.photo;
-            document.getElementById('nameInput').value = profileData.name;
-            document.getElementById('positionInput').value = profileData.position;
-            document.getElementById('aboutInput').value = profileData.about;
-            document.getElementById('skillsInput').value = profileData.skills.join('\n');
-            
-            let expText = profileData.experience.map(exp => `${exp.title}\n${exp.description}`).join('\n\n');
-            document.getElementById('experienceInput').value = expText;
-
             document.getElementById('editModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            renderSkillsList();
+            renderExperiencesList();
         }
 
         function closeEditModal() {
             document.getElementById('editModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
 
         function previewPhoto(event) {
@@ -519,48 +537,119 @@
             }
         }
 
-        function saveProfile(event) {
-            event.preventDefault();
-
-            profileData.photo = document.getElementById('photoPreview').src;
-            profileData.name = document.getElementById('nameInput').value;
-            profileData.position = document.getElementById('positionInput').value;
-            profileData.about = document.getElementById('aboutInput').value;
-            profileData.skills = document.getElementById('skillsInput').value.split('\n').filter(s => s.trim());
-            
-            const expText = document.getElementById('experienceInput').value;
-            const expParts = expText.split('\n\n');
-            profileData.experience = expParts.map(part => {
-                const lines = part.split('\n');
-                return {
-                    title: lines[0],
-                    description: lines.slice(1).join(' ')
-                };
+        function renderSkillsList() {
+            const container = document.getElementById('skillsEditList');
+            container.innerHTML = '';
+            currentSkills.forEach((skill, index) => {
+                const skillItem = document.createElement('div');
+                skillItem.className = 'skill-item';
+                skillItem.innerHTML = `
+                    <span>${skill}</span>
+                    <button type="button" class="remove-skill-btn" onclick="removeSkill(${index})">Xóa</button>
+                `;
+                container.appendChild(skillItem);
             });
-
-            updateProfile();
-            closeEditModal();
-            alert('✅ Hồ sơ đã được cập nhật thành công!');
         }
 
-        function updateProfile() {
-            document.getElementById('profilePhoto').src = profileData.photo;
-            document.getElementById('staffName').textContent = profileData.name;
-            document.getElementById('staffPosition').textContent = profileData.position;
-            document.getElementById('aboutText').textContent = profileData.about;
+        function addSkill() {
+            const input = document.getElementById('newSkillInput');
+            const skill = input.value.trim();
+            if (skill) {
+                currentSkills.push(skill);
+                input.value = '';
+                renderSkillsList();
+            }
+        }
 
-            const skillsList = document.getElementById('skillsList');
-            skillsList.innerHTML = profileData.skills.map(skill => 
-                `<div class="skill-card">${skill}</div>`
-            ).join('');
+        function removeSkill(index) {
+            currentSkills.splice(index, 1);
+            renderSkillsList();
+        }
 
-            const experienceList = document.getElementById('experienceList');
-            experienceList.innerHTML = profileData.experience.map(exp => `
-                <div class="experience-card">
-                    <h4>${exp.title}</h4>
-                    <p>${exp.description}</p>
-                </div>
-            `).join('');
+        function renderExperiencesList() {
+            const container = document.getElementById('experiencesEditList');
+            container.innerHTML = '';
+            currentExperiences.forEach((exp, index) => {
+                const expDiv = document.createElement('div');
+                expDiv.className = 'exp-input-group';
+                expDiv.innerHTML = `
+                    <div class="exp-header">
+                        <strong>Kinh nghiệm #${index + 1}</strong>
+                        <button type="button" class="remove-exp-btn" onclick="removeExperience(${index})">Xóa</button>
+                    </div>
+                    <div class="form-group">
+                        <label>Tiêu đề:</label>
+                        <input type="text" class="exp-title" value="${exp.title || ''}" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <label>Năm bắt đầu:</label>
+                            <input type="number" class="exp-year-start" value="${exp.year_start || ''}" required>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label>Năm kết thúc:</label>
+                            <input type="number" class="exp-year-end" value="${exp.year_end || ''}" placeholder="Để trống nếu hiện tại">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Mô tả:</label>
+                        <textarea class="exp-description">${exp.description || ''}</textarea>
+                    </div>
+                `;
+                container.appendChild(expDiv);
+            });
+        }
+
+        function addExperience() {
+            currentExperiences.push({
+                title: '',
+                year_start: new Date().getFullYear(),
+                year_end: null,
+                description: ''
+            });
+            renderExperiencesList();
+        }
+
+        function removeExperience(index) {
+            currentExperiences.splice(index, 1);
+            renderExperiencesList();
+        }
+
+        function saveProfile(event) {
+            event.preventDefault();
+            
+            // Lấy dữ liệu kinh nghiệm
+            const expDivs = document.querySelectorAll('.exp-input-group');
+            currentExperiences = [];
+            expDivs.forEach(div => {
+                currentExperiences.push({
+                    title: div.querySelector('.exp-title').value,
+                    year_start: div.querySelector('.exp-year-start').value,
+                    year_end: div.querySelector('.exp-year-end').value || null,
+                    description: div.querySelector('.exp-description').value
+                });
+            });
+            
+            const formData = new FormData(document.getElementById('editForm'));
+            formData.append('skills', JSON.stringify(currentSkills));
+            formData.append('experiences', JSON.stringify(currentExperiences));
+            
+            fetch('UpdateProfile.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('✅ ' + data.message);
+                    location.reload();
+                } else {
+                    alert('❌ ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('❌ Có lỗi xảy ra: ' + error);
+            });
         }
 
         document.getElementById('editModal').addEventListener('click', function(e) {
@@ -571,3 +660,6 @@
     </script>
 </body>
 </html>
+<?php
+$conn->close();
+?>

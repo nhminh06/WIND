@@ -50,15 +50,74 @@
       color: #6c757d;
       font-style: italic;
     }
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: #6c757d;
+    }
+    .empty-state i {
+      font-size: 48px;
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 <body>
 
-  <?php include('menu.php'); ?>
+  <?php 
+  session_start();
+  include('menu.php'); 
+  
+  // Kết nối database
+  include('../../db/db.php');
+  
+  // Kiểm tra đăng nhập
+  if (!isset($_SESSION['user_id'])) {
+    header("Location: ../../login.php");
+    exit();
+  }
+  
+  $staff_id = $_SESSION['user_id'];
+  
+  // Lấy danh sách tour của nhân viên hiện tại
+  $sql = "SELECT 
+            ts.id,
+            ts.tour_code,
+            ts.tour_name,
+            ts.start_date,
+            ts.end_date,
+            ts.location,
+            ts.status,
+            ts.notes
+          FROM tour_schedule ts
+          WHERE ts.staff_id = ?
+          ORDER BY ts.start_date DESC";
+  
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("i", $staff_id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  
+  // Hàm chuyển đổi trạng thái sang tiếng Việt và badge
+  function getStatusBadge($status) {
+    $badges = [
+      'preparing' => ['text' => 'Đang chuẩn bị', 'class' => 'bg-info text-dark'],
+      'upcoming' => ['text' => 'Sắp khởi hành', 'class' => 'bg-warning text-dark'],
+      'completed' => ['text' => 'Hoàn thành', 'class' => 'bg-success'],
+      'cancelled' => ['text' => 'Đã hủy', 'class' => 'bg-danger']
+    ];
+    return $badges[$status] ?? ['text' => $status, 'class' => 'bg-secondary'];
+  }
+  
+  // Hàm format ngày
+  function formatDate($date) {
+    return date('d/m/Y', strtotime($date));
+  }
+  ?>
 
   <div class="main-content">
     <h2 class="main-title">🧭 Lịch Tour Của Tôi</h2>
 
+    <?php if ($result->num_rows > 0): ?>
     <table class="table table-bordered text-center align-middle">
       <thead>
         <tr>
@@ -72,37 +131,39 @@
         </tr>
       </thead>
       <tbody>
+        <?php while ($tour = $result->fetch_assoc()): 
+          $badge = getStatusBadge($tour['status']);
+        ?>
         <tr>
-          <td>T001</td>
-          <td>Đà Nẵng - Hội An</td>
-          <td>18/10/2025</td>
-          <td>19/10/2025</td>
-          <td>Quảng Nam</td>
-          <td><span class="badge bg-success">Hoàn thành</span></td>
-          <td class="note">Khách hài lòng, tour diễn ra suôn sẻ</td>
+          <td><strong><?php echo htmlspecialchars($tour['tour_code']); ?></strong></td>
+          <td><?php echo htmlspecialchars($tour['tour_name']); ?></td>
+          <td><?php echo formatDate($tour['start_date']); ?></td>
+          <td><?php echo formatDate($tour['end_date']); ?></td>
+          <td><?php echo htmlspecialchars($tour['location']); ?></td>
+          <td>
+            <span class="badge <?php echo $badge['class']; ?>">
+              <?php echo $badge['text']; ?>
+            </span>
+          </td>
+          <td class="note">
+            <?php echo htmlspecialchars($tour['notes'] ?? 'Không có ghi chú'); ?>
+          </td>
         </tr>
-
-        <tr>
-          <td>T002</td>
-          <td>Huế - Bà Nà Hills</td>
-          <td>22/10/2025</td>
-          <td>23/10/2025</td>
-          <td>Huế, Đà Nẵng</td>
-          <td><span class="badge bg-warning text-dark">Sắp khởi hành</span></td>
-          <td class="note">Chuẩn bị hồ sơ khách và phương tiện</td>
-        </tr>
-
-        <tr>
-          <td>T003</td>
-          <td>Đà Lạt 3 Ngày 2 Đêm</td>
-          <td>28/10/2025</td>
-          <td>30/10/2025</td>
-          <td>Lâm Đồng</td>
-          <td><span class="badge bg-info text-dark">Đang chuẩn bị</span></td>
-          <td class="note">Liên hệ khách sạn & đặt vé cáp treo</td>
-        </tr>
+        <?php endwhile; ?>
       </tbody>
     </table>
+    <?php else: ?>
+    <div class="empty-state">
+      <div>📅</div>
+      <h4>Chưa có lịch tour nào</h4>
+      <p>Hiện tại bạn chưa được phân công tour nào.</p>
+    </div>
+    <?php endif; ?>
   </div>
+
+  <?php
+  $stmt->close();
+  $conn->close();
+  ?>
 </body>
 </html>

@@ -1,3 +1,4 @@
+<?php include('../../db/db.php'); ?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -5,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thông Báo Nội Bộ</title>
   <link rel="stylesheet" href="../../css/Staff.css">
-
 
   <style>
     .main-content {
@@ -68,30 +68,25 @@
   <div class="main-content">
     <h2 class="main-title">📢 Thông Báo Nội Bộ</h2>
 
-    <!-- Thông báo mẫu -->
-    <div class="announcement">
-      <h4>🧳 Tour Huế 3 ngày – Đổi giờ khởi hành</h4>
-      <p><b>Ngày đăng:</b> 18/10/2025</p>
-      <p><b>Nội dung:</b> Tour Huế khởi hành lúc <b>05:30 sáng</b> thay vì 06:00 như cũ.</p>
-      <p><b>Người đăng:</b> Quản lý tour</p>
-    </div>
+    <?php
+      $sql = "SELECT * FROM announcement ORDER BY post_date DESC";
+      $result = $conn->query($sql);
 
-    <div class="announcement">
-      <h4>🎉 Team Building tháng 11</h4>
-      <p><b>Ngày đăng:</b> 15/10/2025</p>
-      <p><b>Nội dung:</b> Toàn bộ nhân viên đăng ký tham gia Team Building tại Bà Nà Hills trước ngày 25/10.</p>
-      <p><b>Người đăng:</b> Phòng nhân sự</p>
-    </div>
+      if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+          echo '<div class="announcement">';
+          echo '<h4>' . htmlspecialchars($row["title"]) . '</h4>';
+          echo '<p><b>Ngày đăng:</b> ' . date('d/m/Y', strtotime($row["post_date"])) . '</p>';
+          echo '<p><b>Nội dung:</b> ' . htmlspecialchars($row["content"]) . '</p>';
+          echo '<p><b>Người đăng:</b> ' . htmlspecialchars($row["author"]) . '</p>';
+          echo '</div>';
+        }
+      } else {
+        echo '<p class="no-announcement">Hiện chưa có thông báo nào.</p>';
+      }
 
-    <div class="announcement">
-      <h4>📅 Họp nội bộ cuối tháng</h4>
-      <p><b>Ngày đăng:</b> 10/10/2025</p>
-      <p><b>Nội dung:</b> Họp nhanh về chất lượng dịch vụ khách đoàn tại phòng họp tầng 2.</p>
-      <p><b>Người đăng:</b> Ban điều hành</p>
-    </div>
-
-    <!-- Nếu không có thông báo -->
-    <!-- <p class="no-announcement">Hiện chưa có thông báo nào.</p> -->
+      $conn->close();
+    ?>
   </div>
 </body>
 </html>
