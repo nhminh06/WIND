@@ -747,9 +747,9 @@ return getDemoTours(query);
         tourCard.innerHTML = `
           <div class="msg-avatar">🎫</div>
           <div class="msg-bubble">
-            <div class="tour-card" onclick="window.open('tour/detailed_tour.php?id=${tour.id}', '_blank')">
+            <div class="tour-card" onclick="window.open('detailed_tour.php?id=${tour.id}', '_blank')">
               <div class="tour-card-header">
-                <img src="${imageUrl}" alt="${tour.ten_tour}" class="tour-card-img" onerror="this.src='https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=300'">
+                <img src="../../../${imageUrl}" alt="${tour.ten_tour}" class="tour-card-img" onerror="this.src='https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=300'">
                 <div class="tour-card-info">
                   <div class="tour-card-title">${tour.ten_tour}</div>
 <div class="tour-card-meta">

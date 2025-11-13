@@ -28,7 +28,7 @@
     <aside class="sidebar">
       <div class="profile">
         <button onclick="window.location.href = '../index/Webindex.php'" class="left-btn"><i class="bi bi-arrow-left-circle"></i></button>
-        <div class="avatar">MN</div>
+        <div class="avatar"><img src="../../../img/avt1.jpg" alt=""></div>
 
         <div class="provider"><?php echo $_SESSION['username']; ?></div>
 

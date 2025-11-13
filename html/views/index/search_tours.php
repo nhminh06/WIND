@@ -11,24 +11,27 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 // Include database
 include '../../../db/db.php';
+
 try {
     $query = isset($_GET['q']) ? trim($_GET['q']) : '';
     
     if (empty($query)) {
         echo json_encode([
             'success' => false,
-            'tour' => [],
+            'tours' => [],
             'message' => 'Không có từ khóa tìm kiếm'
         ], JSON_UNESCAPED_UNICODE);
         exit;
     }
     
-    // Tìm kiếm tour
+    // Tìm kiếm tour với JOIN để lấy mô tả từ tour_chi_tiet
     $searchTerm = "%{$query}%";
-    $sql = "SELECT id, ten_tour, gia, so_ngay, hinh_anh, mo_ta 
-            FROM TOUR 
-            WHERE trang_thai = 1 
-            AND ten_tour LIKE ?
+    $sql = "SELECT t.id, t.ten_tour, t.gia, t.so_ngay, t.hinh_anh, 
+                   tc.mo_ta_ngan as mo_ta
+            FROM tour t
+            LEFT JOIN tour_chi_tiet tc ON t.id = tc.tour_id
+            WHERE t.trang_thai = 1 
+            AND t.ten_tour LIKE ?
             LIMIT 10";
     
     $stmt = mysqli_prepare($conn, $sql);
@@ -46,7 +49,7 @@ try {
         $tours[] = [
             'id' => (int)$row['id'],
             'ten_tour' => $row['ten_tour'],
-            'gia' => (int)$row['gia'],
+            'gia' => (float)$row['gia'],
             'so_ngay' => (int)$row['so_ngay'],
             'hinh_anh' => $row['hinh_anh'] ?? '',
             'mo_ta' => $row['mo_ta'] ?? ''
@@ -71,20 +74,3 @@ try {
     ], JSON_UNESCAPED_UNICODE);
 }
 ?>
-```
-
-## 🔧 Các thay đổi quan trọng:
-
-1. ✅ **Tắt lỗi AI tạm thời** - chỉ dùng tìm kiếm database
-2. ✅ **Thêm error handling** cho JSON parse
-3. ✅ **Debug log** để xem response từ server
-4. ✅ **File PHP sạch hơn** với error handling đầy đủ
-
-## 📍 Cấu trúc thư mục:
-```
-your-project/
-├── WebIndex.php (file chatbot)
-├── search_tours.php (file này)
-├── db/
-│   └── db.php (kết nối database)
-└── uploads/ (thư mục ảnh)
