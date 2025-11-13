@@ -42,11 +42,31 @@
         <li onclick="loadpage('refund-section.html', this)"><i class="bi bi-envelope-paper-fill"></i> Hoàn tiền</li>
         <li onclick="loadpage('price-alert.html', this)"><i class="bi bi-bell-fill"></i> Cảnh báo giá vé máy bay</li>
         <li onclick="loadpage('user-tours.html', this)"><i class="bi bi-envelope-paper-fill"></i> Chi tiết hành khách đã lưu</li>
-        <li onclick="loadpage('notification-settings.html', this)"><i class="bi bi-bell-fill"></i> Cài đặt thông báo</li>
-        <li onclick="loadpage('settinguser.html' , this)" class="active"><i class="bi bi-gear"></i> Tài khoản của tôi</li>
+        <li onclick="loadpage('notification-settings.php', this)"><i class="bi bi-bell-fill"></i> Cài đặt thông báo</li>
+        <li onclick="loadpage('settinguser.php' , this)" class="active"><i class="bi bi-gear"></i> Tài khoản của tôi</li>
         <li onclick="window.location.href = '../../../php/logout.php'" class="logout"><i class="bi bi-door-closed-fill"></i> Đăng xuất</li>
         <li><button onclick="window.location.href = '../../Admin/IndexController.php'" class="admin-bt">Mở giao diện quản lý</button></li>
       </ul>
+    <div class="thongbao" 
+     <?php 
+     if(isset($_SESSION['thanhcong'])) { 
+         $bgColor = ($_SESSION['thanhcong'] == 1) ? '#4BB543' : '#FF3333';
+         echo 'style="display: flex; background-color: ' . $bgColor . ';"'; 
+     } else { 
+         echo 'style="display: none;"'; 
+     } 
+     ?>> 
+    <?php 
+    if(isset($_SESSION['thanhcong'])) {
+        if($_SESSION['thanhcong'] == 1) {
+            echo '<i class="bi bi-bookmark-check"></i> Chỉnh sửa thành công!';
+        } else {
+            echo '<i class="bi bi-x-circle"></i> Chỉnh sửa thất bại!';
+        }
+        unset($_SESSION['thanhcong']);
+    }
+    ?>
+</div>
     </aside>
 
 
@@ -54,11 +74,17 @@
 
     </main>
   </div>
-  <script src="../../../js/Main5.js"></script>
+  <script src="../../../js/Main5.js">
+  </script>
      <script>
-
+setTimeout(function() {
+    const thongbao = document.querySelector('.thongbao');
+    if(thongbao) {
+        thongbao.style.display = 'none';
+    }
+}, 5000);
   window.onload = function () {
-    loadpage('settinguser.html', document.querySelector('li.active'));
+    loadpage('settinguser.php', document.querySelector('li.active'));
   };
 </script>
 </body>
