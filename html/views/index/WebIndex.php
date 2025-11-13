@@ -37,8 +37,10 @@
         
         
         
+        
     </header>
     <div class="container">
+            <?php include 'chatbot.php';?>
         <h2>Giới thiệu về WIND travel</h2>
             <div class="about">
                 <div class="main_about">
