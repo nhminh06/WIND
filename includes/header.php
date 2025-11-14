@@ -52,10 +52,11 @@ $sqlll = "SELECT avatar FROM user WHERE id = $_SESSION[user_id]";
 $resulttt = mysqli_query($conn, $sqlll);
 if(mysqli_num_rows($resulttt) > 0){
     $roww = mysqli_fetch_assoc($resulttt);
+  if(!empty($roww['avatar'])){
     $avatar = $roww['avatar'];
-if (empty($avatar)) {
-    $avatar = 'img/avatamacdinh.png'; // Ảnh mặc định nếu chưa có avatar
-}
+  } else {
+    $avatar = 'img/avatamacdinh.png';
+  }
 
 // Xác định đường dẫn đích dựa trên role
 if (!isset($_SESSION['role'])) {

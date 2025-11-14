@@ -16,6 +16,8 @@
   $result = mysqli_query($conn, $sql);
   if(mysqli_num_rows($result) > 0){
     $row = mysqli_fetch_assoc($result);
+
+    $_SESSION['avatar'] = $row['avatar'];
     
     // Xử lý ngày sinh
     $ngay_sinh = $row['ngay_sinh'] ?? '2000-01-01';

@@ -18,26 +18,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $update_sql = "UPDATE user SET password = '$new_password' WHERE id = $user_id";
                 if(mysqli_query($conn, $update_sql)){
                     $_SESSION['thanhcong'] = 1;
-                    header("Location: ../../html/views/user/users.php");
-                    exit();
+                    if($_SESSION['role'] == 'admin'){
+                        header("Location: ../../html/Admin/Adminacc.php");
+                        exit();
+                    } else {
+                        header("Location: ../../html/views/user/users.php");
+                        exit();
+
+                    }
+                   
                 } else {
                     $_SESSION['thanhcong'] = 0;
-                    header("Location: ../../html/views/user/users.php");
-                    exit();
+                    if($_SESSION['role'] == 'admin'){
+                        header("Location: ../../html/Admin/Adminacc.php");
+                        exit();
+                    } else {
+                        header("Location: ../../html/views/user/users.php");
+                        exit();
+
+                    }
                 }
             } else {
                 $_SESSION['thanhcong'] = 0;
-                header("Location: ../../html/views/user/users.php");
-                exit();
+                if($_SESSION['role'] == 'admin'){
+                    header("Location: ../../html/Admin/Adminacc.php");
+                    exit();
+                } else {
+                    header("Location: ../../html/views/user/users.php");
+                    exit();
+                }
             }
         } else {
             $_SESSION['thanhcong'] = 0;
-            header("Location: ../../html/views/user/users.php");
-            exit();
+            if($_SESSION['role'] == 'admin'){
+                header("Location: ../../html/Admin/Adminacc.php");
+                exit();
+            } else {
+                header("Location: ../../html/views/user/users.php");
+                exit();
         }
 
 
-
+    }
     }
 }
 ?>
