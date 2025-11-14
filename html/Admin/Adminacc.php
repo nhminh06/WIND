@@ -64,10 +64,34 @@ if(mysqli_num_rows($result) > 0){
                         <form method="POST" action="../../php/UsersController/update_profile.php?id=<?= $_SESSION['user_id'] ?>">
                             <div class="settings-section">
                                 <h2>Dữ liệu cá nhân</h2>
-                                 <div class="avatar">
-  <img id="avatarImg" src="<?php echo "../../../" . (!empty($_SESSION['avatar']) ? $_SESSION['avatar'] : 'img/avt2.jpg'); ?>" alt="Ảnh đại diện" style="cursor: pointer;">
+                                <div class="<?php
+                                if(isset($_SESSION['rank'])) {
+                                    if($_SESSION['rank'] != 1){
+                                        echo 'admin-card-0';
+                                    } else {
+                                        echo 'admin-card-1';
+                                    }
+                                   
+                                }
+                                ?>">
+                                     <div class="avatar">
+  <img id="avatarImg" src="<?php echo "../../../" . (!empty($_SESSION['avatar']) ? $_SESSION['avatar'] : 'img/avatamacdinh.png'); ?>" alt="Ảnh đại diện" style="cursor: pointer;">
   <input type="file" id="avatarInput" accept="image/*" style="display: none;">
 </div>
+                                <div class="rank-admin">
+                                    <h4><?= htmlspecialchars($row['ho_ten']); ?></h4>
+                                   <?php
+                                   if(isset($_SESSION['rank'])) {
+                                    if($_SESSION['rank'] != 1){
+                                        echo ' <p>Quản trị viên thứ cấp <i style="color: blue;" class="bi bi-flower2"></i></p>';
+                                    } else {
+                                        echo ' <p>Quản trị viên cao cấp <i style="color: red;" class="bi bi-flower1"></i></p></p>';
+                                    }
+                                   }
+                                   ?>
+                                </div>
+                                    
+                                </div>
                                 <div class="settings-form-group">
                                     <label>Họ và tên đầy đủ</label>
                                     <input type="text" name="ho_ten" value="<?= htmlspecialchars($row['ho_ten']); ?>" class="settings-input">

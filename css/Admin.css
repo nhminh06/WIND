@@ -1539,3 +1539,61 @@ i{
   height: 100%;
   object-fit: cover;
 }
+.admin-card-1{
+    height: 150px;
+    width: 300px;
+     background:
+        radial-gradient(circle at 50% 40%,
+            #fff7b3 0%,
+            #f5df7c 40%,
+            #ddb85a 65%,
+            #c8932e 90%
+        ),
+        linear-gradient(135deg,
+            #c8922d 0%,
+            #f2dc7a 50%,
+            #fff6b2 100%
+        );
+    background-blend-mode: overlay;
+    border-radius: 12px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+.admin-card-0{
+    height: 150px;
+    width: 300px;
+     background:
+    radial-gradient(circle at 50% 45%,
+        #ffffff 0%,
+        #eaeaea 25%,
+        #cfcfcf 50%,
+        #b3b3b3 70%,
+        #8d8d8d 100%
+    ),
+    linear-gradient(120deg,
+        #ffffff 0%,
+        #cfcfcf 40%,
+        #f8f8f8 70%,
+        #bdbdbd 100%
+    );
+background-blend-mode: lighten;
+
+    border-radius: 12px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+.rank-admin{
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+}
+.rank-admin > h4{
+    color: #1e1e2f;
+}
+.rank-admin > p{
+    color: #1e1e2f;
+}

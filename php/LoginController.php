@@ -45,6 +45,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['user_id'] = $user['id'];  
         $_SESSION['username'] = $user['ho_ten'];  
         $_SESSION['role'] = $user['role'];
+        $_SESSION['avatar'] = $user['avatar'];
+
+        if($_SESSION['role'] == 'admin'){
+           $_SESSION['rank'] = $user['rank'];
+
+        }
 
 
          
@@ -60,6 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         header("Location: ../html/views/index/WebIndex.php");
+    
     } else {
         $_SESSION['error'] = "Tên đăng nhập hoặc mật khẩu không đúng.";
         header("Location: ../html/views/index/login.php");

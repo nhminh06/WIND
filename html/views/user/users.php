@@ -29,7 +29,7 @@
       <div class="profile">
         <button onclick="window.location.href = '../index/Webindex.php'" class="left-btn"><i class="bi bi-arrow-left-circle"></i></button>
         <div class="avatar">
-  <img id="avatarImg" src="<?php echo "../../../../" . (!empty($_SESSION['avatar']) ? $_SESSION['avatar'] : 'img/avt2.jpg'); ?>" alt="Ảnh đại diện" style="cursor: pointer;">
+  <img id="avatarImg" src="<?php echo "../../../../" . (!empty($_SESSION['avatar']) ? $_SESSION['avatar'] : 'img/avatamacdinh.png'); ?>" alt="Ảnh đại diện" style="cursor: pointer;">
   <input type="file" id="avatarInput" accept="image/*" style="display: none;">
 </div>
 

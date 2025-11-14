@@ -47,34 +47,45 @@ class="menusearch">
 <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
 </svg>
 </button>
-<?php include '../../../db/db.php';
-$sqlll = "SELECT avatar FROM user WHERE id = $_SESSION[user_id]";
-$resulttt = mysqli_query($conn, $sqlll);
-if(mysqli_num_rows($resulttt) > 0){
-    $roww = mysqli_fetch_assoc($resulttt);
-  if(!empty($roww['avatar'])){
-    $avatar = $roww['avatar'];
-  } else {
-    $avatar = 'img/avatamacdinh.png';
-  }
+<?php
+include '../../../db/db.php';
 
-// Xác định đường dẫn đích dựa trên role
+// Giá trị mặc định
+$avatar = 'img/avatamacdinh.png';
+
+// Kiểm tra nếu user_id tồn tại trong session
+if(isset($_SESSION['user_id'])) {
+    $user_id = intval($_SESSION['user_id']); // tránh lỗi SQL
+
+    $sqlll = "SELECT avatar FROM user WHERE id = $user_id";
+    $resulttt = mysqli_query($conn, $sqlll);
+
+    if($resulttt && mysqli_num_rows($resulttt) > 0){
+        $roww = mysqli_fetch_assoc($resulttt);
+        if(!empty($roww['avatar'])){
+            $avatar = $roww['avatar']; // dùng avatar từ DB
+        }
+    }
+}
+
+// Xác định link dựa trên role
 if (!isset($_SESSION['role'])) {
     $link = "../index/note.php";
 } elseif ($_SESSION['role'] === 'staff') {
     $link = "../../staff/StaffProfile.php";
 } elseif ($_SESSION['role'] === 'admin') {
-    $link = "../../Admin/indexController.php";
+    $link = "../../Admin/Adminacc.php";
 } else {
     $link = "../user/users.php";
 }
 
-// Hiển thị avatar với link tương ứng
+// Hiển thị avatar
 echo "
 <div class='users_avata' onclick=\"window.location.href='$link'\">
   <img src='../../../$avatar' alt='Avatar'>
-</div>";}
+</div>";
 ?>
+
 
 </div>
 </div>
