@@ -88,7 +88,7 @@
         <button class="add-btn">+ Chỉnh sửa số điện thoại di động</button>
       </div>
 
-   <form method="POST" class="security-section" style="display:none;" action="../../../php/UsersController.php/change_password.php?id=<?php echo $_SESSION['user_id']; ?>">
+   <form method="POST" class="security-section" style="display:none;" action="../../../php/UsersController/change_password.php?id=<?php echo $_SESSION['user_id']; ?>">
   <h2>Mật khẩu & Bảo mật</h2>
 
   <label for="currentPassword">Mật khẩu hiện tại</label>

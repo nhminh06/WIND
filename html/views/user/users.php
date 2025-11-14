@@ -28,7 +28,12 @@
     <aside class="sidebar">
       <div class="profile">
         <button onclick="window.location.href = '../index/Webindex.php'" class="left-btn"><i class="bi bi-arrow-left-circle"></i></button>
-        <div class="avatar"><img src="../../../img/avt1.jpg" alt=""></div>
+        <div class="avatar">
+  <img id="avatarImg" src="<?php echo "../../../../" . (!empty($_SESSION['avatar']) ? $_SESSION['avatar'] : 'img/avt1.jpg'); ?>" alt="Ảnh đại diện" style="cursor: pointer;">
+  <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+</div>
+
+
 
         <div class="provider"><?php echo $_SESSION['username']; ?></div>
 
@@ -77,6 +82,45 @@
   <script src="../../../js/Main5.js">
   </script>
      <script>
+       
+
+  const avatarImg = document.getElementById("avatarImg");
+  const avatarInput = document.getElementById("avatarInput");
+
+  // Khi nhấn vào ảnh, bật chọn file
+  avatarImg.addEventListener("click", () => avatarInput.click());
+
+  // Khi chọn file mới
+  avatarInput.addEventListener("change", () => {
+    const file = avatarInput.files[0];
+    if (file) {
+      // Hiển thị xem trước ảnh
+      const reader = new FileReader();
+      reader.onload = e => avatarImg.src = e.target.result;
+      reader.readAsDataURL(file);
+
+      // Gửi ảnh lên server để lưu vào CSDL
+      const formData = new FormData();
+      formData.append('avatar', file);
+
+      fetch('../../../php/UsersController/upload_avatar.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === 'success') {
+          $_SESSION['thanhcong'] = 1;
+        } else {
+          $_SESSION['thanhcong'] = 0;
+        }
+      })
+      .catch(err => $_SESSION['thanhcong'] = 0);
+    }
+  });
+
+
+
 setTimeout(function() {
     const thongbao = document.querySelector('.thongbao');
     if(thongbao) {

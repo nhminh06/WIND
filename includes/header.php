@@ -47,26 +47,34 @@ class="menusearch">
 <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
 </svg>
 </button>
-<?php 
-if(!isset($_SESSION['role'])) {
-echo " <div onclick=\"window.location.href = '../index/note.php'\" class=\"users_avata\">
-        <img src=\"https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg\" alt=\"\">
-      </div>";
-       }
-else if($_SESSION['role']=='staff'){
-echo " <div onclick=\"window.location.href = '../../staff/StaffProfile.php'\" class=\"users_avata\">
-        <img src=\"https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg\" alt=\"\">
-      </div>";
-       }else if($_SESSION['role']=='admin'){
-echo " <div onclick=\"window.location.href = '../../Admin/indexController.php'\" class=\"users_avata\">
-<img src=\"https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg\" alt=\"\">
-       </div>";
-       }else{
-echo " <div onclick=\"window.location.href = '../user/users.php'\" class=\"users_avata\">
-        <img src=\"https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg\" alt=\"\">
-      </div>";
-       }
+<?php include '../../../db/db.php';
+$sqlll = "SELECT avatar FROM user WHERE id = $_SESSION[user_id]";
+$resulttt = mysqli_query($conn, $sqlll);
+if(mysqli_num_rows($resulttt) > 0){
+    $roww = mysqli_fetch_assoc($resulttt);
+    $avatar = $roww['avatar'];
+if (empty($avatar)) {
+    $avatar = 'img/avatamacdinh.png'; // Ảnh mặc định nếu chưa có avatar
+}
+
+// Xác định đường dẫn đích dựa trên role
+if (!isset($_SESSION['role'])) {
+    $link = "../index/note.php";
+} elseif ($_SESSION['role'] === 'staff') {
+    $link = "../../staff/StaffProfile.php";
+} elseif ($_SESSION['role'] === 'admin') {
+    $link = "../../Admin/indexController.php";
+} else {
+    $link = "../user/users.php";
+}
+
+// Hiển thị avatar với link tương ứng
+echo "
+<div class='users_avata' onclick=\"window.location.href='$link'\">
+  <img src='../../../$avatar' alt='Avatar'>
+</div>";}
 ?>
+
 </div>
 </div>
 <div class="rbc_menu" id="rbc_menu">
