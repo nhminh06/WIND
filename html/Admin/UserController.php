@@ -393,7 +393,11 @@ $stats = $result_stats->fetch_assoc();
 
       <select name="role" class="select-css" required>
         <option value="">-- Chọn quyền --</option>
-        <option class="option-css" style="color: #dc3545;" value="admin">Admin</option>
+        <option class="option-css" style="color: #dc3545;
+        <?php if($_SESSION['rank']!=1){
+          echo "display:none;";
+        }  ?>
+        " value="admin">Admin</option>
         <option class="option-css" style="color: #28a745;" value="staff">Staff</option>
         <option class="option-css" style="color: #449ce3ff;" value="user">User</option>
       </select>

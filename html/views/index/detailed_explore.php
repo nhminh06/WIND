@@ -163,7 +163,12 @@ $result_lienquan = $stmt_lq->get_result();
            ?>
             <div class="comment_item">
                 <div class="comment_user">
-                    <span class="user_name"><?php echo htmlspecialchars($cm['ten_user']); ?></span>
+                  <div class="user-cm">  
+                     <div class="avatar-cm">
+  <img id="avatarImg" src="<?php echo "../../../../" . (!empty($cm['avatar']) ? $cm['avatar'] : 'img/avatamacdinh.png'); ?>" alt="Ảnh đại diện" style="cursor: pointer;">
+  <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+</div>  
+                  <span class="user_name"><?php echo htmlspecialchars($cm['ten_user']); ?></span></div>
                     <span class="comment_date"><?php echo htmlspecialchars($cm['ngay_tao']); ?></span>
                 </div>
                 <div class="comment_content">
