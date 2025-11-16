@@ -61,7 +61,7 @@ if(mysqli_num_rows($result) > 0){
                     <div class="account-section">
 
                         <!-- Form dữ liệu cá nhân -->
-                        <form method="POST" action="../../php/UsersController/update_profile.php?id=<?= $_SESSION['user_id'] ?>">
+                        <form method="POST" action="../../php/UsersController/EditUser.php?id=<?= $_SESSION['user_id'] ?>">
                             <div class="settings-section">
                                 <h2>Dữ liệu cá nhân</h2>
                                 <div class="<?php
@@ -94,12 +94,12 @@ if(mysqli_num_rows($result) > 0){
                                 </div>
                                 <div class="settings-form-group">
                                     <label>Họ và tên đầy đủ</label>
-                                    <input type="text" name="ho_ten" value="<?= htmlspecialchars($row['ho_ten']); ?>" class="settings-input">
+                                    <input type="text" name="ho_ten" value="<?= htmlspecialchars($row['ho_ten']); ?>" class="settings-input" disabled>
                                 </div>
 
                                 <div class="settings-form-group">
                                     <label>Giới tính</label>
-                                    <select name="gioi_tinh" class="settings-select">
+                                    <select name="gioi_tinh" class="settings-select" disabled>
                                         <option value="Nam" <?= $row['gioi_tinh']=='Nam'?'selected':''; ?>>Nam giới</option>
                                         <option value="Nữ" <?= $row['gioi_tinh']=='Nữ'?'selected':''; ?>>Nữ giới</option>
                                         <option value="Khác" <?= $row['gioi_tinh']=='Khác'?'selected':''; ?>>Khác</option>
@@ -109,44 +109,59 @@ if(mysqli_num_rows($result) > 0){
                                 <div class="settings-form-group">
                                     <label>Ngày sinh</label>
                                     <div class="settings-date-group">
-                                        <input class="settings-select" type="number" name="ngay" value="<?= $ngay ?>" min="1" max="31" placeholder="Ngày">
-                                        <select name="thang" class="settings-select">
+                                        <input class="settings-select" type="number" name="ngay" value="<?= $ngay ?>" min="1" max="31" placeholder="Ngày" disabled>
+                                        <select name="thang" class="settings-select" disabled>
                                             <?php for($i=1;$i<=12;$i++): ?>
                                                 <option value="<?= $i ?>" <?= $thang==$i?'selected':''; ?>>Tháng <?= $i ?></option>
                                             <?php endfor; ?>
                                         </select>
-                                        <input class="settings-select" type="number" name="nam" value="<?= $nam ?>" min="1900" max="<?= date('Y') ?>" placeholder="Năm">
+                                        <input class="settings-select" type="number" name="nam" value="<?= $nam ?>" min="1900" max="<?= date('Y') ?>" placeholder="Năm" disabled>
                                     </div>
                                 </div>
 
                                 <div class="settings-form-group">
                                     <label>Địa chỉ</label>
-                                    <input type="text" name="dia_chi" value="<?= htmlspecialchars($row['dia_chi']); ?>" class="settings-input">
+                                    <input type="text" name="dia_chi" value="<?= htmlspecialchars($row['dia_chi']); ?>" class="settings-input" disabled>
                                 </div>
 
                                 <div class="settings-button-group">
-                                    <button type="button" class="settings-btn settings-btn-secondary">Có thể sau này</button>
+                                    <button type="button" class="settings-btn settings-btn-secondary">Chỉnh sửa</button>
                                     <button type="submit" class="settings-btn settings-btn-primary">Lưu</button>
                                 </div>
                             </div>
-                        </form>
-
-                        <!-- Email -->
-                        <div class="settings-section">
+                                 <!-- Email -->
+                       <div class="settings-section">
                             <h2>E-mail</h2>
-                            <div class="settings-email-box">
-                                <div><?= htmlspecialchars($row['email']); ?></div>
-                                <div class="settings-verified">Người nhận thông báo</div>
-                            </div>
-                            <button class="settings-btn settings-link-btn">+ Chỉnh sửa Email</button>
+
+                            <input style="margin-bottom: 15px;" type="email" 
+                                name="email" 
+                                value="<?= htmlspecialchars($row['email']); ?>" 
+                                class="settings-input" 
+                                disabled>
+
+                            <button type="button" class="settings-btn settings-link-btn edit-email-btn">
+                                + Chỉnh sửa Email
+                            </button>
                         </div>
 
                         <!-- SĐT -->
                         <div class="settings-section">
                             <h2>Số điện thoại</h2>
-                            <div class="settings-phone-box"><?= htmlspecialchars($row['sdt']); ?></div>
-                            <button class="settings-btn settings-link-btn">+ Chỉnh sửa số điện thoại</button>
+
+                            <input style="margin-bottom: 15px;" type="text" 
+                                name="sdt" 
+                                value="<?= htmlspecialchars($row['sdt']); ?>" 
+                                class="settings-input" 
+                                disabled>
+
+                            <button type="button" class="settings-btn settings-link-btn edit-phone-btn">
+                                + Chỉnh sửa số điện thoại
+                            </button>
                         </div>
+                        </form>
+
+                   
+
 
                     </div>
 
@@ -244,6 +259,45 @@ const avatarImg = document.getElementById("avatarImg");
       .catch(err => $_SESSION['thanhcong'] = 0);
     }
   });
+
+  //chỉnh sửa
+  document.querySelector(".settings-btn-secondary").addEventListener("click", function () {
+    // Lấy tất cả input + select trong khu vực settings-section
+    const inputs = document.querySelectorAll(".settings-section input, .settings-section select");
+
+    inputs.forEach(el => {
+        el.disabled = !el.disabled; // đảo trạng thái: khóa -> mở / mở -> khóa
+    });
+
+    // Đổi text nút khi đang chỉnh sửa
+    if (this.innerText === "Chỉnh sửa") {
+        this.innerText = "Hủy";
+    } else {
+        this.innerText = "Chỉnh sửa";
+    }
+});
+
+// Bật tắt Email
+document.querySelector(".edit-email-btn").addEventListener("click", function () {
+    let emailInput = document.querySelector("input[name='email']");
+    emailInput.disabled = !emailInput.disabled;
+
+    this.innerText = emailInput.disabled 
+        ? "+ Chỉnh sửa Email" 
+        : "Hủy chỉnh sửa Email";
+});
+
+// Bật tắt SĐT
+document.querySelector(".edit-phone-btn").addEventListener("click", function () {
+    let phoneInput = document.querySelector("input[name='sdt']");
+    phoneInput.disabled = !phoneInput.disabled;
+
+    this.innerText = phoneInput.disabled 
+        ? "+ Chỉnh sửa số điện thoại" 
+        : "Hủy chỉnh sửa số điện thoại";
+});
+
+
 </script>
 
 </body>
