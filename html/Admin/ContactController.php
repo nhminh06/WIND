@@ -1,15 +1,68 @@
+<?php
+session_start();
+include '../../db/db.php';
+
+// Lấy tổng số khiếu nại
+$sql_count_khieunai = "SELECT COUNT(*) as total FROM khieu_nai";
+$result_count_khieunai = mysqli_query($conn, $sql_count_khieunai);
+$total_khieunai = mysqli_fetch_assoc($result_count_khieunai)['total'];
+
+// Lấy tổng số góp ý
+$sql_count_gopy = "SELECT COUNT(*) as total FROM gop_y";
+$result_count_gopy = mysqli_query($conn, $sql_count_gopy);
+$total_gopy = mysqli_fetch_assoc($result_count_gopy)['total'];
+
+// Lấy số khiếu nại chưa xử lý
+$sql_count_chua_xuly = "SELECT COUNT(*) as total FROM khieu_nai WHERE trang_thai = 0";
+$result_count_chua_xuly = mysqli_query($conn, $sql_count_chua_xuly);
+$chua_xuly = mysqli_fetch_assoc($result_count_chua_xuly)['total'];
+
+// Lấy danh sách khiếu nại (sắp xếp theo mới nhất)
+$sql_khieunai = "SELECT * FROM khieu_nai ORDER BY created_at DESC";
+$result_khieunai = mysqli_query($conn, $sql_khieunai);
+
+// Lấy danh sách góp ý (sắp xếp theo mới nhất)
+$sql_gopy = "SELECT * FROM gop_y ORDER BY created_at DESC";
+$result_gopy = mysqli_query($conn, $sql_gopy);
+
+// Hàm tính thời gian đã qua
+function time_elapsed_string($datetime) {
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+
+    if ($diff->d > 0) {
+        return $diff->d . ' ngày trước';
+    } elseif ($diff->h > 0) {
+        return $diff->h . ' giờ trước';
+    } elseif ($diff->i > 0) {
+        return $diff->i . ' phút trước';
+    } else {
+        return 'Vừa xong';
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin</title>
+    <title>Admin - Quản lý Liên hệ</title>
     <link rel="stylesheet" href="../../css/Admin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
+<style>
+    .filter-btn > i{
+        color: black;
+    }
+    .phone{
+        color: gray;
+        font-size: 12px;
+    }
+ 
+</style>
 <body>
-  <?php session_start(); ?>
-      <aside class="sidebar">
+  <aside class="sidebar">
     <h2 class="logo">WIND Admin</h2>
    <?php include '../../includes/Adminnav.php';?>
   </aside>
@@ -28,39 +81,34 @@
     </header>
 
     <!-- Content -->
-    <!-- Content -->
-<section class="content">
+    <section class="content">
     <!-- Stats Cards -->
     <div class="stats-grid">
         <div class="stat-card stat-primary">
-          
             <div class="stat-info">
-                <h3>24</h3>
-                <p>Thông báo mới</p>
+                <h3><?php echo $total_khieunai + $total_gopy; ?></h3>
+                <p>Tổng liên hệ</p>
             </div>
         </div>
 
         <div class="stat-card stat-warning">
-           
             <div class="stat-info">
-                <h3>12</h3>
+                <h3><?php echo $total_khieunai; ?></h3>
                 <p>Khiếu nại</p>
             </div>
         </div>
 
         <div class="stat-card stat-success">
-            
             <div class="stat-info">
-                <h3>47</h3>
+                <h3><?php echo $total_gopy; ?></h3>
                 <p>Góp ý</p>
             </div>
         </div>
 
         <div class="stat-card stat-info">
-           
             <div class="stat-info">
-                <h3>6</h3>
-                <p>Vấn đề chưa giải quyết</p>
+                <h3><?php echo $chua_xuly; ?></h3>
+                <p>Chưa xử lý</p>
             </div>
         </div>
     </div>
@@ -68,216 +116,201 @@
     <!-- Filter & Search -->
     <div class="action-bar">
         <div class="filter-group">
-            <button class="filter-btn active">
+            <button class="filter-btn active" onclick="filterAll()">
                 <i class="bi bi-grid"></i> Tất cả
             </button>
-            <button class="filter-btn">
+            <button class="filter-btn" onclick="filterKhieuNai()">
                 <i class="bi bi-exclamation-triangle"></i> Khiếu nại
             </button>
-            <button class="filter-btn">
+            <button class="filter-btn" onclick="filterGopY()">
                 <i class="bi bi-chat-left-text"></i> Góp ý
-            </button>
-            <button class="filter-btn">
-                <i class="bi bi-star"></i> Đánh giá
             </button>
         </div>
         <div class="search-group">
             <i class="bi bi-search"></i>
-            <input type="text" placeholder="Tìm kiếm theo tên hoặc email..." class="search-input">
+            <input type="text" placeholder="Tìm kiếm theo tên hoặc email..." class="search-input" id="searchInput" onkeyup="searchItems()">
         </div>
     </div>
 
     <!-- Khiếu nại List -->
-    <div class="content-section">
+    <div class="content-section section-khieunai">
         <div class="section-header">
             <h3><i class="bi bi-exclamation-triangle-fill"></i> Khiếu nại cần xử lý</h3>
-            <span class="count-badge">12 mới</span>
+            <span class="count-badge"><?php echo $chua_xuly; ?> mới</span>
         </div>
 
         <div class="list-container">
-            <div class="list-item priority-high">
+            <?php while($row = mysqli_fetch_assoc($result_khieunai)): ?>
+            <div class="list-item <?php echo $row['trang_thai'] == 0 ? 'priority-high' : 'priority-low'; ?>" data-type="khieunai" data-name="<?php echo strtolower($row['ho_ten']); ?>" data-email="<?php echo strtolower($row['email']); ?>">
                 <div class="item-status">
-                    <span class="status-dot urgent"></span>
+                    <span class="status-dot <?php echo $row['trang_thai'] == 0 ? 'urgent' : 'info'; ?>"></span>
                 </div>
                 <div class="item-content">
                     <div class="item-header">
                         <div class="user-details">
-                            <h4>Nguyễn Văn A</h4>
-                            <span class="email">nguyenvana@email.com</span>
+                            <h4><?php echo htmlspecialchars($row['ho_ten']); ?></h4>
+                            <span class="email"><?php echo htmlspecialchars($row['email']); ?></span>
+                            <?php if($row['sdt']): ?>
+                                <span class="phone"> | <?php echo htmlspecialchars($row['sdt']); ?></span>
+                            <?php endif; ?>
                         </div>
                         <div class="item-meta">
-                    
-                            <span class="time">5 phút trước</span>
+                            <span class="time"><?php echo time_elapsed_string($row['created_at']); ?></span>
                         </div>
                     </div>
                     <div class="item-body">
-                        <p class="message">Hướng dẫn viên không xuất hiện đúng giờ, đoàn đang chờ tại điểm hẹn từ 30 phút trước. Yêu cầu hỗ trợ khẩn cấp và bồi thường chi phí chờ đợi.</p>
+                        <p class="message"><?php echo htmlspecialchars($row['noi_dung']); ?></p>
                     </div>
                     <div class="item-footer">
-                        <button class="btn btn-primary"><i class="bi bi-check-circle"></i> Chưa xử lý</button>
+                        <button class="btn <?php echo $row['trang_thai'] == 0 ? 'btn-primary' : 'btn-primary1'; ?>" onclick="updateStatus(<?php echo $row['id']; ?>, 'khieu_nai', <?php echo $row['trang_thai']; ?>)">
+                            <i class="bi bi-check-circle"></i> 
+                            <?php echo $row['trang_thai'] == 0 ? 'Chưa xử lý' : 'Đã xử lý'; ?>
+                        </button>
                         <button class="btn btn-secondary"><i class="bi bi-reply"></i> Trả lời</button>
-                        <button class="btn btn-outline"><i class="bi bi-archive"></i> Lưu trữ</button>
+                        <button class="btn btn-outline" onclick="deleteItem(<?php echo $row['id']; ?>, 'khieu_nai')">
+                            <i class="bi bi-archive"></i> Lưu trữ
+                        </button>
+                                        <button class="btn btn-outline" onclick="confirmDelete(<?php echo $row['id']; ?>, 'khieu_nai')">
+    <i class="bi bi-trash"></i> Xóa
+</button>
                     </div>
                 </div>
             </div>
-
-            <div class="list-item priority-medium">
-                <div class="item-status">
-                    <span class="status-dot warning"></span>
-                </div>
-                <div class="item-content">
-                    <div class="item-header">
-                        <div class="user-details">
-                            <h4>Trần Thị B</h4>
-                            <span class="email">tranthib@email.com</span>
-                        </div>
-                        <div class="item-meta">
-                       
-                            <span class="time">2 giờ trước</span>
-                        </div>
-                    </div>
-                    <div class="item-body">
-                        <p class="message">Khách sạn không đúng như hình ảnh quảng cáo. Phòng nhỏ hơn, view không đẹp như mô tả. Yêu cầu đổi phòng hoặc hoàn lại một phần chi phí.</p>
-                    </div>
-                    <div class="item-footer">
-                        <button class="btn btn-primary"><i class="bi bi-check-circle"></i> Chưa xử lý</button>
-                        <button class="btn btn-secondary"><i class="bi bi-reply"></i> Trả lời</button>
-                        <button class="btn btn-outline"><i class="bi bi-archive"></i> Lưu trữ</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="list-item priority-low">
-                <div class="item-status">
-                    <span class="status-dot info"></span>
-                </div>
-                <div class="item-content">
-                    <div class="item-header">
-                        <div class="user-details">
-                            <h4>Lê Văn C</h4>
-                            <span class="email">levanc@email.com</span>
-                        </div>
-                        <div class="item-meta">
-                    
-                            <span class="time">5 giờ trước</span>
-                        </div>
-                    </div>
-                    <div class="item-body">
-                        <p class="message">Thời gian tham quan hơi vội vàng, không có đủ thời gian chụp ảnh. Mong các tour sau cải thiện lịch trình hợp lý hơn.</p>
-                    </div>
-                    <div class="item-footer">
-                        <button class="btn btn-primary1"><i class="bi bi-check-circle"></i> Đã xử lý</button>
-                        <button class="btn btn-secondary"><i class="bi bi-reply"></i> Trả lời</button>
-                        <button class="btn btn-outline"><i class="bi bi-archive"></i> Lưu trữ</button>
-                    </div>
-                </div>
-            </div>
+            <?php endwhile; ?>
         </div>
     </div>
 
     <!-- Góp ý List -->
-    <div class="content-section">
+    <div class="content-section section-gopy">
         <div class="section-header">
             <h3><i class="bi bi-chat-left-text-fill"></i> Góp ý từ khách hàng</h3>
-            <span class="count-badge">47</span>
+            <span class="count-badge"><?php echo $total_gopy; ?></span>
         </div>
 
         <div class="list-container">
-            <div class="list-item">
+            <?php while($row = mysqli_fetch_assoc($result_gopy)): ?>
+            <div class="list-item" data-type="gopy" data-name="<?php echo strtolower($row['ho_ten']); ?>" data-email="<?php echo strtolower($row['email']); ?>">
                 <div class="item-status">
                     <span class="status-dot success"></span>
                 </div>
                 <div class="item-content">
                     <div class="item-header">
                         <div class="user-details">
-                            <h4>Phạm Thị D</h4>
-                            <span class="email">phamthid@email.com</span>
+                            <h4><?php echo htmlspecialchars($row['ho_ten']); ?></h4>
+                            <span class="email"><?php echo htmlspecialchars($row['email']); ?></span>
+                            <?php if($row['sdt']): ?>
+                                <span class="phone"> | <?php echo htmlspecialchars($row['sdt']); ?></span>
+                            <?php endif; ?>
                         </div>
                         <div class="item-meta">
-                            <span class="rating">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
-                            </span>
-                            <span class="time">1 ngày trước</span>
+                            <span class="time"><?php echo time_elapsed_string($row['created_at']); ?></span>
                         </div>
                     </div>
                     <div class="item-body">
-                        <p class="message">Chuyến đi rất tuyệt vời! Hướng dẫn viên nhiệt tình, khách sạn sạch sẽ. Tuy nhiên nên có thêm thời gian chụp ảnh ở Cầu Vàng vì nơi đó rất đẹp.</p>
+                        <p class="message"><?php echo htmlspecialchars($row['noi_dung']); ?></p>
                     </div>
                     <div class="item-footer">
+                        
+                       <button class="btn <?php echo $row['trang_thai'] == 0 ? 'btn-primary' : 'btn-primary1'; ?>" onclick="updateStatus(<?php echo $row['id']; ?>, 'khieu_nai', <?php echo $row['trang_thai']; ?>)">
+                            <i class="bi bi-check-circle"></i> 
+                            <?php echo $row['trang_thai'] == 0 ? 'Chưa xử lý' : 'Đã xử lý'; ?>
+                        </button>
                         <button class="btn btn-secondary"><i class="bi bi-reply"></i> Trả lời</button>
-                        <button class="btn btn-outline"><i class="bi bi-heart"></i> Cảm ơn</button>
+                        <button class="btn btn-outline" onclick="deleteItem(<?php echo $row['id']; ?>, 'khieu_nai')">
+                            <i class="bi bi-archive"></i> Lưu trữ
+                        </button>
+                         <button class="btn btn-outline" onclick="confirmDelete(<?php echo $row['id']; ?>, 'gop_y')">
+    <i class="bi bi-trash"></i> Xóa
+</button>
                     </div>
                 </div>
             </div>
-
-            <div class="list-item">
-                <div class="item-status">
-                    <span class="status-dot success"></span>
-                </div>
-                <div class="item-content">
-                    <div class="item-header">
-                        <div class="user-details">
-                            <h4>Hoàng Văn E</h4>
-                            <span class="email">hoangvane@email.com</span>
-                        </div>
-                        <div class="item-meta">
-                            <span class="rating">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                            </span>
-                            <span class="time">2 ngày trước</span>
-                        </div>
-                    </div>
-                    <div class="item-body">
-                        <p class="message">Quá tuyệt vời! Phố cổ Hội An lung linh với đèn lồng, hướng dẫn viên rất am hiểu lịch sử. Sẽ giới thiệu cho bạn bè và quay lại trong tương lai!</p>
-                    </div>
-                    <div class="item-footer">
-                        <button class="btn btn-secondary"><i class="bi bi-reply"></i> Trả lời</button>
-                        <button class="btn btn-outline"><i class="bi bi-heart"></i> Cảm ơn</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="list-item">
-                <div class="item-status">
-                    <span class="status-dot warning"></span>
-                </div>
-                <div class="item-content">
-                    <div class="item-header">
-                        <div class="user-details">
-                            <h4>Đỗ Thị F</h4>
-                            <span class="email">dothif@email.com</span>
-                        </div>
-                        <div class="item-meta">
-                            <span class="rating">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star"></i>
-                                <i class="bi bi-star"></i>
-                            </span>
-                            <span class="time">3 ngày trước</span>
-                        </div>
-                    </div>
-                    <div class="item-body">
-                        <p class="message">Các điểm tham quan rất đẹp, nhưng lịch trình hơi gấp gáp. Nên tăng thêm 1 ngày để khám phá kỹ hơn các di tích lịch sử.</p>
-                    </div>
-                    <div class="item-footer">
-                        <button class="btn btn-secondary"><i class="bi bi-reply"></i> Trả lời</button>
-                        <button class="btn btn-outline"><i class="bi bi-heart"></i> Cảm ơn</button>
-                    </div>
-                </div>
-            </div>
+            <?php endwhile; ?>
         </div>
     </div>
 </section>
   </div>
+
+  <script>
+    // Filter functions
+  // Thêm function xác nhận xóa
+function confirmDelete(id, table) {
+    if(confirm('Bạn có chắc chắn muốn xóa vĩnh viễn mục này không? Hành động này không thể hoàn tác!')) {
+        window.location.href = '../../php/ContactCTL/delete_contact.php?id=' + id + '&table=' + table;
+    }
+}
+
+// Update status function
+function updateStatus(id, table, currentStatus) {
+    if(confirm('Bạn có chắc muốn thay đổi trạng thái?')) {
+        const newStatus = currentStatus == 0 ? 1 : 0;
+        window.location.href = `update_status.php?id=${id}&table=${table}&status=${newStatus}`;
+    }
+}
+
+// Delete function (cho nút Lưu trữ)
+function deleteItem(id, table) {
+    if(confirm('Bạn có chắc muốn lưu trữ mục này?')) {
+        window.location.href = `delete_contact.php?id=${id}&table=${table}`;
+    }
+}
+
+// Filter functions
+function filterAll() {
+    document.querySelectorAll('.list-item').forEach(item => {
+        item.style.display = 'flex';
+    });
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.style.display = 'block';
+    });
+    setActiveFilter(0);
+}
+
+function filterKhieuNai() {
+    document.querySelectorAll('.list-item').forEach(item => {
+        item.style.display = 'none';
+    });
+    document.querySelectorAll('[data-type="khieunai"]').forEach(item => {
+        item.style.display = 'flex';
+    });
+    document.querySelector('.section-gopy').style.display = 'none';
+    document.querySelector('.section-khieunai').style.display = 'block';
+    setActiveFilter(1);
+}
+
+function filterGopY() {
+    document.querySelectorAll('.list-item').forEach(item => {
+        item.style.display = 'none';
+    });
+    document.querySelectorAll('[data-type="gopy"]').forEach(item => {
+        item.style.display = 'flex';
+    });
+    document.querySelector('.section-khieunai').style.display = 'none';
+    document.querySelector('.section-gopy').style.display = 'block';
+    setActiveFilter(2);
+}
+
+function setActiveFilter(index) {
+    document.querySelectorAll('.filter-btn').forEach((btn, i) => {
+        btn.classList.toggle('active', i === index);
+    });
+}
+
+// Search function
+function searchItems() {
+    const searchValue = document.getElementById('searchInput').value.toLowerCase();
+    document.querySelectorAll('.list-item').forEach(item => {
+        const name = item.getAttribute('data-name');
+        const email = item.getAttribute('data-email');
+        if (name.includes(searchValue) || email.includes(searchValue)) {
+            item.style.display = 'flex';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+  </script>
+ 
+
 </body>
 </html>

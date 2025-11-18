@@ -10,6 +10,16 @@
     <style>
           body{background: url('https://images.unsplash.com/photo-1750440982726-d723eab666a5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
   background-size: cover;}
+
+            .type{
+              color: white;
+            }
+            .contact_type{
+              display: flex;
+              justify-content: space-between;
+              padding: 0 5px 10px ;
+              font-weight: bold;
+            }
     </style>
 </head>
 <body>
@@ -20,7 +30,8 @@
 
             <div class="font_map">
                 <div class="contact_font box fade-left">
-                    <div class="contact_main">
+                   <form action="../../../php/ContactCTL/process_contact.php" method="POST">
+                     <div class="contact_main">
                         <h2>Thông tiên liên hệ</h2>
                        
                        <ul>
@@ -43,11 +54,17 @@
 <p>Giờ làm việc: 08:00 - 17:00 (Thứ 2 - Thứ 7)</p>
 </li>
                        </ul>   
-                       <input type="text" placeholder="Họ và Tên">
-                       <input type="email" placeholder="Nhập vào Email">
-                      <textarea  placeholder="Nội dung" name="" id=""></textarea>
-                      <button>Gửi liên hệ</button>
+                       <input name="name" type="text" placeholder="Họ và Tên">
+                       <input name="email" type="email" placeholder="Nhập vào Email">
+                      <textarea name="message" placeholder="Nội dung" id=""></textarea>
+                                <div class="contact_type">
+              <label  class="type"><input  type="radio" name="type" value="1"> Tôi muốn gửi góp ý</label><br>
+              <label  class="type"><input type="radio" name="type" value="2"> Tôi muốn gửi khiếu nại</label>
+          </div>
+
+                      <button type="submit">Gửi liên hệ</button>
                     </div>
+                   </form>
                 </div>
                 <div class="map box fade-right"> 
                 <div style=" <?php

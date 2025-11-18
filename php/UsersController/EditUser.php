@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     );
 
     if ($stmt->execute()) {
-       if($_SERVER['role'] == 'admin'){
+       if($_SESSION['role'] == 'admin'){
         header("Location: ../../html/Admin/Adminacc.php?status=success");
        } else {
         header("Location: ../../html/views/user/users.php?status=success");
@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        }
         exit();
     } else {
-        if($_SERVER['role'] == 'admin'){
+        if($_SESSION['role'] == 'admin'){
         header("Location: ../../html/Admin/Adminacc.php?status=error");
        } else {
         header("Location: ../views/user/users.php?status=error");
