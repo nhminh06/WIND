@@ -12,11 +12,18 @@ $sql_count_gopy = "SELECT COUNT(*) as total FROM gop_y";
 $result_count_gopy = mysqli_query($conn, $sql_count_gopy);
 $total_gopy = mysqli_fetch_assoc($result_count_gopy)['total'];
 
+// Lấy số góp ý chưa xử lý
+$sql_count_goy_y_chua_xuly = "SELECT COUNT(*) as total FROM gop_y WHERE trang_thai = 0";
+$result_count_goy_y_chua_xuly = mysqli_query($conn, $sql_count_goy_y_chua_xuly);
+$gopy_chua_xuly = mysqli_fetch_assoc($result_count_goy_y_chua_xuly)['total'];
+
 // Lấy số khiếu nại chưa xử lý
 $sql_count_chua_xuly = "SELECT COUNT(*) as total FROM khieu_nai WHERE trang_thai = 0";
 $result_count_chua_xuly = mysqli_query($conn, $sql_count_chua_xuly);
-$chua_xuly = mysqli_fetch_assoc($result_count_chua_xuly)['total'];
+$khieunai_chua_xuly = mysqli_fetch_assoc($result_count_chua_xuly)['total'];
 
+// Tổng số chưa xử lý (góp ý + khiếu nại)
+$chua_xuly = $gopy_chua_xuly + $khieunai_chua_xuly;
 // Lấy danh sách khiếu nại (sắp xếp theo mới nhất)
 $sql_khieunai = "SELECT * FROM khieu_nai ORDER BY created_at DESC";
 $result_khieunai = mysqli_query($conn, $sql_khieunai);
@@ -41,6 +48,8 @@ function time_elapsed_string($datetime) {
         return 'Vừa xong';
     }
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,7 +62,7 @@ function time_elapsed_string($datetime) {
 </head>
 <style>
     .filter-btn > i{
-        color: black;
+        color: #15325f;
     }
     .phone{
         color: gray;
@@ -125,6 +134,9 @@ function time_elapsed_string($datetime) {
             <button class="filter-btn" onclick="filterGopY()">
                 <i class="bi bi-chat-left-text"></i> Góp ý
             </button>
+            <button class="filter-btn-box" onclick="window.location.href='storage.php'">
+                <i class="bi bi-box2-fill"></i> Lưu trữ
+            </button>
         </div>
         <div class="search-group">
             <i class="bi bi-search"></i>
@@ -162,16 +174,28 @@ function time_elapsed_string($datetime) {
                         <p class="message"><?php echo htmlspecialchars($row['noi_dung']); ?></p>
                     </div>
                                 <div class="item-footer">
-                    <button class="btn <?php echo $row['trang_thai'] == 0 ? 'btn-primary' : 'btn-primary1'; ?>" onclick="updateStatus(<?php echo $row['id']; ?>, 'khieu_nai', <?php echo $row['trang_thai']; ?>)">
+                    <button class="btn 
+                    <?php 
+                    if($row['trang_thai'] == 0) echo 'btn-primary';
+                    elseif($row['trang_thai'] == 1) echo 'btn-primary1';
+                    else echo 'btn-outline-wl-r'; // trạng thái 2: đã lưu trữ
+                    ?>" 
+                    onclick="updateStatus(<?php echo $row['id']; ?>, 'khieu_nai', <?php echo $row['trang_thai']; ?>)">
                         <i class="bi bi-check-circle"></i> 
-                        <?php echo $row['trang_thai'] == 0 ? 'Chưa xử lý' : 'Đã xử lý'; ?>
+                        <?php 
+                        if($row['trang_thai'] == 0) echo 'Chưa xử lý';
+                        elseif($row['trang_thai'] == 1) echo 'Đã xử lý';
+                        else echo 'Đã lưu trữ';
+                        ?>
                     </button>
+
                     <button class="btn btn-secondary" onclick="window.location.href='AdNotification.php?loai=khieu_nai&id=<?php echo $row['id']; ?>'">
                         <i class="bi bi-reply"></i> Trả lời
                     </button>
-                    <button class="btn btn-outline" onclick="deleteItem(<?php echo $row['id']; ?>, 'khieu_nai')">
-                        <i class="bi bi-archive"></i> Lưu trữ
-                    </button>
+                                <button class="btn btn-outline-wl" onclick="archiveItem(<?php echo $row['id']; ?>, 'khieu_nai')">
+                    <i class="bi bi-archive"></i> Lưu trữ
+                </button>
+
                     <button class="btn btn-outline" onclick="confirmDelete(<?php echo $row['id']; ?>, 'khieu_nai')">
                         <i class="bi bi-trash"></i> Xóa
                     </button>
@@ -212,16 +236,27 @@ function time_elapsed_string($datetime) {
                         <p class="message"><?php echo htmlspecialchars($row['noi_dung']); ?></p>
                     </div>
                                         <div class="item-footer">
-                        <button class="btn <?php echo $row['trang_thai'] == 0 ? 'btn-primary' : 'btn-primary1'; ?>" onclick="updateStatus(<?php echo $row['id']; ?>, 'gop_y', <?php echo $row['trang_thai']; ?>)">
-                            <i class="bi bi-check-circle"></i> 
-                            <?php echo $row['trang_thai'] == 0 ? 'Chưa xử lý' : 'Đã xử lý'; ?>
-                        </button>
+                        <button class="btn 
+                    <?php 
+                    if($row['trang_thai'] == 0) echo 'btn-primary';
+                    elseif($row['trang_thai'] == 1) echo 'btn-primary1';
+                    else echo 'btn-outline-wl-r'; // trạng thái 2: đã lưu trữ
+                    ?>" 
+                    onclick="updateStatus(<?php echo $row['id']; ?>, 'gop_y', <?php echo $row['trang_thai']; ?>)">
+                        <i class="bi bi-check-circle"></i> 
+                        <?php 
+                        if($row['trang_thai'] == 0) echo 'Chưa xử lý';
+                        elseif($row['trang_thai'] == 1) echo 'Đã xử lý';
+                        else echo 'Đã lưu trữ';
+                        ?>
+                    </button>
                         <button class="btn btn-secondary" onclick="window.location.href='AdNotification.php?loai=gop_y&id=<?php echo $row['id']; ?>'">
                             <i class="bi bi-reply"></i> Trả lời
                         </button>
-                        <button class="btn btn-outline" onclick="deleteItem(<?php echo $row['id']; ?>, 'gop_y')">
-                            <i class="bi bi-archive"></i> Lưu trữ
-                        </button>
+                                        <button class="btn btn-outline-wl" onclick="archiveItem(<?php echo $row['id']; ?>, 'gop_y')">
+                        <i class="bi bi-archive"></i> Lưu trữ
+                    </button>
+
                         <button class="btn btn-outline" onclick="confirmDelete(<?php echo $row['id']; ?>, 'gop_y')">
                             <i class="bi bi-trash"></i> Xóa
                         </button>
@@ -252,11 +287,12 @@ function updateStatus(id, table, currentStatus) {
 }
 
 // Delete function (cho nút Lưu trữ)
-function deleteItem(id, table) {
+function archiveItem(id, table) {
     if(confirm('Bạn có chắc muốn lưu trữ mục này?')) {
-        window.location.href = `delete_contact.php?id=${id}&table=${table}`;
+        window.location.href = `../../php/ContactCTL/update_status.php?id=${id}&table=${table}&action=archive`;
     }
 }
+
 
 // Filter functions
 function filterAll() {
