@@ -4548,6 +4548,51 @@ h1 {
 }
 
 /* hết */
+.notification-item {
+      background: white;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #4CAF50;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .notification-item.unread {
+      background: #f0f8ff;
+      border-left-color: #2196F3;
+    }
+    .notification-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .notification-title {
+      font-weight: bold;
+      color: #333;
+    }
+    .notification-time {
+      font-size: 12px;
+      color: #999;
+    }
+    .notification-content {
+      color: #555;
+      line-height: 1.6;
+    }
+    .mark-read {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 50px 20px;
+      color: #999;
+    }
 /* người đi */
 .user-tours {
   font-family: 'Segoe UI', sans-serif;

@@ -1597,3 +1597,102 @@ background-blend-mode: lighten;
 .rank-admin > p{
     color: #1e1e2f;
 }
+.reply-container {
+            background: #2a2e3d;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .reply-title {
+            color: #ffffff;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ffffff;
+            padding-bottom: 10px;
+            font-size: 20px;
+        }
+        .detail-row {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #ffffff;
+            display: inline-block;
+            width: 120px;
+        }
+        .message-display {
+            background: #383c4b;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            line-height: 1.8;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+        .reply-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+        .reply-textarea:focus {
+            outline: none;
+            border-color: #2d71bf;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .action-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        .submit-btn {
+            background: #226fb3;
+            color: white;
+        }
+        .submit-btn:hover {
+            background: #2287c6;
+        }
+        .cancel-btn {
+            background: #999;
+            color: white;
+        }
+        .cancel-btn:hover {
+            background: #777;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status-pending {
+            background: #ff9800;
+            color: white;
+        }
+        .status-done {
+            background: #3565bf;
+            color: white;
+        }
