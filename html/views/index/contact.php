@@ -54,7 +54,7 @@
 <p>Giờ làm việc: 08:00 - 17:00 (Thứ 2 - Thứ 7)</p>
 </li>
                        </ul>   
-                       <input name="name" type="text" placeholder="Họ và Tên">
+                       <input name="name" type="text" placeholder="Tên tài khoản">
                        <input name="email" type="email" placeholder="Nhập vào Email">
                       <textarea name="message" placeholder="Nội dung" id=""></textarea>
                                 <div class="contact_type">
@@ -76,7 +76,15 @@
                         }
                         ?>" class= "banacc">
                   <i class="bi bi-exclamation-triangle-fill"></i>
-                  <h3>Tài khoản của bạn đã bị khóa liên hệ với quản trị viên để biết thêm chi tiết.</h3>
+                  <?php
+                        if (isset($_SESSION['text_error'])) {
+                            echo "<h3>{$_SESSION['text_error']}</h3>";
+                            unset($_SESSION['text_error']); // Xóa sau khi hiển thị
+                        }else{
+                          echo "<h3>Tài khoản của bạn đã bị khóa liên hệ với quản trị viên để biết thêm chi tiết.</h3>";
+                        }
+                        ?>
+
                 </div>  
                 <iframe 
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.397607469205!2d106.70042357480397!3d10.778673759158203!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f3ed4e4015f%3A0x1d2f6dbf52ec2e78!2zMTIzIMSQLiBUcuG6p24gSMawbmcgxJDDoG8sIFBoxrDhu51uZyA3LCBRdeG6rW4gMSwgSOG7kyBDaMOtbmgsIFZpZXRuYW0!5e0!3m2!1svi!2s!4v1721123456789" 

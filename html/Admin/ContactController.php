@@ -24,6 +24,7 @@ $khieunai_chua_xuly = mysqli_fetch_assoc($result_count_chua_xuly)['total'];
 
 // Tổng số chưa xử lý (góp ý + khiếu nại)
 $chua_xuly = $gopy_chua_xuly + $khieunai_chua_xuly;
+
 // Lấy danh sách khiếu nại (sắp xếp theo mới nhất)
 $sql_khieunai = "SELECT * FROM khieu_nai ORDER BY created_at DESC";
 $result_khieunai = mysqli_query($conn, $sql_khieunai);
@@ -48,11 +49,9 @@ function time_elapsed_string($datetime) {
         return 'Vừa xong';
     }
 }
-
-
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,7 +67,53 @@ function time_elapsed_string($datetime) {
         color: gray;
         font-size: 12px;
     }
- 
+    
+    /* Empty State Styles */
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: 8px;
+        margin: 2rem 0;
+    }
+
+    .empty-state i {
+        font-size: 5rem;
+        color: #e0e0e0;
+        margin-bottom: 1.5rem;
+        display: block;
+    }
+
+    .empty-state h4 {
+        color: #666;
+        font-size: 1.25rem;
+        margin-bottom: 0.75rem;
+        font-weight: 600;
+    }
+
+    .empty-state p {
+        color: #999;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .empty-state-success {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    }
+
+    .empty-state-success i {
+        color: #86efac;
+    }
+
+    .empty-state-success h4 {
+        color: #16a34a;
+    }
+
+    .empty-state-success p {
+        color: #15803d;
+    }
 </style>
 <body>
   <aside class="sidebar">
@@ -152,7 +197,11 @@ function time_elapsed_string($datetime) {
         </div>
 
         <div class="list-container">
-            <?php while($row = mysqli_fetch_assoc($result_khieunai)): ?>
+            <?php 
+            $has_khieunai = false;
+            while($row = mysqli_fetch_assoc($result_khieunai)): 
+                $has_khieunai = true;
+            ?>
             <div class="list-item <?php echo $row['trang_thai'] == 0 ? 'priority-high' : 'priority-low'; ?>" data-type="khieunai" data-name="<?php echo strtolower($row['ho_ten']); ?>" data-email="<?php echo strtolower($row['email']); ?>">
                 <div class="item-status">
                     <span class="status-dot <?php echo $row['trang_thai'] == 0 ? 'urgent' : 'info'; ?>"></span>
@@ -173,36 +222,45 @@ function time_elapsed_string($datetime) {
                     <div class="item-body">
                         <p class="message"><?php echo htmlspecialchars($row['noi_dung']); ?></p>
                     </div>
-                                <div class="item-footer">
-                    <button class="btn 
-                    <?php 
-                    if($row['trang_thai'] == 0) echo 'btn-primary';
-                    elseif($row['trang_thai'] == 1) echo 'btn-primary1';
-                    else echo 'btn-outline-wl-r'; // trạng thái 2: đã lưu trữ
-                    ?>" 
-                    onclick="updateStatus(<?php echo $row['id']; ?>, 'khieu_nai', <?php echo $row['trang_thai']; ?>)">
-                        <i class="bi bi-check-circle"></i> 
+                    <div class="item-footer">
+                        <button class="btn 
                         <?php 
-                        if($row['trang_thai'] == 0) echo 'Chưa xử lý';
-                        elseif($row['trang_thai'] == 1) echo 'Đã xử lý';
-                        else echo 'Đã lưu trữ';
-                        ?>
-                    </button>
+                        if($row['trang_thai'] == 0) echo 'btn-primary';
+                        elseif($row['trang_thai'] == 1) echo 'btn-primary1';
+                        else echo 'btn-outline-wl-r';
+                        ?>" 
+                        onclick="updateStatus(<?php echo $row['id']; ?>, 'khieu_nai', <?php echo $row['trang_thai']; ?>)">
+                            <i class="bi bi-check-circle"></i> 
+                            <?php 
+                            if($row['trang_thai'] == 0) echo 'Chưa xử lý';
+                            elseif($row['trang_thai'] == 1) echo 'Đã xử lý';
+                            else echo 'Đã lưu trữ';
+                            ?>
+                        </button>
 
-                    <button class="btn btn-secondary" onclick="window.location.href='AdNotification.php?loai=khieu_nai&id=<?php echo $row['id']; ?>'">
-                        <i class="bi bi-reply"></i> Trả lời
-                    </button>
-                                <button class="btn btn-outline-wl" onclick="archiveItem(<?php echo $row['id']; ?>, 'khieu_nai')">
-                    <i class="bi bi-archive"></i> Lưu trữ
-                </button>
+                        <button class="btn btn-secondary" onclick="window.location.href='AdNotification.php?loai=khieu_nai&id=<?php echo $row['id']; ?>'">
+                            <i class="bi bi-reply"></i> Trả lời
+                        </button>
 
-                    <button class="btn btn-outline" onclick="confirmDelete(<?php echo $row['id']; ?>, 'khieu_nai')">
-                        <i class="bi bi-trash"></i> Xóa
-                    </button>
-                </div>
+                        <button class="btn btn-outline-wl" onclick="archiveItem(<?php echo $row['id']; ?>, 'khieu_nai')">
+                            <i class="bi bi-archive"></i> Lưu trữ
+                        </button>
+
+                        <button class="btn btn-outline" onclick="confirmDelete(<?php echo $row['id']; ?>, 'khieu_nai')">
+                            <i class="bi bi-trash"></i> Xóa
+                        </button>
+                    </div>
                 </div>
             </div>
             <?php endwhile; ?>
+            
+            <?php if(!$has_khieunai): ?>
+            <div class="empty-state empty-state-success">
+                <i class="bi bi-check-circle"></i>
+                <h4>Không có khiếu nại nào</h4>
+                <p>Tuyệt vời! Hiện tại không có khiếu nại nào cần xử lý. Tất cả khách hàng đều hài lòng.</p>
+            </div>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -214,7 +272,11 @@ function time_elapsed_string($datetime) {
         </div>
 
         <div class="list-container">
-            <?php while($row = mysqli_fetch_assoc($result_gopy)): ?>
+            <?php 
+            $has_gopy = false;
+            while($row = mysqli_fetch_assoc($result_gopy)): 
+                $has_gopy = true;
+            ?>
             <div class="list-item" data-type="gopy" data-name="<?php echo strtolower($row['ho_ten']); ?>" data-email="<?php echo strtolower($row['email']); ?>">
                 <div class="item-status">
                     <span class="status-dot success"></span>
@@ -235,27 +297,29 @@ function time_elapsed_string($datetime) {
                     <div class="item-body">
                         <p class="message"><?php echo htmlspecialchars($row['noi_dung']); ?></p>
                     </div>
-                                        <div class="item-footer">
+                    <div class="item-footer">
                         <button class="btn 
-                    <?php 
-                    if($row['trang_thai'] == 0) echo 'btn-primary';
-                    elseif($row['trang_thai'] == 1) echo 'btn-primary1';
-                    else echo 'btn-outline-wl-r'; // trạng thái 2: đã lưu trữ
-                    ?>" 
-                    onclick="updateStatus(<?php echo $row['id']; ?>, 'gop_y', <?php echo $row['trang_thai']; ?>)">
-                        <i class="bi bi-check-circle"></i> 
                         <?php 
-                        if($row['trang_thai'] == 0) echo 'Chưa xử lý';
-                        elseif($row['trang_thai'] == 1) echo 'Đã xử lý';
-                        else echo 'Đã lưu trữ';
-                        ?>
-                    </button>
+                        if($row['trang_thai'] == 0) echo 'btn-primary';
+                        elseif($row['trang_thai'] == 1) echo 'btn-primary1';
+                        else echo 'btn-outline-wl-r';
+                        ?>" 
+                        onclick="updateStatus(<?php echo $row['id']; ?>, 'gop_y', <?php echo $row['trang_thai']; ?>)">
+                            <i class="bi bi-check-circle"></i> 
+                            <?php 
+                            if($row['trang_thai'] == 0) echo 'Chưa xử lý';
+                            elseif($row['trang_thai'] == 1) echo 'Đã xử lý';
+                            else echo 'Đã lưu trữ';
+                            ?>
+                        </button>
+
                         <button class="btn btn-secondary" onclick="window.location.href='AdNotification.php?loai=gop_y&id=<?php echo $row['id']; ?>'">
                             <i class="bi bi-reply"></i> Trả lời
                         </button>
-                                        <button class="btn btn-outline-wl" onclick="archiveItem(<?php echo $row['id']; ?>, 'gop_y')">
-                        <i class="bi bi-archive"></i> Lưu trữ
-                    </button>
+
+                        <button class="btn btn-outline-wl" onclick="archiveItem(<?php echo $row['id']; ?>, 'gop_y')">
+                            <i class="bi bi-archive"></i> Lưu trữ
+                        </button>
 
                         <button class="btn btn-outline" onclick="confirmDelete(<?php echo $row['id']; ?>, 'gop_y')">
                             <i class="bi bi-trash"></i> Xóa
@@ -264,17 +328,32 @@ function time_elapsed_string($datetime) {
                 </div>
             </div>
             <?php endwhile; ?>
+            
+            <?php if(!$has_gopy): ?>
+            <div class="empty-state">
+                <i class="bi bi-chat-dots"></i>
+                <h4>Chưa có góp ý nào</h4>
+                <p>Hiện tại chưa có góp ý từ khách hàng. Các góp ý mới sẽ xuất hiện ở đây.</p>
+            </div>
+            <?php endif; ?>
         </div>
     </div>
+
+    <!-- Empty state khi search không có kết quả -->
+    <div id="noSearchResults" class="empty-state" style="display: none;">
+        <i class="bi bi-search"></i>
+        <h4>Không tìm thấy kết quả</h4>
+        <p>Không có kết quả nào phù hợp với từ khóa tìm kiếm của bạn. Vui lòng thử lại với từ khóa khác.</p>
+    </div>
+
 </section>
   </div>
 
   <script>
-    // Filter functions
-  // Thêm function xác nhận xóa
+// Thêm function xác nhận xóa
 function confirmDelete(id, table) {
     if(confirm('Bạn có chắc chắn muốn xóa vĩnh viễn mục này không? Hành động này không thể hoàn tác!')) {
-        window.location.href = '../../php/ContactCTL/delete_contact.php?id=' + id + '&table=' + table;
+        window.location.href = '../../php/ContactCTL/delete_forever.php?id=' + id + '&table=' + table + '&from=contact';
     }
 }
 
@@ -293,7 +372,6 @@ function archiveItem(id, table) {
     }
 }
 
-
 // Filter functions
 function filterAll() {
     document.querySelectorAll('.list-item').forEach(item => {
@@ -302,6 +380,7 @@ function filterAll() {
     document.querySelectorAll('.content-section').forEach(section => {
         section.style.display = 'block';
     });
+    document.getElementById('noSearchResults').style.display = 'none';
     setActiveFilter(0);
 }
 
@@ -314,6 +393,7 @@ function filterKhieuNai() {
     });
     document.querySelector('.section-gopy').style.display = 'none';
     document.querySelector('.section-khieunai').style.display = 'block';
+    document.getElementById('noSearchResults').style.display = 'none';
     setActiveFilter(1);
 }
 
@@ -326,6 +406,7 @@ function filterGopY() {
     });
     document.querySelector('.section-khieunai').style.display = 'none';
     document.querySelector('.section-gopy').style.display = 'block';
+    document.getElementById('noSearchResults').style.display = 'none';
     setActiveFilter(2);
 }
 
@@ -335,21 +416,37 @@ function setActiveFilter(index) {
     });
 }
 
-// Search function
+// Search function with empty state
 function searchItems() {
     const searchValue = document.getElementById('searchInput').value.toLowerCase();
+    let hasResults = false;
+
     document.querySelectorAll('.list-item').forEach(item => {
         const name = item.getAttribute('data-name');
         const email = item.getAttribute('data-email');
         if (name.includes(searchValue) || email.includes(searchValue)) {
             item.style.display = 'flex';
+            hasResults = true;
         } else {
             item.style.display = 'none';
         }
     });
+
+    // Hiển thị empty state nếu không có kết quả và đang search
+    const noResultsDiv = document.getElementById('noSearchResults');
+    if (!hasResults && searchValue.length > 0) {
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.style.display = 'none';
+        });
+        noResultsDiv.style.display = 'block';
+    } else {
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.style.display = 'block';
+        });
+        noResultsDiv.style.display = 'none';
+    }
 }
   </script>
- 
 
 </body>
 </html>

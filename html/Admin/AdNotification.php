@@ -4,6 +4,7 @@ include '../../db/db.php';
 
 $loai = $_GET['loai'] ?? '';
 $id = $_GET['id'] ?? 0;
+$from = $_GET['from'] ?? 'contact';
 
 if ($loai == 'khieu_nai') {
     $sql = "SELECT * FROM khieu_nai WHERE id = ?";
@@ -95,9 +96,11 @@ $stmt->close();
         <form action="../../php/ContactCTL/reply.php" method="POST">
           <input type="hidden" name="loai" value="<?php echo $loai; ?>">
           <input type="hidden" name="lien_he_id" value="<?php echo $id; ?>">
+             <input type="hidden" name="from" value="<?php echo $from; ?>">
           
           <div class="input-group">
             <label class="input-label" for="noi_dung">Nội dung phản hồi:</label>
+         
             <textarea 
               name="noi_dung" 
               id="noi_dung" 

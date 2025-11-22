@@ -19,6 +19,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     if(empty($name) || empty($email) || empty($message) || empty($type)){
         $_SESSION['error'] = 1;
+        $_SESSION['text_error'] = "Vui lòng nhập đầy đủ các thông tin!";
         header("Location: ../../html/views/index/contact.php");
         exit();
     }

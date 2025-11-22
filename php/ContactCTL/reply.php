@@ -6,6 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $loai = $_POST['loai'] ?? '';
     $lien_he_id = $_POST['lien_he_id'] ?? 0;
     $noi_dung = trim($_POST['noi_dung'] ?? '');
+    $from = $_POST['from'] ?? 'contact';
     
     if ($loai && $lien_he_id && $noi_dung) {
         // Lấy user_id từ bảng khieu_nai hoặc gop_y
@@ -32,16 +33,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $table = ($loai == 'khieu_nai') ? 'khieu_nai' : 'gop_y';
                 $conn->query("UPDATE $table SET trang_thai = 1 WHERE id = $lien_he_id");
                 
-                $_SESSION['success'] = "Đã gửi phản hồi thành công!";
+                $_SESSION['reply'] = 1;
             } else {
-                $_SESSION['error'] = "Lỗi khi gửi phản hồi";
+                $_SESSION['reply'] = 0;
             }
             $stmt->close();
         }
     }
     
     $conn->close();
-    header("Location: ../../html/Admin/ContactController.php");
+      if ($from == 'storage') {
+        header("Location: ../../html/Admin/storage.php");
+    } else {
+        header("Location: ../../html/Admin/ContactController.php");
+    }
     exit;
 }
 ?>
