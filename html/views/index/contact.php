@@ -82,7 +82,7 @@
                             unset($_SESSION['text_error']); // Xóa sau khi hiển thị
                         }else{
                           echo "<h3>Tài khoản của bạn đã bị khóa liên hệ với quản trị viên để biết thêm chi tiết.</h3>";
-                        }
+                        } 
                         ?>
 
                 </div>  

@@ -39,6 +39,7 @@ function timeAgo($datetime) {
 <head>
   <meta charset="UTF-8">
   <title>Thông báo của tôi</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <style>
 
     
@@ -73,7 +74,7 @@ function timeAgo($datetime) {
     <?php endwhile; ?>
   <?php else: ?>
     <div class="empty-state">
-      <p>📭</p>
+      <p ><i style="font-size: 70px;"  class="bi bi-journal-x"></i></p>
       <p>Bạn chưa có thông báo nào</p>
     </div>
   <?php endif; ?>

@@ -466,6 +466,14 @@ i{
             background: #0288d1;
             color: white;
         }
+        .btn-view-1 {
+            background: #a5a5a5;
+            color: #33d51d;
+        }
+        .btn-view-1:hover {
+            background:#33d51d;
+            color: white;
+        }
         .btn-edit {
             background: #a5a5a5;
             color: #f9a825;

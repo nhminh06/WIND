@@ -327,7 +327,7 @@ $stats = $result_stats->fetch_assoc();
               </td>
               <td>
                 <div class="action-buttons">
-                  <a href="mailto:<?php echo $row['email']; ?>" class="btn-icon btn-view" title="Liên hệ">
+                  <a href="AdNotificationuser.php?id=<?php echo $row['id']; ?>" class="btn-icon btn-view-1" title="Liên hệ">
                     <i class="bi bi-chat-dots"></i>
                   </a>
 
@@ -421,8 +421,8 @@ function closeRoleDialog() {
 }
 
     function confirmDelete(userId, userName) {
-      if (confirm('⚠️ CẢNH BÁO: Bạn có chắc chắn muốn XÓA VĨNH VIỄN tài khoản "' + userName + '"?\n\nHành động này sẽ:\n- Xóa tất cả dữ liệu người dùng\n- KHÔNG THỂ HOÀN TÁC!\n\nNhấn OK để xác nhận xóa.')) {
-        window.location.href = 'delete_user.php?id=' + userId;
+      if (confirm('Bạn có chắc chắn muốn XÓA VĨNH VIỄN tài khoản "' + userName + '"?\n\nHành động này sẽ:\n- Xóa tất cả dữ liệu người dùng\n- KHÔNG THỂ HOÀN TÁC!\n\nNhấn OK để xác nhận xóa.')) {
+        window.location.href = '../../php/UsersController/delete_user.php?id=' + userId;
       }
     }
 
