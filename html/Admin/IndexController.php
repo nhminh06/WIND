@@ -7,13 +7,28 @@ $sql = "SELECT * FROM banner LIMIT 4";
 $result = mysqli_query($conn, $sql);
 
 // Tạo mảng 4 phần tử (trống mặc định)
-$rows = array_fill(0, 4, ["id"=>"", "tieu_de" => "", "noi_dung" => "", "hinh_anh" => "", "hinh_anh2" => ""]);
+$rows = array_fill(0, 4, ["id"=>"", "tieu_de" => "", "noi_dung" => "", "hinh_anh" => "", "hinh_anh2" => "", "link" => ""]);
 
 // Đổ dữ liệu thật vào mảng
 $i = 0;
 while ($row = mysqli_fetch_assoc($result)) {
     $rows[$i] = $row;
     $i++;
+}
+
+// Lấy danh sách bài viết từ CSDL
+$sql_bai_viet = "SELECT 
+                    k.khampha_id,
+                    k.tieu_de,
+                    bv.id as bai_viet_id
+                 FROM khampha k
+                 LEFT JOIN bai_viet bv ON k.khampha_id = bv.khampha_id
+                 WHERE k.trang_thai = 1 AND bv.trang_thai = 1
+                 ORDER BY k.tieu_de";
+$result_bai_viet = mysqli_query($conn, $sql_bai_viet);
+$bai_viets = [];
+while ($row = mysqli_fetch_assoc($result_bai_viet)) {
+    $bai_viets[] = $row;
 }
 ?>
 <!DOCTYPE html>
@@ -38,7 +53,9 @@ while ($row = mysqli_fetch_assoc($result)) {
       background:#15325f;
       padding:20px;
       border-radius:8px;
-      width:400px;
+      width:500px;
+      max-height: 90vh;
+      overflow-y: auto;
     }
     .modal-content-button {
       margin-top:10px;
@@ -47,7 +64,7 @@ while ($row = mysqli_fetch_assoc($result)) {
       border-radius:4px;
       cursor:pointer;
     }
-    .modal-content input, .modal-content textarea {
+    .modal-content input, .modal-content textarea, .modal-content select {
       width:100%;
       margin:5px 0;
       padding:8px;
@@ -75,10 +92,11 @@ while ($row = mysqli_fetch_assoc($result)) {
     <table>
       <thead>
         <tr>
-          <th style="width: 25%;">Tên địa điểm</th>
-          <th>Mô tả ngắn</th>
-          <th>Hình ảnh</th>
-          <th>Hành động</th>
+          <th style="width: 20%;">Tên địa điểm</th>
+          <th style="width: 30%;">Mô tả ngắn</th>
+          <th style="width: 20%;">Bài viết liên kết</th>
+          <th style="width: 20%;">Hình ảnh</th>
+          <th style="width: 10%;">Hành động</th>
         </tr>
       </thead>
       <tbody id="tourTable">
@@ -86,6 +104,23 @@ while ($row = mysqli_fetch_assoc($result)) {
         <tr data-id="<?= $r['id'] ?>">
           <td><?= htmlspecialchars($r['tieu_de']) ?></td>
           <td><textarea rows="3" readonly><?= htmlspecialchars($r['noi_dung']) ?></textarea></td>
+          <td>
+            <?php 
+            if (!empty($r['link'])) {
+                // Tìm tên bài viết từ link
+                $bai_viet_hien_tai = '';
+                foreach ($bai_viets as $bv) {
+                    if (strpos($r['link'], 'id=' . $bv['khampha_id']) !== false) {
+                        $bai_viet_hien_tai = $bv['tieu_de'];
+                        break;
+                    }
+                }
+                echo htmlspecialchars($bai_viet_hien_tai ?: 'Bài viết không tồn tại');
+            } else {
+                echo 'Chưa chọn bài viết';
+            }
+            ?>
+          </td>
           <td>
             <div class="img2ad">
               <?php if ($r['hinh_anh']): ?>
@@ -100,7 +135,6 @@ while ($row = mysqli_fetch_assoc($result)) {
             <button class="edit" onclick="openEditForm(this)"><i class="bi bi-pen-fill"></i></button>
             <?php if ($r['id']): ?>
               <button class="delete" onclick="confirmXoa(<?= $r['id'] ?>)"><i class="bi bi-trash3-fill"></i></button>
-
             <?php else: ?>
               <button class="delete" disabled>Xóa</button>
             <?php endif; ?>
@@ -126,6 +160,15 @@ while ($row = mysqli_fetch_assoc($result)) {
       <label>Mô tả</label>
       <textarea name="mota" id="motaSua" rows="3" required></textarea>
 
+      <label>Chọn bài viết liên kết</label>
+      <select name="bai_viet" id="baiVietSua">
+        <option value="">-- Chọn bài viết --</option>
+        <?php foreach ($bai_viets as $bv): ?>
+          <option  value="<?= $bv['khampha_id'] ?>"><?= htmlspecialchars($bv['tieu_de']) ?></option>
+        <?php endforeach; ?>
+      </select>
+      <small style="color: #ccc; font-size: 12px;">Bài viết được chọn sẽ hiển thị khi click vào banner</small>
+
       <label>Ảnh 1</label>
       <input type="file" name="anh1" id="anh1Sua" accept="image/*" onchange="previewImage(this, 'preview1')">
       <!-- hiển thị ảnh cũ -->
@@ -144,8 +187,6 @@ while ($row = mysqli_fetch_assoc($result)) {
   </div>
 </div>
 
-
-
 <script>
 function openEditForm(btn) {
   let row = btn.closest("tr");
@@ -153,7 +194,17 @@ function openEditForm(btn) {
   document.getElementById("tenSua").value = row.cells[0].innerText;
   document.getElementById("motaSua").value = row.cells[1].querySelector("textarea").value;
 
-  let imgs = row.cells[2].querySelectorAll("img");
+  // Lấy link hiện tại và chọn bài viết tương ứng
+  let currentLink = '<?= $r["link"] ?>'; // Cần điều chỉnh để lấy link từ dòng hiện tại
+  if (currentLink) {
+    // Trích xuất khampha_id từ link (ví dụ: detailed_explore.php?id=123)
+    let match = currentLink.match(/id=(\d+)/);
+    if (match) {
+      document.getElementById("baiVietSua").value = match[1];
+    }
+  }
+
+  let imgs = row.cells[3].querySelectorAll("img"); // Đã đổi từ cells[2] thành cells[3]
 
   // Ảnh 1
   document.getElementById("preview1").src = imgs[0] ? imgs[0].src : "";
@@ -175,6 +226,7 @@ function confirmXoa(id) {
 function closeEditForm() {
   document.getElementById("modalSua").style.display = "none";
 }
+
 function previewImage(input, previewId) {
   const file = input.files[0];
   if (file) {
@@ -183,7 +235,6 @@ function previewImage(input, previewId) {
     reader.readAsDataURL(file);
   }
 }
-
 </script>
 </body>
 </html>
