@@ -61,7 +61,7 @@ $result_lienquan = $stmt_lq->get_result();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
         body{
-            background: url('https://images.pexels.com/photos/8892/pexels-photo.jpg?_gl=1*h8o504*_ga*MTY1MzgzNDc3Ni4xNzUyMTU3Nzk0*_ga_8JE65Q40S6*czE3NjA2NzE4MDQkbzUkZzEkdDE3NjA2NzIwNTkkajYwJGwwJGgw') no-repeat center center fixed;
+            background: url('https://i.pinimg.com/1200x/5c/8c/67/5c8c67d3c5a64d138c6f67689b73cb36.jpg') no-repeat center center fixed;
             background-size: cover;
         }
     </style>
@@ -187,12 +187,21 @@ $result_lienquan = $stmt_lq->get_result();
                         Thích (<?php echo $cm['so_luot_thich']; ?>)
                     </button>
                     
-                    <button class="action_btn" <?php echo ($user_id == 0) ? 'disabled style="opacity:0.5;"' : ''; ?>>
-                        <i class="bi bi-flag-fill"></i> Báo cáo
-                    </button>
-                    
+                   <!-- NÚT BÁO CÁO -->
+                    <?php if($user_id != 0): ?>
+                    <form action="../../../php/ArticleCTL/report_comment.php" method="post" style="display:inline;">
+                        <input type="hidden" name="khampha_id" value="<?php echo $khampha_id; ?>">
+                        <input type="hidden" name="binh_luan_id" value="<?php echo $cm['binh_luan_id']; ?>">
+                        <input type="hidden" name="nguoi_bao_cao" value="<?php echo $user_id; ?>">
+                        <input type="hidden" name="nguoi_bi_bao_cao" value="<?php echo $cm['user_id']; ?>">
+                        <input type="hidden" name="noi_dung" value="<?php echo htmlspecialchars($cm['noi_dung']); ?>">
+                        <button type="submit" class="action_btn"><i class="bi bi-flag-fill"></i> Báo cáo</button>
+                    </form>
+                    <?php endif; ?>
+
+                                        
                     <!-- NÚT XÓA - CHỈ HIỂN THỊ CHO CHỦ COMMENT -->
-                    <?php if($user_id == $cm['user_id']): ?>
+                    <?php if($user_id == $cm['user_id'] || $_SESSION['role']=='admin'): ?>
                     <button 
                         onclick="if(confirm('Bạn có chắc chắn muốn xóa bình luận này không?')){window.location.href='../../../php/ArticleCTL/delete_comment.php?id=<?php echo $cm['binh_luan_id']; ?>&khampha_id=<?php echo $khampha_id; ?>'}"
                         class="action_btn">

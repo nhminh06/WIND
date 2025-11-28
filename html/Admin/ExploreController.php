@@ -7,7 +7,41 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $loai_filter = isset($_GET['loai']) ? intval($_GET['loai']) : 0;
 $sort = isset($_GET['sort']) ? $_GET['sort'] : 'newest';
 
-// Query chính
+// Phân trang
+$records_per_page = 10;
+$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$current_page = max(1, $current_page);
+$offset = ($current_page - 1) * $records_per_page;
+
+// Đếm tổng số bản ghi
+$sql_count = "SELECT COUNT(*) as total FROM khampha k WHERE 1=1";
+
+if (!empty($search)) {
+    $sql_count .= " AND k.tieu_de LIKE ?";
+}
+
+if ($loai_filter > 0) {
+    $sql_count .= " AND k.loai_id = ?";
+}
+
+$stmt_count = $conn->prepare($sql_count);
+
+if (!empty($search) && $loai_filter > 0) {
+    $search_param = "%$search%";
+    $stmt_count->bind_param("si", $search_param, $loai_filter);
+} elseif (!empty($search)) {
+    $search_param = "%$search%";
+    $stmt_count->bind_param("s", $search_param);
+} elseif ($loai_filter > 0) {
+    $stmt_count->bind_param("i", $loai_filter);
+}
+
+$stmt_count->execute();
+$result_count = $stmt_count->get_result();
+$total_records = $result_count->fetch_assoc()['total'];
+$total_pages = ceil($total_records / $records_per_page);
+
+// Query chính với LIMIT
 $sql = "SELECT 
     k.khampha_id,
     k.tieu_de,
@@ -50,18 +84,23 @@ switch ($sort) {
         break;
 }
 
+// Thêm LIMIT và OFFSET
+$sql .= " LIMIT ? OFFSET ?";
+
 // Chuẩn bị và thực thi query
 $stmt = $conn->prepare($sql);
 
 // Bind parameters
 if (!empty($search) && $loai_filter > 0) {
     $search_param = "%$search%";
-    $stmt->bind_param("si", $search_param, $loai_filter);
+    $stmt->bind_param("siii", $search_param, $loai_filter, $records_per_page, $offset);
 } elseif (!empty($search)) {
     $search_param = "%$search%";
-    $stmt->bind_param("s", $search_param);
+    $stmt->bind_param("sii", $search_param, $records_per_page, $offset);
 } elseif ($loai_filter > 0) {
-    $stmt->bind_param("i", $loai_filter);
+    $stmt->bind_param("iii", $loai_filter, $records_per_page, $offset);
+} else {
+    $stmt->bind_param("ii", $records_per_page, $offset);
 }
 
 $stmt->execute();
@@ -121,6 +160,9 @@ $stats = $result_stats->fetch_assoc();
             align-items: center;
             gap: 5px;
         }
+
+        /* Pagination Styles */
+        
     </style>
 </head>
 <body>
@@ -206,6 +248,7 @@ $stats = $result_stats->fetch_assoc();
           <option value="oldest" <?php echo ($sort == 'oldest') ? 'selected' : ''; ?>>Cũ nhất</option>
           <option value="name" <?php echo ($sort == 'name') ? 'selected' : ''; ?>>Tên A-Z</option>
         </select>
+        <input type="hidden" name="page" value="<?php echo $current_page; ?>">
       </form>
 
       <!-- Table -->
@@ -323,6 +366,92 @@ $stats = $result_stats->fetch_assoc();
           </tbody>
         </table>
       </div>
+
+      <!-- Pagination -->
+      <?php if ($total_pages > 1): ?>
+      <div class="pagination-container">
+        <div class="pagination-info">
+          Hiển thị <?php echo $offset + 1; ?> - <?php echo min($offset + $records_per_page, $total_records); ?> 
+          trong tổng số <?php echo $total_records; ?> khám phá
+        </div>
+        
+        <ul class="pagination">
+          <!-- First Page -->
+          <?php if ($current_page > 1): ?>
+          <li>
+            <a href="?page=1&search=<?php echo urlencode($search); ?>&loai=<?php echo $loai_filter; ?>&sort=<?php echo $sort; ?>">
+              <i class="bi bi-chevron-double-left"></i>
+            </a>
+          </li>
+          <?php endif; ?>
+          
+          <!-- Previous Page -->
+          <?php if ($current_page > 1): ?>
+          <li>
+            <a href="?page=<?php echo $current_page - 1; ?>&search=<?php echo urlencode($search); ?>&loai=<?php echo $loai_filter; ?>&sort=<?php echo $sort; ?>">
+              <i class="bi bi-chevron-left"></i>
+            </a>
+          </li>
+          <?php else: ?>
+          <li><span class="disabled"><i class="bi bi-chevron-left"></i></span></li>
+          <?php endif; ?>
+          
+          <!-- Page Numbers -->
+          <?php
+          $start_page = max(1, $current_page - 2);
+          $end_page = min($total_pages, $current_page + 2);
+          
+          if ($start_page > 1) {
+              echo '<li><a href="?page=1&search=' . urlencode($search) . '&loai=' . $loai_filter . '&sort=' . $sort . '">1</a></li>';
+              if ($start_page > 2) {
+                  echo '<li><span>...</span></li>';
+              }
+          }
+          
+          for ($i = $start_page; $i <= $end_page; $i++):
+          ?>
+          <li>
+            <?php if ($i == $current_page): ?>
+              <span class="active"><?php echo $i; ?></span>
+            <?php else: ?>
+              <a href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>&loai=<?php echo $loai_filter; ?>&sort=<?php echo $sort; ?>">
+                <?php echo $i; ?>
+              </a>
+            <?php endif; ?>
+          </li>
+          <?php 
+          endfor;
+          
+          if ($end_page < $total_pages) {
+              if ($end_page < $total_pages - 1) {
+                  echo '<li><span>...</span></li>';
+              }
+              echo '<li><a href="?page=' . $total_pages . '&search=' . urlencode($search) . '&loai=' . $loai_filter . '&sort=' . $sort . '">' . $total_pages . '</a></li>';
+          }
+          ?>
+          
+          <!-- Next Page -->
+          <?php if ($current_page < $total_pages): ?>
+          <li>
+            <a href="?page=<?php echo $current_page + 1; ?>&search=<?php echo urlencode($search); ?>&loai=<?php echo $loai_filter; ?>&sort=<?php echo $sort; ?>">
+              <i class="bi bi-chevron-right"></i>
+            </a>
+          </li>
+          <?php else: ?>
+          <li><span class="disabled"><i class="bi bi-chevron-right"></i></span></li>
+          <?php endif; ?>
+          
+          <!-- Last Page -->
+          <?php if ($current_page < $total_pages): ?>
+          <li>
+            <a href="?page=<?php echo $total_pages; ?>&search=<?php echo urlencode($search); ?>&loai=<?php echo $loai_filter; ?>&sort=<?php echo $sort; ?>">
+              <i class="bi bi-chevron-double-right"></i>
+            </a>
+          </li>
+          <?php endif; ?>
+        </ul>
+      </div>
+      <?php endif; ?>
     </section>
   </div>
 

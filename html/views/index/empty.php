@@ -13,8 +13,8 @@
 
     body {
       font-family: "Segoe UI", Arial, sans-serif;
-      background-color: #f5f7fa;
-      color: #333;
+      background-color: #8590a4;
+      color: #ffffffff;
       height: 100vh;
       display: flex;
       align-items: center;
@@ -23,16 +23,16 @@
 
     .container {
       text-align: center;
-      background: #fff;
       padding: 50px 70px;
       border-radius: 20px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       max-width: 500px;
+      background: url(http://www.supah.it/dribbble/008/008.jpg);
     }
 
     h1 {
       font-size: 100px;
-      color: #4a90e2;
+        color: white;
       margin-bottom: 10px;
     }
 
@@ -42,21 +42,21 @@
     }
 
     p {
-      color: #666;
+      color: #ffffffff;
       margin-bottom: 25px;
     }
 
     a {
       text-decoration: none;
-      background-color: #4a90e2;
+      background: linear-gradient(135deg, #586174ff, #ffffffff);
       color: #fff;
       padding: 10px 25px;
       border-radius: 6px;
-      transition: 0.3s;
+      
     }
 
     a:hover {
-      background-color: #357abd;
+      background: linear-gradient(135deg, #84868cff, #e5dfe7ff)
     }
   </style>
 </head>

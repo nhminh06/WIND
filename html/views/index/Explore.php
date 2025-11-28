@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
         body{
-            background: url('https://images.pexels.com/photos/8892/pexels-photo.jpg?_gl=1*h8o504*_ga*MTY1MzgzNDc3Ni4xNzUyMTU3Nzk0*_ga_8JE65Q40S6*czE3NjA2NzE4MDQkbzUkZzEkdDE3NjA2NzIwNTkkajYwJGwwJGgw') no-repeat center center fixed;
+            background: url('https://i.pinimg.com/1200x/96/12/29/9612295f6129ce93bef203b6c66381df.jpg') no-repeat center center fixed;
             background-size: cover;
             color: #fff;
         }
