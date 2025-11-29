@@ -1,4 +1,237 @@
+// Admin Mobile Menu Handler
+// Paste this in your admin JS file
 
+document.addEventListener('DOMContentLoaded', function() {
+    // Create hamburger button if it doesn't exist
+    if (window.innerWidth <= 768 && !document.querySelector('.menu-toggle')) {
+        const header = document.querySelector('.header');
+        const menuToggle = document.createElement('button');
+        menuToggle.className = 'menu-toggle';
+        menuToggle.innerHTML = '<span></span><span></span><span></span>';
+        header.insertBefore(menuToggle, header.firstChild);
+        
+        // Create overlay
+        const overlay = document.createElement('div');
+        overlay.className = 'sidebar-overlay';
+        document.body.appendChild(overlay);
+    }
+    
+    // Toggle sidebar
+    const menuToggle = document.querySelector('.menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    
+    if (menuToggle && sidebar && overlay) {
+        menuToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking overlay
+        overlay.addEventListener('click', function() {
+            sidebar.classList.remove('active');
+            this.classList.remove('active');
+            menuToggle.classList.remove('active');
+        });
+        
+        // Close sidebar when clicking menu link on mobile
+        const menuLinks = sidebar.querySelectorAll('.menu a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                }
+            });
+        });
+    }
+    
+    // Handle window resize
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            if (window.innerWidth > 768) {
+                if (sidebar) sidebar.classList.remove('active');
+                if (overlay) overlay.classList.remove('active');
+                if (menuToggle) menuToggle.classList.remove('active');
+            }
+        }, 250);
+    });
+    
+    // Table responsive scroll indicator
+    const tables = document.querySelectorAll('.table-container');
+    tables.forEach(table => {
+        if (table.scrollWidth > table.clientWidth) {
+            table.classList.add('has-scroll');
+            
+            // Add scroll indicator
+            if (!table.querySelector('.scroll-indicator')) {
+                const indicator = document.createElement('div');
+                indicator.className = 'scroll-indicator';
+                indicator.innerHTML = '<i class="fas fa-arrow-right"></i> Scroll →';
+                table.appendChild(indicator);
+            }
+        }
+        
+        table.addEventListener('scroll', function() {
+            if (this.scrollLeft > 0) {
+                this.classList.add('scrolled');
+            } else {
+                this.classList.remove('scrolled');
+            }
+        });
+    });
+    
+    // Touch-friendly dropdowns on mobile
+    if ('ontouchstart' in window) {
+        const dropdowns = document.querySelectorAll('select');
+        dropdowns.forEach(dropdown => {
+            dropdown.style.fontSize = '16px'; // Prevent zoom on iOS
+        });
+    }
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+    
+    // Auto-hide notifications on mobile after 3 seconds
+    if (window.innerWidth <= 768) {
+        const notifications = document.querySelectorAll('.thongbao');
+        notifications.forEach(notif => {
+            if (notif.style.display !== 'none') {
+                setTimeout(() => {
+                    notif.style.display = 'none';
+                }, 3000);
+            }
+        });
+    }
+    
+    // Better modal handling on mobile
+    const modals = document.querySelectorAll('.modal-sua, .modal-them, .modal-form');
+    modals.forEach(modal => {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        });
+        
+        // Prevent body scroll when modal is open
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.target.style.display === 'flex' || 
+                    mutation.target.style.display === 'block') {
+                    document.body.style.overflow = 'hidden';
+                } else if (mutation.target.style.display === 'none') {
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+        
+        observer.observe(modal, { 
+            attributes: true, 
+            attributeFilter: ['style'] 
+        });
+    });
+});
+
+// Helper function to check if device is mobile
+function isMobile() {
+    return window.innerWidth <= 768;
+}
+
+// Helper function to check if device is tablet
+function isTablet() {
+    return window.innerWidth > 768 && window.innerWidth <= 1024;
+}
+
+// Export for use in other scripts
+window.adminMobile = {
+    isMobile,
+    isTablet
+};
+document.querySelectorAll('.tour_slide').forEach((slideWrapper) => {
+    const inner = slideWrapper.querySelector('.inner');
+    const prevBtn = slideWrapper.parentElement.querySelector('.bttr');
+    const nextBtn = slideWrapper.parentElement.querySelector('.btp');
+
+    const tourItems = inner.querySelectorAll('.tour_item').length;
+
+    // CHECK SCREEN SIZE
+    const isMobile = window.innerWidth <= 600;
+    
+    if (isMobile) {
+        // MOBILE: 1 tour per slide
+        const toursPerSlide = 1;
+        const tourItemWidth = inner.querySelector('.tour_item').offsetWidth;
+        const spaceBetween = 20; // gap trong CSS
+        const slideWidth = tourItemWidth + spaceBetween;
+        
+        const maxIndex = tourItems - 1; // Có thể scroll đến item cuối
+        let currentIndex = 0;
+
+        function updateSlider() {
+            inner.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < maxIndex) {
+                currentIndex++;
+                updateSlider();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateSlider();
+            }
+        });
+        
+        // Reset về đầu
+        currentIndex = 0;
+        updateSlider();
+        
+    } else {
+        // DESKTOP: code cũ của bạn
+        const toursPerSlide = 1;
+        const tourItemWidth = 510;   
+        const spaceBetween = 15*2;  
+        const slideWidth = tourItemWidth * toursPerSlide + spaceBetween;
+        const maxIndex = (tourItems/2)+1;
+        let currentIndex = 0;
+
+        function updateSlider() {
+            inner.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < maxIndex) {
+                currentIndex++;
+                updateSlider();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateSlider();
+            }
+        });
+    }
+});
 function loadpage(file , el){
     document.querySelectorAll('.menu li').forEach(item => {
         item.classList.remove('active');

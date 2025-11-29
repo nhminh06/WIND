@@ -256,7 +256,7 @@
                         </div>
                         
                         <div class="che" id="che">
-                            <!-- Phần che giống HTML cũ -->
+                          
                         </div>
                         
                         <span class="name">
@@ -266,20 +266,20 @@
                         <div class="thongtin_tv">
                             <h3><?php echo htmlspecialchars($nv['ho_ten']); ?></h3>
                             
-                            <!-- Mô tả từ cột about -->
+                          
                             <?php if(!empty($nv['about'])): ?>
                                 <p><?php echo htmlspecialchars($nv['about']); ?></p>
                             <?php else: ?>
                                 <p>Hướng dẫn viên chuyên nghiệp với nhiều năm kinh nghiệm.</p>
                             <?php endif; ?>
                             
-                            <!-- Chức vụ từ cột position -->
+                          
                             <p><strong>Chức vụ:</strong> <?php echo !empty($nv['position']) ? htmlspecialchars($nv['position']) : 'Hướng dẫn viên'; ?></p>
                             <?php if(!empty($nv['skills'])): ?>
                                 <p><strong>Kỹ năng:</strong> <?php echo htmlspecialchars($nv['skills']); ?></p>
                             <?php endif; ?>
                             
-                            <!-- Nút Xem hồ sơ với modal -->
+                  
                             <button onclick="openProfile(<?php echo $nv['id']; ?>)">Xem hồ sơ</button>
                         </div>
                     </div>
@@ -287,7 +287,7 @@
                         endwhile;
                     else:
                     ?>
-                    <!-- Hiển thị dữ liệu mẫu nếu không có nhân viên trong database -->
+       
                     <div class="team_item" id="team_item">
                         <div class="avata"><img src="../../../img/avt1.jpg" alt=""></div>
                         <div class="che" id="che"></div>

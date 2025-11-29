@@ -140,6 +140,11 @@ function time_elapsed_string($datetime) {
   <div class="main">
     <!-- Header -->
     <header class="header">
+         <button class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
       <h1>Bảng điều khiển</h1>
       <div class="admin-info">
        <?php 
@@ -456,7 +461,8 @@ function time_elapsed_string($datetime) {
     </div>
 
 </section>
-  </div>
+  </div><div class="sidebar-overlay"></div>
+  <script src="../../js/Main5.js"></script>
 
   <script>
 // Thêm function xác nhận xóa

@@ -92,6 +92,11 @@ function time_elapsed_string($datetime) {
 
 <div class="main">
     <header class="header">
+         <button class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
         <h1>Lưu trữ liên hệ</h1>
         <div class="admin-info">
             <p>Xin chào <?php echo $_SESSION['username']; ?></p>
@@ -378,7 +383,9 @@ function time_elapsed_string($datetime) {
 
     </section>
 </div>
+<div class="sidebar-overlay"></div>
 
+<script src="../../js/Main5.js"></script>
 <script>
 // Filter functions
 function filterAll() {

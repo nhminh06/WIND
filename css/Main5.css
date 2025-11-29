@@ -6246,6 +6246,1446 @@ body {
         color: #43d399;
     }
 }
+/* ==================== RESPONSIVE DEMO SECTION ==================== */
+
+/* Laptop lớn (1200px - 1600px) */
+@media (max-width: 1600px) {
+    .bannervd > p{
+        font-size: 10rem;
+    }
+    .bannervd > h5{
+        font-size: 2.5rem;
+    }
+    .demo {
+        margin-top: 35px;
+    }
+    
+    .demo_item {
+        width: 92%;
+        margin-bottom: 130px;
+    }
+    
+    .demoimg {
+        height: 650px;
+    }
+    
+    .demo_tt > h2 {
+        font-size: 28px;
+    }
+    
+    .demo_tt > p {
+        font-size: 19px;
+    }
+    
+    .demo_tt > button {
+        width: 200px;
+        height: 52px;
+        font-size: 20px;
+    }
+}
+
+/* Laptop nhỏ / Tablet ngang (992px - 1200px) */
+@media (max-width: 1200px) {
+     .bannervd > p{
+        font-size: 8rem;
+    }
+    .bannervd > h5{
+        font-size: 2.2rem;
+    }
+    .demo {
+        margin-top: 30px;
+    }
+    
+    .demo_item {
+        width: 90%;
+        margin-bottom: 110px;
+        flex-direction: column;
+    }
+    
+    .demo_img {
+        width: 100%;
+        order: 1;
+    }
+    
+    .demo_tt {
+        width: 100%;
+        order: 2;
+        margin-left: 0;
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .demoimg {
+        height: 400px;
+        width: 48%;
+    }
+    
+    .demo_tt > h2 {
+        font-size: 26px;
+        text-align: center;
+    }
+    
+    .demo_tt > p {
+        font-size: 18px;
+        text-align: center;
+    }
+    
+    .demo_tt > button {
+        margin: 20px auto 0;
+        width: 190px;
+        height: 50px;
+    }
+}
+
+/* Tablet dọc (768px - 992px) */
+@media (max-width: 992px) {
+     .bannervd > p{
+        font-size: 6rem;
+    }
+    .bannervd > h5{
+        font-size: 1.9rem;
+    }
+    .demo {
+        margin-top: 25px;
+    }
+    
+    .demo_item {
+        width: 95%;
+        margin-bottom: 90px;
+    }
+    
+    .demo_img {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .demoimg {
+        width: 100%;
+        height: 350px;
+    }
+    
+    .demo_tt {
+        padding: 18px;
+    }
+    
+    .demo_tt > h2 {
+        font-size: 24px;
+        margin-bottom: 12px;
+    }
+    
+    .demo_tt > p {
+        font-size: 17px;
+        margin-bottom: 10px;
+    }
+    
+    .demo_tt > button {
+        width: 180px;
+        height: 48px;
+        font-size: 19px;
+    }
+}
+
+/* Mobile ngang / Tablet nhỏ (576px - 768px) */
+@media (max-width: 768px) {
+     .bannervd > p{
+        font-size: 6rem;
+    }
+    .bannervd > h5{
+        font-size: 1.9rem;
+    }
+    .demo {
+        margin-top: 20px;
+    }
+    
+    .demo_item {
+        width: 96%;
+        margin-bottom: 70px;
+    }
+    
+    .demoimg {
+        height: 300px;
+    }
+    
+    .demo_tt {
+        padding: 15px;
+    }
+    
+    .demo_tt > h2 {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+    
+    .demo_tt > p {
+        font-size: 16px;
+        margin-bottom: 8px;
+        line-height: 1.5;
+    }
+    
+    .demo_tt > button {
+        width: 170px;
+        height: 45px;
+        font-size: 18px;
+        margin-top: 15px;
+    }
+}
+
+/* Mobile tiêu chuẩn (430px - 576px) */
+@media (max-width: 576px) {
+     .bannervd > p{
+        font-size: 4rem;
+    }
+    .bannervd > h5{
+        font-size: 1.5rem;
+    }
+    .demo {
+        margin-top: 18px;
+    }
+    
+    .demo_item {
+        width: 98%;
+        margin-bottom: 60px;
+    }
+    
+    .demo_img {
+        gap: 8px;
+    }
+    
+    .demoimg {
+        height: 250px;
+    }
+    
+    .demo_tt {
+        padding: 12px;
+    }
+    
+    .demo_tt > h2 {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+    
+    .demo_tt > p {
+        font-size: 15px;
+        margin-bottom: 6px;
+    }
+    
+    .demo_tt > button {
+        width: 160px;
+        height: 42px;
+        font-size: 17px;
+    }
+}
+
+/* Mobile nhỏ (375px - 430px) */
+@media (max-width: 430px) {
+     .bannervd > p{
+        font-size: 4rem;
+    }
+    .bannervd > h5{
+        font-size: 1.5rem;
+    }
+    .demo_item {
+        margin-bottom: 50px;
+    }
+    
+    .demoimg {
+        height: 220px;
+    }
+    
+    .demo_tt > h2 {
+        font-size: 18px;
+    }
+    
+    .demo_tt > p {
+        font-size: 14px;
+    }
+    
+    .demo_tt > button {
+        width: 150px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
+
+/* Mobile rất nhỏ (≤ 375px) */
+@media (max-width: 375px) {
+     .bannervd > p{
+        font-size: 3rem;
+    }
+    .bannervd > h5{
+        font-size: 1rem;
+    }
+    .demo_item {
+        margin-bottom: 45px;
+    }
+    
+    .demoimg {
+        height: 200px;
+    }
+    
+    .demo_tt {
+        padding: 10px;
+    }
+    
+    .demo_tt > h2 {
+        font-size: 17px;
+    }
+    
+    .demo_tt > p {
+        font-size: 13px;
+    }
+    
+    .demo_tt > button {
+        width: 140px;
+        height: 38px;
+        font-size: 15px;
+    }
+}
+
+/* ==================== RESPONSIVE TOUR SLIDE ==================== */
+
+/* Laptop lớn (1200px - 1600px) */
+@media (max-width: 1600px) {
+    .container > h2 {
+        font-size: 32px;
+        margin-top: 130px;
+    }
+    
+    .tuor_list {
+        padding: 20px 30px;
+    }
+    
+    .tour_slide {
+        width: calc(510px * 4 + 45px);
+    }
+    
+    .tour_item {
+        width: 480px;
+        height: 330px;
+    }
+}
+
+/* Laptop nhỏ / Tablet ngang (992px - 1200px) */
+@media (max-width: 1200px) {
+    .container > h2 {
+        font-size: 30px;
+        margin-top: 120px;
+    }
+    
+    .tuor_list {
+        padding: 20px 25px;
+    }
+    
+    .tour_slide {
+        width: calc(450px * 3 + 40px);
+    }
+    
+    .tour_item {
+        width: 450px;
+        height: 320px;
+        margin: 12px;
+    }
+    
+    .bttr, .btp {
+        width: 45px;
+        height: 45px;
+    }
+}
+
+/* Tablet dọc (768px - 992px) */
+@media (max-width: 992px) {
+    .container > h2 {
+        font-size: 28px;
+        margin-top: 100px;
+    }
+    
+    .tuor_list {
+        padding: 20px 20px;
+    }
+    
+    .tour_slide {
+        width: calc(400px * 2 + 35px);
+    }
+    
+    .tour_item {
+        width: 400px;
+        height: 300px;
+        margin: 10px;
+    }
+    
+    .thongtin > h2 {
+        font-size: 20px;
+    }
+    
+    .thongtin > p {
+        font-size: 15px;
+    }
+    
+    .chitiet {
+        width: 110px;
+        height: 42px;
+        font-size: 14px;
+    }
+}
+
+/* Mobile ngang / Tablet nhỏ (576px - 768px) */
+@media (max-width: 768px) {
+    .container > h2 {
+        font-size: 26px;
+        margin-top: 80px;
+    }
+    
+    .tuor_list {
+        padding: 15px 15px;
+    }
+    
+    .tour_slide {
+        width: 100%;
+        overflow-x: auto;
+    }
+    
+    .inner {
+        width: max-content;
+    }
+    
+    .tour_item {
+        width: 350px;
+        height: 280px;
+        margin: 8px;
+    }
+    
+    .thongtin {
+        bottom: 15%;
+        padding: 8px;
+    }
+    
+    .thongtin > h2 {
+        font-size: 18px;
+        margin-bottom: 6px;
+    }
+    
+    .thongtin > p {
+        font-size: 14px;
+    }
+    
+    .chitiet {
+        width: 105px;
+        height: 40px;
+        font-size: 13px;
+    }
+    
+    .bttr, .btp {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Mobile tiêu chuẩn (430px - 576px) */
+/* ==================== COMPLETE FIX FOR MOBILE TOUR - NO OVERLAP ==================== */
+/* Paste this AT THE VERY END of Main5.css */
+
+@media (max-width: 600px) {
+    
+    /* CONTAINER */
+    .container {
+        width: 100% !important;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+        padding: 0 !important;
+    }
+    
+    /* H2 TITLE */
+    .container > h2 {
+        font-size: 22px !important;
+        margin: 60px 0 30px 0 !important;
+        padding: 0 15px !important;
+        text-align: center !important;
+        color: #ffffff !important;
+    }
+    
+    /* TOUR LIST CONTAINER */
+    .tuor_list {
+        display: flex !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        padding: 20px 0 !important;
+        margin: 0 !important;
+        position: relative !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* NAVIGATION BUTTONS */
+    .tuor_list .bttr,
+    .tuor_list .btp {
+        display: flex !important;
+        position: absolute !important;
+        z-index: 100 !important;
+        width: 40px !important;
+        height: 40px !important;
+        background-color: rgba(255,255,255,0.8) !important;
+        border: none !important;
+        border-radius: 50% !important;
+        cursor: pointer !important;
+        align-items: center !important;
+        justify-content: center !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+    }
+    
+    .tuor_list .bttr {
+        left: 5px !important;
+    }
+    
+    .tuor_list .btp {
+        right: 5px !important;
+    }
+    
+    .tuor_list button svg {
+        width: 24px !important;
+        height: 24px !important;
+        color: #333 !important;
+    }
+    
+    /* TOUR SLIDE - VIEWPORT */
+    .tour_slide {
+        display: block !important;
+        width: calc(100vw - 100px) !important;
+        max-width: calc(100vw - 100px) !important;
+        overflow: hidden !important;
+        margin: 0 auto !important;
+        position: relative !important;
+    }
+    
+    /* INNER CONTAINER - KEY FIX */
+    .tour_slide .inner {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        /* Calculate total width: (item width + gap) × number of items */
+        width: max-content !important;
+        min-width: max-content !important;
+        transition: transform 0.5s ease !important;
+        gap: 76px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* TOUR ITEM - FIXED SIZE */
+    .tour_item {
+        display: flex !important;
+        flex-direction: column !important;
+        /* Fixed width per item */
+        width: calc(100vw - 100px) !important;
+        min-width: calc(100vw - 100px) !important;
+        max-width: calc(100vw - 100px) !important;
+        height: 320px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 20px !important;
+        background-color: #ffffff20 !important;
+        backdrop-filter: blur(5px) !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+        overflow: hidden !important;
+        position: relative !important;
+        flex-shrink: 0 !important;
+        flex-grow: 0 !important;
+    }
+    
+    /* IMAGE */
+    .tour_item img {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        border-radius: 20px !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+    }
+    
+    /* THONGTIN OVERLAY */
+    .tour_item .thongtin {
+        display: block !important;
+        position: absolute !important;
+        bottom: 12% !important;
+        left: 0 !important;
+        right: 0 !important;
+        padding: 15px !important;
+        color: white !important;
+        z-index: 2 !important;
+        background: linear-gradient(to top, rgba(0,0,0,0.7), transparent) !important;
+    }
+    
+    .tour_item .thongtin h2 {
+        font-size: 18px !important;
+        margin-bottom: 8px !important;
+        color: white !important;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.8) !important;
+    }
+    
+    .tour_item .thongtin p {
+        font-size: 14px !important;
+        margin-bottom: 10px !important;
+        color: white !important;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.8) !important;
+    }
+    
+    /* BUTTON */
+    .tour_item .chitiet {
+        display: inline-block !important;
+        position: relative !important;
+        width: 115px !important;
+        height: 40px !important;
+        background-color: #ffffff !important;
+        color: black !important;
+        border-radius: 25px !important;
+        border: none !important;
+        font-size: 14px !important;
+        font-weight: bold !important;
+        cursor: pointer !important;
+        line-height: 40px !important;
+        text-align: center !important;
+    }
+    
+    /* Remove conflicting animations */
+    .tuor_list.box {
+        transform: none !important;
+        opacity: 1 !important;
+    }
+    
+    .tuor_list.fade-big-left,
+    .tuor_list.fade-big-right {
+        transform: none !important;
+        opacity: 1 !important;
+    }
+}
+
+/* EXTRA SMALL SCREENS (< 400px) */
+@media (max-width: 400px) {
+    .tour_slide {
+        width: calc(100vw - 80px) !important;
+        max-width: calc(100vw - 80px) !important;
+    }
+    
+    .tour_item {
+        width: calc(100vw - 80px) !important;
+        min-width: calc(100vw - 80px) !important;
+        max-width: calc(100vw - 80px) !important;
+        height: 300px !important;
+    }
+    
+    .tuor_list .bttr {
+        left: 3px !important;
+    }
+    
+    .tuor_list .btp {
+        right: 3px !important;
+    }
+}
+
+/* VERY SMALL SCREENS (< 360px) */
+@media (max-width: 360px) {
+    .tour_slide {
+        width: calc(100vw - 70px) !important;
+        max-width: calc(100vw - 70px) !important;
+    }
+    
+    .tour_item {
+        width: calc(100vw - 70px) !important;
+        min-width: calc(100vw - 70px) !important;
+        max-width: calc(100vw - 70px) !important;
+        height: 280px !important;
+    }
+    
+    .tour_item .thongtin h2 {
+        font-size: 16px !important;
+    }
+    
+    .tour_item .thongtin p {
+        font-size: 13px !important;
+    }
+    
+    .tour_item .chitiet {
+        width: 105px !important;
+        height: 38px !important;
+        font-size: 13px !important;
+        line-height: 38px !important;
+    }
+}
+
+/* DEBUG MODE - Uncomment để kiểm tra layout */
+/*
+@media (max-width: 600px) {
+    .container { 
+        border: 3px solid red !important; 
+        background: rgba(255,0,0,0.1) !important;
+    }
+    .tuor_list { 
+        border: 3px solid blue !important; 
+        background: rgba(0,0,255,0.1) !important;
+    }
+    .tour_slide { 
+        border: 3px solid green !important; 
+        background: rgba(0,255,0,0.1) !important;
+    }
+    .tour_slide .inner { 
+        border: 3px solid yellow !important; 
+        background: rgba(255,255,0,0.1) !important;
+    }
+    .tour_item { 
+        border: 3px solid purple !important; 
+        background: rgba(128,0,128,0.1) !important;
+    }
+}
+*/
+
+/* ==================== RESPONSIVE GUIDE TEAM ==================== */
+
+/* Laptop lớn (1200px - 1600px) */
+@media (max-width: 1600px) {
+    .guide_team {
+        padding: 35px 50px;
+    }
+    
+    .team_item {
+        width: 340px;
+        height: 220px;
+        margin: 18px;
+    }
+}
+
+/* Laptop nhỏ / Tablet ngang (992px - 1200px) */
+@media (max-width: 1200px) {
+    .guide_team {
+        padding: 30px 40px;
+    }
+    
+    .team_item {
+        width: 320px;
+        height: 210px;
+        margin: 15px;
+    }
+    
+    .avata {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .thongtin_tv {
+        font-size: 14px;
+    }
+    
+    .thongtin_tv > button {
+        width: 110px;
+        height: 28px;
+        font-size: 14px;
+    }
+}
+
+/* Tablet dọc (768px - 992px) */
+@media (max-width: 992px) {
+    .guide_team {
+        padding: 25px 30px;
+    }
+    
+    .team_slide {
+        width: 100%;
+        overflow-x: auto;
+    }
+    
+    .inner2 {
+        width: max-content;
+    }
+    
+    .team_item {
+        width: 300px;
+        height: 200px;
+        margin: 12px;
+    }
+    
+    .avata {
+        width: 110px;
+        height: 110px;
+    }
+    
+    .name > h3 {
+        font-size: 16px;
+    }
+    
+    .thongtin_tv > h3 {
+        font-size: 15px;
+    }
+    
+    .thongtin_tv {
+        font-size: 13px;
+    }
+}
+
+/* Mobile ngang / Tablet nhỏ (576px - 768px) */
+@media (max-width: 768px) {
+    .guide_team {
+        padding: 20px 20px;
+    }
+    
+    .team_item {
+        width: 280px;
+        height: 190px;
+        margin: 10px;
+    }
+    
+    .avata {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .name > h3 {
+        font-size: 15px;
+    }
+    
+    .thongtin_tv {
+        font-size: 12px;
+        padding: 8px;
+    }
+    
+    .thongtin_tv > h3 {
+        font-size: 14px;
+    }
+    
+    .thongtin_tv > button {
+        width: 105px;
+        height: 26px;
+        font-size: 13px;
+        top: 52%;
+    }
+}
+
+/* Mobile tiêu chuẩn (430px - 576px) */
+@media (max-width: 576px) {
+    .guide_team {
+        padding: 18px 15px;
+    }
+    
+    .team_item {
+        width: 260px;
+        height: 180px;
+        margin: 8px;
+    }
+    
+    .avata {
+        width: 95px;
+        height: 95px;
+    }
+    
+    .name > h3 {
+        font-size: 14px;
+    }
+    
+    .thongtin_tv {
+        font-size: 11px;
+    }
+    
+    .thongtin_tv > h3 {
+        font-size: 13px;
+    }
+    
+    .thongtin_tv > button {
+        width: 100px;
+        height: 25px;
+        font-size: 12px;
+    }
+}
+
+/* Mobile nhỏ (375px - 430px) */
+@media (max-width: 430px) {
+    .guide_team {
+        padding: 15px 12px;
+    }
+    
+    .team_item {
+        width: 250px;
+        height: 175px;
+    }
+    
+    .avata {
+        width: 90px;
+        height: 90px;
+    }
+}
+
+/* Mobile rất nhỏ (≤ 375px) */
+@media (max-width: 375px) {
+    .guide_team {
+        padding: 12px 10px;
+    }
+    
+    .team_item {
+        width: 240px;
+        height: 170px;
+    }
+    
+    .avata {
+        width: 85px;
+        height: 85px;
+    }
+    
+    .name > h3 {
+        font-size: 13px;
+    }
+    
+    .thongtin_tv {
+        font-size: 10px;
+    }
+    
+    .thongtin_tv > h3 {
+        font-size: 12px;
+    }
+    
+    .thongtin_tv > button {
+        width: 95px;
+        height: 24px;
+        font-size: 11px;
+    }
+}
+
+/* ==================== RESPONSIVE REVIEWS SECTION ==================== */
+
+/* Laptop lớn (1200px - 1600px) */
+@media (max-width: 1600px) {
+    .review-title {
+        font-size: 32px;
+        margin-top: 130px;
+        margin-bottom: 35px;
+    }
+    
+    .review-grid-container {
+        padding: 35px 50px;
+    }
+    
+    .review-box {
+        width: 340px;
+        height: 200px;
+        padding: 22px;
+        margin: 18px;
+    }
+}
+
+/* Laptop nhỏ / Tablet ngang (992px - 1200px) */
+@media (max-width: 1200px) {
+    .review-title {
+        font-size: 30px;
+        margin-top: 120px;
+        margin-bottom: 30px;
+    }
+    
+    .review-grid-container {
+        padding: 30px 40px;
+    }
+    
+    .review-box {
+        width: 320px;
+        height: 195px;
+        padding: 20px;
+        margin: 15px;
+    }
+    
+    .review-header img {
+        width: 55px;
+        height: 55px;
+    }
+    
+    .review-header h3 {
+        font-size: 1em;
+    }
+    
+    .review-text {
+        font-size: 0.95em;
+    }
+}
+
+/* Tablet dọc (768px - 992px) */
+@media (max-width: 992px) {
+    .reviews-grid {
+        padding: 50px 20px;
+    }
+    
+    .review-title {
+        font-size: 28px;
+        margin-top: 100px;
+    }
+    
+    .review-grid-container {
+        padding: 25px 30px;
+    }
+    
+    .review_slide {
+        width: 100%;
+        overflow-x: auto;
+    }
+    
+    .inner3 {
+        width: max-content;
+    }
+    
+    .review-box {
+        width: 300px;
+        height: 185px;
+        padding: 18px;
+        margin: 12px;
+    }
+    
+    .review-header {
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+    
+    .review-header img {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .review-header h3 {
+        font-size: 0.95em;
+    }
+    
+    .review-header p {
+        font-size: 0.85em;
+    }
+    
+    .review-text {
+        font-size: 0.9em;
+    }
+}
+
+/* Mobile ngang / Tablet nhỏ (576px - 768px) */
+@media (max-width: 768px) {
+    .reviews-grid {
+        padding: 45px 15px;
+    }
+    
+    .review-title {
+        font-size: 26px;
+        margin-top: 80px;
+        margin-bottom: 25px;
+    }
+    
+    .review-grid-container {
+        padding: 20px 20px;
+    }
+    
+    .review-box {
+        width: 280px;
+        height: 175px;
+        padding: 16px;
+        margin: 10px;
+    }
+    
+    .review-header img {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .review-header h3 {
+        font-size: 0.9em;
+    }
+    
+    .review-text {
+        font-size: 0.85em;
+    }
+}
+
+/* Mobile tiêu chuẩn (430px - 576px) */
+@media (max-width: 576px) {
+    .reviews-grid {
+        padding: 40px 12px;
+    }
+    
+    .review-title {
+        font-size: 24px;
+        margin-top: 70px;
+        margin-bottom: 20px;
+        padding: 0 10px;
+    }
+    
+    .review-grid-container {
+        padding: 18px 15px;
+    }
+    
+    .review-box {
+        width: 260px;
+        height: 170px;
+        padding: 14px;
+        margin: 8px;
+    }
+    
+    .review-header {
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .review-header img {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .review-header h3 {
+        font-size: 0.85em;
+    }
+    
+    .review-header p {
+        font-size: 0.8em;
+    }
+    
+    .review-text {
+        font-size: 0.8em;
+    }
+}
+
+/* Mobile nhỏ (375px - 430px) */
+@media (max-width: 430px) {
+    .reviews-grid {
+        padding: 35px 10px;
+    }
+    
+    .review-title {
+        font-size: 22px;
+        margin-top: 65px;
+    }
+    
+    .review-box {
+        width: 250px;
+        height: 165px;
+        padding: 12px;
+    }
+    
+    .review-header img {
+        width: 42px;
+        height: 42px;
+    }
+}
+
+/* Mobile rất nhỏ (≤ 375px) */
+@media (max-width: 375px) {
+    .reviews-grid {
+        padding: 30px 8px;
+    }
+    
+    .review-title {
+        font-size: 20px;
+        margin-top: 60px;
+        margin-bottom: 18px;
+    }
+    
+    .review-grid-container {
+        padding: 15px 12px;
+    }
+    
+    .review-box {
+        width: 240px;
+        height: 160px;
+        padding: 10px;
+    }
+    
+    .review-header img {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .review-header h3 {
+        font-size: 0.8em;
+    }
+    
+    .review-header p {
+        font-size: 0.75em;
+    }
+    
+    .review-text {
+        font-size: 0.75em;
+    }
+}
+
+/* ==================== RESPONSIVE MODAL PROFILE ==================== */
+
+@media (max-width: 992px) {
+    .modal-profile-content {
+        width: 90%;
+        margin: 3% auto;
+        max-height: 85vh;
+    }
+    
+    .profile_container {
+        padding: 20px;
+    }
+    
+    .profile_header {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+    
+    .avatar {
+        width: 140px;
+        height: 140px;
+    }
+    
+    .info h1 {
+        font-size: 26px;
+        text-align: center;
+    }
+    
+    .position {
+        font-size: 17px;
+        text-align: center;
+    }
+    
+    .info > p {
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-profile-content {
+        width: 95%;
+        margin: 5% auto;
+    }
+    
+    .close-profile {
+        font-size: 24px;
+        right: 12px;
+        top: 8px;
+    }
+    
+    .profile_container {
+        padding: 18px;
+    }
+    
+    .avatar {
+        width: 130px;
+        height: 130px;
+    }
+    
+    .info h1 {
+        font-size: 24px;
+    }
+    
+    .position {
+        font-size: 16px;
+    }
+    
+    .section-pf > h2 {
+        font-size: 17px;
+    }
+    
+    .skill_list li {
+        font-size: 13px;
+        padding: 5px 10px;
+    }
+    
+    .timeline {
+        margin-left: 15px;
+        padding-left: 20px;
+    }
+    
+    .social_links {
+        width: 140px;
+        justify-content: center;
+    }
+    
+    .social_links a {
+        width: 38px;
+        height: 38px;
+    }
+}
+
+@media (max-width: 576px) {
+    .modal-profile-content {
+        width: 98%;
+    }
+    
+    .profile_container {
+        padding: 15px;
+    }
+    
+    .avatar {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .info h1 {
+        font-size: 22px;
+    }
+    
+    .position {
+        font-size: 15px;
+    }
+    
+    .section-pf {
+        margin-top: 20px;
+    }
+    
+    .section-pf > h2 {
+        font-size: 16px;
+    }
+    
+    .skill_list li {
+        font-size: 12px;
+    }
+    
+    .timeline_item .time {
+        font-size: 14px;
+    }
+    
+    .social_links {
+        width: 130px;
+    }
+    
+    .social_links a {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* ==================== GENERAL RESPONSIVE FIXES ==================== */
+
+/* Tắt hiệu ứng hover trên mobile */
+@media (max-width: 992px) {
+    .demoimg:hover,
+    .demoimg img:hover,
+    .tour_item:hover,
+    .team_item:hover,
+    .review-box:hover {
+        transform: none;
+    }
+}
+
+/* Giữ hiệu ứng hover trên desktop */
+@media (min-width: 993px) {
+    .demoimg:hover {
+        transform: translateY(-15px);
+    }
+    
+    .demoimg img:hover {
+        transform: scale(1.05);
+    }
+    
+    .tour_item:hover {
+        transform: translateY(-7px);
+    }
+    
+    .team_item:hover {
+        transform: scale(1.05);
+    }
+    
+    .review-box:hover {
+        transform: translateY(-5px);
+    }
+}
+
+/* Fix overflow issues */
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+}
+
+/* Smooth scrolling cho slide */
+.tour_slide,
+.team_slide,
+.review_slide {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Hide scrollbar nhưng vẫn scroll được */
+@media (max-width: 992px) {
+    .tour_slide::-webkit-scrollbar,
+    .team_slide::-webkit-scrollbar,
+    .review_slide::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .tour_slide,
+    .team_slide,
+    .review_slide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+
+/* Landscape mode optimization */
+@media (max-width: 992px) and (orientation: landscape) {
+    .container > h2 {
+        margin-top: 60px;
+        font-size: 24px;
+    }
+    
+    .demo_item {
+        margin-bottom: 50px;
+    }
+    
+    .demoimg {
+        height: 250px;
+    }
+    
+    .tour_item {
+        height: 240px;
+    }
+    
+    .team_item {
+        height: 160px;
+    }
+    
+    .review-box {
+        height: 150px;
+    }
+}
+
+/* Ensure images load properly */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Fix for very small devices */
+@media (max-width: 320px) {
+    .container > h2 {
+        font-size: 18px;
+        margin-top: 55px;
+    }
+    
+    .demo_tt > h2 {
+        font-size: 16px;
+    }
+    
+    .demo_tt > p {
+        font-size: 12px;
+    }
+    
+    .demo_tt > button {
+        width: 130px;
+        height: 36px;
+        font-size: 14px;
+    }
+    
+    .tour_item {
+        width: 270px;
+        height: 230px;
+    }
+    
+    .team_item {
+        width: 230px;
+        height: 165px;
+    }
+    
+    .review-box {
+        width: 230px;
+        height: 155px;
+    }
+}
   
 /* hết */
 

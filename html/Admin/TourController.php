@@ -107,6 +107,11 @@ $stats = $result_stats->fetch_assoc();
 
   <div class="main">
     <header class="header">
+       <button class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
       <h1>Quản lý Tour</h1>
       <div class="admin-info">
         <?php echo "<p>Xin chào " . (isset($_SESSION['username']) ? $_SESSION['username'] : 'Admin') . "</p>"; ?>
@@ -352,7 +357,8 @@ $stats = $result_stats->fetch_assoc();
       <?php endif; ?>
     </section>
   </div>
-
+<div class="sidebar-overlay"></div>
+<script src="../../js/Main5.js"></script>
   <script>
     function confirmDelete(tourId, tourName) {
       if (confirm('Bạn có chắc chắn muốn xóa tour "' + tourName + '"?\nHành động này không thể hoàn tác!')) {

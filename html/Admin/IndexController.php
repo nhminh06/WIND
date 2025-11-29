@@ -236,5 +236,6 @@ function previewImage(input, previewId) {
   }
 }
 </script>
+<script src="../../js/Main5.js"></script>
 </body>
 </html>

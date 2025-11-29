@@ -220,6 +220,11 @@ $stats = $result_stats->fetch_assoc();
 
   <div class="main">
     <header class="header">
+       <button class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
       <h1>Quản lý Người dùng</h1>
       <div class="admin-info">
         <?php echo "<p>Xin chào " . (isset($_SESSION['ho_ten']) ? $_SESSION['ho_ten'] : 'Admin') . "</p>"; ?>
@@ -541,7 +546,8 @@ $stats = $result_stats->fetch_assoc();
     </form>
   </div>
 </div>
-
+<div class="sidebar-overlay"></div>
+        <script src="../../js/Main5.js"></script>
   <script>
     function openRoleDialog(id) {
   document.getElementById('userId').value = id;
