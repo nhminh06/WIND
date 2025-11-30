@@ -5,72 +5,69 @@ include '../db/db.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
-
-    $layten = "SELECT * FROM user WHERE ho_ten = '$username'";
-    $result_layten = $conn->query($layten);
-    $user_data = $result_layten->fetch_assoc();
-    if (!isset($_SESSION['turn'])) {
-        $_SESSION['turn'] = 0;
-    }
-       if($user['password'] !== $password){
-            $_SESSION['turn'] += 1;
-            if($_SESSION['turn'] >= 3){
-                $updateStatusSql = "UPDATE user SET trang_thai = 0 WHERE ho_ten = ?";
-                $stmt = $conn->prepare($updateStatusSql);
-                $stmt->bind_param("s", $username);
-                $stmt->execute();
-                   if ($user_data['trang_thai'] == 0) {
-            $_SESSION['error'] = 1;    
-             unset($_SESSION['role']);   
-             unset($_SESSION['user_id']);
-             unset($_SESSION['username']); 
-             unset($_SESSION['turn']);
-            header("Location: ../html/views/index/contact.php");
-            exit();
-        }
-            }
-          
-
-        }
-
-    // Lấy user theo username và password
-    $sql = "SELECT * FROM user WHERE ho_ten = '$username' AND password = '$password'";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-        session_unset();  
-        session_regenerate_id(true); 
-
-        $_SESSION['user_id'] = $user['id'];  
-        $_SESSION['username'] = $user['ho_ten'];  
-        $_SESSION['role'] = $user['role'];
-        $_SESSION['avatar'] = $user['avatar'];
-
-        if($_SESSION['role'] == 'admin'){
-           $_SESSION['rank'] = $user['rank'];
-
-        }
+    $stmt = $conn->prepare("SELECT * FROM user WHERE ho_ten = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
 
 
-         
-
-
-        if ($user['trang_thai'] == 0) {
-            $_SESSION['error'] = 1;    
-             unset($_SESSION['role']);   
-             unset($_SESSION['user_id']);
-             unset($_SESSION['username']); 
-            header("Location: ../html/views/index/contact.php");
-            exit();
-        }
-
-        header("Location: ../html/views/index/WebIndex.php");
-    
-    } else {
+    if (!$user) {
         $_SESSION['error'] = "Tên đăng nhập hoặc mật khẩu không đúng.";
         header("Location: ../html/views/index/login.php");
         exit();
     }
+
+  
+    if ($user['trang_thai'] == 0) {
+        $_SESSION['error'] = 1;
+        header("Location: ../html/views/index/contact.php");
+        exit();
+    }
+
+    if (!isset($_SESSION['turn'])) {
+        $_SESSION['turn'] = 0;
+    }
+
+
+    if (!password_verify($password, $user['password'])) {
+
+ 
+        $_SESSION['turn']++;
+
+     
+        if ($_SESSION['turn'] >= 3) {
+            $update = $conn->prepare("UPDATE user SET trang_thai = 0 WHERE ho_ten = ?");
+            $update->bind_param("s", $username);
+            $update->execute();
+
+            $_SESSION['error'] = 1;
+            session_unset();
+            header("Location: ../html/views/index/contact.php");
+            exit();
+        }
+
+ 
+        $_SESSION['error'] = "Tên đăng nhập hoặc mật khẩu không đúng.";
+        header("Location: ../html/views/index/login.php");
+        exit();
+    }
+
+    
+    $_SESSION['turn'] = 0;
+
+    session_regenerate_id(true);
+
+    $_SESSION['user_id']  = $user['id'];
+    $_SESSION['username'] = $user['ho_ten'];
+    $_SESSION['role']     = $user['role'];
+    $_SESSION['avatar']   = $user['avatar'];
+
+    if ($user['role'] == 'admin') {
+        $_SESSION['rank'] = $user['rank'];
+    }
+
+    header("Location: ../html/views/index/WebIndex.php");
+    exit();
 }
 ?>

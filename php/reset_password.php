@@ -50,10 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $validToken) {
         if (!$reset) {
             $error = 'Token đã được sử dụng hoặc hết hạn';
         } else {
-            // Cập nhật mật khẩu (KHÔNG MÃ HÓA - chỉ để test)
+            $hash = password_hash($password, PASSWORD_DEFAULT);
             $sql = "UPDATE user SET password = ? WHERE id = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("si", $password, $reset['user_id']);
+            $stmt->bind_param("si", $hash, $reset['user_id']);
             
             if ($stmt->execute()) {
                 // Đánh dấu token đã dùng

@@ -80,6 +80,11 @@ while ($row = mysqli_fetch_assoc($result_bai_viet)) {
 
 <div class="main">
   <header class="header">
+    <button class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
     <h1>Bảng điều khiển</h1>
     <div class="admin-info">
       <?php echo "<p>Xin chào " . $_SESSION['username'] . "</p>"; ?>
@@ -186,7 +191,8 @@ while ($row = mysqli_fetch_assoc($result_bai_viet)) {
     </form>
   </div>
 </div>
-
+<div class="sidebar-overlay"></div>
+<script src="../../js/Main5.js"></script>
 <script>
 function openEditForm(btn) {
   let row = btn.closest("tr");

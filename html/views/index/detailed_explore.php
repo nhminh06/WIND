@@ -129,7 +129,7 @@ $result_laycm = $stmt_laycm->get_result();
                 <p>Chưa có nội dung chi tiết.</p>
             <?php endif; ?>
 
-            <button onclick="window.location.href='detailed_tour.php?id=<?php echo $bai_viet['tour_id']; ?>'" class="xemchuyendi">Xem chuyến đi</button>
+            <button onclick="window.location.href='detailed_tour.php?id=<?php echo $bai_viet['tour_id']??''; ?>'" class="xemchuyendi">Xem chuyến đi</button>
         </div>
         
         <div class="detailed_explore_container_qt ex_card fade-right">

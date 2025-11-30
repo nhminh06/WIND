@@ -15,6 +15,12 @@
 
           <?php 
           $matour = $_GET['id'];
+
+          if($matour == ''){
+            header("Location: empty.php");
+            exit();
+
+          }
           ?>
         <div class="detailed_tour_container">
           <h1><?php

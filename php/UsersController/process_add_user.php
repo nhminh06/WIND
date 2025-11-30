@@ -78,7 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
     
-    // Thêm user vào database (không mã hóa mật khẩu)
+    // Thêm user vào database (mã hóa mật khẩu)
+    $hash = password_hash($password, PASSWORD_DEFAULT);
     $sql = "INSERT INTO user (ho_ten, email, sdt, password, role, trang_thai, dia_chi, ngay_sinh, gioi_tinh, created_at) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
     
@@ -96,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ho_ten, 
         $email, 
         $sdt, 
-        $password, 
+        $hash, 
         $role, 
         $trang_thai, 
         $dia_chi, 

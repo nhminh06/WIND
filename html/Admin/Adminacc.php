@@ -21,10 +21,10 @@ if(mysqli_num_rows($result) > 0){
 <meta charset="UTF-8">
 <title>Admin - Cài đặt</title>
 <link rel="stylesheet" href="../../css/Admin.css">
-<link rel="stylesheet" href="../../css/AdminSettings.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 <style>
 .content { padding: 0 !important; }
+
 </style>
 </head>
 <body>
@@ -203,7 +203,6 @@ if(mysqli_num_rows($result) > 0){
     </section>
 </div>
 <div class="sidebar-overlay"></div>
-
 <script src="../../js/Main5.js"></script>
 
 <script>

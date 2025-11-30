@@ -15,7 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if($current_password === $hashed_password){
             if($new_password === $confirm_password){
-                $update_sql = "UPDATE user SET password = '$new_password' WHERE id = $user_id";
+                $hash = password_hash($new_password, PASSWORD_DEFAULT);
+                $update_sql = "UPDATE user SET password = '$hash' WHERE id = $user_id";
                 if(mysqli_query($conn, $update_sql)){
                     $_SESSION['thanhcong'] = 1;
                     if($_SESSION['role'] == 'admin'){
