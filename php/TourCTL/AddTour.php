@@ -19,14 +19,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $gianuoilon = $_POST['giaNguoiLon'];
     $giatreem = $_POST['giaTreEm'];
     $giatrenho = $_POST['giaTreNho'];
+    $vitri = $_POST['vitri'];
     $diemKhoiHanh = $_POST['diemKhoiHanh'];
     $dichVu = $_POST['dichVu'];       // textarea nhiều dòng
     $loTrinh = $_POST['loTrinh'];     // textarea nhiều dòng
     $traiNghiem = $_POST['traiNghiem']; // textarea nhiều dòng
 
     // --- Thêm tour ---
-    $sql = "INSERT INTO tour (ten_tour, hinh_anh, so_ngay, gia, trang_thai, loai_banner)
-            VALUES ('$tentour', '$anhDaiDien', '$songay', '$gianuoilon', 1, '$loaitour')";
+    $sql = "INSERT INTO tour (ten_tour, hinh_anh, so_ngay, gia, trang_thai, loai_banner ,vi_tri)
+            VALUES ('$tentour', '$anhDaiDien', '$songay', '$gianuoilon', 1, '$loaitour', '$vitri')";
     mysqli_query($conn, $sql);
     $tour_id = mysqli_insert_id($conn);
 

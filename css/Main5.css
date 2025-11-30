@@ -2645,6 +2645,54 @@ display: flex;
     font-weight: bold;
 
 }
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 40px 0;
+    padding: 20px;
+}
+
+.pagination a,
+.pagination span {
+    padding: 10px 16px;
+    text-decoration: none;
+    background: white;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.pagination a:hover {
+    background: linear-gradient(135deg, #43d399, #68e0cf);
+    color: white;
+    border-color: #3cd155;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+}
+
+.pagination .active {
+   background: linear-gradient(135deg, #4ef7b3, #3ad0bc);
+    color: white;
+    border-color: #11cd31;
+    cursor: default;
+}
+
+.pagination .disabled {
+    background: #f5f5f5;
+    color: #ccc;
+    cursor: not-allowed;
+    border-color: #ddd;
+}
+
+.pagination .prev-next {
+    font-weight: bold;
+    padding: 10px 20px;
+}
+
 .tour_time{
     padding: 10px;
     display: flex;
