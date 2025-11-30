@@ -21,10 +21,10 @@ if(mysqli_num_rows($result) > 0){
 <meta charset="UTF-8">
 <title>Admin - Cài đặt</title>
 <link rel="stylesheet" href="../../css/Admin.css">
-<link rel="stylesheet" href="../../css/AdminSettings.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 <style>
 .content { padding: 0 !important; }
+
 </style>
 </head>
 <body>
@@ -36,6 +36,11 @@ if(mysqli_num_rows($result) > 0){
 
 <div class="main">
     <header class="header">
+         <button class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
         <h1>Bảng điều khiển</h1>
         <div class="admin-info">
             <p>Xin chào <?= $_SESSION['username']; ?></p>
@@ -197,6 +202,8 @@ if(mysqli_num_rows($result) > 0){
         </div>
     </section>
 </div>
+<div class="sidebar-overlay"></div>
+<script src="../../js/Main5.js"></script>
 
 <script>
 const tabs = document.querySelectorAll('.settings-tab');

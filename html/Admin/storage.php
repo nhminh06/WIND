@@ -1,43 +1,54 @@
 <?php
 session_start();
 include '../../db/db.php';
-$sql_khieunai_archive = "SELECT * FROM khieu_nai 
-                         WHERE trang_thai = 2 
-                         AND created_at >= DATE_SUB(NOW(), INTERVAL 1 DAY)
-                         ORDER BY created_at DESC";
-$result_khieunai_archive = mysqli_query($conn, $sql_khieunai_archive);
 
-// Lấy danh sách góp ý đã lưu trữ trong 1 ngày
-$sql_gopy_archive = "SELECT * FROM gop_y 
-                     WHERE trang_thai = 2 
-                     AND created_at >= DATE_SUB(NOW(), INTERVAL 1 DAY)
-                     ORDER BY created_at DESC";
-$result_gopy_archive = mysqli_query($conn, $sql_gopy_archive);
+// Phân trang cho Khiếu nại
+$records_per_page_khieunai = 3;
+$current_page_khieunai = isset($_GET['page_kn']) ? max(1, (int)$_GET['page_kn']) : 1;
+$offset_khieunai = ($current_page_khieunai - 1) * $records_per_page_khieunai;
 
-// Đếm số lượng từ kết quả truy vấn
-$count_khieunai_archive = mysqli_num_rows($result_khieunai_archive);
-$count_gopy_archive = mysqli_num_rows($result_gopy_archive);
+// Phân trang cho Góp ý
+$records_per_page_gopy = 3;
+$current_page_gopy = isset($_GET['page_gy']) ? max(1, (int)$_GET['page_gy']) : 1;
+$offset_gopy = ($current_page_gopy - 1) * $records_per_page_gopy;
 
-// Tổng số lưu trữ trong 1 ngày (khiếu nại + góp ý)
-$total_archived_1day = $count_khieunai_archive + $count_gopy_archive;
+// Đếm tổng số khiếu nại đã lưu trữ
+$sql_count_khieunai = "SELECT COUNT(*) as total FROM khieu_nai WHERE trang_thai = 2";
+$result_count_khieunai = mysqli_query($conn, $sql_count_khieunai);
+$count_khieunai = mysqli_fetch_assoc($result_count_khieunai)['total'];
+$total_pages_khieunai = ceil($count_khieunai / $records_per_page_khieunai);
 
+// Đếm tổng số góp ý đã lưu trữ
+$sql_count_gopy = "SELECT COUNT(*) as total FROM gop_y WHERE trang_thai = 2";
+$result_count_gopy = mysqli_query($conn, $sql_count_gopy);
+$count_gopy = mysqli_fetch_assoc($result_count_gopy)['total'];
+$total_pages_gopy = ceil($count_gopy / $records_per_page_gopy);
 
-// Lấy danh sách khiếu nại đã lưu trữ
-$sql_khieunai = "SELECT * FROM khieu_nai WHERE trang_thai = 2 ORDER BY created_at DESC";
-$result_khieunai = mysqli_query($conn, $sql_khieunai);
-
-// Lấy danh sách góp ý đã lưu trữ
-$sql_gopy = "SELECT * FROM gop_y WHERE trang_thai = 2 ORDER BY created_at DESC";
-$result_gopy = mysqli_query($conn, $sql_gopy);
-
-// Đếm số lượng
-$count_khieunai = mysqli_num_rows($result_khieunai);
-$count_gopy = mysqli_num_rows($result_gopy);
+// Tổng lưu trữ
 $total_archived = $count_khieunai + $count_gopy;
 
-// Reset pointer
-mysqli_data_seek($result_khieunai, 0);
-mysqli_data_seek($result_gopy, 0);
+// Đếm lưu trữ trong 1 ngày
+$sql_khieunai_archive = "SELECT COUNT(*) as total FROM khieu_nai 
+                         WHERE trang_thai = 2 
+                         AND created_at >= DATE_SUB(NOW(), INTERVAL 1 DAY)";
+$result_khieunai_archive = mysqli_query($conn, $sql_khieunai_archive);
+$count_khieunai_archive = mysqli_fetch_assoc($result_khieunai_archive)['total'];
+
+$sql_gopy_archive = "SELECT COUNT(*) as total FROM gop_y 
+                     WHERE trang_thai = 2 
+                     AND created_at >= DATE_SUB(NOW(), INTERVAL 1 DAY)";
+$result_gopy_archive = mysqli_query($conn, $sql_gopy_archive);
+$count_gopy_archive = mysqli_fetch_assoc($result_gopy_archive)['total'];
+
+$total_archived_1day = $count_khieunai_archive + $count_gopy_archive;
+
+// Lấy danh sách khiếu nại đã lưu trữ với phân trang
+$sql_khieunai = "SELECT * FROM khieu_nai WHERE trang_thai = 2 ORDER BY created_at DESC LIMIT $records_per_page_khieunai OFFSET $offset_khieunai";
+$result_khieunai = mysqli_query($conn, $sql_khieunai);
+
+// Lấy danh sách góp ý đã lưu trữ với phân trang
+$sql_gopy = "SELECT * FROM gop_y WHERE trang_thai = 2 ORDER BY created_at DESC LIMIT $records_per_page_gopy OFFSET $offset_gopy";
+$result_gopy = mysqli_query($conn, $sql_gopy);
 
 // Hàm tính thời gian
 function time_elapsed_string($datetime) {
@@ -68,6 +79,8 @@ function time_elapsed_string($datetime) {
     }
     
    
+    
+   
 </style>
 
 <body>
@@ -79,6 +92,11 @@ function time_elapsed_string($datetime) {
 
 <div class="main">
     <header class="header">
+         <button class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
         <h1>Lưu trữ liên hệ</h1>
         <div class="admin-info">
             <p>Xin chào <?php echo $_SESSION['username']; ?></p>
@@ -87,9 +105,6 @@ function time_elapsed_string($datetime) {
     </header>
 
     <section class="content">
-        
-        <!-- Archive Info Header -->
-      
 
         <!-- Stats Cards -->
         <div class="stats-grid">
@@ -122,7 +137,7 @@ function time_elapsed_string($datetime) {
             </div>
         </div>
 
-          <div class="archive-header-info">
+        <div class="archive-header-info">
             <i class="bi bi-archive-fill"></i>
             <div>
                 <h2>Lưu trữ liên hệ</h2>
@@ -202,6 +217,54 @@ function time_elapsed_string($datetime) {
                 </div>
                 <?php endwhile; ?>
             </div>
+
+            <!-- Pagination cho Khiếu nại -->
+            <?php if ($total_pages_khieunai > 1): ?>
+            <div class="pagination-container">
+                <div class="pagination-info">
+                    Trang <?php echo $current_page_khieunai; ?> / <?php echo $total_pages_khieunai; ?> 
+                    (<?php echo $count_khieunai; ?> khiếu nại)
+                </div>
+                
+                <ul class="pagination">
+                    <!-- Previous Page -->
+                    <?php if ($current_page_khieunai > 1): ?>
+                    <li>
+                        <a href="?page_kn=<?php echo $current_page_khieunai - 1; ?>&page_gy=<?php echo $current_page_gopy; ?>">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
+                    <?php else: ?>
+                    <li><span class="disabled"><i class="bi bi-chevron-left"></i></span></li>
+                    <?php endif; ?>
+                    
+                    <!-- Page Numbers -->
+                    <?php for ($i = 1; $i <= $total_pages_khieunai; $i++): ?>
+                    <li>
+                        <?php if ($i == $current_page_khieunai): ?>
+                            <span class="active"><?php echo $i; ?></span>
+                        <?php else: ?>
+                            <a href="?page_kn=<?php echo $i; ?>&page_gy=<?php echo $current_page_gopy; ?>">
+                                <?php echo $i; ?>
+                            </a>
+                        <?php endif; ?>
+                    </li>
+                    <?php endfor; ?>
+                    
+                    <!-- Next Page -->
+                    <?php if ($current_page_khieunai < $total_pages_khieunai): ?>
+                    <li>
+                        <a href="?page_kn=<?php echo $current_page_khieunai + 1; ?>&page_gy=<?php echo $current_page_gopy; ?>">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                    <?php else: ?>
+                    <li><span class="disabled"><i class="bi bi-chevron-right"></i></span></li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+            <?php endif; ?>
+
             <?php else: ?>
             <div class="empty-archive">
                 <i class="bi bi-inbox"></i>
@@ -261,6 +324,54 @@ function time_elapsed_string($datetime) {
                 </div>
                 <?php endwhile; ?>
             </div>
+
+            <!-- Pagination cho Góp ý -->
+            <?php if ($total_pages_gopy > 1): ?>
+            <div class="pagination-container">
+                <div class="pagination-info">
+                    Trang <?php echo $current_page_gopy; ?> / <?php echo $total_pages_gopy; ?> 
+                    (<?php echo $count_gopy; ?> góp ý)
+                </div>
+                
+                <ul class="pagination">
+                    <!-- Previous Page -->
+                    <?php if ($current_page_gopy > 1): ?>
+                    <li>
+                        <a href="?page_kn=<?php echo $current_page_khieunai; ?>&page_gy=<?php echo $current_page_gopy - 1; ?>">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
+                    <?php else: ?>
+                    <li><span class="disabled"><i class="bi bi-chevron-left"></i></span></li>
+                    <?php endif; ?>
+                    
+                    <!-- Page Numbers -->
+                    <?php for ($i = 1; $i <= $total_pages_gopy; $i++): ?>
+                    <li>
+                        <?php if ($i == $current_page_gopy): ?>
+                            <span class="active"><?php echo $i; ?></span>
+                        <?php else: ?>
+                            <a href="?page_kn=<?php echo $current_page_khieunai; ?>&page_gy=<?php echo $i; ?>">
+                                <?php echo $i; ?>
+                            </a>
+                        <?php endif; ?>
+                    </li>
+                    <?php endfor; ?>
+                    
+                    <!-- Next Page -->
+                    <?php if ($current_page_gopy < $total_pages_gopy): ?>
+                    <li>
+                        <a href="?page_kn=<?php echo $current_page_khieunai; ?>&page_gy=<?php echo $current_page_gopy + 1; ?>">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                    <?php else: ?>
+                    <li><span class="disabled"><i class="bi bi-chevron-right"></i></span></li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+            <?php endif; ?>
+
             <?php else: ?>
             <div class="empty-archive">
                 <i class="bi bi-inbox"></i>
@@ -272,7 +383,9 @@ function time_elapsed_string($datetime) {
 
     </section>
 </div>
+<div class="sidebar-overlay"></div>
 
+<script src="../../js/Main5.js"></script>
 <script>
 // Filter functions
 function filterAll() {
@@ -332,14 +445,20 @@ function searchItems() {
 // Restore item function
 function restoreItem(id, table) {
     if(confirm("Bạn có chắc muốn khôi phục mục này?")) {
-        window.location.href = "../../php/ContactCTL/restore_contact.php?id=" + id + "&table=" + table;
+        const urlParams = new URLSearchParams(window.location.search);
+        const pageKn = urlParams.get('page_kn') || 1;
+        const pageGy = urlParams.get('page_gy') || 1;
+        window.location.href = "../../php/ContactCTL/restore_contact.php?id=" + id + "&table=" + table + "&page_kn=" + pageKn + "&page_gy=" + pageGy;
     }
 }
 
 // Delete forever function
 function deleteForever(id, table) {
     if(confirm("CẢNH BÁO: Bạn có chắc chắn muốn xóa vĩnh viễn mục này không?\n\nHành động này không thể hoàn tác!")) {
-        window.location.href = "../../php/ContactCTL/delete_contact.php?id=" + id + "&table=" + table  + "&from=storage";
+        const urlParams = new URLSearchParams(window.location.search);
+        const pageKn = urlParams.get('page_kn') || 1;
+        const pageGy = urlParams.get('page_gy') || 1;
+        window.location.href = "../../php/ContactCTL/delete_contact.php?id=" + id + "&table=" + table + "&from=storage&page_kn=" + pageKn + "&page_gy=" + pageGy;
     }
 }
 

@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['id'])) {
     $gianuoilon = mysqli_real_escape_string($conn, $_POST['giaNguoiLon']);
     $giatreem = mysqli_real_escape_string($conn, $_POST['giaTreEm']);
     $giatrenho = mysqli_real_escape_string($conn, $_POST['giaTreNho']);
+    $vitri = mysqli_real_escape_string($conn, $_POST['vitri']);
     $diemKhoiHanh = mysqli_real_escape_string($conn, $_POST['diemKhoiHanh']);
     $dichVu = $_POST['dichVu'];
     $loTrinh = $_POST['loTrinh'];
@@ -43,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['id'])) {
                 so_ngay = '$songay',
                 gia = '$gianuoilon',
                 loai_banner = '$loaitour'
+                ,vi_tri = '$vitri'
             WHERE id = '$tour_id'";
     
     if (!mysqli_query($conn, $sql)) {

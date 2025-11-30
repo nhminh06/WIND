@@ -123,8 +123,8 @@
                         <label for="loaiTour" class="form-label">Loại Tour</label>
                         <select id="loaiTour" name="loaiTour" class="form-select">
                             <option selected disabled>-- Chọn loại tour --</option>
-                            <option value="1" <?php echo ($tour['loai_banner'] == 1) ? 'selected' : ''; ?>>Trong nước</option>
-                            <option value="2" <?php echo ($tour['loai_banner'] == 2) ? 'selected' : ''; ?>>Nước ngoài</option>
+                            <option value="1" <?php echo ($tour['loai_banner'] == 1) ? 'selected' : ''; ?>>Trong ngày</option>
+                            <option value="2" <?php echo ($tour['loai_banner'] == 2) ? 'selected' : ''; ?>>Dài ngày</option>
                         </select>
                     </div>
 
@@ -157,6 +157,10 @@
                         <label for="giaTreNho" class="form-label">Giá trẻ nhỏ (&lt; 2 tuổi)</label>
                         <input type="number" value="<?php echo $tour['gia_tre_nho']; ?>" class="form-control" id="giaTreNho" name="giaTreNho" placeholder="VD: 1000000">
                     </div>
+                       <div class="col-md-12">
+                        <label class="form-label">Vị trí trực thuộc</label>
+                        <input name="vitri" class="form-control" value="<?php echo $tour['vi_tri']; ?>">
+                        </div>
 
                     <div class="col-md-6">
                         <label for="anhDaiDien" class="form-label">Ảnh đại diện</label>

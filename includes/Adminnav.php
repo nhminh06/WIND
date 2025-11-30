@@ -21,9 +21,11 @@
     <?php 
     if(isset($_SESSION['thanhcong'])) {
         if($_SESSION['thanhcong'] == 1) {
-            echo '<i class="bi bi-bookmark-check"></i> Chỉnh sửa thành công!';
+            echo '<i class="bi bi-bookmark-check"></i> ' . $_SESSION["ketqua"] . '!';
+            unset($_SESSION['ketqua']);
         } else {
-            echo '<i class="bi bi-x-circle"></i> Chỉnh sửa thất bại!';
+            echo '<i class="bi bi-x-circle"></i> ' . $_SESSION["ketqua"] . '!';
+            unset($_SESSION['ketqua']);
         }
         unset($_SESSION['thanhcong']);
     }

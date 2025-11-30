@@ -5,77 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bài viết không tồn tại</title>
   <style>
-@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: #8590a4;
+      color: #ffffffff;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-body {
-  padding: 0;
-  margin: 0;
-}
+    .container {
+      text-align: center;
+      padding: 50px 70px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      background: url(http://www.supah.it/dribbble/008/008.jpg);
+    }
 
-.error-wrapper {
-  min-height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  animation: errorBackground linear 2s alternate infinite;
-  background-image: radial-gradient(ellipse at center, transparent 0%,#333333 100%);
-  background-size: 100vmax 100vmax;
-  background-repeat: no-repeat;
-  background-position: 50%;
-}
-
-.error-message { 
-  position: fixed;
-  top: 20px;
-  padding: 5vmin;
-  box-sizing: border-box;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 40vh;
-  font-family: 'Press Start 2p', monospace;
-  text-shadow: 
-  .5vmin .5vmin 0 #000000, 
-  -.5vmin .5vmin 0 #000000, 
-  .5vmin -.5vmin 0 #000000, 
-  -.5vmin -.5vmin 0 #000000,
-    
-  .5vmin 0 0 #000000, 
-  -.5vmin 0 0 #000000, 
-  0 -.5vmin 0 #000000, 
-  0 .5vmin 0 #000000;
-  color: #ffffff;
-  
-  h1 {
-    font-size: 10vmin;
-    margin-top: 0;
-    margin-bottom: 5vmin;
-    text-align: center;
-  }
+    h1 {
+      font-size: 100px;
+        color: white;
+      margin-bottom: 10px;
+    }
 
   h2 {
     font-size: 6vmin;
     margin: 0;
     text-align: center;
   }
-}
 
-svg {
-  height: 60vh;
-  width: 100vw;
-  position: fixed;
-  bottom: 0;
-}
+    p {
+      color: #ffffffff;
+      margin-bottom: 25px;
+    }
 
+    a {
+      text-decoration: none;
+      background: linear-gradient(135deg, #586174ff, #ffffffff);
+      color: #fff;
+      padding: 10px 25px;
+      border-radius: 6px;
+      
+    }
 
-.rightclaw { visibility: hidden; }
-@keyframes errorBackground {
-  from{background-color: #ffaaaa;}
-  to {background-color: #aaaaff;}
-}
+    a:hover {
+      background: linear-gradient(135deg, #84868cff, #e5dfe7ff)
+    }
   </style>
 </head>
 <body>

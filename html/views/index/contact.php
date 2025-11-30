@@ -1,4 +1,13 @@
-<?php session_start(); ?>
+<?php session_start(); 
+include '../../../db/db.php';
+if (isset($_SESSION['user_id'])) {
+    $id = $_SESSION['user_id'];
+$sql = "SELECT * FROM user WHERE id = $id";
+$result = mysqli_query($conn, $sql);
+$user = mysqli_fetch_assoc($result);
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,8 +63,8 @@
 <p>Giờ làm việc: 08:00 - 17:00 (Thứ 2 - Thứ 7)</p>
 </li>
                        </ul>   
-                       <input name="name" type="text" placeholder="Tên tài khoản">
-                       <input name="email" type="email" placeholder="Nhập vào Email">
+                       <input value="<?php echo $user['ho_ten']?? '' ?>" name="name" type="text" placeholder="Tên tài khoản">
+                       <input value="<?php echo $user['email']?? '' ?>" name="email" type="email" placeholder="Nhập vào Email">
                       <textarea name="message" placeholder="Nội dung" id=""></textarea>
                                 <div class="contact_type">
               <label  class="type"><input  type="radio" name="type" value="1"> Tôi muốn gửi góp ý</label><br>

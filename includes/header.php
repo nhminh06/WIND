@@ -104,7 +104,44 @@ echo "
 <button type="submit">Tìm kiếm</button>
 </form>
 <div class="rcp_avt">
-<img src="https://i.pinimg.com/1200x/ce/5f/d3/ce5fd3590095d2aabe3ad6f6203dfe70.jpg" alt="">
+<?php
+include '../../../db/db.php';
+
+// Giá trị mặc định
+$avatar = 'img/avatamacdinh.png';
+
+// Kiểm tra nếu user_id tồn tại trong session
+if(isset($_SESSION['user_id'])) {
+    $user_id = intval($_SESSION['user_id']); // tránh lỗi SQL
+
+    $sqlll = "SELECT avatar FROM user WHERE id = $user_id";
+    $resulttt = mysqli_query($conn, $sqlll);
+
+    if($resulttt && mysqli_num_rows($resulttt) > 0){
+        $roww = mysqli_fetch_assoc($resulttt);
+        if(!empty($roww['avatar'])){
+            $avatar = $roww['avatar']; // dùng avatar từ DB
+        }
+    }
+}
+
+// Xác định link dựa trên role
+if (!isset($_SESSION['role'])) {
+    $link = "../index/note.php";
+} elseif ($_SESSION['role'] === 'staff') {
+    $link = "../../staff/StaffProfile.php";
+} elseif ($_SESSION['role'] === 'admin') {
+    $link = "../../Admin/Adminacc.php";
+} else {
+    $link = "../user/users.php";
+}
+
+// Hiển thị avatar
+echo "
+<div class='users_avata' onclick=\"window.location.href='$link'\">
+  <img src='../../../$avatar' alt='Avatar'>
+</div>";
+?>
 </div>
 </div>
 </div>

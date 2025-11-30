@@ -7,7 +7,43 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $loai_filter = isset($_GET['loai']) ? intval($_GET['loai']) : 0;
 $sort = isset($_GET['sort']) ? $_GET['sort'] : 'newest';
 
-// ✅ ĐÃ SỬA: dùng bv.id thay vì bv.bai_viet_id
+// Phân trang
+$records_per_page = 10;
+$current_page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+$offset = ($current_page - 1) * $records_per_page;
+
+// Đếm tổng số bản ghi
+$sql_count = "SELECT COUNT(*) as total 
+FROM bai_viet bv
+LEFT JOIN khampha k ON bv.khampha_id = k.khampha_id
+WHERE 1=1";
+
+if (!empty($search)) {
+    $sql_count .= " AND bv.tieu_de LIKE ?";
+}
+
+if ($loai_filter > 0) {
+    $sql_count .= " AND k.loai_id = ?";
+}
+
+$stmt_count = $conn->prepare($sql_count);
+
+if (!empty($search) && $loai_filter > 0) {
+    $search_param = "%$search%";
+    $stmt_count->bind_param("si", $search_param, $loai_filter);
+} elseif (!empty($search)) {
+    $search_param = "%$search%";
+    $stmt_count->bind_param("s", $search_param);
+} elseif ($loai_filter > 0) {
+    $stmt_count->bind_param("i", $loai_filter);
+}
+
+$stmt_count->execute();
+$result_count = $stmt_count->get_result();
+$total_records = $result_count->fetch_assoc()['total'];
+$total_pages = ceil($total_records / $records_per_page);
+
+// Query chính
 $sql = "SELECT 
     bv.id AS bai_viet_id, 
     bv.tieu_de, 
@@ -24,7 +60,6 @@ $sql = "SELECT
 FROM bai_viet bv
 LEFT JOIN khampha k ON bv.khampha_id = k.khampha_id
 WHERE 1=1";
-
 
 // Thêm điều kiện tìm kiếm
 if (!empty($search)) {
@@ -49,18 +84,23 @@ switch ($sort) {
         break;
 }
 
+// Thêm LIMIT và OFFSET
+$sql .= " LIMIT ? OFFSET ?";
+
 // Chuẩn bị và thực thi query
 $stmt = $conn->prepare($sql);
 
 // Bind parameters
 if (!empty($search) && $loai_filter > 0) {
     $search_param = "%$search%";
-    $stmt->bind_param("si", $search_param, $loai_filter);
+    $stmt->bind_param("siii", $search_param, $loai_filter, $records_per_page, $offset);
 } elseif (!empty($search)) {
     $search_param = "%$search%";
-    $stmt->bind_param("s", $search_param);
+    $stmt->bind_param("sii", $search_param, $records_per_page, $offset);
 } elseif ($loai_filter > 0) {
-    $stmt->bind_param("i", $loai_filter);
+    $stmt->bind_param("iii", $loai_filter, $records_per_page, $offset);
+} else {
+    $stmt->bind_param("ii", $records_per_page, $offset);
 }
 
 $stmt->execute();
@@ -90,7 +130,9 @@ $stats = $result_stats->fetch_assoc();
         tbody tr:hover {
             background: #414242ff;
         }
-   
+        
+        /* Pagination Styles */
+     
     </style>
 </head>
 <body>
@@ -101,6 +143,11 @@ $stats = $result_stats->fetch_assoc();
 
   <div class="main">
     <header class="header">
+       <button class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
       <h1>Quản lý bài viết</h1>
       <div class="admin-info">
         <?php echo "<p>Xin chào " . (isset($_SESSION['username']) ? $_SESSION['username'] : 'Admin') . "</p>"; ?>
@@ -176,6 +223,7 @@ $stats = $result_stats->fetch_assoc();
           <option value="oldest" <?php echo ($sort == 'oldest') ? 'selected' : ''; ?>>Cũ nhất</option>
           <option value="name" <?php echo ($sort == 'name') ? 'selected' : ''; ?>>Tên A-Z</option>
         </select>
+        <input type="hidden" name="page" value="<?php echo $current_page; ?>">
       </form>
 
       <!-- Table -->
@@ -212,8 +260,6 @@ $stats = $result_stats->fetch_assoc();
                     case '3':
                         $badge_class = 'badge-vănhóa';
                         break;
-                 
-                   
                 }
                 ?>
                 <span class="badge <?php echo $badge_class; ?>"><?php echo $row['ten_loai']; ?></span>
@@ -226,6 +272,7 @@ $stats = $result_stats->fetch_assoc();
                 <?php else: ?>
                   <span class="badge badge-vănhóa" style="background: #f8d7da; color: #721c24;">Đã ẩn</span>
                 <?php endif; ?>
+              </td>
               <td>
                 <div class="action-buttons">
                   <a href="hide_article.php?id=<?php echo $row['bai_viet_id']; ?>" class="btn-icon btn-view" title="Xem chi tiết">
@@ -243,7 +290,7 @@ $stats = $result_stats->fetch_assoc();
               <?php endwhile; ?>
             <?php else: ?>
             <tr>
-              <td colspan="6">
+              <td colspan="7">
                 <div class="no-data">
                   <i class="bi bi-inbox"></i>
                   <p>Không tìm thấy bài viết nào</p>
@@ -254,15 +301,111 @@ $stats = $result_stats->fetch_assoc();
           </tbody>
         </table>
       </div>
+
+      <!-- Pagination -->
+      <?php if ($total_pages > 1): ?>
+      <div class="pagination-container">
+        <div class="pagination-info">
+          Hiển thị <?php echo $offset + 1; ?> - <?php echo min($offset + $records_per_page, $total_records); ?> 
+          trong tổng số <?php echo $total_records; ?> bài viết
+        </div>
+        
+        <ul class="pagination">
+          <!-- First Page -->
+          <?php if ($current_page > 1): ?>
+          <li>
+            <a href="?page=1&search=<?php echo urlencode($search); ?>&loai=<?php echo $loai_filter; ?>&sort=<?php echo $sort; ?>">
+              <i class="bi bi-chevron-double-left"></i>
+            </a>
+          </li>
+          <?php endif; ?>
+          
+          <!-- Previous Page -->
+          <?php if ($current_page > 1): ?>
+          <li>
+            <a href="?page=<?php echo $current_page - 1; ?>&search=<?php echo urlencode($search); ?>&loai=<?php echo $loai_filter; ?>&sort=<?php echo $sort; ?>">
+              <i class="bi bi-chevron-left"></i>
+            </a>
+          </li>
+          <?php else: ?>
+          <li><span class="disabled"><i class="bi bi-chevron-left"></i></span></li>
+          <?php endif; ?>
+          
+          <!-- Page Numbers -->
+          <?php
+          $start_page = max(1, $current_page - 2);
+          $end_page = min($total_pages, $current_page + 2);
+          
+          if ($start_page > 1) {
+              echo '<li><a href="?page=1&search=' . urlencode($search) . '&loai=' . $loai_filter . '&sort=' . $sort . '">1</a></li>';
+              if ($start_page > 2) {
+                  echo '<li><span>...</span></li>';
+              }
+          }
+          
+          for ($i = $start_page; $i <= $end_page; $i++):
+          ?>
+          <li>
+            <?php if ($i == $current_page): ?>
+              <span class="active"><?php echo $i; ?></span>
+            <?php else: ?>
+              <a href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>&loai=<?php echo $loai_filter; ?>&sort=<?php echo $sort; ?>">
+                <?php echo $i; ?>
+              </a>
+            <?php endif; ?>
+          </li>
+          <?php 
+          endfor;
+          
+          if ($end_page < $total_pages) {
+              if ($end_page < $total_pages - 1) {
+                  echo '<li><span>...</span></li>';
+              }
+              echo '<li><a href="?page=' . $total_pages . '&search=' . urlencode($search) . '&loai=' . $loai_filter . '&sort=' . $sort . '">' . $total_pages . '</a></li>';
+          }
+          ?>
+          
+          <!-- Next Page -->
+          <?php if ($current_page < $total_pages): ?>
+          <li>
+            <a href="?page=<?php echo $current_page + 1; ?>&search=<?php echo urlencode($search); ?>&loai=<?php echo $loai_filter; ?>&sort=<?php echo $sort; ?>">
+              <i class="bi bi-chevron-right"></i>
+            </a>
+          </li>
+          <?php else: ?>
+          <li><span class="disabled"><i class="bi bi-chevron-right"></i></span></li>
+          <?php endif; ?>
+          
+          <!-- Last Page -->
+          <?php if ($current_page < $total_pages): ?>
+          <li>
+            <a href="?page=<?php echo $total_pages; ?>&search=<?php echo urlencode($search); ?>&loai=<?php echo $loai_filter; ?>&sort=<?php echo $sort; ?>">
+              <i class="bi bi-chevron-double-right"></i>
+            </a>
+          </li>
+          <?php endif; ?>
+        </ul>
+      </div>
+      <?php endif; ?>
     </section>
   </div>
-
+  <div class="sidebar-overlay"></div>
+<script src="../../js/Main5.js"></script>
   <script>
     function confirmDelete(id) {
       if (confirm('Bạn có chắc chắn muốn xóa bài viết này?\nHành động này không thể hoàn tác!')) {
         window.location.href = '../../php/ArticleCTL/delete_article.php?id=' + id;
       }
     }
+
+    // Auto hide alerts after 5 seconds
+    setTimeout(function() {
+      const alerts = document.querySelectorAll('.alert');
+      alerts.forEach(alert => {
+        alert.style.opacity = '0';
+        setTimeout(() => alert.remove(), 300);
+      });
+    }, 5000);
   </script>
 </body>
 </html>

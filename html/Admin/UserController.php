@@ -14,6 +14,49 @@ $role_filter = isset($_GET['role']) ? $_GET['role'] : '';
 $status_filter = isset($_GET['status']) ? $_GET['status'] : '';
 $sort = isset($_GET['sort']) ? $_GET['sort'] : 'newest';
 
+// Phân trang
+$records_per_page = 10;
+$current_page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+$offset = ($current_page - 1) * $records_per_page;
+
+// Đếm tổng số bản ghi
+$sql_count = "SELECT COUNT(*) as total FROM user WHERE 1=1";
+
+$count_params = [];
+$count_types = '';
+
+if (!empty($search)) {
+    $sql_count .= " AND (ho_ten LIKE ? OR email LIKE ? OR sdt LIKE ?)";
+    $search_param = "%$search%";
+    $count_params[] = $search_param;
+    $count_params[] = $search_param;
+    $count_params[] = $search_param;
+    $count_types .= 'sss';
+}
+
+if (!empty($role_filter)) {
+    $sql_count .= " AND role = ?";
+    $count_params[] = $role_filter;
+    $count_types .= 's';
+}
+
+if ($status_filter !== '') {
+    $sql_count .= " AND trang_thai = ?";
+    $count_params[] = $status_filter;
+    $count_types .= 'i';
+}
+
+$stmt_count = $conn->prepare($sql_count);
+
+if (!empty($count_params)) {
+    $stmt_count->bind_param($count_types, ...$count_params);
+}
+
+$stmt_count->execute();
+$result_count = $stmt_count->get_result();
+$total_records = $result_count->fetch_assoc()['total'];
+$total_pages = ceil($total_records / $records_per_page);
+
 // Query chính
 $sql = "SELECT * FROM user WHERE 1=1";
 
@@ -45,6 +88,9 @@ switch ($sort) {
         break;
 }
 
+// Thêm LIMIT và OFFSET
+$sql .= " LIMIT ? OFFSET ?";
+
 // Chuẩn bị và thực thi query
 $stmt = $conn->prepare($sql);
 
@@ -70,9 +116,11 @@ if ($status_filter !== '') {
     $types .= 'i';
 }
 
-if (!empty($params)) {
-    $stmt->bind_param($types, ...$params);
-}
+$params[] = $records_per_page;
+$params[] = $offset;
+$types .= 'ii';
+
+$stmt->bind_param($types, ...$params);
 
 $stmt->execute();
 $result = $stmt->get_result();
@@ -159,6 +207,9 @@ $stats = $result_stats->fetch_assoc();
             color: #666;
             margin-right: 5px;
         }
+
+        /* Pagination Styles */
+       
     </style>
 </head>
 <body>
@@ -169,6 +220,11 @@ $stats = $result_stats->fetch_assoc();
 
   <div class="main">
     <header class="header">
+       <button class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
       <h1>Quản lý Người dùng</h1>
       <div class="admin-info">
         <?php echo "<p>Xin chào " . (isset($_SESSION['ho_ten']) ? $_SESSION['ho_ten'] : 'Admin') . "</p>"; ?>
@@ -249,6 +305,7 @@ $stats = $result_stats->fetch_assoc();
           <option value="oldest" <?php echo ($sort == 'oldest') ? 'selected' : ''; ?>>Cũ nhất</option>
           <option value="name" <?php echo ($sort == 'name') ? 'selected' : ''; ?>>Tên A-Z</option>
         </select>
+        <input type="hidden" name="page" value="<?php echo $current_page; ?>">
       </form>
 
       <!-- Table -->
@@ -331,19 +388,12 @@ $stats = $result_stats->fetch_assoc();
                     <i class="bi bi-chat-dots"></i>
                   </a>
 
-
-
-
                   <a href="#" 
                     class="btn-icon btn-edit" 
                     title="Phân quyền" 
                     onclick="openRoleDialog(<?php echo $row['id']; ?>)">
                     <i class="bi bi-person-gear"></i>
                   </a>
-
-
-
-
 
                   <?php if ($row['trang_thai'] == 1): ?>
                   <a href="../../php/UserCTL/lock_user.php?id=<?php echo $row['id']; ?>" 
@@ -382,8 +432,95 @@ $stats = $result_stats->fetch_assoc();
           </tbody>
         </table>
       </div>
+
+      <!-- Pagination -->
+      <?php if ($total_pages > 1): ?>
+      <div class="pagination-container">
+        <div class="pagination-info">
+          Hiển thị <?php echo $offset + 1; ?> - <?php echo min($offset + $records_per_page, $total_records); ?> 
+          trong tổng số <?php echo $total_records; ?> người dùng
+        </div>
+        
+        <ul class="pagination">
+          <!-- First Page -->
+          <?php if ($current_page > 1): ?>
+          <li>
+            <a href="?page=1&search=<?php echo urlencode($search); ?>&role=<?php echo urlencode($role_filter); ?>&status=<?php echo urlencode($status_filter); ?>&sort=<?php echo $sort; ?>">
+              <i class="bi bi-chevron-double-left"></i>
+            </a>
+          </li>
+          <?php endif; ?>
+          
+          <!-- Previous Page -->
+          <?php if ($current_page > 1): ?>
+          <li>
+            <a href="?page=<?php echo $current_page - 1; ?>&search=<?php echo urlencode($search); ?>&role=<?php echo urlencode($role_filter); ?>&status=<?php echo urlencode($status_filter); ?>&sort=<?php echo $sort; ?>">
+              <i class="bi bi-chevron-left"></i>
+            </a>
+          </li>
+          <?php else: ?>
+          <li><span class="disabled"><i class="bi bi-chevron-left"></i></span></li>
+          <?php endif; ?>
+          
+          <!-- Page Numbers -->
+          <?php
+          $start_page = max(1, $current_page - 2);
+          $end_page = min($total_pages, $current_page + 2);
+          
+          if ($start_page > 1) {
+              echo '<li><a href="?page=1&search=' . urlencode($search) . '&role=' . urlencode($role_filter) . '&status=' . urlencode($status_filter) . '&sort=' . $sort . '">1</a></li>';
+              if ($start_page > 2) {
+                  echo '<li><span>...</span></li>';
+              }
+          }
+          
+          for ($i = $start_page; $i <= $end_page; $i++):
+          ?>
+          <li>
+            <?php if ($i == $current_page): ?>
+              <span class="active"><?php echo $i; ?></span>
+            <?php else: ?>
+              <a href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>&role=<?php echo urlencode($role_filter); ?>&status=<?php echo urlencode($status_filter); ?>&sort=<?php echo $sort; ?>">
+                <?php echo $i; ?>
+              </a>
+            <?php endif; ?>
+          </li>
+          <?php 
+          endfor;
+          
+          if ($end_page < $total_pages) {
+              if ($end_page < $total_pages - 1) {
+                  echo '<li><span>...</span></li>';
+              }
+              echo '<li><a href="?page=' . $total_pages . '&search=' . urlencode($search) . '&role=' . urlencode($role_filter) . '&status=' . urlencode($status_filter) . '&sort=' . $sort . '">' . $total_pages . '</a></li>';
+          }
+          ?>
+          
+          <!-- Next Page -->
+          <?php if ($current_page < $total_pages): ?>
+          <li>
+            <a href="?page=<?php echo $current_page + 1; ?>&search=<?php echo urlencode($search); ?>&role=<?php echo urlencode($role_filter); ?>&status=<?php echo urlencode($status_filter); ?>&sort=<?php echo $sort; ?>">
+              <i class="bi bi-chevron-right"></i>
+            </a>
+          </li>
+          <?php else: ?>
+          <li><span class="disabled"><i class="bi bi-chevron-right"></i></span></li>
+          <?php endif; ?>
+          
+          <!-- Last Page -->
+          <?php if ($current_page < $total_pages): ?>
+          <li>
+            <a href="?page=<?php echo $total_pages; ?>&search=<?php echo urlencode($search); ?>&role=<?php echo urlencode($role_filter); ?>&status=<?php echo urlencode($status_filter); ?>&sort=<?php echo $sort; ?>">
+              <i class="bi bi-chevron-double-right"></i>
+            </a>
+          </li>
+          <?php endif; ?>
+        </ul>
+      </div>
+      <?php endif; ?>
     </section>
   </div>
+
 <!-- Hộp thoại phân quyền -->
 <div id="roleDialog" class="overlay" style="display:none;">
   <div class="dialog-box">
@@ -409,7 +546,8 @@ $stats = $result_stats->fetch_assoc();
     </form>
   </div>
 </div>
-
+<div class="sidebar-overlay"></div>
+        <script src="../../js/Main5.js"></script>
   <script>
     function openRoleDialog(id) {
   document.getElementById('userId').value = id;

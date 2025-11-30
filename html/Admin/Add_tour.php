@@ -48,8 +48,8 @@
       <label for="loaiTour" class="form-label">Loại Tour</label>
       <select id="loaiTour" name="loaiTour" class="form-select">
         <option selected disabled>-- Chọn loại tour --</option>
-        <option value="1">Trong nước</option>
-        <option value="2">Nước ngoài</option>
+        <option value="1">Trong ngày</option>
+        <option value="2">Dài ngày</option>
       </select>
     </div>
 
@@ -82,6 +82,10 @@
     <div class="col-md-4">
       <label for="giaTreNho" class="form-label">Giá trẻ nhỏ (&lt; 2 tuổi)</label>
       <input type="number" class="form-control" id="giaTreNho" name="giaTreNho" placeholder="VD: 1000000">
+    </div>
+    <div class="col-md-12">
+      <label class="form-label">Vị trí trực thuộc</label>
+      <input name="vitri" class="form-control">
     </div>
 
     <div class="col-md-6">
