@@ -281,7 +281,10 @@ if (mysqli_num_rows($result_gia) > 0) {
     <div class="total">Tổng Giá Tour:  <span class="highlight">0 VND</span></div>
   </div>
 
-  <button class="submit-button">Yêu cầu đặt</button>
+<button class="submit-button" onclick="window.location.href='booking_form.php?id=<?php echo $matour; ?>'">
+  Yêu cầu đặt
+</button>
+
 </div>
 
                           </div>
@@ -310,7 +313,6 @@ if (mysqli_num_rows($result_gia) > 0) {
 
     <?php } ?>           
                       </div>
-
 
         </div>
 

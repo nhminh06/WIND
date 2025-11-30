@@ -70,7 +70,7 @@ $exps = $exps_result->fetch_all(MYSQLI_ASSOC);
         .main-content {
             margin-left: 250px;
             flex: 1;
-            background: linear-gradient(180deg, #040715ff 0%, #401c64ff 30%, #115069ff 60%, #0a2834ff 100%);
+            background: linear-gradient(180deg, #e8f5e9 0%, #a5d6a7 30%, #66bb6a 60%, #43a047 100%);
             min-height: 100vh;
             position: relative;
         }
@@ -109,7 +109,7 @@ $exps = $exps_result->fetch_all(MYSQLI_ASSOC);
             right: 30px;
             padding: 12px 30px;
             background: white;
-            color: #667eea;
+            color: #28a745;
             border: none;
             border-radius: 25px;
             cursor: pointer;
@@ -138,7 +138,7 @@ $exps = $exps_result->fetch_all(MYSQLI_ASSOC);
         }
 
         .section h3 {
-            color: #667eea;
+            color: #28a745;;
             font-size: 24px;
             margin-bottom: 20px;
             text-align: center;
@@ -162,7 +162,7 @@ $exps = $exps_result->fetch_all(MYSQLI_ASSOC);
             padding: 20px;
             border-radius: 10px;
             text-align: center;
-            border: 2px solid #667eea;
+            border: 2px solid #28a745;
             color: #555;
             font-size: 15px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -173,12 +173,12 @@ $exps = $exps_result->fetch_all(MYSQLI_ASSOC);
             padding: 25px;
             border-radius: 12px;
             margin-bottom: 20px;
-            border-left: 5px solid #764ba2;
+            border-left: 5px solid #28a745;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .experience-card h4 {
-            color: #764ba2;
+            color: #28a745;
             font-size: 18px;
             margin-bottom: 10px;
         }
@@ -226,7 +226,7 @@ $exps = $exps_result->fetch_all(MYSQLI_ASSOC);
         }
 
         .modal-header h2 {
-            color: #667eea;
+            color: #28a745;
             font-size: 28px;
         }
 
@@ -269,7 +269,7 @@ $exps = $exps_result->fetch_all(MYSQLI_ASSOC);
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #28a745;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
@@ -296,7 +296,7 @@ $exps = $exps_result->fetch_all(MYSQLI_ASSOC);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #28a745;
             color: white;
         }
 
@@ -324,14 +324,14 @@ $exps = $exps_result->fetch_all(MYSQLI_ASSOC);
             height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid #667eea;
+            border: 4px solid #28a745;
             margin-bottom: 15px;
         }
 
         .upload-btn {
             display: inline-block;
             padding: 8px 20px;
-            background: #667eea;
+            background: #28a745;
             color: white;
             border-radius: 5px;
             cursor: pointer;
@@ -358,7 +358,7 @@ $exps = $exps_result->fetch_all(MYSQLI_ASSOC);
 
         .add-skill-btn {
             padding: 10px 20px;
-            background: #667eea;
+            background: #28a745;
             color: white;
             border: none;
             border-radius: 5px;

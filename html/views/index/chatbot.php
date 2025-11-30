@@ -31,18 +31,23 @@
     }
 
     @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      0%, 100% { transform: scale(1); box-shadow: 0 8px 24px rgba(18, 183, 37, 0.4); }
+      50% { transform: scale(1.05); box-shadow: 0 12px 32px rgba(18, 183, 37, 0.6); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px) rotate(-5deg); }
+      75% { transform: translateX(5px) rotate(5deg); }
     }
 
     .chat-bubble-btn:hover {
-      transform: scale(1.1);
+      transform: scale(1.1) rotate(5deg);
       box-shadow: 0 12px 32px rgba(18, 154, 99, 0.5);
+      animation: shake 0.5s ease;
     }
 
-    .chat-bubble-btn.active {
-      animation: none;
-    }
+    .chat-bubble-btn.active { animation: none; }
 
     .chat-icon, .close-icon {
       width: 35px;
@@ -59,7 +64,7 @@
       position: absolute;
       top: -4px;
       right: -4px;
-      background: #ff4757;
+      background: linear-gradient(135deg, #ff4757, #ff6b81);
       color: white;
       border-radius: 50%;
       width: 24px;
@@ -70,12 +75,17 @@
       font-size: 12px;
       font-weight: bold;
       border: 3px solid white;
-      animation: bounce 0.5s ease infinite alternate;
+      animation: bounce 0.5s ease infinite alternate, pulse-ring 2s infinite;
     }
 
     @keyframes bounce {
       from { transform: translateY(0); }
       to { transform: translateY(-4px); }
+    }
+
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
+      100% { box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
     }
 
     .notification-badge.hidden { display: none; }
@@ -120,7 +130,7 @@
     }
 
     .header-info {
-display: flex;
+      display: flex;
       align-items: center;
       gap: 12px;
     }
@@ -135,6 +145,12 @@ display: flex;
       justify-content: center;
       font-size: 24px;
       backdrop-filter: blur(10px);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
     }
 
     .header-text h3 {
@@ -255,8 +271,38 @@ display: flex;
       text-align: right;
     }
 
+    .prediction-card {
+      background: linear-gradient(135deg, #fff7e6 0%, #fff 100%);
+      border: 1px solid #ffd666;
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 8px;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .prediction-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: #fa8c16;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .prediction-content {
+      font-size: 13px;
+      color: #595959;
+      line-height: 1.5;
+    }
+
     .tour-card {
-background: linear-gradient(135deg, #f6f9fc 0%, #ffffff 100%);
+      background: linear-gradient(135deg, #f6f9fc 0%, #ffffff 100%);
       border: 1px solid #e2e8f0;
       border-radius: 12px;
       padding: 12px;
@@ -398,7 +444,7 @@ background: linear-gradient(135deg, #f6f9fc 0%, #ffffff 100%);
 
     .suggestion-btn:hover {
       background: linear-gradient(135deg, #29b26bff, #2eb670ff);
-color: white;
+      color: white;
       transform: translateY(-1px);
     }
 
@@ -529,23 +575,23 @@ color: white;
             <div class="msg-text">Xin chào! 👋 Tôi có thể giúp bạn tìm tour du lịch từ hệ thống.
 
 Hãy thử hỏi:
-🔍 "Tìm tour Đà Nẵng"
-💰 "Tour dưới 5 triệu"
-📅 "Tour 3 ngày 2 đêm"
-🌴 "Tour Phú Quốc"</div>
+🔍 "Đà Nẵng"
+💰 "5 triệu"
+📅 "3 ngày 2 đêm"
+🌴 "Phú Quốc"</div>
             <div class="msg-time" id="welcomeTime"></div>
           </div>
         </div>
       </div>
 
       <div class="quick-suggestions" id="quickSuggestions">
-        <div class="quick-title">💡 Gợi ý nhanh</div>
+        <div class="quick-title">💡 Gợi ý nhanh các tour</div>
         <div class="suggestions-grid">
-          <button class="suggestion-btn">Tour Đà Nẵng</button>
-          <button class="suggestion-btn">Tour Hội An</button>
-          <button class="suggestion-btn">Tour Huế</button>
-          <button class="suggestion-btn">Tour dưới 3 triệu</button>
-          <button class="suggestion-btn">Tour 2-3 ngày</button>
+          <button class="suggestion-btn">Hà Nội</button>
+          <button class="suggestion-btn">Phú Quốc</button>
+          <button class="suggestion-btn">Huế</button>
+          <button class="suggestion-btn">3 triệu</button>
+          <button class="suggestion-btn">3 ngày</button>
         </div>
       </div>
 
@@ -646,13 +692,7 @@ let isTyping = false;
       } else {
         // Không tìm thấy tour, trả lời mặc định (KHÔNG GỌI AI)
         const defaultResponse = `Xin lỗi, tôi không tìm thấy tour "${text}" trong hệ thống. 
-
-Bạn có thể thử:
-🔍 Tìm theo địa điểm: "Đà Nẵng", "Hội An", "Huế"
-💰 Tìm theo giá: "dưới 3 triệu"
-📅 Tìm theo thời gian: "2 ngày", "3 ngày"
-
-Hoặc xem tất cả tour tại trang chủ! 😊`;
+        Hoặc xem tất cả tour tại trang chủ! 😊`;
         addMessage('bot', defaultResponse);
       }
     }
@@ -695,40 +735,7 @@ return getDemoTours(query);
       }
     }
 
-    function getDemoTours(query) {
-      const demoTours = [
-        {
-          id: 1,
-          ten_tour: "Tour Đà Nẵng - Hội An - Bà Nà Hills",
-          gia: 2500000,
-          so_ngay: 3,
-          hinh_anh: "danang-tour.jpg",
-          mo_ta: "Khám phá Đà Nẵng xinh đẹp"
-        },
-        {
-          id: 2,
-          ten_tour: "Tour Phú Quốc 4N3Đ - Trọn Gói",
-          gia: 4800000,
-          so_ngay: 4,
-          hinh_anh: "phuquoc-tour.jpg",
-          mo_ta: "Nghỉ dưỡng tại đảo ngọc"
-        },
-        {
-          id: 3,
-          ten_tour: "Tour Huế - Động Phong Nha",
-          gia: 1800000,
-          so_ngay: 2,
-          hinh_anh: "hue-tour.jpg",
-          mo_ta: "Khám phá cố đô và động Phong Nha"
-        }
-      ];
-
-      const lowerQuery = query.toLowerCase();
-      return demoTours.filter(tour => 
-        tour.ten_tour.toLowerCase().includes(lowerQuery) ||
-        lowerQuery.includes(tour.ten_tour.toLowerCase().split(' - ')[0].toLowerCase())
-      );
-    }
+   
 
     function displayToursAsCards(tours, query) {
       const tourCount = tours.length;
@@ -829,43 +836,6 @@ Bạn có thể thử:
 
 Hoặc xem tất cả tour tại trang chủ! 😊`;
       
-      /* BẬT LẠI KHI CẦN AI
-      try {
-        conversationHistory.push({ role: "user", content: userMessage });
-
-        const systemPrompt = `Bạn là trợ lý du lịch AI thông minh, giúp tìm kiếm tour từ database.
-
-Khi người dùng hỏi về tour, hãy:
-- Trả lời ngắn gọn, thân thiện
-- Gợi ý tìm kiếm cụ thể hơn nếu cần
-- Sử dụng emoji phù hợp
-- Tối đa 100 từ`;
-const response = await fetch("https://api.anthropic.com/v1/messages", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            model: "claude-sonnet-4-20250514",
-            max_tokens: 1000,
-            system: systemPrompt,
-            messages: conversationHistory
-          })
-        });
-
-        if (!response.ok) throw new Error(`API Error: ${response.status}`);
-
-        const data = await response.json();
-        const aiReply = data.content
-          .filter(item => item.type === "text")
-          .map(item => item.text)
-          .join("\n");
-
-        conversationHistory.push({ role: "assistant", content: aiReply });
-        return aiReply;
-      } catch (error) {
-        console.error('AI Error:', error);
-        return "Xin lỗi, tôi không tìm thấy tour phù hợp. Bạn thử tìm bằng từ khóa khác nhé! 🙏";
-      }
-      */
     }
 
     function formatPrice(price) {
