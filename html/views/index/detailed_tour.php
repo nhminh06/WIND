@@ -293,6 +293,7 @@ if (mysqli_num_rows($result_gia) > 0) {
 
 </div>
 
+
                           </div>
                         </div>
 <h2>Các tour gợi ý</h2>
@@ -327,5 +328,6 @@ if (mysqli_num_rows($result_gia) > 0) {
 
         <?php include '../../../includes/footer.php';?>
     <script src="../../../js/Main5.js"></script>
+    
 </body>
 </html>
