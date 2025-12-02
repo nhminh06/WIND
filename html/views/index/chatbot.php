@@ -551,7 +551,7 @@
           <div class="header-avatar">✈️</div>
           <div class="header-text">
             <h3>AI Travel Assistant</h3>
-            <p>🤖 Tìm tour từ CSDL của bạn</p>
+            <p>🤖 Tìm Các địa điểm ở khu vực</p>
           </div>
         </div>
         <div class="header-actions">
@@ -572,26 +572,25 @@
         <div class="message bot">
           <div class="msg-avatar">🤖</div>
           <div class="msg-bubble">
-            <div class="msg-text">Xin chào! 👋 Tôi có thể giúp bạn tìm tour du lịch từ hệ thống.
+            <div class="msg-text">Xin chào! 👋 Tôi có thể tìm các địa điểm bạn muốn đến.
 
 Hãy thử hỏi:
 🔍 "Đà Nẵng"
-💰 "5 triệu"
-📅 "3 ngày 2 đêm"
-🌴 "Phú Quốc"</div>
+🌴 "Phú Quốc"
+</div>
             <div class="msg-time" id="welcomeTime"></div>
           </div>
         </div>
       </div>
 
       <div class="quick-suggestions" id="quickSuggestions">
-        <div class="quick-title">💡 Gợi ý nhanh các tour</div>
+        <div class="quick-title">💡 Gợi ý các địa điểm</div>
         <div class="suggestions-grid">
           <button class="suggestion-btn">Hà Nội</button>
           <button class="suggestion-btn">Phú Quốc</button>
           <button class="suggestion-btn">Huế</button>
-          <button class="suggestion-btn">3 triệu</button>
-          <button class="suggestion-btn">3 ngày</button>
+          <button class="suggestion-btn">Cù lao chàm</button>
+          <button class="suggestion-btn">Đà Nẵng</button>
         </div>
       </div>
 
@@ -691,15 +690,14 @@ let isTyping = false;
         displayToursAsCards(tours, text);
       } else {
         // Không tìm thấy tour, trả lời mặc định (KHÔNG GỌI AI)
-        const defaultResponse = `Xin lỗi, tôi không tìm thấy tour "${text}" trong hệ thống. 
-        Hoặc xem tất cả tour tại trang chủ! 😊`;
+        const defaultResponse = `Xin lỗi, tôi không tìm thấy địa điểm "${text}" này. Bạn xem tất cả tour tại trang chủ! 😊`;
+                                 
         addMessage('bot', defaultResponse);
       }
     }
 
     async function searchToursInDB(query) {
       try {
-        // ĐỔI ĐƯỜNG DẪN NÀY CHO ĐÚNG VỚI CẤU TRÚC CỦA BẠN
         const apiUrl = 'search_tours.php';
         const response = await fetch(`${apiUrl}?q=${encodeURIComponent(query)}`);
         
@@ -827,12 +825,10 @@ return getDemoTours(query);
 
     async function getAIResponse(userMessage) {
       // TẠM THỜI TẮT AI, CHỈ TRẢ LỜI TỰ ĐỘNG
-      return `Xin lỗi, tôi không tìm thấy tour "${userMessage}" trong hệ thống. 
+      return `Xin lỗi, tôi không tìm thấy tour "${userMessage}".
 
 Bạn có thể thử:
 🔍 Tìm theo địa điểm: "Đà Nẵng", "Hội An", "Huế"
-💰 Tìm theo giá: "dưới 3 triệu", "5 triệu"
-📅 Tìm theo thời gian: "2 ngày", "3 ngày"
 
 Hoặc xem tất cả tour tại trang chủ! 😊`;
       

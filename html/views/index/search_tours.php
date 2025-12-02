@@ -31,7 +31,7 @@ try {
             FROM tour t
             LEFT JOIN tour_chi_tiet tc ON t.id = tc.tour_id
             WHERE t.trang_thai = 1 
-            AND t.ten_tour LIKE ?
+            AND t.ten_tour LIKE ? 
             LIMIT 10";
     
     $stmt = mysqli_prepare($conn, $sql);
