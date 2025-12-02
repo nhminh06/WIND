@@ -147,7 +147,7 @@ $stats = $result_stats->fetch_assoc();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
         tbody tr:hover {
-            background: #414242ff;
+            background: #414242ff;  
         }
         
         .badge-admin {

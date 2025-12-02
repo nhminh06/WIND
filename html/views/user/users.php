@@ -42,11 +42,7 @@
       <button class="vip-button"><i class="bi bi-box2-heart"></i> Bạn là ưu tiên hạng đầu của chúng tôi</button>
       <ul class="menu">
         <li onclick="loadpage('Notification.php', this)"><i class="bi bi-bell-fill"></i> Thông báo</li>
-        <li onclick="loadpage('Mytour.html', this)"><i class="bi bi-calendar3"></i> Đặt chỗ của tôi</li>
-        <li onclick="loadpage('transaction-history.html', this)"><i class="bi bi-cart-dash"></i> Lịch sử giao dịch</li>
-        <li onclick="loadpage('refund-section.html', this)"><i class="bi bi-envelope-paper-fill"></i> Hoàn tiền</li>
-        <li onclick="loadpage('price-alert.html', this)"><i class="bi bi-bell-fill"></i> Cảnh báo giá vé máy bay</li>
-        <li onclick="loadpage('user-tours.html', this)"><i class="bi bi-envelope-paper-fill"></i> Chi tiết hành khách đã lưu</li>
+        <li onclick="loadpage('Mytour.php', this)"><i class="bi bi-calendar3"></i> Đặt chỗ của tôi</li>
         <li onclick="loadpage('notification-settings.php', this)"><i class="bi bi-bell-fill"></i> Cài đặt thông báo</li>
         <li onclick="loadpage('settinguser.php' , this)" class="active"><i class="bi bi-gear"></i> Tài khoản của tôi</li>
         <li onclick="window.location.href = '../../../php/logout.php'" class="logout"><i class="bi bi-door-closed-fill"></i> Đăng xuất</li>

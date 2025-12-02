@@ -105,6 +105,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
                    
                 </div>
                 <?php endif; ?>
+                 <a href="detailed_tour.php?id=<?php echo $matour; ?>" class="back-link">← Quay lại</a>
             </div>
 
             <!-- Booking Form -->
@@ -177,31 +178,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
                     </div>
 
                     <div class="form-section">
-                        <h3><i class="bi bi-coin"></i> PHÙ THU (Nếu có)</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Phụ thu visa</label>
-                                <select name="phu_thu_visa" id="visa-select">
-                                    <option value="0">Không</option>
-                                    <option value="590000">Có - 590,000 đ</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Số lượng visa</label>
-                                <input type="number" name="so_luong_visa" id="visa-quantity" value="0" min="0">
-                            </div>
-                            <div class="form-group">
-                                <label>Phụ thu phòng đơn</label>
-                                <select name="phu_thu_phong_don" id="room-select">
-                                    <option value="0">Không</option>
-                                    <option value="1600000">Có - 1,600,000 đ</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Số lượng phòng đơn</label>
-                                <input type="number" name="so_luong_phong_don" id="room-quantity" value="0" min="0">
-                            </div>
-                        </div>
+                      
                     </div>
 
                     <div class="form-section">
@@ -225,10 +202,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
                             <span>Trẻ nhỏ (<span id="infants-display">0</span> × <?php echo number_format($gia['gia_tre_nho'], 0, ',', '.'); ?> đ)</span>
                             <span id="infants-total">0 đ</span>
                         </div>
-                        <div class="summary-row">
-                            <span>Sơ sinh (<span id="baby-display">0</span> × 500,000 đ)</span>
-                            <span id="baby-total">0 đ</span>
-                        </div>
+                       
                         <div class="summary-row">
                             <span>Phụ thu visa (<span id="visa-display">0</span>)</span>
                             <span id="visa-total">0 đ</span>
@@ -246,7 +220,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
                     <input type="hidden" name="tong_tien" id="total-input" value="<?php echo $gia['gia_nguoi_lon']; ?>">
 
                     <button type="submit" class="submit-btn">Xác Nhận Đặt Tour</button>
-                    <a href="tour.php" class="back-link">← Quay lại</a>
+                   
                     <?php endif; ?>
                 </form>
             </div>

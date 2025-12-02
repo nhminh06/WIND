@@ -3221,6 +3221,107 @@ background-blend-mode: lighten;
         opacity: 1;
     }
 }
+ tbody tr:hover {
+            background: #414242ff;
+        }
+        
+        .badge-confirmed {
+            background: #28a745;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-pending {
+            background: #ffc107;
+            color: #000;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-cancelled {
+            background: #dc3545;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .booking-info h4 {
+            margin: 0 0 5px 0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .booking-info p {
+            margin: 0;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .tour-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tour-thumb {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .tour-name {
+            flex: 1;
+        }
+
+        .tour-name h4 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .tour-name p {
+            margin: 5px 0 0 0;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .price-info {
+            text-align: right;
+        }
+
+        .price-info .amount {
+            font-size: 16px;
+            font-weight: 700;
+            color: #3dcce2;
+        }
+
+        .price-info .people {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .date-info {
+            font-size: 13px;
+        }
+
+        .date-info i {
+            color: #3dcce2;
+            margin-right: 5px;
+        }
+
+        .date-info .date {
+            display: block;
+            margin: 3px 0;
+        }
 
 .toast.success { border-left: 4px solid #27ae60; }
 .toast.error { border-left: 4px solid #e74c3c; }
