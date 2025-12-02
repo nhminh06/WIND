@@ -43,7 +43,7 @@
       <ul class="menu">
         <li onclick="loadpage('Notification.php', this)"><i class="bi bi-bell-fill"></i> Thông báo</li>
         <li onclick="loadpage('Mytour.php', this)"><i class="bi bi-calendar3"></i> Đặt chỗ của tôi</li>
-        <li onclick="loadpage('notification-settings.php', this)"><i class="bi bi-bell-fill"></i> Cài đặt thông báo</li>
+        <li onclick="loadpage('notification-settings.php', this)"><i class="bi bi-bell"></i> Cài đặt thông báo</li>
         <li onclick="loadpage('settinguser.php' , this)" class="active"><i class="bi bi-gear"></i> Tài khoản của tôi</li>
         <li onclick="window.location.href = '../../../php/logout.php'" class="logout"><i class="bi bi-door-closed-fill"></i> Đăng xuất</li>
         <li><button onclick="window.location.href = '../../Admin/IndexController.php'" class="admin-bt">Mở giao diện quản lý</button></li>

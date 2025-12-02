@@ -11,6 +11,20 @@ if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'admin' && $_SESSION['ro
 
 $booking_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
+$sqll = "SELECT * FROM dat_tour WHERE id = ?";
+$stmtl = $conn->prepare($sqll);
+$stmtl->bind_param("i", $booking_id);
+$stmtl->execute();
+$resultl = $stmtl->get_result();
+$booking = $resultl->fetch_assoc();
+
+if($booking['trang_thai_thanh_toan'] !== 'da_thanh_toan') {
+    $_SESSION['error'] = "Không thể xác nhận đặt tour khi thanh toán chưa được xác nhận.";
+    header('Location: ../../html/admin/manage_bookings.php');
+    exit();
+
+}
+
 if ($booking_id > 0) {
     $sql = "UPDATE dat_tour SET trang_thai = 'confirmed' WHERE id = ?";
     $stmt = $conn->prepare($sql);
