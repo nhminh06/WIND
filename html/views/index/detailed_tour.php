@@ -8,6 +8,82 @@
     <style>
          body{background: url('https://images.unsplash.com/photo-1739219959019-dd317f76c7e8?q=80&w=1716&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
   background-size: cover;}
+
+  /* CSS cho điểm đánh giá với màu sắc động */
+.dg {
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 4px 12px;
+    border-radius: 6px;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+/* Màu sắc theo mức điểm */
+.dg.rating-1, .dg.rating-2 {
+    background-color: #dc3545;
+    color: white;
+}
+
+.dg.rating-3, .dg.rating-4 {
+    background-color: #fd7e14;
+    color: white;
+}
+
+.dg.rating-5, .dg.rating-6 {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.dg.rating-7, .dg.rating-8 {
+    background-color: #20c997;
+    color: white;
+}
+
+.dg.rating-9, .dg.rating-10 {
+    background-color: #28a745;
+    color: white;
+}
+
+.dg2 {
+    font-weight: 600;
+    margin-left: 8px;
+    transition: color 0.3s ease;
+}
+
+/* Màu text đánh giá */
+.dg2.rating-1, .dg2.rating-2 {
+    color: #dc3545;
+}
+
+.dg2.rating-3, .dg2.rating-4 {
+    color: #fd7e14;
+}
+
+.dg2.rating-5, .dg2.rating-6 {
+    color: #ffc107;
+}
+
+.dg2.rating-7, .dg2.rating-8 {
+    color: #20c997;
+}
+
+.dg2.rating-9, .dg2.rating-10 {
+    color: #28a745;
+}
+
+/* Hiển thị sao */
+.rating-stars {
+    display: inline-block;
+    margin-left: 8px;
+    color: #ffc107;
+    font-size: 1.1em;
+}
+
+.rating-stars .star {
+    display: inline-block;
+    margin: 0 1px;
+}
     </style>
 </head>
 <body>
@@ -29,9 +105,36 @@
           $rltentour = mysqli_query($conn, $tentour);
           $laytentour = mysqli_fetch_assoc($rltentour);
           echo $laytentour['ten_tour']; ?></h1>
+          <?php
+include '../../../db/db.php';
+
+$matour = intval($_GET['id']); // ID tour từ URL
+
+// Lấy tất cả đánh giá cho tour
+$sql_danhgia = "SELECT * FROM danh_gia WHERE tour_id = $matour";
+$result_danhgia = mysqli_query($conn, $sql_danhgia);
+
+// Tính tổng điểm và số lượng đánh giá
+$total_score = 0;
+$num_reviews = mysqli_num_rows($result_danhgia);
+
+if ($num_reviews > 0) {
+    while ($row = mysqli_fetch_assoc($result_danhgia)) {
+        $total_score += $row['diem'];
+    }
+    $avg_score = round($total_score / $num_reviews, 1); // 1 chữ số thập phân
+} else {
+    $avg_score = 0;
+}
+?>
+
           <div class="cmt">
-                           <p> <span class="dg">9.2</span><span class="dg2">Tuyệt Vời </span>| 23 Đánh Giá</p>
-                        </div>
+    <p>
+        <span class="dg"><?php echo $avg_score; ?></span>
+        <span class="dg2">Tuyệt Vời</span> | <?php echo $num_reviews; ?> Đánh Giá
+    </p>
+</div>
+
                         <div class="main_detailed">
                           <div class="detailed_img box fade-up">
                             <div class="detailed_br">
@@ -188,27 +291,52 @@
                                 <h3>Đánh giá của khác hàng</h3>
                                 <div class="cmt_main">
                                   
-                                 <?php
-                                 include '../../../db/db.php';
-                                 $danhgia ="SELECT * FROM danh_gia WHERE tour_id= 1";
-                                  $resultdanhgia = mysqli_query($conn, $danhgia);
-                                  while($rowdanhgia = mysqli_fetch_assoc($resultdanhgia)){?>
-                                  
-                                  <div class="cmt_item">
-                                    <div class="cmt_item_avata">
-                                      <img src="<?php echo $rowdanhgia['hinh_anh']; ?>" alt="">
-                                      <div class="cmt_item_name">
-                                        <p><?php echo $rowdanhgia['ten_khach_hang']; ?></p>
-                                      </div>
-                                    </div>
-                                    <div class="cmt_item_main">
-                                       <p> <span class="dg"><?php echo $rowdanhgia['diem']; ?></span><span class="dg2">Tuyệt Vời </span></p>
-                                    </div>
-                                    <div class="cmt_item_text">
-                                     <p><?php echo $rowdanhgia['nhan_xet']; ?></p>
-                                    </div>
-                                  </div>
-                                  <?php }?>
+                                <?php
+                                    include '../../../db/db.php';
+
+                                    $danhgia = "SELECT * FROM danh_gia WHERE tour_id = $matour";
+                                    $resultdanhgia = mysqli_query($conn, $danhgia);
+
+                                    // Nếu không có đánh giá nào
+                                    if (mysqli_num_rows($resultdanhgia) == 0) {
+                                    ?>
+                                        <div class="no-comment">
+                                            <p>Chưa có đánh giá nào cho tour này.</p>
+                                        </div>
+                                    <?php
+                                    } else {
+                                        // Có đánh giá → lặp để hiển thị
+                                        while ($rowdanhgia = mysqli_fetch_assoc($resultdanhgia)) {
+
+                                            // Lấy thông tin user (avatar)
+                                            $lsq = "SELECT * FROM user WHERE id = {$rowdanhgia['user_id']}";
+                                            $rltq = mysqli_query($conn, $lsq);
+                                            $rowq = mysqli_fetch_assoc($rltq);
+                                    ?>
+                                            <div class="cmt_item">
+                                                <div class="cmt_item_avata">
+                                                    <img src="<?php echo "../../../" . ($rowq['avatar'] ?? 'img/avatamacdinh.png'); ?>" alt="">
+                                                    <div class="cmt_item_name">
+                                                        <p><?php echo $rowq['ho_ten']; ?></p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="cmt_item_main">
+                                                    <p>
+                                                        <span class="dg"><?php echo $rowdanhgia['diem']; ?></span>
+                                                      
+                                                    </p>
+                                                </div>
+
+                                                <div class="cmt_item_text">
+                                                    <p><?php echo $rowdanhgia['nhan_xet']; ?></p>
+                                                </div>
+                                            </div>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+
                                  
                                 </div>
                               </div>
@@ -329,5 +457,119 @@ if (mysqli_num_rows($result_gia) > 0) {
         <?php include '../../../includes/footer.php';?>
     <script src="../../../js/Main5.js"></script>
     
+    <script>
+    // ========== HỆ THỐNG ĐÁNH GIÁ ĐỘNG ==========
+    
+    // Hàm lấy text đánh giá theo điểm
+    // Hàm lấy text đánh giá theo điểm
+function getRatingText(score) {
+    if (score >= 9) return 'Xuất Sắc';
+    if (score >= 8) return 'Tuyệt Vời';
+    if (score >= 7) return 'Rất Tốt';
+    if (score >= 6) return 'Tốt';
+    if (score >= 5) return 'Trung Bình Khá';
+    if (score >= 4) return 'Trung Bình';
+    if (score >= 3) return 'Tạm Được';
+    if (score >= 2) return 'Kém';
+    return 'Rất Kém';
+}
+
+// Hàm tạo hiển thị sao
+function generateStars(score) {
+    const fullStars = Math.floor(score / 2); // 10 điểm = 5 sao
+    const halfStar = (score % 2) >= 1 ? 1 : 0;
+    const emptyStars = 5 - fullStars - halfStar;
+    
+    let stars = '';
+    
+    // Sao đầy
+    for (let i = 0; i < fullStars; i++) {
+        stars += '<span class="star">★</span>';
+    }
+    
+    // Sao nửa
+    if (halfStar) {
+        stars += '<span class="star">⯨</span>';
+    }
+    
+    // Sao rỗng
+    for (let i = 0; i < emptyStars; i++) {
+        stars += '<span class="star">☆</span>';
+    }
+    
+    return stars;
+}
+
+// Hàm áp dụng rating cho một element
+function applyRating(scoreElement, textElement, score) {
+    const roundedScore = Math.round(score * 10) / 10; // Làm tròn 1 chữ số
+    const ratingLevel = Math.ceil(roundedScore); // Làm tròn lên để xác định class
+    
+    // Thêm class màu cho điểm
+    scoreElement.className = 'dg rating-' + ratingLevel;
+    
+    // Cập nhật text đánh giá
+    textElement.className = 'dg2 rating-' + ratingLevel;
+    textElement.textContent = getRatingText(roundedScore);
+    
+    // Thêm sao (nếu chưa có)
+    let starsElement = textElement.nextElementSibling;
+    
+    // Kiểm tra nếu element tiếp theo không phải là rating-stars
+    if (!starsElement || !starsElement.classList.contains('rating-stars')) {
+        starsElement = document.createElement('span');
+        starsElement.className = 'rating-stars';
+        
+        // Tìm vị trí chèn (sau dg2 nhưng trước dấu |)
+        const parentP = textElement.parentElement;
+        const textAfter = textElement.nextSibling;
+        
+        if (textAfter && textAfter.nodeType === 3 && textAfter.textContent.includes('|')) {
+            // Nếu có text node chứa |, chèn trước nó
+            parentP.insertBefore(starsElement, textAfter);
+        } else {
+            // Nếu không, chèn ngay sau textElement
+            textElement.parentNode.insertBefore(starsElement, textElement.nextSibling);
+        }
+    }
+    
+    starsElement.innerHTML = generateStars(roundedScore);
+}
+
+// Chạy khi trang load
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Rating system initialized');
+    
+    // Xử lý điểm trung bình của tour (ở đầu trang)
+    const mainCmt = document.querySelector('.cmt');
+    if (mainCmt) {
+        const scoreElement = mainCmt.querySelector('.dg');
+        const textElement = mainCmt.querySelector('.dg2');
+        if (scoreElement && textElement) {
+            const score = parseFloat(scoreElement.textContent);
+            if (!isNaN(score) && score > 0) {
+                applyRating(scoreElement, textElement, score);
+                console.log('Applied rating to main score:', score);
+            }
+        }
+    }
+    
+    // Xử lý các đánh giá của khách hàng
+    const cmtItems = document.querySelectorAll('.cmt_item_main');
+    console.log('Found comment items:', cmtItems.length);
+    
+    cmtItems.forEach(function(item, index) {
+        const scoreElement = item.querySelector('.dg');
+        const textElement = item.querySelector('.dg2');
+        if (scoreElement && textElement) {
+            const score = parseFloat(scoreElement.textContent);
+            if (!isNaN(score) && score > 0) {
+                applyRating(scoreElement, textElement, score);
+                console.log('Applied rating to comment', index + 1, ':', score);
+            }
+        }
+    });
+});
+    </script>
 </body>
 </html>

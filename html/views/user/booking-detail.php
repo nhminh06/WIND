@@ -53,9 +53,27 @@ $ngay_ve = date('Y-m-d', strtotime($booking['ngay_khoi_hanh'] . ' + ' . ($bookin
 $tong_so_nguoi = $booking['so_nguoi_lon'] + $booking['so_tre_em'] + $booking['so_tre_nho'];
 $ngay_khoi_hanh = strtotime($booking['ngay_khoi_hanh']);
 $today = strtotime(date('Y-m-d'));
-$can_cancel = ($booking['trang_thai'] != 'cancelled' && 
+
+// Kiểm tra có thể hủy không (chỉ khi preparing và còn hơn 3 ngày)
+$can_cancel = ($booking['trang_thai'] == 'confirmed' && 
+              $booking['trang_thai_chuyen_di'] == 'preparing' &&
               $ngay_khoi_hanh > $today && 
               ($ngay_khoi_hanh - $today) >= (3 * 24 * 60 * 60));
+
+// Kiểm tra có thể đánh giá không (đã xác nhận và chuyến đi đã hoàn thành)
+$can_review = ($booking['trang_thai'] == 'confirmed' && 
+               $booking['trang_thai_chuyen_di'] == 'completed');
+
+// Kiểm tra đã đánh giá chưa
+$has_reviewed = false;
+if ($can_review) {
+    $check_review = "SELECT id FROM danh_gia WHERE tour_id = ? AND ten_khach_hang = ?";
+    $stmt_check = $conn->prepare($check_review);
+    $stmt_check->bind_param("is", $booking['tour_id'], $booking['ho_ten']);
+    $stmt_check->execute();
+    $has_reviewed = $stmt_check->get_result()->num_rows > 0;
+    $stmt_check->close();
+}
 
 // Get timeline events
 $timeline = [];
@@ -68,7 +86,7 @@ $timeline[] = [
     'status' => 'completed'
 ];
 
-if ($booking['trang_thai'] == 'confirmed' || $booking['trang_thai'] == 'cancelled') {
+if ($booking['trang_thai'] == 'confirmed') {
     $timeline[] = [
         'date' => date('Y-m-d H:i:s'),
         'title' => 'Đã xác nhận',
@@ -78,25 +96,46 @@ if ($booking['trang_thai'] == 'confirmed' || $booking['trang_thai'] == 'cancelle
     ];
 }
 
-if ($booking['trang_thai'] != 'cancelled') {
-    $timeline[] = [
-        'date' => $booking['ngay_khoi_hanh'] . ' 00:00:00',
-        'title' => 'Ngày khởi hành',
-        'description' => 'Chuyến đi bắt đầu',
-        'icon' => 'fa-plane-departure',
-        'status' => ($ngay_khoi_hanh <= $today) ? 'completed' : 'pending'
-    ];
+// Timeline theo trạng thái chuyến đi
+if ($booking['trang_thai_chuyen_di'] == 'started' || $booking['trang_thai_chuyen_di'] == 'completed') {
+    $start_time = !empty($booking['thoi_gian_bat_dau_chuyen_di']) 
+        ? $booking['thoi_gian_bat_dau_chuyen_di'] 
+        : $booking['ngay_khoi_hanh'] . ' 00:00:00';
     
     $timeline[] = [
-        'date' => $ngay_ve . ' 23:59:59',
-        'title' => 'Kết thúc chuyến đi',
-        'description' => 'Hoàn thành tour',
-        'icon' => 'fa-flag-checkered',
-        'status' => (strtotime($ngay_ve) <= $today) ? 'completed' : 'pending'
+        'date' => $start_time,
+        'title' => 'Chuyến đi bắt đầu',
+        'description' => 'Đã khởi hành',
+        'icon' => 'fa-plane-departure',
+        'status' => 'completed'
     ];
 }
 
-if ($booking['trang_thai'] == 'cancelled') {
+if ($booking['trang_thai_chuyen_di'] == 'completed') {
+    $end_time = !empty($booking['thoi_gian_ket_thuc_chuyen_di']) 
+        ? $booking['thoi_gian_ket_thuc_chuyen_di'] 
+        : $ngay_ve . ' 23:59:59';
+    
+    $timeline[] = [
+        'date' => $end_time,
+        'title' => 'Kết thúc chuyến đi',
+        'description' => 'Hoàn thành tour',
+        'icon' => 'fa-flag-checkered',
+        'status' => 'completed'
+    ];
+}
+
+if ($booking['trang_thai_chuyen_di'] == 'preparing' && $booking['trang_thai'] != 'cancelled') {
+    $timeline[] = [
+        'date' => $booking['ngay_khoi_hanh'] . ' 00:00:00',
+        'title' => 'Ngày khởi hành dự kiến',
+        'description' => 'Chuyến đi sẽ bắt đầu',
+        'icon' => 'fa-calendar-day',
+        'status' => 'pending'
+    ];
+}
+
+if ($booking['trang_thai'] == 'cancelled' || $booking['trang_thai_chuyen_di'] == 'cancelled') {
     $timeline[] = [
         'date' => date('Y-m-d H:i:s'),
         'title' => 'Đã hủy',
@@ -106,13 +145,22 @@ if ($booking['trang_thai'] == 'cancelled') {
     ];
 }
 
-// Status display
+// Status display cho booking
 $status_config = [
     'confirmed' => ['text' => 'Đã xác nhận', 'icon' => 'fa-check-circle', 'class' => 'success'],
     'pending' => ['text' => 'Chờ xác nhận', 'icon' => 'fa-clock', 'class' => 'warning'],
     'cancelled' => ['text' => 'Đã hủy', 'icon' => 'fa-times-circle', 'class' => 'danger']
 ];
 $status = $status_config[$booking['trang_thai']] ?? $status_config['pending'];
+
+// Status display cho chuyến đi
+$trip_status_config = [
+    'preparing' => ['text' => 'Chuẩn bị', 'icon' => 'fa-hourglass-half', 'class' => 'info'],
+    'started' => ['text' => 'Đang diễn ra', 'icon' => 'fa-plane', 'class' => 'primary'],
+    'completed' => ['text' => 'Đã hoàn thành', 'icon' => 'fa-check-circle', 'class' => 'success'],
+    'cancelled' => ['text' => 'Đã hủy', 'icon' => 'fa-times-circle', 'class' => 'danger']
+];
+$trip_status = $trip_status_config[$booking['trang_thai_chuyen_di']] ?? $trip_status_config['preparing'];
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -122,6 +170,21 @@ $status = $status_config[$booking['trang_thai']] ?? $status_config['pending'];
     <title>Chi tiết đặt chỗ #<?php echo htmlspecialchars($booking['ma_dat_tour']); ?></title>
     <link rel="stylesheet" href="../../../css/booking-detail-pro.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .status-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .nav-btn-review {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        .nav-btn-review:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 87, 108, 0.4);
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -136,6 +199,19 @@ $status = $status_config[$booking['trang_thai']] ?? $status_config['pending'];
                     <i class="fas fa-print"></i>
                     <span>In phiếu</span>
                 </button>
+                
+                <?php if ($can_review && !$has_reviewed): ?>
+                <button onclick="window.location.href='review-tour.php?tour_id=<?php echo $booking['tour_id']; ?>&booking_id=<?php echo $booking['id']; ?>'" class="nav-btn nav-btn-review">
+                    <i class="fas fa-star"></i>
+                    <span>Đánh giá tour</span>
+                </button>
+                <?php elseif ($can_review && $has_reviewed): ?>
+                <button class="nav-btn" disabled style="opacity: 0.6; cursor: not-allowed;">
+                    <i class="fas fa-check"></i>
+                    <span>Đã đánh giá</span>
+                </button>
+                <?php endif; ?>
+                
                 <?php if ($can_cancel): ?>
                 <button onclick="showCancelModal()" class="nav-btn nav-btn-danger">
                     <i class="fas fa-ban"></i>
@@ -165,9 +241,15 @@ $status = $status_config[$booking['trang_thai']] ?? $status_config['pending'];
                     <?php endif; ?>
                 </div>
                 <div class="booking-header-right">
-                    <div class="status-badge status-<?php echo $status['class']; ?>">
-                        <i class="fas <?php echo $status['icon']; ?>"></i>
-                        <span><?php echo $status['text']; ?></span>
+                    <div class="status-group">
+                        <div class="status-badge status-<?php echo $status['class']; ?>">
+                            <i class="fas <?php echo $status['icon']; ?>"></i>
+                            <span><?php echo $status['text']; ?></span>
+                        </div>
+                        <div class="status-badge status-<?php echo $trip_status['class']; ?>">
+                            <i class="fas <?php echo $trip_status['icon']; ?>"></i>
+                            <span><?php echo $trip_status['text']; ?></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -270,6 +352,31 @@ $status = $status_config[$booking['trang_thai']] ?? $status_config['pending'];
                         </div>
                     </div>
                 </section>
+                
+                <?php if ($can_review): ?>
+                <section class="card" style="background: linear-gradient(135deg, #f093fb15 0%, #f5576c15 100%); border: 2px solid #f5576c;">
+                    <div class="card-header">
+                        <h2><i class="fas fa-star"></i> Đánh giá chuyến đi</h2>
+                    </div>
+                    <div class="card-body" style="text-align: center;">
+                        <?php if (!$has_reviewed): ?>
+                        <p style="margin-bottom: 20px; color: #666;">
+                            Chuyến đi của bạn đã kết thúc. Hãy chia sẻ trải nghiệm của bạn để giúp những người khác!
+                        </p>
+                        <button onclick="window.location.href='review-tour.php?tour_id=<?php echo $booking['tour_id']; ?>&booking_id=<?php echo $booking['id']; ?>'" 
+                                style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 12px 30px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-star"></i>
+                            Viết đánh giá ngay
+                        </button>
+                        <?php else: ?>
+                        <p style="color: #28a745; font-weight: 600;">
+                            <i class="fas fa-check-circle"></i>
+                            Cảm ơn bạn đã đánh giá tour này!
+                        </p>
+                        <?php endif; ?>
+                    </div>
+                </section>
+                <?php endif; ?>
             </div>
 
             <!-- Right Column -->

@@ -235,6 +235,10 @@ $result_tours = $conn->query($sql_tours);
       <div class="content-header">
         <h2>Danh sách đặt tour</h2>
         <div style="display: flex; gap: 10px;">
+          <button onclick="window.location.href='manage_trip.php'" class="btn-add" style="background: #28a745;">
+            <i class="bi bi-file-earmark-excel"></i>
+            Quản lý lịch trình
+          </button>
           <button onclick="exportBookings()" class="btn-add" style="background: #28a745;">
             <i class="bi bi-file-earmark-excel"></i>
             Xuất Excel
