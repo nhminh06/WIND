@@ -199,8 +199,8 @@ try {
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
-    $mail->Username   = 'mnhat0034@gmail.com';
-    $mail->Password   = 'rqxr eqjw fkoe wejf';
+    $mail->Username   = 'minhminh778894@gmail.com';
+    $mail->Password   = 'ycks grup khbb kbyx';
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port       = 587;
     $mail->CharSet    = 'UTF-8';
@@ -208,7 +208,7 @@ try {
     // Debug SMTP
     // $mail->SMTPDebug = 2; // Uncomment để xem log SMTP chi tiết
 
-    $mail->setFrom('mnhat0034@gmail.com', 'Wind Tour');
+    $mail->setFrom('minhminh778894@gmail.com', 'Wind Tour');
     $mail->addAddress($email);
     $mail->isHTML(true);
     $mail->Subject = 'Khôi phục mật khẩu';

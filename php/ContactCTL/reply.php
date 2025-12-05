@@ -48,13 +48,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $mail->isSMTP();
                         $mail->Host       = 'smtp.gmail.com';
                         $mail->SMTPAuth   = true;
-                        $mail->Username   = 'mnhat0034@gmail.com';
-                        $mail->Password   = 'rqxr eqjw fkoe wejf';
+                        $mail->Username   = 'minhminh778894@gmail.com';
+                        $mail->Password   = 'ycks grup khbb kbyx';
                         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                         $mail->Port       = 587;
                         $mail->CharSet    = 'UTF-8';
 
-                        $mail->setFrom('mnhat0034@gmail.com', 'Wind Tour');
+                        $mail->setFrom('minhminh778894@gmail.com', 'Wind Tour');
                         $mail->addAddress($user['email'], $user['ho_ten']);
                         $mail->isHTML(true);
                         $mail->Subject = 'Phản hồi từ Wind Tour';
