@@ -35,7 +35,7 @@
     </header>
     
     <div class="container">
-        <?php include 'chat_box.php';?>
+        <?php include 'chatbot.php';?>
         <h2>Giới thiệu về WIND travel</h2>
         <div class="about">
             <div class="main_about">
@@ -321,97 +321,43 @@
                 <div class="review_slide">
                     <div class="inner3">
                  
+                       
+                       <?php
+                       $nhanxet = "SELECT 
+                                        dg.id,
+                                        dg.tour_id,
+                                        dg.ten_khach_hang,
+                                        dg.diem,
+                                        dg.nhan_xet,
+                                        dg.hinh_anh,
+                                        u.ho_ten AS user_name,
+                                        u.avatar AS user_avatar,
+                                        t.ten_tour AS tour_name
+                                    FROM danh_gia dg
+                                    LEFT JOIN user u ON dg.user_id = u.id
+                                    LEFT JOIN Tour t ON dg.tour_id = t.id
+                                    LIMIT 9;
+                                    "; 
+                          $result_nhanxet = mysqli_query($conn, $nhanxet);
+                            while ($row_nhanxet = mysqli_fetch_assoc($result_nhanxet)) {
+                       
+                       ?>
                         <div class="review-box">
                             <div class="review-header">
-                                <img src="https://i.pinimg.com/736x/f9/ef/73/f9ef73741c3f94680fa8707b7f01ea84.jpg" alt="avatar">
+                               <?php
+                                $avatar = $row_nhanxet['user_avatar'] ?? '';
+                                $avatar = $avatar ? '../../../' . $avatar : '../../../img/avatamacdinh.png';
+                                ?>
+                                <img src="<?php echo htmlspecialchars($avatar); ?>" alt="avatar">
+
                                 <div>
-                                    <h3>Ngọc Mai</h3>
-                                    <p>Hà Nội</p>
+                                    <h3><?php echo htmlspecialchars($row_nhanxet['user_name']); ?></h3>
+                                    <p><?php echo htmlspecialchars($row_nhanxet['tour_name']); ?></p>
                                 </div>
                             </div>
-                            <p class="review-text">"Chuyến đi Nha Trang quá tuyệt! Mọi thứ đều được sắp xếp chu đáo và tiện lợi."</p>
+                            <p class="review-text"><?php echo htmlspecialchars($row_nhanxet['nhan_xet']); ?></p>
                         </div>
-                        <div class="review-box">
-                            <div class="review-header">
-                                <img src="https://i.pinimg.com/736x/f9/ef/73/f9ef73741c3f94680fa8707b7f01ea84.jpg" alt="avatar">
-                                <div>
-                                    <h3>Ngọc Mai</h3>
-                                    <p>Hà Nội</p>
-                                </div>
-                            </div>
-                            <p class="review-text">"Chuyến đi Nha Trang quá tuyệt! Mọi thứ đều được sắp xếp chu đáo và tiện lợi."</p>
-                        </div>
-                        <div class="review-box">
-                            <div class="review-header">
-                                <img src="https://i.pinimg.com/736x/f9/ef/73/f9ef73741c3f94680fa8707b7f01ea84.jpg" alt="avatar">
-                                <div>
-                                    <h3>Ngọc Mai</h3>
-                                    <p>Hà Nội</p>
-                                </div>
-                            </div>
-                            <p class="review-text">"Chuyến đi Nha Trang quá tuyệt! Mọi thứ đều được sắp xếp chu đáo và tiện lợi."</p>
-                        </div>
-                        <div class="review-box">
-                            <div class="review-header">
-                                <img src="https://i.pinimg.com/736x/f9/ef/73/f9ef73741c3f94680fa8707b7f01ea84.jpg" alt="avatar">
-                                <div>
-                                    <h3>Ngọc Mai</h3>
-                                    <p>Hà Nội</p>
-                                </div>
-                            </div>
-                            <p class="review-text">"Chuyến đi Nha Trang quá tuyệt! Mọi thứ đều được sắp xếp chu đáo và tiện lợi."</p>
-                        </div>
-                        <div class="review-box">
-                            <div class="review-header">
-                                <img src="https://i.pinimg.com/736x/f9/ef/73/f9ef73741c3f94680fa8707b7f01ea84.jpg" alt="avatar">
-                                <div>
-                                    <h3>Ngọc Mai</h3>
-                                    <p>Hà Nội</p>
-                                </div>
-                            </div>
-                            <p class="review-text">"Chuyến đi Nha Trang quá tuyệt! Mọi thứ đều được sắp xếp chu đáo và tiện lợi."</p>
-                        </div>
-                        <div class="review-box">
-                            <div class="review-header">
-                                <img src="https://i.pinimg.com/736x/f9/ef/73/f9ef73741c3f94680fa8707b7f01ea84.jpg" alt="avatar">
-                                <div>
-                                    <h3>Ngọc Mai</h3>
-                                    <p>Hà Nội</p>
-                                </div>
-                            </div>
-                            <p class="review-text">"Chuyến đi Nha Trang quá tuyệt! Mọi thứ đều được sắp xếp chu đáo và tiện lợi."</p>
-                        </div>
-                        <div class="review-box">
-                            <div class="review-header">
-                                <img src="https://i.pinimg.com/736x/f9/ef/73/f9ef73741c3f94680fa8707b7f01ea84.jpg" alt="avatar">
-                                <div>
-                                    <h3>Ngọc Mai</h3>
-                                    <p>Hà Nội</p>
-                                </div>
-                            </div>
-                            <p class="review-text">"Chuyến đi Nha Trang quá tuyệt! Mọi thứ đều được sắp xếp chu đáo và tiện lợi."</p>
-                        </div>
-                        <div class="review-box">
-                            <div class="review-header">
-                                <img src="https://i.pinimg.com/736x/f9/ef/73/f9ef73741c3f94680fa8707b7f01ea84.jpg" alt="avatar">
-                                <div>
-                                    <h3>Ngọc Mai</h3>
-                                    <p>Hà Nội</p>
-                                </div>
-                            </div>
-                            <p class="review-text">"Chuyến đi Nha Trang quá tuyệt! Mọi thứ đều được sắp xếp chu đáo và tiện lợi."</p>
-                        </div>
-                        <div class="review-box">
-                            <div class="review-header">
-                                <img src="https://i.pinimg.com/736x/f9/ef/73/f9ef73741c3f94680fa8707b7f01ea84.jpg" alt="avatar">
-                                <div>
-                                    <h3>Ngọc Mai</h3>
-                                    <p>Hà Nội</p>
-                                </div>
-                            </div>
-                            <p class="review-text">"Chuyến đi Nha Trang quá tuyệt! Mọi thứ đều được sắp xếp chu đáo và tiện lợi."</p>
-                        </div>
-                 
+                 <?php } ?>
                     </div>
                 </div>
                 <button class="btp">

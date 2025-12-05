@@ -5490,6 +5490,10 @@ align-items: center;
 }
 
 .review-header p {
+         display: -webkit-box;
+    -webkit-line-clamp: 1;     /* Số dòng muốn hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   margin: 0;
   font-size: 0.9em;
   color:#fff;
@@ -5501,6 +5505,10 @@ align-items: center;
   font-style: italic;
   color: #fff;
    font-family: 'Monsieur La Doulaise', cursive;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;     /* Số dòng muốn hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 .inner3{
    display: flex;

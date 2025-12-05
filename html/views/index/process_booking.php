@@ -3,75 +3,134 @@ session_start();
 include '../../../db/db.php';
 
 // Kiểm tra đăng nhập
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
-    $_SESSION['booking_error'] = "Vui lòng đăng nhập để đặt tour!";
-    header('Location: ../../../pages/login.php');
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['booking_error'] = 'Vui lòng đăng nhập!';
+    header('Location: login.php');
     exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Lấy và làm sạch dữ liệu
+    $user_id = intval($_POST['user_id']);
     $tour_id = intval($_POST['tour_id']);
-    
-    // Lấy user_id từ session (an toàn hơn)
-    $user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : 0;
-    
-    // Kiểm tra user_id có hợp lệ không
-    if ($user_id <= 0) {
-        $_SESSION['booking_error'] = "Không tìm thấy thông tin người dùng. Vui lòng đăng nhập lại!";
-        header('Location: ../../../pages/login.php');
-        exit();
-    }
-    
-    $ho_ten = mysqli_real_escape_string($conn, trim($_POST['ho_ten']));
-    $sdt = mysqli_real_escape_string($conn, trim($_POST['sdt']));
-    $email = mysqli_real_escape_string($conn, trim($_POST['email']));
-    $dia_chi = mysqli_real_escape_string($conn, trim($_POST['dia_chi']));
+    $ho_ten = mysqli_real_escape_string($conn, $_POST['ho_ten']);
+    $sdt = mysqli_real_escape_string($conn, $_POST['sdt']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $dia_chi = mysqli_real_escape_string($conn, $_POST['dia_chi'] ?? '');
     $ngay_khoi_hanh = mysqli_real_escape_string($conn, $_POST['ngay_khoi_hanh']);
     $so_nguoi_lon = intval($_POST['so_nguoi_lon']);
     $so_tre_em = intval($_POST['so_tre_em']);
     $so_tre_nho = intval($_POST['so_tre_nho']);
-    $ghi_chu = mysqli_real_escape_string($conn, trim($_POST['ghi_chu']));
-    $tong_tien = intval($_POST['tong_tien']);
+    $tong_tien = floatval($_POST['tong_tien']);
+    $ghi_chu = mysqli_real_escape_string($conn, $_POST['ghi_chu'] ?? '');
+    $phuong_thuc_thanh_toan = mysqli_real_escape_string($conn, $_POST['phuong_thuc_thanh_toan']);
     
-    // Validation
-    if ($so_nguoi_lon < 1) {
-        $_SESSION['booking_error'] = "Phải có ít nhất 1 người lớn!";
-        header('Location: booking_form.php?id=' . $tour_id);
-        exit();
+    // Tạo mã đặt tour
+    $ma_dat_tour = 'DT' . date('YmdHis') . rand(100, 999);
+    
+    // Xử lý upload ảnh thanh toán
+    $hinh_anh_thanh_toan = null;
+    $trang_thai_thanh_toan = 'cho_xac_nhan';
+    
+    if ($phuong_thuc_thanh_toan === 'chuyen_khoan' && isset($_FILES['hinh_anh_thanh_toan']) && $_FILES['hinh_anh_thanh_toan']['error'] === 0) {
+        $upload_dir = '../../../uploads/payment/';
+        
+        // Tạo thư mục nếu chưa tồn tại
+        if (!file_exists($upload_dir)) {
+            mkdir($upload_dir, 0777, true);
+        }
+        
+        $file_tmp = $_FILES['hinh_anh_thanh_toan']['tmp_name'];
+        $file_name = $_FILES['hinh_anh_thanh_toan']['name'];
+        $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        
+        // Kiểm tra định dạng file
+        $allowed_ext = array('jpg', 'jpeg', 'png');
+        if (!in_array($file_ext, $allowed_ext)) {
+            $_SESSION['booking_error'] = 'Chỉ chấp nhận file ảnh JPG, JPEG, PNG!';
+            header('Location: booking.php?id=' . $tour_id);
+            exit();
+        }
+        
+        // Kiểm tra kích thước file (5MB)
+        if ($_FILES['hinh_anh_thanh_toan']['size'] > 5 * 1024 * 1024) {
+            $_SESSION['booking_error'] = 'Kích thước file quá lớn. Tối đa 5MB!';
+            header('Location: booking.php?id=' . $tour_id);
+            exit();
+        }
+        
+        // Tạo tên file mới
+        $new_file_name = 'payment_' . $ma_dat_tour . '.' . $file_ext;
+        $file_path = $upload_dir . $new_file_name;
+        
+        if (move_uploaded_file($file_tmp, $file_path)) {
+            $hinh_anh_thanh_toan = 'payment/' . $new_file_name;
+        } else {
+            $_SESSION['booking_error'] = 'Lỗi khi tải lên ảnh thanh toán!';
+            header('Location: booking.php?id=' . $tour_id);
+            exit();
+        }
+    } elseif ($phuong_thuc_thanh_toan === 'tien_mat') {
+        $trang_thai_thanh_toan = 'cho_xac_nhan';
     }
     
-    // Tạo mã đặt tour unique
-    $ma_dat_tour = 'DT' . date('Ymd') . strtoupper(substr(md5(uniqid()), 0, 6));
-    
-    // Insert vào database (thêm cột user_id)
+    // Thêm vào database
     $sql = "INSERT INTO dat_tour (
-        ma_dat_tour, tour_id, user_id, ho_ten, sdt, email, dia_chi, 
-        ngay_khoi_hanh, so_nguoi_lon, so_tre_em, so_tre_nho, 
-        tong_tien, ghi_chu, ngay_dat, trang_thai
+        ma_dat_tour, 
+        user_id, 
+        tour_id, 
+        ho_ten, 
+        sdt, 
+        email, 
+        dia_chi, 
+        ngay_khoi_hanh, 
+        so_nguoi_lon, 
+        so_tre_em, 
+        so_tre_nho, 
+        tong_tien, 
+        ghi_chu, 
+        trang_thai,
+        phuong_thuc_thanh_toan,
+        hinh_anh_thanh_toan,
+        ngay_thanh_toan,
+        trang_thai_thanh_toan
     ) VALUES (
-        '$ma_dat_tour', $tour_id, $user_id, '$ho_ten', '$sdt', '$email', '$dia_chi',
-        '$ngay_khoi_hanh', $so_nguoi_lon, $so_tre_em, $so_tre_nho,
-        $tong_tien, '$ghi_chu', NOW(), 'pending'
+        '$ma_dat_tour',
+        $user_id,
+        $tour_id,
+        '$ho_ten',
+        '$sdt',
+        '$email',
+        '$dia_chi',
+        '$ngay_khoi_hanh',
+        $so_nguoi_lon,
+        $so_tre_em,
+        $so_tre_nho,
+        $tong_tien,
+        '$ghi_chu',
+        'pending',
+        '$phuong_thuc_thanh_toan',
+        " . ($hinh_anh_thanh_toan ? "'$hinh_anh_thanh_toan'" : "NULL") . ",
+        " . ($hinh_anh_thanh_toan ? "NOW()" : "NULL") . ",
+        '$trang_thai_thanh_toan'
     )";
     
     if (mysqli_query($conn, $sql)) {
-        $_SESSION['booking_success'] = true;
-        $_SESSION['ma_dat_tour'] = $ma_dat_tour;
-        $_SESSION['customer_name'] = $ho_ten;
-        $_SESSION['customer_email'] = $email;
+        $_SESSION['booking_success'] = 'Đặt tour thành công! Mã đặt tour của bạn là: ' . $ma_dat_tour;
         
-        // Có thể gửi email thông báo ở đây
+        if ($phuong_thuc_thanh_toan === 'chuyen_khoan' && $hinh_anh_thanh_toan) {
+            $_SESSION['booking_success'] .= '<br>Biên lai thanh toán của bạn đang chờ xác nhận từ admin.';
+        } else {
+            $_SESSION['booking_success'] .= '<br>Vui lòng thanh toán khi nhận tour hoặc tại văn phòng công ty.';
+        }
         
-        header('Location: booking_success.php?code=' . $ma_dat_tour . '&tour_id=' . $tour_id);
-        exit();
+        header('Location: booking_success.php?code=' . $ma_dat_tour);
     } else {
-        $_SESSION['booking_error'] = "Có lỗi xảy ra: " . mysqli_error($conn);
-        header('Location: booking_form.php?id=' . $tour_id);
-        exit();
+        $_SESSION['booking_error'] = 'Lỗi: ' . mysqli_error($conn);
+        header('Location: booking.php?id=' . $tour_id);
     }
+    
+    mysqli_close($conn);
 } else {
-    header('Location: ../../../index.php');
-    exit();
+    header('Location: index.php');
 }
 ?>

@@ -227,7 +227,7 @@ while($row = $result_comments->fetch_assoc()) {
     </button>
       <h1>Thống Kê</h1>
       <div class="admin-info">
-        <?php echo "<p>Xin chào " . (isset($_SESSION['ho_ten']) ? $_SESSION['ho_ten'] : 'Admin') . "</p>"; ?>
+        <?php echo "<p>Xin chào " . (isset($_SESSION['username']) ? $_SESSION['username'] : 'Admin') . "</p>"; ?>
         <button onclick="window.location.href='../views/index/webindex.php'" class="logout">Trở lại</button>
       </div>
     </header>

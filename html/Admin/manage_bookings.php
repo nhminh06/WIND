@@ -184,7 +184,7 @@ $result_tours = $conn->query($sql_tours);
     </button>
       <h1>Quản lý Đặt Tour</h1>
       <div class="admin-info">
-        <?php echo "<p>Xin chào " . (isset($_SESSION['ho_ten']) ? $_SESSION['ho_ten'] : 'Admin') . "</p>"; ?>
+        <?php echo "<p>Xin chào " . (isset($_SESSION['username']) ? $_SESSION['username'] : 'Admin') . "</p>"; ?>
         <button onclick="window.location.href='../views/index/webindex.php'" class="logout">Trở lại</button>
       </div>
     </header>
@@ -235,6 +235,10 @@ $result_tours = $conn->query($sql_tours);
       <div class="content-header">
         <h2>Danh sách đặt tour</h2>
         <div style="display: flex; gap: 10px;">
+          <button onclick="window.location.href='manage_trip.php'" class="btn-add" style="background: #28a745;">
+            <i class="bi bi-airplane-fill"></i>
+            Quản lý lịch trình
+          </button>
           <button onclick="exportBookings()" class="btn-add" style="background: #28a745;">
             <i class="bi bi-file-earmark-excel"></i>
             Xuất Excel
@@ -283,14 +287,14 @@ $result_tours = $conn->query($sql_tours);
         <table>
           <thead>
             <tr>
-              <th>Mã đặt tour</th>
+              <th >Mã đặt tour</th>
               <th style="width:20%">Tour</th>
               <th>Khách hàng</th>
-              <th>Ngày khởi hành</th>
-              <th>Số khách/Tổng tiền</th>
-              <th>Ngày đặt</th>
+              <th style="width:10%">Ngày khởi hành</th>
+              <th style="width:10%">Số khách/Tổng tiền</th>
+              <th style="width:5%">Ngày đặt</th>
               <th>Trạng thái</th>
-              <th>Thao tác</th>
+              <th style="width:10%">Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -375,20 +379,45 @@ $result_tours = $conn->query($sql_tours);
                         $text = 'Đã hủy';
                         break;
                 }
+                  $badge_class1 = '';
+                $icon1 = '';
+                $text1 = '';
+                
+                switch($row['trang_thai_thanh_toan']) {
+                    case 'da_thanh_toan':
+                        $badge_class1 = 'badge-confirmed1';
+                        $icon1 = 'bi-check-circle';
+                        $text1 = 'Đã thanh toán';
+                        break;
+                    case 'cho_xac_nhan':
+                        $badge_class1 = 'badge-pending1';
+                        $icon1 = 'bi-clock';
+                        $text1 = 'chưa thanh toán';
+                        break;
+                    case 'tu_choi':
+                        $badge_class1 = 'badge-cancelled1';
+                        $icon1 = 'bi-x-circle';
+                        $text1 = 'Từ chối ';
+                        break;
+                }
+
                 ?>
                 <span class="<?php echo $badge_class; ?>">
                   <i class="<?php echo $icon; ?>"></i> <?php echo $text; ?>
+                </span><br> <br>
+                <span class="<?php echo $badge_class1; ?>">
+                  <i class="<?php echo $icon1; ?>"></i> <?php echo $text1; ?>
                 </span>
               </td>
               <td>
                 <div class="action-buttons">
-                  <a href="booking_detail.php?id=<?php echo $row['id']; ?>" 
+                  <a href="tour_booking_details.php?id=<?php echo $row['id']; ?>" 
                      class="btn-icon btn-view-1" 
                      title="Xem chi tiết">
                     <i class="bi bi-eye"></i>
                   </a>
 
-                  <?php if ($row['trang_thai'] == 'pending'): ?>
+                  <?php if ($row['trang_thai'] == 'pending' || $row['trang_thai'] == 'cancelled'): ?>
                   <a href="../../php/BookingCTL/confirm_booking.php?id=<?php echo $row['id']; ?>" 
                      class="btn-icon btn-edit" 
                      title="Xác nhận đặt tour"
@@ -397,7 +426,7 @@ $result_tours = $conn->query($sql_tours);
                   </a>
                   <?php endif; ?>
 
-                  <?php if ($row['trang_thai'] != 'cancelled'): ?>
+                  <?php if ($row['trang_thai'] != 'cancelled' || $row['trang_thai'] != 'confirmed'): ?>
                   <a href="../../php/BookingCTL/cancel_booking.php?id=<?php echo $row['id']; ?>" 
                      class="btn-icon btn-view" 
                      title="Hủy đặt tour"
