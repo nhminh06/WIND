@@ -27,6 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     //     header("Location: ../../html/Admin/UserController.php");
     //     exit();
     // }
+    if($user_id == $_SESSION['user_id']) {
+        $_SESSION['error'] = "Không thể thay đổi quyền của bản thân.";
+        header("Location: ../../html/Admin/UserController.php");
+        exit();
+
+    }
 
     // Cập nhật vai trò
     $update_sql = "UPDATE user SET role = ? WHERE id = ?";

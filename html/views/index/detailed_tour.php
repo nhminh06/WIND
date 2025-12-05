@@ -252,7 +252,7 @@ if ($num_reviews > 0) {
                                
                                 </div>
                                 <div class="detailed_item_tt">
-                                   <p><?php echo "Ngày: " . $row_lt['ngay']; ?></p>
+                                 
                                 <p><?php echo  $row_lt['noi_dung']; ?></p>
                                 </div>
                               </div> 

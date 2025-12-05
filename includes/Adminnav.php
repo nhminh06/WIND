@@ -25,7 +25,7 @@
             echo '<i class="bi bi-bookmark-check"></i> ' . $_SESSION["ketqua"] . '!';
             unset($_SESSION['ketqua']);
         } else {
-            echo '<i class="bi bi-x-circle"></i> ' . $_SESSION["ketqua"] . '!';
+            echo '<i class="bi bi-x-circle"></i> ' . ($_SESSION["ketqua"] ?? '') . '!';
             unset($_SESSION['ketqua']);
         }
         unset($_SESSION['thanhcong']);

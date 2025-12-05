@@ -17,11 +17,11 @@
     <div class="footer_services">
       <h3>Dịch vụ</h3>
       <ul>
-        <li>Tour khám phá miền núi</li>
-        <li>Tour nghỉ dưỡng biển đảo</li>
-        <li>Tour gia đình – tiện nghi & an toàn</li>
-        <li>Tour trải nghiệm văn hóa bản địa</li>
-        <li>Thiết kế tour theo yêu cầu riêng</li>
+        <li onclick="window.location.href='tour.php'">Tour khám phá miền Trung</li>
+        <li onclick="window.location.href='tour.php'">Tour nghỉ dưỡng biển đảo</li>
+        <li onclick="window.location.href='tour.php'">Tour gia đình – tiện nghi & an toàn</li>
+        <li onclick="window.location.href='tour.php'">Tour trải nghiệm văn hóa miền Trung</li>
+        <li onclick="window.location.href='tour.php'">Thiết kế tour theo yêu cầu riêng</li>
       </ul>
     </div>
     <div class="footer_contact">

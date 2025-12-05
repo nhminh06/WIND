@@ -214,6 +214,7 @@ td > textarea {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 1;
 }
 
 .sidebar .logo {
@@ -258,6 +259,11 @@ i{
 
 /* Header */
 .header {
+     position: fixed;    /* Giữ nguyên ở trên */
+  top: 0;
+  left: 0;
+  width: 100%;          /* Để không bị co lại */
+  z-index: 0;  
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -268,6 +274,7 @@ i{
 
 .header h1 {
   font-size: 22px;
+      margin-left: 250px;
 }
 
 .admin-info {
@@ -293,6 +300,7 @@ i{
 /* Content */
 .content {
   padding: 30px;
+  margin-top: 60px;
 }
 
 .content h2 {

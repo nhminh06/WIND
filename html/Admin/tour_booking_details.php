@@ -87,7 +87,7 @@ $conn->close();
             </button>
             <h1>Chi tiết đặt tour #<?php echo htmlspecialchars($booking['ma_dat_tour']); ?></h1>
             <div class="admin-info">
-                <p>Xin chào <?php echo $_SESSION['ho_ten'] ?? 'Admin'; ?></p>
+                <p>Xin chào <?php echo $_SESSION['username'] ?? 'Admin'; ?></p>
                 <button onclick="window.location.href='manage_bookings.php'" class="logout">Quay lại</button>
             </div>
         </header>
