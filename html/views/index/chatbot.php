@@ -551,7 +551,7 @@
           <div class="header-avatar">✈️</div>
           <div class="header-text">
             <h3>AI Travel Assistant</h3>
-            <p>🤖 Tìm tour từ CSDL của bạn</p>
+            <p>🤖 Tìm Các địa điểm ở khu vực</p>
           </div>
         </div>
         <div class="header-actions">
@@ -572,26 +572,10 @@
         <div class="message bot">
           <div class="msg-avatar">🤖</div>
           <div class="msg-bubble">
-            <div class="msg-text">Xin chào! 👋 Tôi có thể giúp bạn tìm tour du lịch từ hệ thống.
-
-Hãy thử hỏi:
-🔍 "Đà Nẵng"
-💰 "5 triệu"
-📅 "3 ngày 2 đêm"
-🌴 "Phú Quốc"</div>
+            <div class="msg-text">Xin chào! 👋 Tôi có thể giúp gì cho bạn hay không.
+</div>
             <div class="msg-time" id="welcomeTime"></div>
           </div>
-        </div>
-      </div>
-
-      <div class="quick-suggestions" id="quickSuggestions">
-        <div class="quick-title">💡 Gợi ý nhanh các tour</div>
-        <div class="suggestions-grid">
-          <button class="suggestion-btn">Hà Nội</button>
-          <button class="suggestion-btn">Phú Quốc</button>
-          <button class="suggestion-btn">Huế</button>
-          <button class="suggestion-btn">3 triệu</button>
-          <button class="suggestion-btn">3 ngày</button>
         </div>
       </div>
 
@@ -611,252 +595,68 @@ Hãy thử hỏi:
   </div>
 
   <script>
-    const chatBubbleBtn = document.getElementById('chatBubbleBtn');
-    const chatWindow = document.getElementById('chatWindow');
-    const messagesArea = document.getElementById('messagesArea');
-    const chatInput = document.getElementById('chatInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const notificationBadge = document.getElementById('notificationBadge');
-    const minimizeBtn = document.getElementById('minimizeBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const quickSuggestions = document.getElementById('quickSuggestions');
 
-    let conversationHistory = [];
-let isTyping = false;
-    let toursData = [];
+const chatBubbleBtn = document.getElementById("chatBubbleBtn");
+const chatWindow = document.getElementById("chatWindow");
+const messagesArea = document.getElementById("messagesArea");
+const chatInput = document.getElementById("chatInput");
+const sendBtn = document.getElementById("sendBtn");
 
-    document.getElementById('welcomeTime').textContent = getCurrentTime();
+// ==== Bật / tắt cửa sổ ====
+chatBubbleBtn.addEventListener("click", () => {
+  chatBubbleBtn.classList.toggle("active");
+  chatWindow.classList.toggle("active");
+});
 
-    // Toggle chat
-    chatBubbleBtn.addEventListener('click', () => {
-      chatWindow.classList.toggle('active');
-      chatBubbleBtn.classList.toggle('active');
-      if (chatWindow.classList.contains('active')) {
-        notificationBadge.classList.add('hidden');
-        chatInput.focus();
-      }
-    });
+// ==== Gửi tin nhắn ====
+sendBtn.addEventListener("click", () => sendMessage());
+chatInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
 
-    minimizeBtn.addEventListener('click', () => {
-      chatWindow.classList.remove('active');
-      chatBubbleBtn.classList.remove('active');
-    });
+function sendMessage() {
+  const text = chatInput.value.trim();
+  if (!text) return;
 
-    clearBtn.addEventListener('click', () => {
-      if (confirm('Bạn có chắc muốn xóa toàn bộ cuộc trò chuyện?')) {
-        messagesArea.innerHTML = '';
-        conversationHistory = [];
-        addMessage('bot', 'Đã xóa lịch sử chat. Tôi sẵn sàng giúp bạn! 🌏');
-        quickSuggestions.style.display = 'flex';
-      }
-    });
+  // ==== Thêm tin nhắn user lên giao diện ====
+  appendMessage("user", text);
+  chatInput.value = "";
 
-    document.querySelectorAll('.suggestion-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        chatInput.value = btn.textContent;
-        sendMessage();
-      });
-    });
+  // ==== Gửi lên API PHP ====
+  fetch("travel_ai.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: text })
+  })
+  .then(res => res.json())
+  .then(data => {
+    appendMessage("bot", data.reply);
+  })
+  .catch(() => {
+    appendMessage("bot", "❌ Lỗi kết nối API!");
+  });
+}
 
-    chatInput.addEventListener('input', () => {
-      chatInput.style.height = 'auto';
-      chatInput.style.height = Math.min(chatInput.scrollHeight, 100) + 'px';
-    });
+// ==== Hàm thêm tin nhắn ====
+function appendMessage(sender, text) {
+  const msg = document.createElement("div");
+  msg.className = "message " + sender;
 
-    sendBtn.addEventListener('click', sendMessage);
-    chatInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-      }
-    });
+  msg.innerHTML = `
+    <div class="msg-avatar">${sender === "bot" ? "🤖" : "🧑"}</div>
+    <div class="msg-bubble">
+      <div class="msg-text">${text}</div>
+    </div>
+  `;
 
-    async function sendMessage() {
-      const text = chatInput.value.trim();
-      if (!text || isTyping) return;
+  messagesArea.appendChild(msg);
+  messagesArea.scrollTop = messagesArea.scrollHeight;
+}
 
-      quickSuggestions.style.display = 'none';
-      addMessage('user', text);
-      chatInput.value = '';
-      chatInput.style.height = 'auto';
 
-      showTypingIndicator();
-
-      // Tìm trong database
-      const tours = await searchToursInDB(text);
-      
-      removeTypingIndicator();
-      
-      if (tours.length > 0) {
-        displayToursAsCards(tours, text);
-      } else {
-        // Không tìm thấy tour, trả lời mặc định (KHÔNG GỌI AI)
-        const defaultResponse = `Xin lỗi, tôi không tìm thấy tour "${text}" trong hệ thống. 
-        Hoặc xem tất cả tour tại trang chủ! 😊`;
-        addMessage('bot', defaultResponse);
-      }
-    }
-
-    async function searchToursInDB(query) {
-      try {
-        // ĐỔI ĐƯỜNG DẪN NÀY CHO ĐÚNG VỚI CẤU TRÚC CỦA BẠN
-        const apiUrl = 'search_tours.php';
-        const response = await fetch(`${apiUrl}?q=${encodeURIComponent(query)}`);
-        
-        console.log('Gọi API:', `${apiUrl}?q=${query}`);
-        console.log('Status:', response.status);
-        
-        if (!response.ok) {
-          console.error('API trả về lỗi:', response.status);
-return getDemoTours(query);
-        }
-        
-        const text = await response.text();
-        console.log('Response từ server:', text);
-        
-        try {
-          const data = JSON.parse(text);
-          
-          if (data.success && data.tours) {
-            console.log('Tìm thấy:', data.tours.length, 'tour');
-            return data.tours;
-          } else {
-            console.log('Không có tour trong kết quả');
-            return [];
-          }
-        } catch (parseError) {
-          console.error('Lỗi parse JSON:', parseError);
-          console.error('Nội dung lỗi:', text.substring(0, 500));
-          return getDemoTours(query);
-        }
-      } catch (error) {
-        console.error('Lỗi kết nối:', error.message);
-        return getDemoTours(query);
-      }
-    }
-
-   
-
-    function displayToursAsCards(tours, query) {
-      const tourCount = tours.length;
-      let message = `🔍 Tìm thấy ${tourCount} tour phù hợp với "${query}":\n\n`;
-      
-      addMessage('bot', message);
-
-      tours.forEach(tour => {
-        const tourCard = document.createElement('div');
-        tourCard.className = 'message bot';
-        
-        const imageUrl = tour.hinh_anh ? 
-          `uploads/${tour.hinh_anh}` : 
-          'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=300';
-
-        tourCard.innerHTML = `
-          <div class="msg-avatar">🎫</div>
-          <div class="msg-bubble">
-            <div class="tour-card" onclick="window.open('detailed_tour.php?id=${tour.id}', '_blank')">
-              <div class="tour-card-header">
-                <img src="../../../${imageUrl}" alt="${tour.ten_tour}" class="tour-card-img" onerror="this.src='https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=300'">
-                <div class="tour-card-info">
-                  <div class="tour-card-title">${tour.ten_tour}</div>
-<div class="tour-card-meta">
-                    <span>📅 ${tour.so_ngay} ngày</span>
-                    <span>⭐ 4.5</span>
-                  </div>
-                </div>
-              </div>
-              <div class="tour-card-footer">
-                <div class="tour-card-price">${formatPrice(tour.gia)}</div>
-                <button class="tour-card-btn">Xem chi tiết</button>
-              </div>
-            </div>
-            <div class="msg-time">${getCurrentTime()}</div>
-          </div>
-        `;
-        
-        messagesArea.appendChild(tourCard);
-      });
-
-      messagesArea.scrollTop = messagesArea.scrollHeight;
-    }
-
-    function addMessage(sender, text) {
-      const messageDiv = document.createElement('div');
-      messageDiv.className = `message ${sender}`;
-      
-      messageDiv.innerHTML = `
-        <div class="msg-avatar">${sender === 'bot' ? '🤖' : '👤'}</div>
-        <div class="msg-bubble">
-          <div class="msg-text">${escapeHtml(text)}</div>
-          <div class="msg-time">${getCurrentTime()}</div>
-        </div>
-      `;
-      
-      messagesArea.appendChild(messageDiv);
-      messagesArea.scrollTop = messagesArea.scrollHeight;
-    }
-
-    function showTypingIndicator() {
-      isTyping = true;
-      sendBtn.disabled = true;
-      
-      const typingDiv = document.createElement('div');
-      typingDiv.className = 'message bot';
-      typingDiv.id = 'typingIndicator';
-      typingDiv.innerHTML = `
-        <div class="msg-avatar">🤖</div>
-        <div class="msg-bubble">
-          <div class="typing-indicator">
-            <div class="typing-dot"></div>
-            <div class="typing-dot"></div>
-            <div class="typing-dot"></div>
-          </div>
-        </div>
-      `;
-      
-      messagesArea.appendChild(typingDiv);
-      messagesArea.scrollTop = messagesArea.scrollHeight;
-    }
-
-    function removeTypingIndicator() {
-      const indicator = document.getElementById('typingIndicator');
-      if (indicator) indicator.remove();
-      isTyping = false;
-      sendBtn.disabled = false;
-    }
-
-    async function getAIResponse(userMessage) {
-      // TẠM THỜI TẮT AI, CHỈ TRẢ LỜI TỰ ĐỘNG
-      return `Xin lỗi, tôi không tìm thấy tour "${userMessage}" trong hệ thống. 
-
-Bạn có thể thử:
-🔍 Tìm theo địa điểm: "Đà Nẵng", "Hội An", "Huế"
-💰 Tìm theo giá: "dưới 3 triệu", "5 triệu"
-📅 Tìm theo thời gian: "2 ngày", "3 ngày"
-
-Hoặc xem tất cả tour tại trang chủ! 😊`;
-      
-    }
-
-    function formatPrice(price) {
-      return new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND'
-      }).format(price);
-    }
-
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    function getCurrentTime() {
-      return new Date().toLocaleTimeString('vi-VN', { 
-        hour: '2-digit', 
-        minute: '2-digit' 
-      });
-    }
   </script>
 
 </body>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../../../db/db.php';
+include '../../db/db.php';
 
 // Kiểm tra đăng nhập
 if (!isset($_SESSION['user_id'])) {
@@ -123,14 +123,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['booking_success'] .= '<br>Vui lòng thanh toán khi nhận tour hoặc tại văn phòng công ty.';
         }
         
-        header('Location: booking_success.php?code=' . $ma_dat_tour);
+        header('Location: ../../html/views/index/booking_success.php?code=' . $ma_dat_tour);
     } else {
         $_SESSION['booking_error'] = 'Lỗi: ' . mysqli_error($conn);
-        header('Location: booking.php?id=' . $tour_id);
+        header('Location: ../../../html/views/index/booking.php?id=' . $tour_id);
     }
     
     mysqli_close($conn);
 } else {
-    header('Location: index.php');
+    header('Location: ../../../html/views/index/Webindex.php');
 }
 ?>

@@ -149,8 +149,10 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
 <body><?php include '../../../includes/header.php'; ?>
     <div style=" margin-top: 85px;" class="booking-container box fade-up">
         <div class="booking-header">
+            
             <h1><i class="bi bi-ticket-perforated"></i> THÔNG TIN LIÊN HỆ</h1>
             <p>Xin chào: <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong></p>
+            
         </div>
 
         <?php
@@ -173,6 +175,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
         ?>
 
         <div class="booking-content">
+            
             <!-- Sidebar Tour Info -->
             <div class="tour-sidebar">
                 <img class="tour-image" src="../../../uploads/<?php echo htmlspecialchars($tour['hinh_anh']); ?>" alt="Tour">
@@ -219,12 +222,13 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
                     </div>
                 </div>
                 <?php endif; ?>
+
                  <a href="detailed_tour.php?id=<?php echo $matour; ?>" class="back-link">← Quay lại</a>
             </div>
 
             <!-- Booking Form -->
             <div class="booking-form">
-                <form id="bookingForm" method="POST" action="process_booking.php" enctype="multipart/form-data">
+                <form id="bookingForm" method="POST" action="../../../php/BookingCTL/process_booking.php" enctype="multipart/form-data">
                     <input type="hidden" name="tour_id" value="<?php echo $matour; ?>">
                     <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
                     
@@ -290,6 +294,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
                         </div>
                     </div>
 
+
                     <div class="form-section">
                         <h3><i class="bi bi-chat-dots"></i> GHI CHÚ</h3>
                         <div class="form-group">
@@ -326,6 +331,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
                     </div>
 
                     <input type="hidden" name="tong_tien" id="total-input" value="<?php echo $gia['gia_nguoi_lon']; ?>">
+
 
                     <!-- PHẦN THANH TOÁN MỚI -->
                     <div class="payment-section">
@@ -410,6 +416,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
                         <i class="bi bi-check-circle"></i> Xác Nhận Đặt Tour
                     </button>
                    
+
                     <?php endif; ?>
                 </form>
             </div>
