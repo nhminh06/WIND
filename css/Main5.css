@@ -243,20 +243,21 @@ body.dark_mode a {
     align-items: center;
     gap: 20px;
 }
-.methol > button{
+.methol > a{
     width: 45px;
     height: 45px;
     border: none;
     outline: none;
     border-radius: 50%;
+    background-color: #64606020;    
     
 }
-.methol > button > svg{
+.methol > a > svg{
     width: 45px;
     height: 45px;
     
 }
- .methol> button:active{
+ .methol> a:active{
     transform: scale(0.85);
     transition: all 0.3s ease;
 }
