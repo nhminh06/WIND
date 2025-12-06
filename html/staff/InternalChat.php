@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thông Báo Nội Bộ</title>
   <link rel="stylesheet" href="../../css/Staff.css">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
   <style>
     .main-content {
@@ -63,7 +64,7 @@
   </style>
 </head>
 <body>
-  <?php include('menu.php'); ?>
+  <?php include('../../includes/Staffnav.php'); ?>
 
   <div class="main-content">
     <h2 class="main-title">📢 Thông Báo Nội Bộ</h2>

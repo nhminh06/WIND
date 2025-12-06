@@ -10,41 +10,40 @@ if (!isset($_SESSION['user_id'])) {
 $staff_id = $_SESSION['user_id'];
 
 // Lấy thông tin cơ bản
-$sql = "SELECT * FROM user WHERE id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $staff_id);
-$stmt->execute();
-$staff = $stmt->get_result()->fetch_assoc();
+$sql = "SELECT * FROM user WHERE id = ".$staff_id;
+$result = mysqli_query($conn, $sql);
 
-// ✅ Kiểm tra và set default values nếu không tồn tại
-// Nếu chưa có cột position và about trong DB, sử dụng giá trị mặc định
-$staff['position'] = isset($staff['position']) && $staff['position'] ? $staff['position'] : 'Nhân viên';
-$staff['about'] = isset($staff['about']) && $staff['about'] ? $staff['about'] : 'Chưa có thông tin giới thiệu.';
-
-// Xử lý avatar - ưu tiên avatar, nếu không có thì dùng ảnh mặc định
-if (isset($staff['avatar']) && !empty($staff['avatar']) && $staff['avatar'] != 'NULL' && file_exists($staff['avatar'])) {
-    $staff['avatar'] = $staff['avatar'];
+if(mysqli_num_rows($result) > 0){
+    $row = mysqli_fetch_assoc($result);
+    
+    // ✅ Xử lý ngày sinh
+    $ngay_sinh = $row['ngay_sinh'] ?? '2000-01-01';
+    list($nam, $thang, $ngay) = explode('-', $ngay_sinh);
+    $thang = (int)$thang;
+    $ngay = (int)$ngay;
 } else {
-    // Tạo avatar mặc định với chữ cái đầu của tên
-    $first_letter = mb_substr($staff['ho_ten'], 0, 1, 'UTF-8');
-    $staff['avatar'] = 'https://ui-avatars.com/api/?name=' . urlencode($first_letter) . '&background=667eea&color=fff&size=120';
+    die("Không tìm thấy thông tin người dùng!");
 }
 
-// ✅ FIX: Lấy kỹ năng và lưu vào array ngay
-$sqlSkill = "SELECT * FROM staff_skill WHERE staff_id = ?";
-$stmt_skill = $conn->prepare($sqlSkill);
-$stmt_skill->bind_param("i", $staff_id);
-$stmt_skill->execute();
-$skills_result = $stmt_skill->get_result();
-$skills = $skills_result->fetch_all(MYSQLI_ASSOC);
+// Lấy kỹ năng
+$sqlSkill = "SELECT * FROM staff_skill WHERE staff_id = $staff_id";
+$skills_result = mysqli_query($conn, $sqlSkill);
+$skills = [];
+if($skills_result) {
+    while($skill = mysqli_fetch_assoc($skills_result)) {
+        $skills[] = $skill;
+    }
+}
 
-// ✅ FIX: Lấy kinh nghiệm và lưu vào array ngay
-$sqlExp = "SELECT * FROM staff_experience WHERE staff_id = ? ORDER BY year_start DESC";
-$stmt_exp = $conn->prepare($sqlExp);
-$stmt_exp->bind_param("i", $staff_id);
-$stmt_exp->execute();
-$exps_result = $stmt_exp->get_result();
-$exps = $exps_result->fetch_all(MYSQLI_ASSOC);
+// Lấy kinh nghiệm
+$sqlExp = "SELECT * FROM staff_experience WHERE staff_id = $staff_id ORDER BY year_start DESC";
+$exps_result = mysqli_query($conn, $sqlExp);
+$exps = [];
+if($exps_result) {
+    while($exp = mysqli_fetch_assoc($exps_result)) {
+        $exps[] = $exp;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -52,592 +51,635 @@ $exps = $exps_result->fetch_all(MYSQLI_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/Staff.css">
-    <title>Hồ sơ nhân viên du lịch</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #1e1e2f;
-            display: flex;
-            min-height: 100vh;
-        }
-
-        .main-content {
-            margin-left: 250px;
-            flex: 1;
-            background: linear-gradient(180deg, #e8f5e9 0%, #a5d6a7 30%, #66bb6a 60%, #43a047 100%);
-            min-height: 100vh;
-            position: relative;
-        }
-
-        .header-section {
-            text-align: center;
-            padding: 40px 20px;
-            color: white;
-            position: relative;
-        }
-
-        .profile-photo {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 4px solid white;
-            margin: 0 auto 20px;
-            display: block;
-            object-fit: cover;
-        }
-
-        .header-section h1 {
-            font-size: 36px;
-            margin-bottom: 10px;
-        }
-
-        .header-section h2 {
-            font-size: 20px;
-            font-weight: 400;
-            opacity: 0.95;
-        }
-
-        .edit-btn-float {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            padding: 12px 30px;
-            background: white;
-            color: #28a745;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s;
-            z-index: 9999;
-        }
-
-        .edit-btn-float:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .content-wrapper {
-            padding: 40px;
-        }
-
-        .section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .section h3 {
-            color: #28a745;;
-            font-size: 24px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .section p {
-            line-height: 1.8;
-            color: #555;
-            font-size: 16px;
-            text-align: justify;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
-        }
-
-        .skill-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            border: 2px solid #28a745;
-            color: #555;
-            font-size: 15px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .experience-card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border-left: 5px solid #28a745;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .experience-card h4 {
-            color: #28a745;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .experience-card p {
-            color: #666;
-            margin: 0;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 700px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .modal-header h2 {
-            color: #28a745;
-            font-size: 28px;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 30px;
-            color: #999;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .close-btn:hover {
-            color: #667eea;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-group label {
-            display: block;
-            color: #333;
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 15px;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 15px;
-            font-family: inherit;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #28a745;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: flex-end;
-            margin-top: 30px;
-        }
-
-        .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: #28a745;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: #e0e0e0;
-            color: #666;
-        }
-
-        .btn-secondary:hover {
-            background: #d0d0d0;
-        }
-
-        .photo-upload {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .photo-preview {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #28a745;
-            margin-bottom: 15px;
-        }
-
-        .upload-btn {
-            display: inline-block;
-            padding: 8px 20px;
-            background: #28a745;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .upload-btn:hover {
-            background: #764ba2;
-        }
-
-        #photoInput {
-            display: none;
-        }
-
-        .skill-input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .skill-input-group input {
-            flex: 1;
-        }
-
-        .add-skill-btn {
-            padding: 10px 20px;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .skill-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 15px;
-            background: #f0f0f0;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .remove-skill-btn {
-            padding: 5px 15px;
-            background: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .exp-input-group {
-            border: 2px solid #e0e0e0;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        .exp-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .remove-exp-btn {
-            padding: 5px 15px;
-            background: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .add-exp-btn {
-            padding: 10px 20px;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 15px;
-        }
-
-        .row {
-            display: flex;
-            gap: 15px;
-        }
-
-        .col-6 {
-            flex: 1;
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                margin-left: 200px;
-            }
-            
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .row {
-                flex-direction: column;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../../css/staff2-0.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <title>Cài đặt tài khoản</title>
+    
 </head>
 <body>
-    <?php include('menu.php'); ?>
+    <?php include('../../includes/Staffnav.php'); ?>
 
     <div class="main-content">
-        <button class="edit-btn-float" onclick="openEditModal()">🔧 Sửa hồ sơ</button>
-        
-        <div class="header-section">
-            <img src="<?= htmlspecialchars($staff['staff_avatar']) ?>" alt="Profile" class="profile-photo" id="profilePhoto">
-            <h1 id="staffName"><?= htmlspecialchars($staff['ho_ten']) ?></h1>
-            <h2 id="staffPosition"><?= htmlspecialchars($staff['position']) ?></h2>
-        </div>
-        <div class="content-wrapper">
-            <div class="section">
-                <h3>Về tôi</h3>
-                <p id="aboutText"><?= nl2br(htmlspecialchars($staff['about'])) ?></p>
-            </div>
+        <div class="settings-wrapper">
+            <div class="settings-container">
 
-            <div class="section">
-                <h3>Kỹ năng</h3>
-                <div class="skills-grid" id="skillsList">
-                    <?php if(empty($skills)): ?>
-                        <p style="text-align: center; color: #999;">Chưa có kỹ năng nào</p>
-                    <?php else: ?>
-                        <?php foreach($skills as $skill): ?>
-                            <div class="skill-card"><?= htmlspecialchars($skill['skill_name']) ?></div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                <!-- Tabs -->
+                <div class="settings-header">
+                    <div class="settings-tabs">
+                        <div class="settings-tab active-tab">Thông tin tài khoản</div>
+                        <div class="settings-tab">Mật khẩu & Bảo mật</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="section">
-                <h3>Kinh nghiệm làm việc</h3>
-                <div id="experienceList">
-                    <?php if(empty($exps)): ?>
-                        <p style="text-align: center; color: #999;">Chưa có kinh nghiệm nào</p>
-                    <?php else: ?>
-                        <?php foreach($exps as $exp): ?>
-                            <div class="experience-card">
-                                <h4>
-                                    <?= htmlspecialchars($exp['year_start']) ?> - 
-                                    <?= $exp['year_end'] ? htmlspecialchars($exp['year_end']) : "Hiện tại" ?> :
-                                    <?= htmlspecialchars($exp['title']) ?>
-                                </h4>
-                                <p><?= htmlspecialchars($exp['description']) ?></p>
+                <div class="settings-content">
+
+                    <!-- Tab Thông tin tài khoản -->
+                    <div class="account-section">
+
+                        <!-- Form dữ liệu cá nhân -->
+                        <form id="basicInfoForm">
+                            <div class="settings-section">
+                                <h2>Dữ liệu cá nhân</h2>
+                                
+                                <div class="staff-card">
+                                   <div class="avatar">
+                                    <img id="avatarImg" src="<?php echo "../../../" . (!empty($_SESSION['avatar']) ? $_SESSION['avatar'] : 'img/avatamacdinh.png'); ?>" alt="Ảnh đại diện" style="cursor: pointer;">
+                                    <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                                    </div>
+                                    <div class="rank-staff">
+                                        <h4><?php echo htmlspecialchars($row['ho_ten']); ?></h4>
+                                        <p>
+                                            <?php
+                                            $role = $row['role'] ?? 'user';
+                                            if($role == 'staff') {
+                                                echo '<i class="bi bi-backpack4-fill"></i> Nhân viên';
+                                            } 
+                                            ?>
+                                            • <i class="bi bi-star-fill"></i> Rank <?php echo $row['rank'] ?? 0; ?>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="settings-form-group">
+                                    <label>Họ và tên đầy đủ</label>
+                                    <input type="text" name="ho_ten" value="<?php echo htmlspecialchars($row['ho_ten']); ?>" class="settings-input" disabled>
+                                </div>
+
+                                <div class="settings-form-group">
+                                    <label>Giới tính</label>
+                                    <select name="gioi_tinh" class="settings-select" disabled>
+                                        <option value="">Chọn giới tính</option>
+                                        <option value="Nam" <?php echo ($row['gioi_tinh'] ?? '') == 'Nam' ? 'selected' : ''; ?>>Nam giới</option>
+                                        <option value="Nữ" <?php echo ($row['gioi_tinh'] ?? '') == 'Nữ' ? 'selected' : ''; ?>>Nữ giới</option>
+                                        <option value="Khác" <?php echo ($row['gioi_tinh'] ?? '') == 'Khác' ? 'selected' : ''; ?>>Khác</option>
+                                    </select>
+                                </div>
+
+                                <div class="settings-form-group">
+                                    <label>Ngày sinh</label>
+                                    <div class="settings-date-group">
+                                        <input class="settings-input" type="number" name="ngay" value="<?php echo $ngay; ?>" min="1" max="31" placeholder="Ngày" disabled>
+                                        <select name="thang" class="settings-select" disabled>
+                                            <option value="">Chọn tháng</option>
+                                            <?php for($i=1;$i<=12;$i++): ?>
+                                                <option value="<?php echo $i; ?>" <?php echo $thang==$i?'selected':''; ?>>Tháng <?php echo $i; ?></option>
+                                            <?php endfor; ?>
+                                        </select>
+                                        <input class="settings-input" type="number" name="nam" value="<?php echo $nam; ?>" min="1900" max="<?php echo date('Y'); ?>" placeholder="Năm" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="settings-form-group">
+                                    <label>Địa chỉ</label>
+                                    <input type="text" name="dia_chi" value="<?php echo htmlspecialchars($row['dia_chi'] ?? ''); ?>" class="settings-input" disabled>
+                                </div>
+
+                                <div class="settings-button-group">
+                                    <button type="button" class="settings-btn settings-btn-secondary btn-edit">Chỉnh sửa</button>
+                                    <button type="button" onclick="saveBasicInfo()" class="settings-btn settings-btn-primary">Lưu thay đổi</button>
+                                </div>
                             </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                        </form>
+
+                        <!-- Email -->
+                        <div class="settings-section">
+                            <h2>E-mail</h2>
+                            <input style="margin-bottom: 15px;" type="email" 
+                                id="emailInput"
+                                value="<?php echo htmlspecialchars($row['email']); ?>" 
+                                class="settings-input" 
+                                disabled>
+                            <button type="button" class="settings-btn settings-link-btn edit-email-btn">
+                                + Chỉnh sửa Email
+                            </button>
+                            <button type="button" onclick="saveEmail()" class="settings-btn settings-btn-primary" style="display:none; margin-top:10px;" id="saveEmailBtn">
+                                Lưu Email
+                            </button>
+                        </div>
+
+                        <!-- SĐT -->
+                        <div class="settings-section">
+                            <h2>Số điện thoại di động</h2>
+                            <input style="margin-bottom: 15px;" type="text" 
+                                id="phoneInput"
+                                value="<?php echo htmlspecialchars($row['sdt'] ?? ''); ?>" 
+                                class="settings-input" 
+                                disabled>
+                            <button type="button" class="settings-btn settings-link-btn edit-phone-btn">
+                                + Chỉnh sửa số điện thoại
+                            </button>
+                            <button type="button" onclick="savePhone()" class="settings-btn settings-btn-primary" style="display:none; margin-top:10px;" id="savePhoneBtn">
+                                Lưu số điện thoại
+                            </button>
+                        </div>
+
+                        <!-- Giới thiệu bản thân -->
+                        <div class="settings-section">
+                            <h2><i class="bi bi-file-earmark-check-fill"></i> Giới thiệu bản thân</h2>
+                            <?php if(!empty($row['about'])): ?>
+                                <div class="about-content">
+                                    <?php echo nl2br(htmlspecialchars($row['about'])); ?>
+                                </div>
+                                <button type="button" class="add-info-btn edit-info-btn" onclick="editAbout()">
+                                    <i class="bi bi-pencil-square"></i> Chỉnh sửa giới thiệu
+                                </button>
+                            <?php else: ?>
+                                <div class="empty-state">
+                                    Bạn chưa có giới thiệu bản thân
+                                    <br>
+                                    <button type="button" class="add-info-btn" onclick="editAbout()">
+                                        + Thêm giới thiệu
+                                    </button>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+
+                        <!-- Kỹ năng -->
+                        <div class="settings-section">
+                            <h2><i class="bi bi-clipboard-check-fill"></i> Kỹ năng</h2>
+                            <?php if(!empty($skills)): ?>
+                                <div class="skills-grid">
+                                    <?php foreach($skills as $skill): ?>
+                                        <div class="skill-tag">
+                                            <?php echo htmlspecialchars($skill['skill_name']); ?>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                                <button type="button" class="add-info-btn edit-info-btn" onclick="manageSkills()">
+                                    <i class="bi bi-pencil-square"></i> Quản lý kỹ năng
+                                </button>
+                            <?php else: ?>
+                                <div class="empty-state">
+                                    Bạn chưa thêm kỹ năng nào
+                                    <br>
+                                    <button type="button" class="add-info-btn" onclick="manageSkills()">
+                                        + Thêm kỹ năng
+                                    </button>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+
+                        <!-- Kinh nghiệm làm việc -->
+                        <div class="settings-section">
+                            <h2><i class="bi bi-briefcase-fill"></i> Kinh nghiệm làm việc</h2>
+                            <?php if(!empty($exps)): ?>
+                                <div class="experience-list">
+                                    <?php foreach($exps as $exp): ?>
+                                        <div class="experience-item">
+                                            <div class="experience-header">
+                                                <?php echo htmlspecialchars($exp['title']); ?>
+                                            </div>
+                                            <div class="experience-period">
+                                                <?php echo htmlspecialchars($exp['year_start']); ?> - 
+                                                <?php echo !empty($exp['year_end']) ? htmlspecialchars($exp['year_end']) : 'Hiện tại'; ?>
+                                            </div>
+                                            <?php if(!empty($exp['description'])): ?>
+                                                <div class="experience-description">
+                                                    <?php echo nl2br(htmlspecialchars($exp['description'])); ?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                                <button type="button" class="add-info-btn edit-info-btn" onclick="manageExperience()">
+                                    <i class="bi bi-pencil-square"></i> Quản lý kinh nghiệm
+                                </button>
+                            <?php else: ?>
+                                <div class="empty-state">
+                                    Bạn chưa thêm kinh nghiệm làm việc nào
+                                    <br>
+                                    <button type="button" class="add-info-btn" onclick="manageExperience()">
+                                        + Thêm kinh nghiệm
+                                    </button>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+
+                    </div>
+
+                    <!-- Tab Mật khẩu & Bảo mật -->
+                    <form id="changePasswordForm" class="security-section">
+                        <div class="settings-section">
+                            <h2>Mật khẩu & Bảo mật</h2>
+
+                            <div class="settings-form-group">
+                                <label>Mật khẩu hiện tại</label>
+                                <input type="password" id="current_password" name="current_password" class="settings-input" required>
+                                <small class="form-hint">Nhập mật khẩu hiện tại của bạn</small>
+                            </div>
+
+                            <div class="settings-form-group">
+                                <label>Mật khẩu mới</label>
+                                <input type="password" id="new_password" name="new_password" class="settings-input" required minlength="6">
+                                <small class="form-hint">Mật khẩu phải có ít nhất 6 ký tự</small>
+                            </div>
+
+                            <div class="settings-form-group">
+                                <label>Xác nhận mật khẩu mới</label>
+                                <input type="password" id="confirm_password" name="confirm_password" class="settings-input" required minlength="6">
+                                <small class="form-hint">Nhập lại mật khẩu mới để xác nhận</small>
+                            </div>
+
+                            <div class="settings-button-group">
+                                <button type="button" onclick="resetPasswordForm()" class="settings-btn settings-btn-secondary">Hủy</button>
+                                <button type="button" onclick="changePassword()" class="settings-btn settings-btn-primary">Đổi mật khẩu</button>
+                            </div>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Edit Modal -->
-    <div class="modal" id="editModal">
+    <!-- Modal Giới thiệu -->
+    <div id="aboutModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>✏️ Chỉnh sửa hồ sơ</h2>
-                <button class="close-btn" onclick="closeEditModal()">&times;</button>
+                <h3><i class="bi bi-file-earmark-check-fill"></i> Giới thiệu bản thân</h3>
+                <button class="close-modal" onclick="closeAboutModal()">&times;</button>
             </div>
+            <div class="modal-form-group">
+                <label>Nội dung giới thiệu</label>
+                <textarea id="aboutTextarea" class="modal-textarea" placeholder="Viết vài dòng giới thiệu về bản thân..."><?php echo htmlspecialchars($row['about'] ?? ''); ?></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeAboutModal()">Hủy</button>
+                <button class="btn-save" onclick="saveAbout()">Lưu</button>
+            </div>
+        </div>
+    </div>
 
-            <form id="editForm" onsubmit="saveProfile(event)">
-                <div class="photo-upload">
-                    <img src="<?= htmlspecialchars($staff['staff_avatar']) ?>" alt="Preview" class="photo-preview" id="photoPreview">
-                    <label for="photoInput" class="upload-btn">📷 Thay đổi ảnh đại diện</label>
-                    <input type="file" id="photoInput" name="photo" accept="image/*" onchange="previewPhoto(event)">
+    <!-- Modal Kỹ năng -->
+    <div id="skillsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="bi bi-clipboard-check-fill"></i> Quản lý kỹ năng</h3>
+                <button class="close-modal" onclick="closeSkillsModal()">&times;</button>
+            </div>
+            <div class="skill-list" id="skillsList"></div>
+            <div class="modal-form-group">
+                <label>Thêm kỹ năng mới</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="newSkillInput" class="modal-input" placeholder="Nhập tên kỹ năng...">
+                    <button class="btn-add" onclick="addSkill()">Thêm</button>
                 </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeSkillsModal()">Hủy</button>
+                <button class="btn-save" onclick="saveSkills()">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
 
-                <div class="form-group">
-                    <label for="editName">Họ và tên *</label>
-                    <input type="text" id="editName" name="ho_ten" required value="<?= htmlspecialchars($staff['ho_ten']) ?>">
-                </div>
-
-                <div class="form-group">
-                    <label for="editPosition">Vị trí công việc *</label>
-                    <input type="text" id="editPosition" name="position" required value="<?= htmlspecialchars($staff['position']) ?>">
-                </div>
-
-                <div class="form-group">
-                    <label for="editAbout">Giới thiệu bản thân *</label>
-                    <textarea id="editAbout" name="about" required><?= htmlspecialchars($staff['about']) ?></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Kỹ năng</label>
-                    <div class="skill-input-group">
-                        <input type="text" id="newSkillInput" placeholder="Nhập kỹ năng mới">
-                        <button type="button" class="add-skill-btn" onclick="addSkill()">+ Thêm</button>
-                    </div>
-                    <div id="skillsEditList"></div>
-                </div>
-
-                <div class="form-group">
-                    <label>Kinh nghiệm làm việc</label>
-                    <button type="button" class="add-exp-btn" onclick="addExperience()">+ Thêm kinh nghiệm</button>
-                    <div id="experiencesEditList"></div>
-                </div>
-
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">✖ Hủy</button>
-                    <button type="submit" class="btn btn-primary">💾 Lưu thay đổi</button>
-                </div>
-            </form>
+    <!-- Modal Kinh nghiệm -->
+    <div id="experienceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="bi bi-briefcase-fill"></i> Quản lý kinh nghiệm làm việc</h3>
+                <button class="close-modal" onclick="closeExperienceModal()">&times;</button>
+            </div>
+            <div id="experiencesList"></div>
+            <button class="btn-add" onclick="addExperience()" style="margin-bottom: 20px;">+ Thêm kinh nghiệm</button>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeExperienceModal()">Hủy</button>
+                <button class="btn-save" onclick="saveExperiences()">Lưu thay đổi</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // ✅ FIX: Dùng array đã fetch sẵn - escape để tránh lỗi JSON
-        let currentSkills = <?= json_encode(array_column($skills, 'skill_name'), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
-        let currentExperiences = <?= json_encode($exps, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+        // Chuyển tab
+        const tabs = document.querySelectorAll('.settings-tab');
+        const accountSection = document.querySelector('.account-section');
+        const securitySection = document.querySelector('.security-section');
 
-        function openEditModal() {
-            document.getElementById('editModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            renderSkillsList();
-            renderExperiencesList();
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active-tab'));
+                tab.classList.add('active-tab');
+
+                if(index === 0){
+                    accountSection.style.display = 'block';
+                    securitySection.style.display = 'none';
+                }else{
+                    accountSection.style.display = 'none';
+                    securitySection.style.display = 'block';
+                }
+            });
+        });
+
+      const avatarImg = document.getElementById("avatarImg");
+  const avatarInput = document.getElementById("avatarInput");
+
+  // Khi nhấn vào ảnh, bật chọn file
+  avatarImg.addEventListener("click", () => avatarInput.click());
+
+  // Khi chọn file mới
+  avatarInput.addEventListener("change", () => {
+    const file = avatarInput.files[0];
+    if (file) {
+      // Hiển thị xem trước ảnh
+      const reader = new FileReader();
+      reader.onload = e => avatarImg.src = e.target.result;
+      reader.readAsDataURL(file);
+
+      // Gửi ảnh lên server để lưu vào CSDL
+      const formData = new FormData();
+      formData.append('avatar', file);
+
+      fetch('../../php/UsersController/upload_avatar.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === 'success') {
+          $_SESSION['thanhcong'] = 1;
+        } else {
+          $_SESSION['thanhcong'] = 0;
+        }
+      })
+      .catch(err => $_SESSION['thanhcong'] = 0);
+    }
+  });
+
+        // ✅ LƯU THÔNG TIN CƠ BẢN
+        function saveBasicInfo() {
+            const form = document.getElementById('basicInfoForm');
+            const formData = new FormData(form);
+            formData.append('action', 'update_basic_info'); // ✅ Thêm action
+            
+            fetch('../../php/StaffCTL/UpdateStaffInfo.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    alert('✅ ' + data.message);
+                    location.reload();
+                } else {
+                    alert('❌ Lỗi: ' + data.message);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('❌ Có lỗi xảy ra!');
+            });
         }
 
-        function closeEditModal() {
-            document.getElementById('editModal').classList.remove('active');
+        // ✅ LƯU EMAIL
+        function saveEmail() {
+            const email = document.getElementById('emailInput').value;
+            const formData = new FormData();
+            formData.append('action', 'update_email'); // ✅ Action cho email
+            formData.append('email', email);
+            
+            fetch('../../php/StaffCTL/UpdateStaffInfo.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    alert('✅ ' + data.message);
+                    location.reload();
+                } else {
+                    alert('❌ Lỗi: ' + data.message);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('❌ Có lỗi xảy ra!');
+            });
+        }
+
+        // ✅ LƯU SỐ ĐIỆN THOẠI
+        function savePhone() {
+            const sdt = document.getElementById('phoneInput').value;
+            const formData = new FormData();
+            formData.append('action', 'update_phone'); // ✅ Action cho phone
+            formData.append('sdt', sdt);
+            
+            fetch('../../php/StaffCTL/UpdateStaffInfo.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    alert('✅ ' + data.message);
+                    location.reload();
+                } else {
+                    alert('❌ Lỗi: ' + data.message);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('❌ Có lỗi xảy ra!');
+            });
+        }
+
+        // Chỉnh sửa thông tin cá nhân
+        document.querySelector(".btn-edit").addEventListener("click", function () {
+            const inputs = document.querySelectorAll("#basicInfoForm input, #basicInfoForm select");
+
+            inputs.forEach(el => {
+                el.disabled = !el.disabled;
+            });
+
+            this.innerText = this.innerText === "Chỉnh sửa" ? "Hủy" : "Chỉnh sửa";
+        });
+
+        // Bật tắt Email
+        document.querySelector(".edit-email-btn").addEventListener("click", function () {
+            let emailInput = document.getElementById('emailInput');
+            let saveBtn = document.getElementById('saveEmailBtn');
+            
+            emailInput.disabled = !emailInput.disabled;
+            
+            if(emailInput.disabled) {
+                this.innerText = "+ Chỉnh sửa Email";
+                saveBtn.style.display = 'none';
+            } else {
+                this.innerText = "Hủy chỉnh sửa Email";
+                saveBtn.style.display = 'inline-block';
+            }
+        });
+
+        // Bật tắt SĐT
+        document.querySelector(".edit-phone-btn").addEventListener("click", function () {
+            let phoneInput = document.getElementById('phoneInput');
+            let saveBtn = document.getElementById('savePhoneBtn');
+            
+            phoneInput.disabled = !phoneInput.disabled;
+            
+            if(phoneInput.disabled) {
+                this.innerText = "+ Chỉnh sửa số điện thoại";
+                saveBtn.style.display = 'none';
+            } else {
+                this.innerText = "Hủy chỉnh sửa số điện thoại";
+                saveBtn.style.display = 'inline-block';
+            }
+        });
+
+        // Quản lý Giới thiệu
+        function editAbout() {
+            document.getElementById('aboutModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAboutModal() {
+            document.getElementById('aboutModal').classList.remove('active');
             document.body.style.overflow = 'auto';
         }
 
-        function previewPhoto(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('photoPreview').src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
+        function saveAbout() {
+            const about = document.getElementById('aboutTextarea').value;
+            
+            const formData = new FormData();
+            formData.append('action', 'update_about');
+            formData.append('about', about);
+            
+            fetch('../../php/StaffCTL/UpdateStaffInfo.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    alert('✅ ' + data.message);
+                    location.reload();
+                } else {
+                    alert('❌ Lỗi: ' + data.message);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('❌ Có lỗi xảy ra!');
+            });
         }
 
-        function renderSkillsList() {
-            const container = document.getElementById('skillsEditList');
+        // Quản lý kỹ năng
+        let currentSkills = <?php echo json_encode(array_column($skills, 'skill_name')); ?>;
+
+        function manageSkills() {
+            document.getElementById('skillsModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            renderSkills();
+        }
+
+        function closeSkillsModal() {
+            document.getElementById('skillsModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function renderSkills() {
+            const container = document.getElementById('skillsList');
             container.innerHTML = '';
+            
             currentSkills.forEach((skill, index) => {
-                const skillItem = document.createElement('div');
-                skillItem.className = 'skill-item';
-                skillItem.innerHTML = `
+                const div = document.createElement('div');
+                div.className = 'skill-item-edit';
+                div.innerHTML = `
                     <span>${skill}</span>
-                    <button type="button" class="remove-skill-btn" onclick="removeSkill(${index})">Xóa</button>
+                    <button class="btn-remove" onclick="removeSkill(${index})">Xóa</button>
                 `;
-                container.appendChild(skillItem);
+                container.appendChild(div);
             });
         }
 
         function addSkill() {
             const input = document.getElementById('newSkillInput');
             const skill = input.value.trim();
-            if (skill) {
+            
+            if(skill) {
                 currentSkills.push(skill);
                 input.value = '';
-                renderSkillsList();
+                renderSkills();
+            } else {
+                alert('Vui lòng nhập tên kỹ năng!');
             }
         }
 
         function removeSkill(index) {
-            currentSkills.splice(index, 1);
-            renderSkillsList();
+            if(confirm('Bạn có chắc muốn xóa kỹ năng này?')) {
+                currentSkills.splice(index, 1);
+                renderSkills();
+            }
         }
 
-        function renderExperiencesList() {
-            const container = document.getElementById('experiencesEditList');
+        function saveSkills() {
+            const formData = new FormData();
+            formData.append('action', 'update_skills');
+            formData.append('skills', JSON.stringify(currentSkills));
+            
+            fetch('../../php/StaffCTL/UpdateStaffInfo.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    alert('✅ ' + data.message);
+                    location.reload();
+                } else {
+                    alert('❌ Lỗi: ' + data.message);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('❌ Có lỗi xảy ra!');
+            });
+        }
+
+        // Quản lý kinh nghiệm
+        let currentExperiences = <?php echo json_encode($exps); ?>;
+
+        function manageExperience() {
+            document.getElementById('experienceModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            renderExperiences();
+        }
+
+        function closeExperienceModal() {
+            document.getElementById('experienceModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function renderExperiences() {
+            const container = document.getElementById('experiencesList');
             container.innerHTML = '';
+            
             currentExperiences.forEach((exp, index) => {
-                const expDiv = document.createElement('div');
-                expDiv.className = 'exp-input-group';
-                // ✅ Escape HTML để tránh lỗi
-                const safeTitle = (exp.title || '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-                const safeDesc = (exp.description || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                
-                expDiv.innerHTML = `
-                    <div class="exp-header">
-                        <strong>Kinh nghiệm #${index + 1}</strong>
-                        <button type="button" class="remove-exp-btn" onclick="removeExperience(${index})">Xóa</button>
+                const div = document.createElement('div');
+                div.className = 'exp-item-edit';
+                div.innerHTML = `
+                    <div class="exp-item-header">
+                        <strong>Kinh nghiệm ${index + 1}</strong>
+                        <button class="btn-remove" onclick="removeExperience(${index})">Xóa</button>
                     </div>
-                    <div class="form-group">
-                        <label>Tiêu đề:</label>
-                        <input type="text" class="exp-title" value="${safeTitle}" required>
+                    <div class="modal-form-group">
+                        <label>Chức danh</label>
+                        <input type="text" class="modal-input exp-title" value="${exp.title || ''}" placeholder="Ví dụ: Hướng dẫn viên du lịch">
                     </div>
-                    <div class="row">
-                        <div class="col-6 form-group">
-                            <label>Năm bắt đầu:</label>
-                            <input type="number" class="exp-year-start" value="${exp.year_start || ''}" required>
+                    <div class="modal-row">
+                        <div class="modal-form-group">
+                            <label>Năm bắt đầu</label>
+                            <input type="number" class="modal-input exp-year-start" value="${exp.year_start || new Date().getFullYear()}" min="1900" max="${new Date().getFullYear()}">
                         </div>
-                        <div class="col-6 form-group">
-                            <label>Năm kết thúc:</label>
-                            <input type="number" class="exp-year-end" value="${exp.year_end || ''}" placeholder="Để trống nếu hiện tại">
+                        <div class="modal-form-group">
+                            <label>Năm kết thúc (để trống nếu hiện tại)</label>
+                            <input type="number" class="modal-input exp-year-end" value="${exp.year_end || ''}" min="1900" max="${new Date().getFullYear()}">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Mô tả:</label>
-                        <textarea class="exp-description">${safeDesc}</textarea>
+                    <div class="modal-form-group">
+                        <label>Mô tả</label>
+                        <textarea class="modal-textarea exp-description" placeholder="Mô tả công việc và thành tựu...">${exp.description || ''}</textarea>
                     </div>
                 `;
-                container.appendChild(expDiv);
+                container.appendChild(div);
             });
         }
 
@@ -648,56 +690,143 @@ $exps = $exps_result->fetch_all(MYSQLI_ASSOC);
                 year_end: null,
                 description: ''
             });
-            renderExperiencesList();
+            renderExperiences();
         }
 
         function removeExperience(index) {
-            currentExperiences.splice(index, 1);
-            renderExperiencesList();
+            if(confirm('Bạn có chắc muốn xóa kinh nghiệm này?')) {
+                currentExperiences.splice(index, 1);
+                renderExperiences();
+            }
         }
 
-        function saveProfile(event) {
-            event.preventDefault();
-            
-            // Lấy dữ liệu kinh nghiệm
-            const expDivs = document.querySelectorAll('.exp-input-group');
+        function saveExperiences() {
+            const expDivs = document.querySelectorAll('.exp-item-edit');
             currentExperiences = [];
+            
             expDivs.forEach(div => {
-                currentExperiences.push({
-                    title: div.querySelector('.exp-title').value,
-                    year_start: div.querySelector('.exp-year-start').value,
-                    year_end: div.querySelector('.exp-year-end').value || null,
-                    description: div.querySelector('.exp-description').value
-                });
+                const title = div.querySelector('.exp-title').value.trim();
+                const yearStart = div.querySelector('.exp-year-start').value;
+                const yearEnd = div.querySelector('.exp-year-end').value;
+                const description = div.querySelector('.exp-description').value.trim();
+                
+                if(title && yearStart) {
+                    currentExperiences.push({
+                        title: title,
+                        year_start: yearStart,
+                        year_end: yearEnd || null,
+                        description: description
+                    });
+                }
             });
             
-            const formData = new FormData(document.getElementById('editForm'));
-            formData.append('skills', JSON.stringify(currentSkills));
+            const formData = new FormData();
+            formData.append('action', 'update_experiences');
             formData.append('experiences', JSON.stringify(currentExperiences));
             
-            fetch('UpdateProfile.php', {
+            fetch('../../php/StaffCTL/UpdateStaffInfo.php', {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
+            .then(res => res.json())
             .then(data => {
-                if (data.success) {
+                if(data.success) {
                     alert('✅ ' + data.message);
                     location.reload();
                 } else {
-                    alert('❌ ' + data.message);
+                    alert('❌ Lỗi: ' + data.message);
                 }
             })
-            .catch(error => {
-                alert('❌ Có lỗi xảy ra: ' + error);
+            .catch(err => {
+                console.error(err);
+                alert('❌ Có lỗi xảy ra!');
             });
         }
 
-        document.getElementById('editModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeEditModal();
+        // ✅ ĐỔI MẬT KHẨU
+        function changePassword() {
+            const currentPassword = document.getElementById('current_password').value.trim();
+            const newPassword = document.getElementById('new_password').value.trim();
+            const confirmPassword = document.getElementById('confirm_password').value.trim();
+
+            // Validate phía client
+            if (!currentPassword) {
+                alert('❌ Vui lòng nhập mật khẩu hiện tại!');
+                return;
             }
-        });
+
+            if (!newPassword) {
+                alert('❌ Vui lòng nhập mật khẩu mới!');
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                alert('❌ Mật khẩu mới phải có ít nhất 6 ký tự!');
+                return;
+            }
+
+            if (!confirmPassword) {
+                alert('❌ Vui lòng xác nhận mật khẩu mới!');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                alert('❌ Mật khẩu mới và xác nhận mật khẩu không khớp!');
+                return;
+            }
+
+            if (currentPassword === newPassword) {
+                alert('❌ Mật khẩu mới không được trùng với mật khẩu hiện tại!');
+                return;
+            }
+
+            // Xác nhận trước khi đổi
+            if (!confirm('Bạn có chắc chắn muốn đổi mật khẩu?')) {
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('current_password', currentPassword);
+            formData.append('new_password', newPassword);
+            formData.append('confirm_password', confirmPassword);
+
+            fetch('../../php/StaffCTL/ChangePassword.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    alert('✅ ' + data.message);
+                    resetPasswordForm();
+                    // Tùy chọn: Chuyển về trang đăng nhập
+                    // window.location.href = '../../login.php';
+                } else {
+                    alert('❌ Lỗi: ' + data.message);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('❌ Có lỗi xảy ra khi đổi mật khẩu!');
+            });
+        }
+
+        // Reset form đổi mật khẩu
+        function resetPasswordForm() {
+            document.getElementById('current_password').value = '';
+            document.getElementById('new_password').value = '';
+            document.getElementById('confirm_password').value = '';
+        }
+
+        // Close modal khi click bên ngoài
+        window.onclick = function(event) {
+            if(event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+ 
+
     </script>
 </body>
 </html>

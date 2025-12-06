@@ -59,6 +59,7 @@ $total_shifts = $result->num_rows;
   <link rel="stylesheet" href="../../css/Staff.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <style>
     .main-content {
       padding: 20px;
@@ -123,7 +124,7 @@ $total_shifts = $result->num_rows;
   </style>
 </head>
 <body>
-<?php include('menu.php'); ?>
+<?php include('../../includes/Staffnav.php'); ?>
 
 <div class="main-content">
   <!-- Thông tin tổng quan -->
