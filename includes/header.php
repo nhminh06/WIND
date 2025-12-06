@@ -69,7 +69,7 @@ if(isset($_SESSION['user_id'])) {
 }
 
 
-if (!isset($_SESSION['role'])) {
+if (!isset($_SESSION['user_id'])) {
     $link = "../index/note.php";
 } elseif ($_SESSION['role'] === 'staff') {
     $link = "../../staff/StaffProfile.php";
@@ -83,6 +83,8 @@ echo "
 <div class='users_avata' onclick=\"window.location.href='$link'\">
   <img src='../../../$avatar' alt='Avatar'>
 </div>";
+
+
 ?>
 
 

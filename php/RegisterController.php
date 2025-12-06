@@ -9,7 +9,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $role = 'user';
 
     $hashedPassword = password_hash($PASSWORD, PASSWORD_DEFAULT);
-
+    $sql = "SELECT * FROM user WHERE ho_ten = ? OR email = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $USERNAME, $EMAIL);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $_SESSION['error'] = "Tên đăng nhập hoặc email đã tồn tại.";
+        header("Location: ../html/views/index/register.php");
+        exit();
+    }
    
     $stmt = $conn->prepare("INSERT INTO user (ho_ten, email, password, role) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssss", $USERNAME, $EMAIL, $hashedPassword, $role);
