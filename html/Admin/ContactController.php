@@ -202,6 +202,9 @@ function time_elapsed_string($datetime) {
             <button class="filter-btn-box" onclick="window.location.href='storage.php'">
                 <i class="bi bi-box2-fill"></i> Lưu trữ
             </button>
+            <button class="filter-btn-mail" onclick="window.location.href='manage_announcements.php'">
+                <i class="bi bi-envelope-fill"></i> Thông báo nội bộ
+            </button>
         </div>
         <div class="search-group">
             <i class="bi bi-search"></i>

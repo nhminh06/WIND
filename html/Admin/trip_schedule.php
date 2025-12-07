@@ -31,6 +31,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         // Xử lý theo từng trạng thái
         if ($trip_status == 'started' && $start_time) {
+            // KIỂM TRA BẮT BUỘC: Phải có hướng dẫn viên trước khi bắt đầu
+            $check_guide = "SELECT huong_dan_vien_id FROM dat_tour 
+                           WHERE tour_id = ? AND ngay_khoi_hanh = ? 
+                           LIMIT 1";
+            $stmt_check = $conn->prepare($check_guide);
+            $stmt_check->bind_param('is', $tour_id, $departure_date);
+            $stmt_check->execute();
+            $result_check = $stmt_check->get_result();
+            $guide_check = $result_check->fetch_assoc();
+            
+            if (!$guide_check || empty($guide_check['huong_dan_vien_id'])) {
+                $_SESSION['error'] = 'Không thể bắt đầu chuyến đi! Vui lòng gán hướng dẫn viên trước.';
+                header("Location: trip_schedule.php?tour=$tour_id&departure=$departure_date");
+                exit();
+            }
+            
+            // Nếu đã có HDV, tiếp tục bắt đầu chuyến đi
             // Bắt đầu chuyến đi
             $formatted_start_time = date('Y-m-d H:i:s', strtotime($start_time));
             $note_text = "Chuyến đi BẮT ĐẦU lúc " . date('H:i d/m/Y', strtotime($start_time));
@@ -92,6 +109,111 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: trip_schedule.php?tour=$tour_id&departure=$departure_date");
         exit();
     }
+    
+    // Xử lý gán hướng dẫn viên
+    if ($action == 'assign_guide') {
+        // KIỂM TRA: Không cho phép thay đổi HDV khi đã bắt đầu
+        $check_status = "SELECT trang_thai_chuyen_di FROM dat_tour 
+                        WHERE tour_id = ? AND ngay_khoi_hanh = ? 
+                        LIMIT 1";
+        $stmt_check_status = $conn->prepare($check_status);
+        $stmt_check_status->bind_param('is', $tour_id, $departure_date);
+        $stmt_check_status->execute();
+        $result_status = $stmt_check_status->get_result();
+        $status_data = $result_status->fetch_assoc();
+        
+        if ($status_data && $status_data['trang_thai_chuyen_di'] != 'preparing') {
+            $_SESSION['error'] = 'Không thể thay đổi hướng dẫn viên khi chuyến đi đã bắt đầu!';
+            header("Location: trip_schedule.php?tour=$tour_id&departure=$departure_date");
+            exit();
+        }
+        
+        $guide_id = $_POST['guide_id'] ?? null;
+        
+        if ($guide_id) {
+            // Kiểm tra guide_id có phải là staff không
+            $verify_staff = "SELECT id FROM user WHERE id = ? AND role = 'staff' AND trang_thai = 1";
+            $stmt_verify = $conn->prepare($verify_staff);
+            $stmt_verify->bind_param('i', $guide_id);
+            $stmt_verify->execute();
+            $verify_result = $stmt_verify->get_result();
+            
+            if ($verify_result->num_rows == 0) {
+                $_SESSION['error'] = 'Hướng dẫn viên không hợp lệ!';
+                header("Location: trip_schedule.php?tour=$tour_id&departure=$departure_date");
+                exit();
+            }
+            
+            // ===== KIỂM TRA MỚI: HDV có đang trong chuyến đi nào đang diễn ra không? =====
+            $check_busy_guide = "SELECT 
+                                    t.ten_tour,
+                                    dt.ngay_khoi_hanh,
+                                    dt.thoi_gian_bat_dau_chuyen_di
+                                 FROM dat_tour dt
+                                 INNER JOIN tour t ON dt.tour_id = t.id
+                                 WHERE dt.huong_dan_vien_id = ? 
+                                 AND dt.trang_thai_chuyen_di = 'started'
+                                 LIMIT 1";
+            $stmt_busy = $conn->prepare($check_busy_guide);
+            $stmt_busy->bind_param('i', $guide_id);
+            $stmt_busy->execute();
+            $result_busy = $stmt_busy->get_result();
+            
+            if ($result_busy->num_rows > 0) {
+                $busy_trip = $result_busy->fetch_assoc();
+                $_SESSION['error'] = 'Hướng dẫn viên đang bận! Họ đang trong chuyến đi "' . 
+                                    htmlspecialchars($busy_trip['ten_tour']) . 
+                                    '" khởi hành ngày ' . 
+                                    date('d/m/Y', strtotime($busy_trip['ngay_khoi_hanh'])) . 
+                                    ' (bắt đầu lúc ' . 
+                                    date('H:i d/m/Y', strtotime($busy_trip['thoi_gian_bat_dau_chuyen_di'])) . 
+                                    '). Vui lòng chọn hướng dẫn viên khác!';
+                header("Location: trip_schedule.php?tour=$tour_id&departure=$departure_date");
+                exit();
+            }
+            
+            $sql_assign = "UPDATE dat_tour SET huong_dan_vien_id = ? 
+                          WHERE tour_id = ? AND ngay_khoi_hanh = ?";
+            $stmt_assign = $conn->prepare($sql_assign);
+            $stmt_assign->bind_param('iis', $guide_id, $tour_id, $departure_date);
+            
+            if ($stmt_assign->execute()) {
+                $_SESSION['success'] = 'Đã gán hướng dẫn viên thành công!';
+            } else {
+                $_SESSION['error'] = 'Có lỗi khi gán hướng dẫn viên!';
+            }
+        } else {
+            // Bỏ gán hướng dẫn viên
+            $sql_unassign = "UPDATE dat_tour SET huong_dan_vien_id = NULL 
+                            WHERE tour_id = ? AND ngay_khoi_hanh = ?";
+            $stmt_unassign = $conn->prepare($sql_unassign);
+            $stmt_unassign->bind_param('is', $tour_id, $departure_date);
+            
+            if ($stmt_unassign->execute()) {
+                $_SESSION['success'] = 'Đã bỏ gán hướng dẫn viên!';
+            } else {
+                $_SESSION['error'] = 'Có lỗi khi bỏ gán hướng dẫn viên!';
+            }
+        }
+        
+        header("Location: trip_schedule.php?tour=$tour_id&departure=$departure_date");
+        exit();
+    }
+}
+
+// Lấy danh sách hướng dẫn viên (staff) - LỌC NHỮNG NGƯỜI ĐANG BẬN
+$sql_guides = "SELECT u.id, u.ho_ten, u.email, u.sdt, u.avatar,
+               (SELECT COUNT(*) 
+                FROM dat_tour dt 
+                WHERE dt.huong_dan_vien_id = u.id 
+                AND dt.trang_thai_chuyen_di = 'started') as is_busy
+               FROM user u 
+               WHERE u.role = 'staff' AND u.trang_thai = 1 
+               ORDER BY is_busy ASC, u.ho_ten ASC";
+$result_guides = $conn->query($sql_guides);
+$guides = [];
+while ($guide = $result_guides->fetch_assoc()) {
+    $guides[] = $guide;
 }
 
 // Lấy thông tin tour
@@ -104,9 +226,14 @@ $tour_info = $stmt_tour->get_result()->fetch_assoc();
 // Lấy thông tin bookings
 $sql_bookings = "SELECT 
                     d.*,
-                    u.ho_ten as user_name
+                    u.ho_ten as user_name,
+                    hdv.ho_ten as guide_name,
+                    hdv.sdt as guide_phone,
+                    hdv.email as guide_email,
+                    hdv.avatar as guide_avatar
                  FROM dat_tour d
                  LEFT JOIN user u ON d.user_id = u.id
+                 LEFT JOIN user hdv ON d.huong_dan_vien_id = hdv.id
                  WHERE d.tour_id = ? AND d.ngay_khoi_hanh = ?
                  ORDER BY d.ngay_dat ASC";
 
@@ -125,6 +252,8 @@ $bookings = [];
 $trip_status = 'preparing';
 $start_time = '';
 $end_time = '';
+$current_guide_id = null;
+$current_guide_name = '';
 
 while ($row = $result_bookings->fetch_assoc()) {
     $bookings[] = $row;
@@ -147,6 +276,12 @@ while ($row = $result_bookings->fetch_assoc()) {
     if (empty($end_time) && !empty($row['thoi_gian_ket_thuc_chuyen_di'])) {
         $end_time = date('H:i d/m/Y', strtotime($row['thoi_gian_ket_thuc_chuyen_di']));
     }
+    
+    // Lấy thông tin hướng dẫn viên
+    if (empty($current_guide_id) && !empty($row['huong_dan_vien_id'])) {
+        $current_guide_id = $row['huong_dan_vien_id'];
+        $current_guide_name = $row['guide_name'];
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -158,7 +293,13 @@ while ($row = $result_bookings->fetch_assoc()) {
     <link rel="stylesheet" href="../../css/Admin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
-        
+        .guide-select option.busy-guide {
+            color: #999;
+            background-color: #f5f5f5;
+        }
+        .guide-select option.busy-guide:before {
+            content: "🔴 ";
+        }
     </style>
 </head>
 <body>
@@ -182,8 +323,6 @@ while ($row = $result_bookings->fetch_assoc()) {
         </header>
 
         <section class="content">
-           
-
             <!-- Thông báo -->
             <?php if(isset($_SESSION['success'])): ?>
             <div class="alert alert-success">
@@ -227,7 +366,6 @@ while ($row = $result_bookings->fetch_assoc()) {
                                 <i class="bi bi-people"></i>
                                 <strong>Tổng khách:</strong> <?php echo $total_customers; ?> người
                             </div>
-                            
                         </div>
                         <?php
                         $status_class = '';
@@ -262,12 +400,104 @@ while ($row = $result_bookings->fetch_assoc()) {
                         </span>
                     </div>
                 </div>
-                
             </div>
-             <a href="manage_trip.php" class="back-button" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: white; color: #667eea; border: 2px solid #667eea; border-radius: 8px; text-decoration: none; font-weight: 500; margin-bottom: 20px;">
+            
+            <a href="manage_trip.php" class="back-button" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: white; color: #667eea; border: 2px solid #667eea; border-radius: 8px; text-decoration: none; font-weight: 500; margin-bottom: 20px;">
                 <i class="bi bi-arrow-left"></i>
                 Quay lại danh sách chuyến đi
             </a>
+
+            <!-- Guide Assignment Section -->
+            <div class="guide-section">
+                <h2 style="color: white;">
+                    <i class="bi bi-person-badge"></i>
+                    Hướng dẫn viên
+                </h2>
+                
+                <?php if ($current_guide_id && $current_guide_name): ?>
+                    <!-- Hiển thị thông tin HDV hiện tại -->
+                    <div style="background: #667eea;
+                    padding: 15px;
+                    border-radius: 10px;
+                    " class="guide-info">
+                        <?php 
+                        $guide_avatar = '';
+                        foreach ($bookings as $b) {
+                            if ($b['huong_dan_vien_id'] == $current_guide_id) {
+                                $guide_avatar = $b['guide_avatar'];
+                                break;
+                            }
+                        }
+                        ?>
+                        <img style=" border: 2px #fff solid; border-radius: 50%;" src="<?php echo $guide_avatar ? '../../' . htmlspecialchars($guide_avatar) : 'https://ui-avatars.com/api/?name=' . urlencode($current_guide_name) . '&background=667eea&color=fff'; ?>" 
+                             alt="HDV" 
+                             class="guide-avatar"
+                             onerror="this.src='https://ui-avatars.com/api/?name=<?php echo urlencode($current_guide_name); ?>&background=667eea&color=fff'">
+                        <div class="guide-details">
+                            <h3><?php echo htmlspecialchars($current_guide_name); ?></h3>
+                            <?php 
+                            foreach ($bookings as $b) {
+                                if ($b['huong_dan_vien_id'] == $current_guide_id) {
+                                    echo '<p><i class="bi bi-telephone"></i> ' . htmlspecialchars($b['guide_phone']) . '</p>';
+                                    echo '<p><i class="bi bi-envelope"></i> ' . htmlspecialchars($b['guide_email']) . '</p>';
+                                    break;
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    
+                    <?php if ($trip_status == 'preparing'): ?>
+                    <form method="POST" action="" >
+                        <input type="hidden" name="action" value="assign_guide">
+                        <button type="submit" class="btn-remove-guide" onclick="return confirm('Bạn có chắc muốn bỏ gán hướng dẫn viên này?');">
+                            <i class="bi bi-x-circle"></i>
+                            Bỏ gán hướng dẫn viên
+                        </button>
+                    </form>
+                    <?php else: ?>
+                    <div class="alert alert-warning" style="text-align: center; margin-top: 15px;">
+                        <i class="bi bi-lock"></i>
+                        Không thể thay đổi hướng dẫn viên khi chuyến đi đã bắt đầu
+                    </div>
+                    <?php endif; ?>
+                <?php else: ?>
+                   
+                    
+                    <?php if ($trip_status == 'preparing'): ?>
+                    <form method="POST" action="" class="guide-form">
+                        <input type="hidden" name="action" value="assign_guide">
+                        <div class="form-group">
+                            <label style="color: white;"> Chọn hướng dẫn viên <span style="color: red;">*</span></label>
+                            <select name="guide_id" class="guide-select-staff" required>
+                                <option value="">-- Chọn hướng dẫn viên --</option>
+                                <?php foreach ($guides as $guide): ?>
+                                    <option value="<?php echo $guide['id']; ?>" 
+                                            class="<?php echo $guide['is_busy'] > 0 ? 'busy-guide' : ''; ?>"
+                                            <?php echo $guide['is_busy'] > 0 ? 'disabled' : ''; ?>>
+                                        <?php 
+                                        echo $guide['is_busy'] > 0 ? '🔴 ' : ''; 
+                                        echo htmlspecialchars($guide['ho_ten']) . ' - ' . htmlspecialchars($guide['email']);
+                                        echo $guide['is_busy'] > 0 ? ' (Đang bận)' : '';
+                                        ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                              <button type="submit" class="btn-add-staff">
+                            <i class="bi bi-check-circle"></i>
+                            Gán hướng dẫn viên
+                        </button>
+                        </div>
+                      
+                    </form>
+                    <?php else: ?>
+                    <div class="alert alert-error" style="text-align: center;">
+                        <i class="bi bi-x-circle"></i>
+                        <strong>Lỗi:</strong> Chuyến đi đã bắt đầu mà chưa có hướng dẫn viên!
+                    </div>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </div>
 
             <!-- Timeline -->
             <div class="status-timeline">

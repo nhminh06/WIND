@@ -590,7 +590,7 @@ i{
         }
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin: 8px 0 8px 0;
             color: #333;
             font-weight: 500;
             font-size: 14px;
@@ -650,6 +650,7 @@ i{
         .btn-add-muc:hover {
             background: #1976D2;
         }
+        
         .muc-section {
             background: #f8f9fa;
             padding: 20px;
@@ -1747,6 +1748,23 @@ background-blend-mode: lighten;
         }
         .filter-btn-box:hover{
             border-color:black
+            
+        }
+        .filter-btn-mail{
+            color: white;
+             padding: 8px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    background: linear-gradient(135deg, #98b518 0%, #19bd24 100%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s;
+        }
+        .filter-btn-mail:hover{
+            border-color:rgb(198, 227, 35)
             
         }
         .filter-btn > i {
@@ -3791,7 +3809,33 @@ background-blend-mode: lighten;
             transition: background 0.3s ease; 
         }
         .btn-add:hover { background: #2ba8c0; }
-
+     .btn-add-staff{
+            background: #28a745; 
+            color: #fff; 
+            border: none; 
+            padding: 5px 10px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            transition: background 0.3s ease; 
+            margin-top: 8px;
+        }
+        .btn-add-staff:hover { background: #218838;
+     }
+     .btn-remove-guide{
+            background: #dc3545; 
+            color: #fff; 
+            border: none; 
+            padding: 5px 10px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            transition: background 0.3s ease; 
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+        .btn-remove-guide:hover { background: #c82333;
+     }
         @media (max-width: 768px) { 
             .info-grid { grid-template-columns: 1fr; } 
             .content { padding: 10px; } 

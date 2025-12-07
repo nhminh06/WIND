@@ -24,46 +24,47 @@ $search_keyword = isset($_GET['search']) ? trim($_GET['search']) : '';
 $search_date_from = isset($_GET['date_from']) ? $_GET['date_from'] : '';
 $search_date_to = isset($_GET['date_to']) ? $_GET['date_to'] : '';
 $search_status = isset($_GET['status']) ? $_GET['status'] : '';
-$tab = isset($_GET['tab']) ? $_GET['tab'] : 'upcoming'; // upcoming hoặc history
+$tab = isset($_GET['tab']) ? $_GET['tab'] : 'upcoming';
 
-// Lấy danh sách tour sắp tới (từ hôm nay trở đi)
+// =====================================================
+// Lấy danh sách tour SẮP TỚI từ dat_tour
+// =====================================================
 $sql_upcoming = "
 SELECT 
-  t.id,
-  t.tour_name,
-  t.status AS tour_status,
-  t.departure_location,
-  t.destination,
-  t.customer_count,
-  t.notes AS tour_notes,
-  w.work_date,
-  w.start_time,
-  w.end_time,
-  w.notes AS shift_notes
-FROM tour_schedule t
-INNER JOIN work_shift w ON t.shift_id = w.id
-WHERE w.staff_id = ? AND w.work_date >= CURDATE()
+  dt.tour_id,
+  dt.ngay_khoi_hanh,
+  dt.trang_thai_chuyen_di,
+  dt.thoi_gian_bat_dau_chuyen_di,
+  dt.thoi_gian_ket_thuc_chuyen_di,
+  t.ten_tour,
+  t.so_ngay,
+  t.hinh_anh,
+  COUNT(DISTINCT dt.id) as total_bookings,
+  SUM(dt.so_nguoi_lon + dt.so_tre_em + dt.so_tre_nho) as total_customers,
+  SUM(CASE WHEN dt.trang_thai = 'confirmed' THEN 1 ELSE 0 END) as confirmed_bookings
+FROM dat_tour dt
+INNER JOIN tour t ON dt.tour_id = t.id
+WHERE dt.huong_dan_vien_id = ? 
+  AND dt.ngay_khoi_hanh >= CURDATE()
 ";
 
 $params_upcoming = [$staff_id];
 $types_upcoming = "i";
 
 if ($search_keyword) {
-    $sql_upcoming .= " AND (t.tour_name LIKE ? OR t.departure_location LIKE ? OR t.destination LIKE ?)";
+    $sql_upcoming .= " AND t.ten_tour LIKE ?";
     $search_param = "%$search_keyword%";
     $params_upcoming[] = $search_param;
-    $params_upcoming[] = $search_param;
-    $params_upcoming[] = $search_param;
-    $types_upcoming .= "sss";
+    $types_upcoming .= "s";
 }
 
 if ($search_status) {
-    $sql_upcoming .= " AND t.status = ?";
+    $sql_upcoming .= " AND dt.trang_thai_chuyen_di = ?";
     $params_upcoming[] = $search_status;
     $types_upcoming .= "s";
 }
 
-$sql_upcoming .= " ORDER BY w.work_date ASC, w.start_time ASC";
+$sql_upcoming .= " GROUP BY dt.tour_id, dt.ngay_khoi_hanh ORDER BY dt.ngay_khoi_hanh ASC";
 
 $stmt_upcoming = $conn->prepare($sql_upcoming);
 $stmt_upcoming->bind_param($types_upcoming, ...$params_upcoming);
@@ -71,56 +72,57 @@ $stmt_upcoming->execute();
 $result_upcoming = $stmt_upcoming->get_result();
 $total_tours = $result_upcoming->num_rows;
 
-// Lấy TẤT CẢ lịch sử làm việc
+// =====================================================
+// Lấy LỊCH SỬ tour từ dat_tour
+// =====================================================
 $sql_history = "
 SELECT 
-  t.id,
-  t.tour_name,
-  t.status AS tour_status,
-  t.departure_location,
-  t.destination,
-  t.customer_count,
-  t.notes AS tour_notes,
-  w.work_date,
-  w.start_time,
-  w.end_time,
-  w.notes AS shift_notes
-FROM tour_schedule t
-INNER JOIN work_shift w ON t.shift_id = w.id
-WHERE w.staff_id = ? AND w.work_date < CURDATE()
+  dt.tour_id,
+  dt.ngay_khoi_hanh,
+  dt.trang_thai_chuyen_di,
+  dt.thoi_gian_bat_dau_chuyen_di,
+  dt.thoi_gian_ket_thuc_chuyen_di,
+  t.ten_tour,
+  t.so_ngay,
+  t.hinh_anh,
+  COUNT(DISTINCT dt.id) as total_bookings,
+  SUM(dt.so_nguoi_lon + dt.so_tre_em + dt.so_tre_nho) as total_customers,
+  SUM(CASE WHEN dt.trang_thai = 'confirmed' THEN 1 ELSE 0 END) as confirmed_bookings
+FROM dat_tour dt
+INNER JOIN tour t ON dt.tour_id = t.id
+WHERE dt.huong_dan_vien_id = ? 
+  AND dt.ngay_khoi_hanh < CURDATE()
 ";
 
 $params_history = [$staff_id];
 $types_history = "i";
 
 if ($search_keyword) {
-    $sql_history .= " AND (t.tour_name LIKE ? OR t.departure_location LIKE ? OR t.destination LIKE ?)";
+    $sql_history .= " AND t.ten_tour LIKE ?";
     $search_param = "%$search_keyword%";
     $params_history[] = $search_param;
-    $params_history[] = $search_param;
-    $params_history[] = $search_param;
-    $types_history .= "sss";
+    $types_history .= "s";
 }
 
 if ($search_date_from) {
-    $sql_history .= " AND w.work_date >= ?";
+    $sql_history .= " AND dt.ngay_khoi_hanh >= ?";
     $params_history[] = $search_date_from;
     $types_history .= "s";
 }
 
 if ($search_date_to) {
-    $sql_history .= " AND w.work_date <= ?";
+    $sql_history .= " AND dt.ngay_khoi_hanh <= ?";
     $params_history[] = $search_date_to;
     $types_history .= "s";
 }
 
 if ($search_status) {
-    $sql_history .= " AND t.status = ?";
+    $sql_history .= " AND dt.trang_thai_chuyen_di = ?";
     $params_history[] = $search_status;
     $types_history .= "s";
 }
 
-$sql_history .= " ORDER BY w.work_date DESC, w.start_time DESC";
+$sql_history .= " GROUP BY dt.tour_id, dt.ngay_khoi_hanh ORDER BY dt.ngay_khoi_hanh DESC";
 
 $stmt_history = $conn->prepare($sql_history);
 $stmt_history->bind_param($types_history, ...$params_history);
@@ -129,7 +131,15 @@ $result_history = $stmt_history->get_result();
 $total_history = $result_history->num_rows;
 
 // Thống kê
-$sql_stats = "SELECT COUNT(*) as total_completed FROM tour_schedule t INNER JOIN work_shift w ON t.shift_id = w.id WHERE w.staff_id = ? AND w.work_date < CURDATE()";
+$sql_stats = "
+SELECT 
+  COUNT(DISTINCT CONCAT(tour_id, '-', ngay_khoi_hanh)) as total_completed,
+  SUM(so_nguoi_lon + so_tre_em + so_tre_nho) as total_customers_served
+FROM dat_tour 
+WHERE huong_dan_vien_id = ? 
+  AND ngay_khoi_hanh < CURDATE()
+  AND trang_thai_chuyen_di = 'completed'
+";
 $stmt_stats = $conn->prepare($sql_stats);
 $stmt_stats->bind_param("i", $staff_id);
 $stmt_stats->execute();
@@ -145,108 +155,12 @@ $stmt_stats->close();
   <link rel="stylesheet" href="../../css/Staff.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <style>
     .main-content {
       padding: 20px;
     }
-    .main-title {
-      color: #2c3e50;
-      margin-bottom: 20px;
-      font-weight: bold;
-    }
-    .info-box {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    .info-box h5 {
-      margin: 0;
-      font-size: 1.1rem;
-    }
-    .info-box p {
-      margin: 5px 0 0 0;
-      font-size: 0.9rem;
-      opacity: 0.9;
-    }
-    .badge-status {
-      font-size: 0.8rem;
-      padding: 5px 10px;
-      font-weight: 600;
-    }
-    .table thead {
-      background: #2c3e50;
-      color: white;
-    }
-    .table tbody tr:hover {
-      background-color: #f8f9fa;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .tour-details {
-      font-size: 0.85rem;
-      color: #6c757d;
-    }
-    .no-data {
-      padding: 40px;
-      text-align: center;
-      color: #6c757d;
-    }
-    .today-mark {
-      background-color: #fff3cd !important;
-      font-weight: bold;
-    }
-    .tour-card {
-      background: white;
-      border-left: 4px solid #667eea;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .search-box {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .search-active-alert {
-      background: #d4edda;
-      border: 1px solid #c3e6cb;
-      color: #155724;
-      padding: 10px 15px;
-      border-radius: 5px;
-      margin-top: 10px;
-      font-size: 0.9rem;
-    }
-    .nav-tabs .nav-link {
-      color: #495057;
-      font-weight: 500;
-    }
-    .nav-tabs .nav-link.active {
-      background: #667eea;
-      color: white;
-      border-color: #667eea;
-    }
-    .stat-badge {
-      background: rgba(255,255,255,0.2);
-      padding: 5px 15px;
-      border-radius: 20px;
-      display: inline-block;
-      margin-right: 10px;
-    }
-    @media (max-width: 768px) {
-      .table {
-        font-size: 0.85rem;
-      }
-      .info-box {
-        padding: 15px;
-      }
-    }
+    
   </style>
 </head>
 <body>
@@ -257,11 +171,12 @@ $stmt_stats->close();
     <h5><i class="fas fa-user-circle"></i> Xin chào, <?= htmlspecialchars($staff_info['ho_ten'] ?? 'Nhân viên') ?>!</h5>
     <p>
       <span class="stat-badge"><i class="fas fa-route"></i> <?= $total_tours ?> Tour sắp tới</span>
-      <span class="stat-badge"><i class="fas fa-check-circle"></i> <?= $stats['total_completed'] ?> Lịch sử tour</span>
+      <span class="stat-badge"><i class="fas fa-check-circle"></i> <?= $stats['total_completed'] ?> Tour đã hoàn thành</span>
+      <span class="stat-badge"><i class="fas fa-users"></i> <?= $stats['total_customers_served'] ?? 0 ?> Khách đã phục vụ</span>
     </p>
   </div>
 
-  <h2 class="main-title"><i class="fas fa-map-marked-alt"></i> Lịch Tour Của Tôi</h2>
+  <h2 class="main-title"><i class="fas fa-map-marked-alt"></i> Lịch Tour Được Gán</h2>
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs mb-3" id="tourTabs" role="tablist">
@@ -286,14 +201,14 @@ $stmt_stats->close();
         <table class="table table-bordered table-hover align-middle">
           <thead>
             <tr>
-              <th style="width: 12%;"><i class="far fa-calendar"></i> Ngày</th>
-              <th style="width: 20%;"><i class="fas fa-route"></i> Tên Tour</th>
+              <th style="width: 80px;"><i class="fas fa-image"></i></th>
+              <th style="width: 12%;"><i class="far fa-calendar"></i> Ngày khởi hành</th>
+              <th><i class="fas fa-route"></i> Tên Tour</th>
+              <th style="width: 10%;"><i class="fas fa-clock"></i> Số ngày</th>
               <th style="width: 12%;"><i class="fas fa-traffic-light"></i> Trạng thái</th>
-              <th style="width: 10%;"><i class="far fa-clock"></i> Giờ bắt đầu</th>
-              <th style="width: 10%;"><i class="far fa-clock"></i> Giờ kết thúc</th>
-              <th style="width: 12%;"><i class="fas fa-users"></i> Số khách</th>
-              <th><i class="fas fa-map-marker-alt"></i> Địa điểm</th>
-              <th><i class="fas fa-sticky-note"></i> Ghi chú</th>
+              <th style="width: 10%;"><i class="fas fa-users"></i> Khách hàng</th>
+              <th style="width: 10%;"><i class="fas fa-ticket-alt"></i> Booking</th>
+              <th style="width: 10%;"><i class="fas fa-eye"></i> Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -301,31 +216,42 @@ $stmt_stats->close();
               <?php 
               $today = date('Y-m-d');
               while($row = $result_upcoming->fetch_assoc()): 
-                $is_today = ($row['work_date'] == $today);
+                $is_today = ($row['ngay_khoi_hanh'] == $today);
               ?>
                 <tr class="<?= $is_today ? 'today-mark' : '' ?>">
                   <td class="text-center">
-                    <strong><?= date('d/m/Y', strtotime($row['work_date'])) ?></strong>
+                    <img src="../../uploads/<?= htmlspecialchars($row['hinh_anh']) ?>" 
+                         alt="Tour" 
+                         class="tour-image"
+                         onerror="this.src='https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=200'">
+                  </td>
+                  <td class="text-center">
+                    <strong><?= date('d/m/Y', strtotime($row['ngay_khoi_hanh'])) ?></strong>
                     <?php if($is_today): ?>
                       <br><span class="badge bg-warning text-dark">Hôm nay</span>
                     <?php endif; ?>
                   </td>
-                  <td><strong><?= htmlspecialchars($row['tour_name']) ?></strong></td>
+                  <td><strong><?= htmlspecialchars($row['ten_tour']) ?></strong></td>
+                  <td class="text-center">
+                    <span class="badge bg-info text-dark">
+                      <i class="fas fa-calendar-days"></i> <?= $row['so_ngay'] ?> ngày
+                    </span>
+                  </td>
                   <td class="text-center">
                     <?php
                       $statusClass = '';
                       $statusText = '';
                       $statusIcon = '';
-                      switch($row['tour_status']) {
-                        case 'scheduled':
-                          $statusClass = 'bg-info text-dark';
-                          $statusText = 'Đã lên lịch';
-                          $statusIcon = 'fa-calendar-check';
+                      switch($row['trang_thai_chuyen_di']) {
+                        case 'preparing':
+                          $statusClass = 'bg-secondary';
+                          $statusText = 'Chuẩn bị';
+                          $statusIcon = 'fa-hourglass-half';
                           break;
-                        case 'ongoing':
+                        case 'started':
                           $statusClass = 'bg-warning text-dark';
                           $statusText = 'Đang diễn ra';
-                          $statusIcon = 'fa-spinner';
+                          $statusIcon = 'fa-play-circle';
                           break;
                         case 'completed':
                           $statusClass = 'bg-success';
@@ -339,49 +265,32 @@ $stmt_stats->close();
                           break;
                         default:
                           $statusClass = 'bg-secondary';
-                          $statusText = htmlspecialchars($row['tour_status']);
-                          $statusIcon = 'fa-info-circle';
+                          $statusText = 'Chuẩn bị';
+                          $statusIcon = 'fa-hourglass-half';
                       }
                     ?>
                     <span class="badge <?= $statusClass ?> badge-status">
                       <i class="fas <?= $statusIcon ?>"></i> <?= $statusText ?>
                     </span>
                   </td>
-                  <td class="text-center"><strong><?= date('H:i', strtotime($row['start_time'])) ?></strong></td>
-                  <td class="text-center"><strong><?= date('H:i', strtotime($row['end_time'])) ?></strong></td>
                   <td class="text-center">
-                    <?php if($row['customer_count']): ?>
-                      <span class="badge bg-primary">
-                        <i class="fas fa-users"></i> <?= $row['customer_count'] ?> khách
-                      </span>
-                    <?php else: ?>
-                      <span class="text-muted">Chưa có</span>
-                    <?php endif; ?>
+                    <span class="badge bg-primary">
+                      <i class="fas fa-users"></i> <?= $row['total_customers'] ?> người
+                    </span>
                   </td>
-                  <td>
-                    <?php if($row['departure_location'] || $row['destination']): ?>
-                      <small class="tour-details">
-                        <?php if($row['departure_location']): ?>
-                          <i class="fas fa-dot-circle text-success"></i> <?= htmlspecialchars($row['departure_location']) ?>
-                        <?php endif; ?>
-                        <?php if($row['destination']): ?>
-                          <br><i class="fas fa-map-pin text-danger"></i> <?= htmlspecialchars($row['destination']) ?>
-                        <?php endif; ?>
-                      </small>
-                    <?php else: ?>
-                      <span class="text-muted">-</span>
-                    <?php endif; ?>
+                  <td class="text-center">
+                    <span class="badge bg-success">
+                      <i class="fas fa-check"></i> <?= $row['confirmed_bookings'] ?>
+                    </span>
+                    <span class="badge bg-secondary">
+                      <i class="fas fa-list"></i> <?= $row['total_bookings'] ?>
+                    </span>
                   </td>
-                  <td>
-                    <?php if($row['shift_notes']): ?>
-                      <small><strong>Ca:</strong> <?= htmlspecialchars($row['shift_notes']) ?></small>
-                    <?php endif; ?>
-                    <?php if($row['tour_notes']): ?>
-                      <br><small><strong>Tour:</strong> <?= htmlspecialchars($row['tour_notes']) ?></small>
-                    <?php endif; ?>
-                    <?php if(!$row['shift_notes'] && !$row['tour_notes']): ?>
-                      <span class="text-muted">-</span>
-                    <?php endif; ?>
+                  <td class="text-center">
+                    <a href="staff_trip_detail.php?tour=<?= $row['tour_id'] ?>&departure=<?= $row['ngay_khoi_hanh'] ?>" 
+                       class="btn btn-sm btn-primary view-detail-btn">
+                      <i class="fas fa-eye"></i> Xem chi tiết
+                    </a>
                   </td>
                 </tr>
               <?php endwhile; ?>
@@ -389,7 +298,7 @@ $stmt_stats->close();
               <tr>
                 <td colspan="8" class="no-data">
                   <i class="fas fa-route fa-3x text-muted mb-3"></i>
-                  <p class="mb-0"><em>Không tìm thấy tour nào</em></p>
+                  <p class="mb-0"><em>Chưa có tour nào được gán cho bạn</em></p>
                 </td>
               </tr>
             <?php endif; ?>
@@ -406,7 +315,7 @@ $stmt_stats->close();
         <form method="GET" class="row g-3">
           <input type="hidden" name="tab" value="history">
           <div class="col-md-3">
-            <input type="text" class="form-control" name="search" placeholder="Tên tour, địa điểm..." value="<?= htmlspecialchars($search_keyword) ?>">
+            <input type="text" class="form-control" name="search" placeholder="Tên tour..." value="<?= htmlspecialchars($search_keyword) ?>">
           </div>
           <div class="col-md-2">
             <input type="date" class="form-control" name="date_from" placeholder="Từ ngày" value="<?= $search_date_from ?>">
@@ -417,8 +326,8 @@ $stmt_stats->close();
           <div class="col-md-2">
             <select class="form-select" name="status">
               <option value="">Tất cả trạng thái</option>
-              <option value="scheduled" <?= $search_status == 'scheduled' ? 'selected' : '' ?>>Đã lên lịch</option>
-              <option value="ongoing" <?= $search_status == 'ongoing' ? 'selected' : '' ?>>Đang diễn ra</option>
+              <option value="preparing" <?= $search_status == 'preparing' ? 'selected' : '' ?>>Chuẩn bị</option>
+              <option value="started" <?= $search_status == 'started' ? 'selected' : '' ?>>Đang diễn ra</option>
               <option value="completed" <?= $search_status == 'completed' ? 'selected' : '' ?>>Hoàn thành</option>
               <option value="cancelled" <?= $search_status == 'cancelled' ? 'selected' : '' ?>>Đã hủy</option>
             </select>
@@ -451,13 +360,14 @@ $stmt_stats->close();
         <table class="table table-bordered table-hover align-middle">
           <thead>
             <tr>
-              <th style="width: 12%;"><i class="far fa-calendar"></i> Ngày</th>
-              <th style="width: 20%;"><i class="fas fa-route"></i> Tên Tour</th>
+              <th style="width: 80px;"><i class="fas fa-image"></i></th>
+              <th style="width: 12%;"><i class="far fa-calendar"></i> Ngày khởi hành</th>
+              <th><i class="fas fa-route"></i> Tên Tour</th>
+              <th style="width: 10%;"><i class="fas fa-clock"></i> Số ngày</th>
               <th style="width: 12%;"><i class="fas fa-traffic-light"></i> Trạng thái</th>
-              <th style="width: 12%;"><i class="far fa-clock"></i> Giờ làm</th>
-              <th style="width: 12%;"><i class="fas fa-users"></i> Số khách</th>
-              <th><i class="fas fa-map-marker-alt"></i> Địa điểm</th>
-              <th><i class="fas fa-sticky-note"></i> Ghi chú</th>
+              <th style="width: 10%;"><i class="fas fa-users"></i> Khách hàng</th>
+              <th style="width: 10%;"><i class="fas fa-ticket-alt"></i> Booking</th>
+              <th style="width: 10%;"><i class="fas fa-eye"></i> Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -465,24 +375,35 @@ $stmt_stats->close();
               <?php while($row = $result_history->fetch_assoc()): ?>
                 <tr>
                   <td class="text-center">
-                    <strong><?= date('d/m/Y', strtotime($row['work_date'])) ?></strong>
+                    <img src="../../uploads/<?= htmlspecialchars($row['hinh_anh']) ?>" 
+                         alt="Tour" 
+                         class="tour-image"
+                         onerror="this.src='https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=200'">
                   </td>
-                  <td><strong><?= htmlspecialchars($row['tour_name']) ?></strong></td>
+                  <td class="text-center">
+                    <strong><?= date('d/m/Y', strtotime($row['ngay_khoi_hanh'])) ?></strong>
+                  </td>
+                  <td><strong><?= htmlspecialchars($row['ten_tour']) ?></strong></td>
+                  <td class="text-center">
+                    <span class="badge bg-info text-dark">
+                      <i class="fas fa-calendar-days"></i> <?= $row['so_ngay'] ?> ngày
+                    </span>
+                  </td>
                   <td class="text-center">
                     <?php
                       $statusClass = '';
                       $statusText = '';
                       $statusIcon = '';
-                      switch($row['tour_status']) {
-                        case 'scheduled':
-                          $statusClass = 'bg-info text-dark';
-                          $statusText = 'Đã lên lịch';
-                          $statusIcon = 'fa-calendar-check';
+                      switch($row['trang_thai_chuyen_di']) {
+                        case 'preparing':
+                          $statusClass = 'bg-secondary';
+                          $statusText = 'Chuẩn bị';
+                          $statusIcon = 'fa-hourglass-half';
                           break;
-                        case 'ongoing':
+                        case 'started':
                           $statusClass = 'bg-warning text-dark';
                           $statusText = 'Đang diễn ra';
-                          $statusIcon = 'fa-spinner';
+                          $statusIcon = 'fa-play-circle';
                           break;
                         case 'completed':
                           $statusClass = 'bg-success';
@@ -496,8 +417,8 @@ $stmt_stats->close();
                           break;
                         default:
                           $statusClass = 'bg-secondary';
-                          $statusText = htmlspecialchars($row['tour_status']);
-                          $statusIcon = 'fa-info-circle';
+                          $statusText = 'Chuẩn bị';
+                          $statusIcon = 'fa-hourglass-half';
                       }
                     ?>
                     <span class="badge <?= $statusClass ?> badge-status">
@@ -505,47 +426,29 @@ $stmt_stats->close();
                     </span>
                   </td>
                   <td class="text-center">
-                    <strong><?= date('H:i', strtotime($row['start_time'])) ?> - <?= date('H:i', strtotime($row['end_time'])) ?></strong>
+                    <span class="badge bg-primary">
+                      <i class="fas fa-users"></i> <?= $row['total_customers'] ?> người
+                    </span>
                   </td>
                   <td class="text-center">
-                    <?php if($row['customer_count']): ?>
-                      <span class="badge bg-primary">
-                        <i class="fas fa-users"></i> <?= $row['customer_count'] ?> khách
-                      </span>
-                    <?php else: ?>
-                      <span class="text-muted">Chưa có</span>
-                    <?php endif; ?>
+                    <span class="badge bg-success">
+                      <i class="fas fa-check"></i> <?= $row['confirmed_bookings'] ?>
+                    </span>
+                    <span class="badge bg-secondary">
+                      <i class="fas fa-list"></i> <?= $row['total_bookings'] ?>
+                    </span>
                   </td>
-                  <td>
-                    <?php if($row['departure_location'] || $row['destination']): ?>
-                      <small class="tour-details">
-                        <?php if($row['departure_location']): ?>
-                          <i class="fas fa-dot-circle text-success"></i> <?= htmlspecialchars($row['departure_location']) ?>
-                        <?php endif; ?>
-                        <?php if($row['destination']): ?>
-                          <br><i class="fas fa-map-pin text-danger"></i> <?= htmlspecialchars($row['destination']) ?>
-                        <?php endif; ?>
-                      </small>
-                    <?php else: ?>
-                      <span class="text-muted">-</span>
-                    <?php endif; ?>
-                  </td>
-                  <td>
-                    <?php if($row['shift_notes']): ?>
-                      <small><strong>Ca:</strong> <?= htmlspecialchars($row['shift_notes']) ?></small>
-                    <?php endif; ?>
-                    <?php if($row['tour_notes']): ?>
-                      <br><small><strong>Tour:</strong> <?= htmlspecialchars($row['tour_notes']) ?></small>
-                    <?php endif; ?>
-                    <?php if(!$row['shift_notes'] && !$row['tour_notes']): ?>
-                      <span class="text-muted">-</span>
-                    <?php endif; ?>
+                  <td class="text-center">
+                    <a href="staff_trip_detail.php?tour=<?= $row['tour_id'] ?>&departure=<?= $row['ngay_khoi_hanh'] ?>" 
+                       class="btn btn-sm btn-info view-detail-btn">
+                      <i class="fas fa-eye"></i> Xem chi tiết
+                    </a>
                   </td>
                 </tr>
               <?php endwhile; ?>
             <?php else: ?>
               <tr>
-                <td colspan="7" class="no-data">
+                <td colspan="8" class="no-data">
                   <i class="fas fa-history fa-3x text-muted mb-3"></i>
                   <p class="mb-0"><em>Không tìm thấy lịch sử tour nào</em></p>
                 </td>

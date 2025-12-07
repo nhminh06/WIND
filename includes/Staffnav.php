@@ -30,7 +30,6 @@ $staff = $stmt->get_result()->fetch_assoc();
     <img src="<?= htmlspecialchars("../../" . ($staff['avatar'] ?? 'img/avatamacdinh.png')) ?>" alt="Staff" class="staff-avatar">
     <h3>Hi! : <?= htmlspecialchars($staff['ho_ten']); ?></h3>
     <a href="StaffProfile.php" class="menu-item"><i class="bi bi-person-lines-fill"></i> Hồ sơ nhân viên</a>
-    <a href="work_shift.php" class="menu-item"><i class="bi bi-calendar-minus"></i>Ca làm việc</a>
     <a href="TourSchedule.php" class="menu-item"><i class="bi bi-calendar3"></i> Lịch tour</a>
     <a href="InternalChat.php" class="menu-item"><i class="bi bi-chat-dots"></i> Thông báo nội bộ</a>
     <a onclick="window.location.href='../../php/logout.php'" class="menu-item"><i class="bi bi-box-arrow-right"></i> Đăng xuất</a>

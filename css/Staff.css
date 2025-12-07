@@ -47,7 +47,729 @@ body {
     margin-bottom: 30px;
     color: #e8f5e9;
 }
+  .main-content {
+            padding: 20px;
+        }
+        
+        .trip-header-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            color: white;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .trip-header-content {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        
+        .trip-image-large {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 3px solid white;
+        }
+        
+        .status-badge-big {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .badge-preparing {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+        
+        .badge-started {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .badge-completed {
+            background: #28a745;
+            color: white;
+        }
+        
+        .badge-cancelled {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .info-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+        
+        .info-card h2 {
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+        }
+        
+        .timeline-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 30px 0;
+        }
+        
+        .timeline-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .timeline-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            width: 100%;
+            height: 3px;
+            background: #e0e0e0;
+            z-index: 0;
+        }
+        
+        .timeline-step.completed:not(:last-child)::after,
+        .timeline-step.active:not(:last-child)::after {
+            background: #667eea;
+        }
+        
+        .step-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #999;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .timeline-step.completed .step-circle,
+        .timeline-step.active .step-circle {
+            background: #667eea;
+            color: white;
+        }
+        
+        .step-label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .step-time {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .booking-item-simple {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        
+        .booking-item-simple:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+        
+        .badge-confirmed {
+            background: #28a745;
+            color: white;
+        }
+        
+        .badge-pending {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .badge-cancelled {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .note-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .note-section textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .note-section textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn-add-note {
+            padding: 10px 25px;
+            background: #37cf60;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .btn-add-note:hover {
+            background: #2db43d;
+            transform: translateY(-2px);
+        }
+        
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .back-button:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .tour-detail-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .tour-detail-info .info-row {
+            display: flex;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .tour-detail-info .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .tour-detail-info .info-label {
+            font-weight: 600;
+            width: 200px;
+            color: #333;
+        }
+        
+        .tour-detail-info .info-value {
+            flex: 1;
+            color: #666;
+        }
+        
+        .notes-display {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 15px;
+            white-space: pre-wrap;
+            font-size: 14px;
+            line-height: 1.6;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+          .main-content {
+            padding: 20px;
+        }
+        
+        .trip-header-section {
+                background: linear-gradient(135deg, #29782a 0%, #89e18f 100%);
+            padding: 30px;
+            border-radius: 15px;
+            color: white;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .trip-header-content {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        
+        .trip-image-large {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 3px solid white;
+        }
+        
+        .status-badge-big {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .badge-preparing {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+        
+        .badge-started {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .badge-completed {
+            background: #28a745;
+            color: white;
+        }
+        
+        .badge-cancelled {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .info-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+        
+        .info-card h2 {
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+        }
+        
+        .timeline-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 30px 0;
+        }
+        
+        .timeline-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .timeline-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            width: 100%;
+            height: 3px;
+            background: #e0e0e0;
+            z-index: 0;
+        }
+        
+        .timeline-step.completed:not(:last-child)::after,
+        .timeline-step.active:not(:last-child)::after {
+            background: #667eea;
+        }
+        
+        .step-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #999;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .timeline-step.completed .step-circle,
+        .timeline-step.active .step-circle {
+            background: #667eea;
+            color: white;
+        }
+        
+        .step-label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .step-time {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .booking-item-simple {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        
+        .booking-item-simple:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+        
+        .badge-confirmed {
+            background: #28a745;
+            color: white;
+        }
+        
+        .badge-pending {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .badge-cancelled {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .note-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .note-section textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .note-section textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .main-title {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
 
+    .info-box {
+          background: linear-gradient(135deg, #29782a 0%, #89e18f 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .info-box h5 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    .info-box p {
+      margin: 5px 0 0 0;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    .badge-status {
+      font-size: 0.8rem;
+      padding: 5px 10px;
+      font-weight: 600;
+    }
+    .table thead {
+      background: #2c3e50;
+      color: white;
+    }
+    .table tbody tr:hover {
+      background-color: #f8f9fa;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tour-details {
+      font-size: 0.85rem;
+      color: #6c757d;
+    }
+    .no-data {
+      padding: 40px;
+      text-align: center;
+      color: #6c757d;
+    }
+    .today-mark {
+      background-color: #fff3cd !important;
+      font-weight: bold;
+    }
+    .tour-card {
+      background: white;
+      border-left: 4px solid #667eea;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .search-box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .search-active-alert {
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+      padding: 10px 15px;
+      border-radius: 5px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+    .nav-tabs .nav-link {
+      color: #495057;
+      font-weight: 500;
+    }
+    .nav-tabs .nav-link.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+    .stat-badge {
+      background: rgba(255,255,255,0.2);
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .tour-image {
+      width: 80px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .view-detail-btn {
+      padding: 5px 15px;
+      font-size: 0.85rem;
+    }
+    @media (max-width: 768px) {
+      .table {
+        font-size: 0.85rem;
+      }
+      .info-box {
+        padding: 15px;
+      }
+    }
+        
+        .btn-add-note {
+            padding: 10px 25px;
+            background: #37c325;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .btn-add-note:hover {
+            background: #21da21;
+            transform: translateY(-2px);
+        }
+        
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: white;
+            color: #38da40;
+            border: 2px solid #2cc24d;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .back-button:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .tour-detail-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .tour-detail-info .info-row {
+            display: flex;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .tour-detail-info .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .tour-detail-info .info-label {
+            font-weight: 600;
+            width: 200px;
+            color: #333;
+        }
+        
+        .tour-detail-info .info-value {
+            flex: 1;
+            color: #666;
+        }
+        
+        .notes-display {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 15px;
+            white-space: pre-wrap;
+            font-size: 14px;
+            line-height: 1.6;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .customer-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .customer-item {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .customer-item strong {
+            color: #667eea;
+        }
+        .customer-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .customer-item {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .customer-item strong {
+            color: #667eea;
+        }
 .menu-item {
     padding: 15px 20px;
     margin-bottom: 10px;
