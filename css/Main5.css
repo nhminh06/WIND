@@ -3731,6 +3731,7 @@ span> svg{
   border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
+  margin-right: 3px;
 }
 
 .date-buttons .active {

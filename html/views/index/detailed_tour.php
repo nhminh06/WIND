@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi tiết</title>
     <link rel="stylesheet" href="../../../css/Main5.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
          body{background: url('https://images.unsplash.com/photo-1739219959019-dd317f76c7e8?q=80&w=1716&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
   background-size: cover;}
@@ -87,17 +88,17 @@
     </style>
 </head>
 <body>
+    <?php
+            $matour = $_GET['id'] ?? '0';
+
+            if ($matour == '0' || empty($matour)) {
+                header("Location: empty.php");
+                exit();
+            }
+        ?>
    <?php include '../../../includes/header.php';?>
 
-          <?php 
-          $matour = $_GET['id'];
-
-          if($matour == ''){
-            header("Location: empty.php");
-            exit();
-
-          }
-          ?>
+      
         <div class="detailed_tour_container">
           <h1><?php
           include '../../../db/db.php';
@@ -348,9 +349,10 @@ if ($num_reviews > 0) {
   <p>Chọn Lịch Trình và Xem Giá:</p>
 
   <div class="date-buttons">
-    <button class="active">09/08</button>
-    <button>21/08</button>
-    <button>21/09</button>
+    <button class="active"><i class="bi bi-calendar2-fill"></i></button>
+    <button><i class="bi bi-calendar-range-fill"></i></button>
+    <button><i class="bi bi-calendar2-event-fill"></i></button>
+    <button><i class="bi bi-calendar3-fill"></i></i></button>
     <button><div><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
   <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z"/>
   <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>

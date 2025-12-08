@@ -1,5 +1,5 @@
 <?php
-// File: google-api/autoload.php
+
 
 if(!isset($_SESSION)) {
     session_start();
