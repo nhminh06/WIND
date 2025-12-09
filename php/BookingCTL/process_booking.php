@@ -39,39 +39,91 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $trang_thai_thanh_toan = 'cho_xac_nhan';
     
     if ($phuong_thuc_thanh_toan === 'chuyen_khoan' && isset($_FILES['hinh_anh_thanh_toan']) && $_FILES['hinh_anh_thanh_toan']['error'] === 0) {
-        $upload_dir = '../../../uploads/payment/';
+        // Sử dụng đường dẫn tương đối từ file hiện tại
+        $upload_dir = __DIR__ . '/../../uploads/payment/';
         
+        // Tạo thư mục nếu chưa tồn tại
         if (!file_exists($upload_dir)) {
-            mkdir($upload_dir, 0777, true);
+            if (!mkdir($upload_dir, 0755, true)) {
+                $_SESSION['booking_error'] = 'Không thể tạo thư mục upload!';
+                header('Location: ../../html/views/index/booking.php?id=' . $tour_id);
+                exit();
+            }
+        }
+        
+        // Kiểm tra quyền ghi
+        if (!is_writable($upload_dir)) {
+            $_SESSION['booking_error'] = 'Thư mục upload không có quyền ghi!';
+            header('Location: ../../html/views/index/booking.php?id=' . $tour_id);
+            exit();
         }
         
         $file_tmp = $_FILES['hinh_anh_thanh_toan']['tmp_name'];
         $file_name = $_FILES['hinh_anh_thanh_toan']['name'];
+        $file_size = $_FILES['hinh_anh_thanh_toan']['size'];
         $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
         
-        $allowed_ext = array('jpg', 'jpeg', 'png');
+        // Kiểm tra định dạng file
+        $allowed_ext = array('jpg', 'jpeg', 'png', 'gif');
         if (!in_array($file_ext, $allowed_ext)) {
-            $_SESSION['booking_error'] = 'Chỉ chấp nhận file ảnh JPG, JPEG, PNG!';
-            header('Location: booking.php?id=' . $tour_id);
+            $_SESSION['booking_error'] = 'Chỉ chấp nhận file ảnh JPG, JPEG, PNG, GIF!';
+            header('Location: ../../html/views/index/booking.php?id=' . $tour_id);
             exit();
         }
         
-        if ($_FILES['hinh_anh_thanh_toan']['size'] > 5 * 1024 * 1024) {
+        // Kiểm tra kích thước file (5MB)
+        if ($file_size > 5 * 1024 * 1024) {
             $_SESSION['booking_error'] = 'Kích thước file quá lớn. Tối đa 5MB!';
-            header('Location: booking.php?id=' . $tour_id);
+            header('Location: ../../html/views/index/booking.php?id=' . $tour_id);
             exit();
         }
         
-        $new_file_name = 'payment_' . $ma_dat_tour . '.' . $file_ext;
+        // Kiểm tra file có phải ảnh thật không
+        $check_image = getimagesize($file_tmp);
+        if ($check_image === false) {
+            $_SESSION['booking_error'] = 'File không phải là ảnh hợp lệ!';
+            header('Location: ../../html/views/index/booking.php?id=' . $tour_id);
+            exit();
+        }
+        
+        // Tạo tên file mới an toàn
+        $new_file_name = 'payment_' . $ma_dat_tour . '_' . time() . '.' . $file_ext;
         $file_path = $upload_dir . $new_file_name;
         
+        // Upload file
         if (move_uploaded_file($file_tmp, $file_path)) {
+            // Lưu đường dẫn tương đối vào database
             $hinh_anh_thanh_toan = 'payment/' . $new_file_name;
+            
+            // Đặt quyền cho file vừa upload
+            chmod($file_path, 0644);
         } else {
-            $_SESSION['booking_error'] = 'Lỗi khi tải lên ảnh thanh toán!';
-            header('Location: booking.php?id=' . $tour_id);
+            $_SESSION['booking_error'] = 'Lỗi khi tải lên ảnh thanh toán! Vui lòng thử lại.';
+            header('Location: ../../html/views/index/booking.php?id=' . $tour_id);
             exit();
         }
+    } elseif ($phuong_thuc_thanh_toan === 'chuyen_khoan' && (!isset($_FILES['hinh_anh_thanh_toan']) || $_FILES['hinh_anh_thanh_toan']['error'] !== 0)) {
+        // Nếu chọn chuyển khoản nhưng không upload ảnh
+        $error_message = 'Vui lòng tải lên ảnh biên lai thanh toán!';
+        if (isset($_FILES['hinh_anh_thanh_toan']['error'])) {
+            switch ($_FILES['hinh_anh_thanh_toan']['error']) {
+                case UPLOAD_ERR_INI_SIZE:
+                case UPLOAD_ERR_FORM_SIZE:
+                    $error_message = 'File ảnh quá lớn!';
+                    break;
+                case UPLOAD_ERR_PARTIAL:
+                    $error_message = 'File ảnh chỉ được tải lên một phần!';
+                    break;
+                case UPLOAD_ERR_NO_FILE:
+                    $error_message = 'Chưa chọn file ảnh!';
+                    break;
+                default:
+                    $error_message = 'Lỗi upload file! Mã lỗi: ' . $_FILES['hinh_anh_thanh_toan']['error'];
+            }
+        }
+        $_SESSION['booking_error'] = $error_message;
+        header('Location: ../../html/views/index/booking.php?id=' . $tour_id);
+        exit();
     } elseif ($phuong_thuc_thanh_toan === 'tien_mat') {
         $trang_thai_thanh_toan = 'cho_xac_nhan';
     }
@@ -283,11 +335,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header('Location: ../../html/views/index/booking_success.php?code=' . $ma_dat_tour);
     } else {
         $_SESSION['booking_error'] = 'Lỗi: ' . mysqli_error($conn);
-        header('Location: ../../../html/views/index/booking.php?id=' . $tour_id);
+        header('Location: ../../html/views/index/booking.php?id=' . $tour_id);
     }
     
     mysqli_close($conn);
 } else {
-    header('Location: ../../../html/views/index/Webindex.php');
+    header('Location: ../../html/views/index/Webindex.php');
 }
 ?>
