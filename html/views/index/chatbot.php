@@ -106,8 +106,7 @@
       overflow: hidden;
       animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    .chat-window.active { display: flex; }
+.chat-window.active { display: flex; }
 
     @keyframes slideUp {
       from {
@@ -241,7 +240,7 @@
       max-width: 75%;
       padding: 10px 14px;
       border-radius: 16px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       position: relative;
     }
 
@@ -385,8 +384,7 @@
       transform: scale(1.05);
       box-shadow: 0 4px 8px rgba(32, 171, 122, 0.3);
     }
-
-    .typing-indicator {
+.typing-indicator {
       display: flex;
       gap: 4px;
       padding: 10px;
@@ -531,7 +529,7 @@
 
   <div class="chat-bubble-wrapper">
     <button class="chat-bubble-btn" id="chatBubbleBtn">
-      <svg class="chat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<svg class="chat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <rect x="4" y="6" width="16" height="12" rx="4"/>
         <line x1="12" y1="2" x2="12" y2="6"/>
         <circle cx="12" cy="2" r="1.5"/>
@@ -593,71 +591,134 @@
       </div>
     </div>
   </div>
-
-  <script>
-
+<script>
 const chatBubbleBtn = document.getElementById("chatBubbleBtn");
 const chatWindow = document.getElementById("chatWindow");
 const messagesArea = document.getElementById("messagesArea");
 const chatInput = document.getElementById("chatInput");
 const sendBtn = document.getElementById("sendBtn");
 
-// ==== Bật / tắt cửa sổ ====
+let isSending = false;   // <-- CHỐNG SPAM
+let debounceTimer = null;
+
+// --- Auto thời gian welcome ---
+document.getElementById("welcomeTime").innerText = new Date().toLocaleTimeString("vi-VN", {
+  hour: "2-digit",
+  minute: "2-digit"
+});
+
+// ==== Bật/tắt cửa sổ chat ====
 chatBubbleBtn.addEventListener("click", () => {
   chatBubbleBtn.classList.toggle("active");
   chatWindow.classList.toggle("active");
 });
 
-// ==== Gửi tin nhắn ====
-sendBtn.addEventListener("click", () => sendMessage());
+// ==== Auto resize input ====
+chatInput.addEventListener("input", () => {
+  chatInput.style.height = "40px";
+  chatInput.style.height = chatInput.scrollHeight + "px";
+});
+
+// ==== Gửi nhấn nút ====
+sendBtn.addEventListener("click", () => safeSendMessage());
+
+// ==== Gửi bằng Enter (chặn giữ Enter spam) ====
 chatInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
-    sendMessage();
+
+    if (debounceTimer) clearTimeout(debounceTimer);
+
+    debounceTimer = setTimeout(() => {
+      safeSendMessage();
+    }, 120); // chống spam liên tục
   }
 });
 
-function sendMessage() {
+// ====== Hàm gửi an toàn ======
+function safeSendMessage() {
+  if (isSending) return; // khóa khi đang gửi
+
   const text = chatInput.value.trim();
   if (!text) return;
 
-  // ==== Thêm tin nhắn user lên giao diện ====
+  isSending = true;
+  sendBtn.disabled = true;
+
   appendMessage("user", text);
   chatInput.value = "";
+  chatInput.style.height = "40px";
 
-  // ==== Gửi lên API PHP ====
+  showTyping(); // hiệu ứng bot đang trả lời
+
+  // ==== GỬI API ====
   fetch("travel_ai.php", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message: text })
   })
-  .then(res => res.json())
-  .then(data => {
-    appendMessage("bot", data.reply);
-  })
-  .catch(() => {
-    appendMessage("bot", "❌ Lỗi kết nối API!");
-  });
+    .then(res => res.json())
+    .then(data => {
+      hideTyping();
+      appendMessage("bot", data.reply || "⚠️ Không nhận được câu trả lời!");
+    })
+    .catch(() => {
+      hideTyping();
+      appendMessage("bot", "❌ Lỗi kết nối API!");
+    })
+    .finally(() => {
+      setTimeout(() => {
+        isSending = false;
+        sendBtn.disabled = false;
+      }, 300); // độ trễ nhỏ tránh double request
+    });
 }
 
-// ==== Hàm thêm tin nhắn ====
+// ====== Gõ đang trả lời ======
+let typingElement = null;
+
+function showTyping() {
+  typingElement = document.createElement("div");
+  typingElement.className = "message bot";
+  typingElement.innerHTML = `
+    <div class="msg-avatar">🤖</div>
+    <div class="msg-bubble">
+      <div class="typing-indicator">
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+      </div>
+    </div>
+  `;
+  messagesArea.appendChild(typingElement);
+  messagesArea.scrollTop = messagesArea.scrollHeight;
+}
+
+function hideTyping() {
+  if (typingElement) typingElement.remove();
+  typingElement = null;
+}
+
+// ====== Thêm tin nhắn ======
 function appendMessage(sender, text) {
-  const msg = document.createElement("div");
+const msg = document.createElement("div");
   msg.className = "message " + sender;
 
   msg.innerHTML = `
     <div class="msg-avatar">${sender === "bot" ? "🤖" : "🧑"}</div>
     <div class="msg-bubble">
-      <div class="msg-text">${text}</div>
+      <div class="msg-text"></div>
+      <div class="msg-time">${new Date().toLocaleTimeString("vi-VN", {
+        hour: "2-digit",
+        minute: "2-digit"
+      })}</div>
     </div>
   `;
 
+  msg.querySelector(".msg-text").innerText = text;
   messagesArea.appendChild(msg);
   messagesArea.scrollTop = messagesArea.scrollHeight;
 }
-
-
-  </script>
-
+</script>
 </body>
 </html>
