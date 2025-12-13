@@ -768,7 +768,108 @@ function tonggia(){
     })
 }
 
+let autoRefreshInterval;
+let currentDisplayedTours = [];
 
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.destination-card');
+    
+    // Animation khi load trang
+    cards.forEach((card, index) => {
+        card.style.animationDelay = (index * 0.1) + 's';
+    });
+    
+    // Lưu tour hiện tại
+    cards.forEach(card => {
+        const tourId = card.getAttribute('data-tour-id');
+        if (tourId) {
+            currentDisplayedTours.push(tourId);
+        }
+    });
+    
+    // Bắt đầu auto refresh sau 15 giây
+    startAutoRefresh();
+});
+
+function startAutoRefresh() {
+    autoRefreshInterval = setInterval(() => {
+        refreshDestinations();
+    }, 15000); // 15 giây
+}
+
+function refreshDestinations() {
+    // Lấy danh sách tour mới từ server
+    fetch('../php/TourCTL/get_random_tours.php')
+        .then(response => response.json())
+        .then(newTours => {
+            if (newTours && newTours.length >= 9) {
+                updateDestinationCards(newTours);
+            }
+        })
+        .catch(error => {
+            console.error('Error loading new tours:', error);
+        });
+}
+
+function updateDestinationCards(newTours) {
+    const cards = document.querySelectorAll('.destination-card');
+    
+    // Fade out tất cả các cards
+    cards.forEach((card, index) => {
+        setTimeout(() => {
+            card.classList.add('fade-out');
+        }, index * 50);
+    });
+    
+    // Sau khi fade out xong, cập nhật nội dung và fade in
+    setTimeout(() => {
+        cards.forEach((card, index) => {
+            if (newTours[index]) {
+                const tour = newTours[index];
+                const imgSrc = '../../../uploads/' + tour.hinh_anh;
+                const tourUrl = 'detailed_tour.php?id=' + tour.id;
+                
+                // Cập nhật nội dung
+                card.setAttribute('data-tour-id', tour.id);
+                card.setAttribute('onclick', `window.location.href='${tourUrl}'`);
+                
+                const img = card.querySelector('img');
+                const nameDiv = card.querySelector('.destination-name');
+                
+                img.src = imgSrc;
+                img.alt = tour.vi_tri;
+                nameDiv.textContent = tour.vi_tri.toUpperCase();
+                
+                // Remove fade-out và add fade-in
+                card.classList.remove('fade-out');
+                card.classList.add('fade-in');
+                
+                // Remove fade-in class sau khi animation xong
+                setTimeout(() => {
+                    card.classList.remove('fade-in');
+                }, 500);
+            }
+        });
+    }, 500); // Đợi fade out xong (0.5s)
+}
+
+// Dừng auto refresh khi rời khỏi trang
+window.addEventListener('beforeunload', () => {
+    if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+    }
+});
+
+// Dừng auto refresh khi tab không được focus
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        if (autoRefreshInterval) {
+            clearInterval(autoRefreshInterval);
+        }
+    } else {
+        startAutoRefresh();
+    }
+});
 
 
 

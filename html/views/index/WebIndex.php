@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Du Lịch</title>
     <link rel="stylesheet" href="../../../css/Main5.css">
+    <link rel="stylesheet" href="../../../css/Main5_2.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
    <link href="https://fonts.googleapis.com/css2?family=Sarina&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="../../../img/logo.png"/>
 
@@ -36,6 +38,7 @@
     
     <div class="container">
         <?php include 'chatbot.php';?>
+        <?php include '../../../includes/Mainwebheader.php'; ?>
         <h2>Giới thiệu về WIND travel</h2>
         <div class="about">
             <div class="main_about">
@@ -158,7 +161,75 @@
             }
             ?>
         </div>
+      <section class="destination-section box fade-up">
+    <h2>Điểm đến yêu thích</h2>
+    <p class="destination-subtitle">
+        Hãy chọn một điểm đến du lịch nổi tiếng dưới đây để khám phá các chuyến đi độc quyền của chúng tôi với mức giá ưu đãi và cùng hợp lý.
+    </p>
+    
+    <div class="destination-grid">
+        <?php
+        include '../../../db/db.php';
         
+        // Lấy tất cả tour có ảnh
+        $sql = "SELECT id, ten_tour, vi_tri, hinh_anh 
+                FROM tour 
+                WHERE trang_thai = 1 
+                AND vi_tri IS NOT NULL 
+                AND vi_tri != ''
+                AND hinh_anh IS NOT NULL
+                AND hinh_anh != ''
+                ORDER BY RAND()";
+        
+        $result = mysqli_query($conn, $sql);
+        $tours = [];
+        
+        if ($result && mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $tours[] = $row;
+            }
+        }
+        
+        // Đảm bảo có đủ 9 tour - nếu ít hơn thì lặp lại
+        $tour_count = count($tours);
+        if ($tour_count > 0) {
+            while (count($tours) < 13) {
+                $tours[] = $tours[count($tours) % $tour_count];
+            }
+
+            // Lấy đúng 12 tour
+            $display_tours = array_slice($tours, 0, 13);
+            
+            // Lưu vào JavaScript
+            echo '<script>var allTours = ' . json_encode($display_tours) . ';</script>';
+            
+            // Hiển thị 12 tour
+            foreach ($display_tours as $index => $row) {
+                $tour_id = $row['id'];
+                $ten_tour = $row['ten_tour'];
+                $vi_tri = $row['vi_tri'];
+                $hinh_anh = "../../../uploads/" . $row['hinh_anh'];
+                $tour_url = "detailed_tour.php?id=" . $tour_id;
+                
+                echo '
+                <div class="destination-card" data-tour-id="' . $tour_id . '" data-index="' . ($index + 1) . '" onclick="window.location.href=\'' . $tour_url . '\'">
+                    <img  src="' . $hinh_anh . '" alt="' . htmlspecialchars($vi_tri) . '" 
+                         onerror="this.onerror=null; this.src=\'../../../img/default-destination.jpg\';">
+                    <div  class="destination-overlay">
+                        <div class="destination-name">' . strtoupper(htmlspecialchars($vi_tri)) . ' <br>
+                        <button class="view-tours-button">Xem tour</button>
+                        </div>
+                    </div>
+                </div>';
+            }
+        } else {
+            echo '<p style="grid-column: 1/-1; text-align: center; color: #7f8c8d; padding: 40px;">
+                    Chưa có tour nào trong hệ thống. Vui lòng thêm tour mới.
+                  </p>';
+        }
+        ?>
+    </div>
+</section>
         <h2>Các tour nổi bật</h2>
         <div class="tuor_list box fade-big-left">
             <button class="bttr">
@@ -427,6 +498,24 @@
             document.getElementById('profileModal').style.display = 'none';
         }
     });
+    document.addEventListener('DOMContentLoaded', function() {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const region = this.getAttribute('data-region');
+            
+            // Remove active class from all buttons and contents
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding content
+            this.classList.add('active');
+            document.querySelector('.tab-content[data-region="' + region + '"]').classList.add('active');
+        });
+    });
+});
     </script>
 </body>
 </html>

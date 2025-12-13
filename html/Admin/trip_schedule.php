@@ -429,7 +429,7 @@ while ($row = $result_bookings->fetch_assoc()) {
                             }
                         }
                         ?>
-                        <img style=" border: 2px #fff solid; border-radius: 50%;" src="<?php echo $guide_avatar ? '../../' . htmlspecialchars($guide_avatar) : 'https://ui-avatars.com/api/?name=' . urlencode($current_guide_name) . '&background=667eea&color=fff'; ?>" 
+                        <img style=" border: 2px #fff solid; border-radius: 50%;width: 80px; height: 80px;" src="<?php echo $guide_avatar ? '../../' . htmlspecialchars($guide_avatar) : 'https://ui-avatars.com/api/?name=' . urlencode($current_guide_name) . '&background=667eea&color=fff'; ?>" 
                              alt="HDV" 
                              class="guide-avatar"
                              onerror="this.src='https://ui-avatars.com/api/?name=<?php echo urlencode($current_guide_name); ?>&background=667eea&color=fff'">
