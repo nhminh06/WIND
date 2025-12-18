@@ -53,6 +53,7 @@ if($exps_result) {
     <link rel="stylesheet" href="../../css/Staff.css">
     <link rel="stylesheet" href="../../css/staff2-0.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+     <link rel="stylesheet" href="../../css/rpstaff.css">
     <title>Cài đặt tài khoản</title>
     
 </head>

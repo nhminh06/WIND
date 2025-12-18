@@ -1,0 +1,124 @@
+/* ===== RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa;
+    min-height: 100vh;
+}
+
+/* ===== SIDEBAR (DESKTOP) ===== */
+.sidebar {
+    width: 250px;
+    background: #2d5f3f;
+    color: #fff;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.staff-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 10px auto;
+    display: block;
+    border: 3px solid #fff;
+    object-fit: cover;
+}
+
+.sidebar h3 {
+    text-align: center;
+    font-size: 15px;
+    margin-bottom: 20px;
+    color: #e8f5e9;
+}
+
+.menu-item {
+    display: block;
+    padding: 14px 18px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.menu-item i {
+    margin-right: 10px;
+}
+
+.menu-item:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.menu-item.active {
+    background: #4caf50;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+    margin-left: 250px;
+    padding: 30px 40px;
+    min-height: 100vh;
+    background: #f5f5f5;
+}
+
+/* ===== RESPONSIVE: NAVBAR TRÊN (MOBILE) ===== */
+@media (max-width: 768px) {
+
+    body {
+        display: block;
+    }
+
+    /* Sidebar thành navbar ngang */
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 10px 15px;
+    }
+
+    .staff-avatar {
+        width: 45px;
+        height: 45px;
+        margin: 0;
+    }
+
+    .sidebar h3 {
+        font-size: 14px;
+        margin: 0;
+        white-space: nowrap;
+    }
+
+    /* Menu ngang */
+    .sidebar .menu-item {
+        margin: 0;
+        padding: 10px 12px;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+
+    /* Gom menu thành hàng */
+    .sidebar {
+        overflow-x: auto;
+    }
+
+    /* Main content xuống dưới navbar */
+    .main-content {
+        margin-left: 0;
+        padding: 20px 15px;
+    }
+}

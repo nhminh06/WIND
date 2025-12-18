@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Người tham gia</title>
     <link rel="stylesheet" href="../css/Main5.css" />
+    <link rel="stylesheet" href="../../../css/rpusers.css" />
 </head>
 <body>
     <div class="user-tours">

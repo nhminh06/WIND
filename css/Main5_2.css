@@ -1018,9 +1018,7 @@
 }
 
 @media (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
+    
     
     .detail-header {
         flex-direction: column;

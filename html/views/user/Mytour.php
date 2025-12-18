@@ -79,6 +79,7 @@ $result = $stmt->get_result();
     <title>Đặt Chỗ Của Tôi</title>
     <link rel="stylesheet" href="../../../css/Main5_2.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/rpusers.css" />
 </head>
 <body>
     <section class="my-bookings">

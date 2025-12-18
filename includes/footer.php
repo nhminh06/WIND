@@ -26,7 +26,7 @@
     </div>
     <div class="footer_contact">
       <h3>Thông tin liên hệ</h3>
-      <p>Địa chỉ: 123 WIND Street, Hà Nội</p>
+      <p>Địa chỉ: 123 WIND Street, Đà Nẵng</p>
       <p>Email: info@windtravel.vn</p>
       <p>Điện thoại: 0909 999 888</p>
     </div>

@@ -170,6 +170,7 @@ $trip_status = $trip_status_config[$booking['trang_thai_chuyen_di']] ?? $trip_st
     <title>Chi tiết đặt chỗ #<?php echo htmlspecialchars($booking['ma_dat_tour']); ?></title>
     <link rel="stylesheet" href="../../../css/booking-detail-pro.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../../css/rpusers.css" />
     <style>
         .status-group {
             display: flex;
